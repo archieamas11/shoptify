@@ -1,0 +1,12 @@
+git init
+git config --global user.name "archieamas11"
+git config --global user.email "archiealbarico69@gmail.com"
+git add .
+git commit -m "first commit"
+git remote add origin https://github.com/archieamas11/testApp.git
+git push -u origin master
+
+git add . 
+git push -u origin master
+
+git pull 
