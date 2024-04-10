@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -19,12 +20,28 @@ public class createAccount extends javax.swing.JFrame {
         initComponents();
     }
 
-    public static boolean createAccount(String email, String user) {
+    public static boolean checkEmail(String email) {
         databaseConnector dbc = new databaseConnector();
 
         try {
-            String query = "SELECT* FROM accounts_table WHERE email = '" + email + "' AND username = '" + user + "'";
-            ResultSet rs = dbc.getData(query);
+            String query = "SELECT * FROM accounts_table WHERE email = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setString(1, email);
+            ResultSet rs = pst.executeQuery();
+            return rs.next();
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
+    public static boolean checkUsername(String user) {
+        databaseConnector dbc = new databaseConnector();
+
+        try {
+            String query = "SELECT * FROM accounts_table WHERE username = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setString(1, user);
+            ResultSet rs = pst.executeQuery();
             return rs.next();
         } catch (SQLException ex) {
             return false;
@@ -179,50 +196,59 @@ public class createAccount extends javax.swing.JFrame {
 
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
-        int account = 0;
         String first_name = fname.getText();
         String last_name = lname.getText();
         String em = email.getText();
         String user = username.getText();
         String pass = password.getText();
         String selectedRole = (String) role.getSelectedItem();
-        if (pass.length() >= 8) {
-            JOptionPane.showMessageDialog(null, "Password should be greater than 8.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        } else if (em.isEmpty() || first_name.isEmpty() || last_name.isEmpty() || selectedRole.isEmpty() || user.isEmpty() || pass.isEmpty()) {
+
+        if (em.isEmpty() || first_name.isEmpty() || last_name.isEmpty() || selectedRole.isEmpty() || user.isEmpty() || pass.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
+        if (pass.length() < 8) {
+            JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         databaseConnector dbc = new databaseConnector();
         try {
-            if (!createAccount(em, user)) {
-                String sql = "INSERT INTO `accounts_table`(`account_id`, `email`, `fname`, `lname`, `username`,`password`, `role`, `date`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE())";
-                PreparedStatement pst = (PreparedStatement) dbc.getConnection().prepareStatement(sql);
-                pst.setInt(1, account);
-                pst.setString(2, em);
-                pst.setString(3, first_name);
-                pst.setString(4, last_name);
-                pst.setString(5, user);
-                pst.setString(6, pass);
-                pst.setString(7, selectedRole);
-                pst.executeUpdate();
-                pst.close();
-
-                JOptionPane.showMessageDialog(null, "Account created successfully");
-
-                email.setText("");
-                fname.setText("");
-                lname.setText("");
-                username.setText("");
-                password.setText("");
-                role.setSelectedIndex(0);
-                Login back = new Login();
-                back.setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Account already registered with this email or username.", "Error", JOptionPane.ERROR_MESSAGE);
+            if (checkEmail(em)) {
+                JOptionPane.showMessageDialog(null, "Email already registered.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
+            if (checkUsername(user)) {
+                JOptionPane.showMessageDialog(null, "Username already taken.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String hashedPass = BCrypt.hashpw(pass, BCrypt.gensalt());
+
+            String sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `username`,`password`, `role`, `date`) VALUES (?, ?, ?, ?, ?, ?, CURDATE())";
+            PreparedStatement pst = (PreparedStatement) dbc.getConnection().prepareStatement(sql);
+            pst.setString(1, em);
+            pst.setString(2, first_name);
+            pst.setString(3, last_name);
+            pst.setString(4, user);
+            pst.setString(5, hashedPass);
+            pst.setString(6, selectedRole);
+            pst.executeUpdate();
+            pst.close();
+
+            JOptionPane.showMessageDialog(null, "Account created successfully");
+
+            email.setText("");
+            fname.setText("");
+            lname.setText("");
+            username.setText("");
+            password.setText("");
+            role.setSelectedIndex(0);
+            Login back = new Login();
+            back.setVisible(true);
+            this.dispose();
         } catch (Exception e) {
             e.printStackTrace();
         }

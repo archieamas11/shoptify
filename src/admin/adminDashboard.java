@@ -209,10 +209,10 @@ public class adminDashboard extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 70, Short.MAX_VALUE)
+            .addGap(0, 40, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 70));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 40));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -636,10 +636,11 @@ public class adminDashboard extends javax.swing.JFrame {
             }
             JOptionPane.showMessageDialog(null, "Product Added");
             id.setText("");
-            description.setText("");
+            name.setText("");
             price.setText("");
             stocks.setText("");
             status.setSelectedIndex(0);
+            description.setText("");
             displayData();
 
         } catch (SQLException e) {
