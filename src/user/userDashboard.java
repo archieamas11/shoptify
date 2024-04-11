@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Blob;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,30 +45,24 @@ public class userDashboard extends javax.swing.JFrame {
 
             String username = UserManager.getLoggedInUser();
 
-            // Select only the rows where the username matches the currently logged-in user
             String selectQuery = "SELECT * FROM add2cart WHERE username = ?";
             PreparedStatement selectStmt = dbc.getConnection().prepareStatement(selectQuery);
             selectStmt.setString(1, username);
             ResultSet rs = selectStmt.executeQuery();
 
-            // Create a DefaultTableModel to hold the data for the JTable
             DefaultTableModel model = new DefaultTableModel();
-            // Add columns to the model
             model.addColumn("Product Name");
             model.addColumn("Price");
             model.addColumn("Quantity");
 
-            // Populate the model with data from the ResultSet
             while (rs.next()) {
                 String productName = rs.getString("product_name");
                 int price = rs.getInt("product_price");
                 int quantity = rs.getInt("product_quantity");
 
-                // Add a row to the model
                 model.addRow(new Object[]{productName, price, quantity});
             }
 
-            // Set the model to your JTable
             cart_table.setModel(model);
 
         } catch (SQLException e) {
@@ -80,15 +75,17 @@ public class userDashboard extends javax.swing.JFrame {
     private void displayUserProducts() {
         try {
             databaseConnector dbc = new databaseConnector();
-            PreparedStatement statement = dbc.getConnection().prepareStatement("SELECT `image`, `Product Name`, `Price` FROM products WHERE Status = ?");
+            Connection connection = dbc.getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT `image`, `Product Name`, `Price` FROM products WHERE Status =?");
             statement.setString(1, "Available");
             ResultSet rs = statement.executeQuery();
 
-            int productCounter = 1;
             JLabel[] nameLabels = {name1, name2, name3, name4, name5, name6, name7, name8, name9, name10, name11, name12};
             JLabel[] priceLabels = {price1, price2, price3, price4, price5, price6, price7, price8, price9, price10, price11, price12};
             JLabel[] imageLabels = {image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12};
-            while (rs.next() && productCounter <= 12) {
+
+            int productCounter = 0;
+            while (rs.next() && productCounter < imageLabels.length) {
                 Blob imageBlob = rs.getBlob("image");
                 InputStream imageStream = imageBlob.getBinaryStream();
                 try {
@@ -98,21 +95,23 @@ public class userDashboard extends javax.swing.JFrame {
                     String productName = rs.getString("Product Name");
                     int productPrice = rs.getInt("Price");
 
-                    imageLabels[productCounter - 1].setIcon(imageIcon);
-                    nameLabels[productCounter - 1].setText(productName);
-                    priceLabels[productCounter - 1].setText("₱   " + productPrice);
+                    imageLabels[productCounter].setIcon(imageIcon);
+                    nameLabels[productCounter].setText(productName);
+                    priceLabels[productCounter].setText("₱   " + productPrice);
 
                     productCounter++;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     private void panelMouseClicked(JPanel panel, JLabel nameLabel, JLabel priceLabel, JLabel imageLabel) {
+
         if (panel != null && imageLabel.getIcon() != null && nameLabel.getText() != null && !nameLabel.getText().isEmpty() && priceLabel.getText() != null && !priceLabel.getText().isEmpty()) {
             ImageIcon icon = (ImageIcon) imageLabel.getIcon();
             Image image = icon.getImage();
@@ -221,6 +220,8 @@ public class userDashboard extends javax.swing.JFrame {
         search = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         searchbtn = new javax.swing.JButton();
+        searchbtn1 = new javax.swing.JButton();
+        searchbtn2 = new javax.swing.JButton();
         myprofile = new javax.swing.JPanel();
         profile = new javax.swing.JLabel();
         edit = new javax.swing.JLabel();
@@ -712,8 +713,14 @@ public class userDashboard extends javax.swing.JFrame {
         });
         jPanel4.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 60, 130, 40));
 
-        searchbtn.setText("Search");
-        jPanel4.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 60, 110, 40));
+        searchbtn.setText("Delete");
+        jPanel4.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 60, 110, 40));
+
+        searchbtn1.setText("Search");
+        jPanel4.add(searchbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 60, 110, 40));
+
+        searchbtn2.setText("Edit");
+        jPanel4.add(searchbtn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 60, 110, 40));
 
         tabs.addTab("tab4", jPanel4);
 
@@ -1111,31 +1118,19 @@ public class userDashboard extends javax.swing.JFrame {
                     quantity.setValue(1);
                     return; // Exit the method since we've already updated the quantity
                 }
-
-                // If another username performs the action, create a new cart_id
-                String insertQuery = "INSERT INTO add2cart (username, product_name, product_price, product_quantity) VALUES (?, ?, ?, ?)";
-                PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
-                insertStmt.setString(1, username);
-                insertStmt.setString(2, productName);
-                insertStmt.setInt(3, cartPrice);
-                insertStmt.setInt(4, cartQuant);
-
-                insertStmt.executeUpdate();
-
-            } else {
-                // If the user doesn't exist, create a new cart_id
-                String insertQuery = "INSERT INTO add2cart (username, product_name, product_price, product_quantity) VALUES (?, ?, ?, ?)";
-                PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
-                insertStmt.setString(1, username);
-                insertStmt.setString(2, productName);
-                insertStmt.setInt(3, cartPrice);
-                insertStmt.setInt(4, cartQuant);
-
-                insertStmt.executeUpdate();
             }
+            // If the user doesn't exist or the product_name doesn't exist for the username, insert a new record
+            String insertQuery = "INSERT INTO add2cart (username, product_name, product_price, product_quantity) VALUES (?, ?, ?, ?)";
+            PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
+            insertStmt.setString(1, username);
+            insertStmt.setString(2, productName);
+            insertStmt.setInt(3, cartPrice);
+            insertStmt.setInt(4, cartQuant);
+
+            insertStmt.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
-
+            displayCart();
             tabs.setSelectedIndex(0);
             quantity.setValue(1);
         } catch (SQLException e) {
@@ -1146,6 +1141,7 @@ public class userDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_cartActionPerformed
 
     private void myCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myCartMouseClicked
+        displayCart();
         tabs.setSelectedIndex(3);
     }//GEN-LAST:event_myCartMouseClicked
 
@@ -1479,6 +1475,8 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JButton savebtn;
     private javax.swing.JTextField search;
     private javax.swing.JButton searchbtn;
+    private javax.swing.JButton searchbtn1;
+    private javax.swing.JButton searchbtn2;
     private javax.swing.JButton select;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JComboBox<String> year;
