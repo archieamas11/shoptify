@@ -1,6 +1,7 @@
 package user;
 
 import accounts.Login;
+import accounts.UserManager;
 import accounts.frontPage;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.databaseConnector;
@@ -990,49 +991,89 @@ public class userDashboard extends javax.swing.JFrame {
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         tabs.setSelectedIndex(0);
     }//GEN-LAST:event_jLabel5MouseClicked
-   
+
+    private int getGeneratedKey(PreparedStatement stmt) throws SQLException {
+        ResultSet rs = stmt.getGeneratedKeys();
+        if (rs.next()) {
+            return rs.getInt(1);
+        } else {
+            throw new SQLException("Creating statement failed, no ID obtained.");
+        }
+    }
+
     private void cartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartActionPerformed
-        String product_name = labelname.getText();
+        String username = UserManager.getLoggedInUser();
+        String productName = labelname.getText();
         String cartPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
         int cartPrice = Integer.parseInt(cartPriceStr);
         int cartQuant = (int) quantity.getValue();
-        //String username = getCurrentUsername(); // Assuming you have a method to get the current username
 
         try {
             databaseConnector dbc = new databaseConnector();
 
-            // Check if the same username and product is already exists in the add2cart table
-            String selectQuery = "SELECT * FROM add2cart INNER JOIN accounts_table ON add2cart.username = accounts_table.username WHERE add2cart.product_name=? AND accounts_table.role='user'";
+            // Check if the username already has an existing record in the add2cart table
+            String selectQuery = "SELECT * FROM add2cart WHERE username = ?";
             PreparedStatement selectStmt = dbc.getConnection().prepareStatement(selectQuery);
-            selectStmt.setString(1, product_name);
+            selectStmt.setString(1, username);
             ResultSet rs = selectStmt.executeQuery();
 
-            // If it exist, it will only update the quantity
-            if (rs.next()) {
-                int existingQuant = rs.getInt("product_quantity");
-                int newQuant = existingQuant + cartQuant;
+            boolean userExists = rs.next(); // This will be true if the user exists
 
-                String updateQuery = "UPDATE add2cart SET product_quantity=? WHERE product_name=? AND username=?";
-                PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
-                updateStmt.setInt(1, newQuant);
-                updateStmt.setString(2, product_name);
-                //updateStmt.setString(3, username);
-                updateStmt.executeUpdate();
+            // If the user exists, check if the same product_name already exists in the add2cart table for that username
+            int cartId = 0;
+            if (userExists) {
+                String checkProductQuery = "SELECT * FROM add2cart WHERE username = ? AND product_name = ?";
+                PreparedStatement checkProductStmt = dbc.getConnection().prepareStatement(checkProductQuery);
+                checkProductStmt.setString(1, username);
+                checkProductStmt.setString(2, productName);
+                ResultSet checkRs = checkProductStmt.executeQuery();
 
-                JOptionPane.showMessageDialog(null, "Item quantity updated in the cart successfully!");
-            } else {
-                String insertQuery = "INSERT INTO `add2cart`(`username`, `product_name`, `product_price`, `product_quantity`, `timestamp`) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)";
+                if (checkRs.next()) {
+                    // If the product_name exists for that username, only update the product_quantity (without creating a new cart_id)
+                    int existingQuant = checkRs.getInt("product_quantity");
+                    int newQuant = existingQuant + cartQuant;
+
+                    String updateQuery = "UPDATE add2cart SET product_quantity = ? WHERE username = ? AND product_name = ?";
+                    PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
+                    updateStmt.setInt(1, newQuant);
+                    updateStmt.setString(2, username);
+                    updateStmt.setString(3, productName);
+                    updateStmt.executeUpdate();
+
+                    JOptionPane.showMessageDialog(null, "Item quantity updated in the cart successfully!");
+                    tabs.setSelectedIndex(0);
+                    quantity.setValue(1);
+                    return; // Exit the method since we've already updated the quantity
+                }
+
+                // If another username performs the action, create a new cart_id
+                String insertQuery = "INSERT INTO add2cart (username, product_name, product_price, product_quantity) VALUES (?, ?, ?, ?)";
                 PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
-                //insertStmt.setString(1, username);
-                insertStmt.setString(2, product_name);
+                insertStmt.setString(1, username);
+                insertStmt.setString(2, productName);
                 insertStmt.setInt(3, cartPrice);
                 insertStmt.setInt(4, cartQuant);
 
                 insertStmt.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
+                cartId = getGeneratedKey(insertStmt);
+
+            } else {
+                // If the user doesn't exist, create a new cart_id
+                String insertQuery = "INSERT INTO add2cart (username, product_name, product_price, product_quantity) VALUES (?, ?, ?, ?)";
+                PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
+                insertStmt.setString(1, username);
+                insertStmt.setString(2, productName);
+                insertStmt.setInt(3, cartPrice);
+                insertStmt.setInt(4, cartQuant);
+
+                insertStmt.executeUpdate();
+                cartId = getGeneratedKey(insertStmt);
             }
+
+            JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
             tabs.setSelectedIndex(0);
             quantity.setValue(1);
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error executing SQL query: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println("SQLException: " + e.getMessage());
@@ -1096,6 +1137,7 @@ public class userDashboard extends javax.swing.JFrame {
         Login out = new Login();
         out.setVisible(true);
         this.dispose();
+        UserManager.logout();
     }//GEN-LAST:event_logoutMouseClicked
 
     private void myprofile3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myprofile3MouseClicked

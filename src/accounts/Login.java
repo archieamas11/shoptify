@@ -193,11 +193,13 @@ public class Login extends javax.swing.JFrame {
         } else {
             if (loginAccount(user, pass, "Admin")) {
                 JOptionPane.showMessageDialog(null, "Admin Login Success!");
+                UserManager.setLoggedInUser(user);
                 adminDashboard ads = new adminDashboard();
                 ads.setVisible(true);
                 this.dispose();
             } else if (loginAccount(user, pass, "User")) {
                 JOptionPane.showMessageDialog(null, "User Login Success!");
+                UserManager.setLoggedInUser(user);
                 userDashboard use = new userDashboard();
                 use.setVisible(true);
                 this.dispose();

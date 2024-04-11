@@ -208,11 +208,10 @@ public class createAccount extends javax.swing.JFrame {
             return;
         }
 
-        if (pass.length() < 8) {
-            JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
+        //if (pass.length() < 8) {
+        //JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long.", "Error", JOptionPane.ERROR_MESSAGE);
+        //return;
+        //}
         databaseConnector dbc = new databaseConnector();
         try {
             if (checkEmail(em)) {
