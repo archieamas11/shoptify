@@ -30,10 +30,7 @@ import net.proteanit.sql.DbUtils;
 
 public class adminDashboard extends javax.swing.JFrame {
 
-    byte[] photo = null;
-    String filename = null;
     String path = null;
-    private ImageIcon format = null;
     File selectedFile = null;
 
     public adminDashboard() {

@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -16,16 +17,23 @@ import user.userDashboard;
 
 public class Login extends javax.swing.JFrame {
 
+    private boolean passwordVisible = false;
+    private ImageIcon hideIcon;
+    private ImageIcon showIcon;
+
     public Login() {
         initComponents();
         username.setFocusable(false);
         password.setFocusable(false);
         login.setFocusable(false);
-        show.setFocusable(false);
+        // Round Borders
+        // login.setBackground(new Color(0, 158, 226));
+        // login.putClientProperty(FlatClientProperties.STYLE, "arc: 30");
     }
 
     public static boolean loginAccount(String user, String pass, String role) {
         databaseConnector connector = new databaseConnector();
+
         try {
             String query = "SELECT * FROM accounts_table WHERE username = ? AND role = ?";
             PreparedStatement statement = connector.getConnection().prepareStatement(query);
@@ -45,6 +53,22 @@ public class Login extends javax.swing.JFrame {
         }
     }
 
+    private void togglePasswordVisibility() {
+        passwordVisible = !passwordVisible;
+
+        hideIcon = new ImageIcon(getClass().getResource("/image/eye_hide.png"));
+        showIcon = new ImageIcon(getClass().getResource("/image/eye.png"));
+
+        if (passwordVisible) {
+            eye.setIcon(showIcon);
+            password.setEchoChar('\u0000');
+
+        } else {
+            eye.setIcon(hideIcon);
+            password.setEchoChar('\u25cf');
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,7 +85,7 @@ public class Login extends javax.swing.JFrame {
         username_icon = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         create_account = new javax.swing.JLabel();
-        show = new javax.swing.JCheckBox();
+        eye = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -121,7 +145,7 @@ public class Login extends javax.swing.JFrame {
         shoptify.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         shoptify.setForeground(new java.awt.Color(0, 158, 226));
         shoptify.setText("Shoptify");
-        jPanel1.add(shoptify, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 240, -1, 30));
+        jPanel1.add(shoptify, new org.netbeans.lib.awtextra.AbsoluteConstraints(645, 240, -1, 30));
 
         welcome.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         welcome.setForeground(new java.awt.Color(153, 153, 153));
@@ -133,7 +157,7 @@ public class Login extends javax.swing.JFrame {
         jPanel1.add(shoptify_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 80, -1, -1));
 
         login.setBackground(new java.awt.Color(0, 158, 226));
-        login.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        login.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         login.setForeground(new java.awt.Color(255, 255, 255));
         login.setText("Login");
         login.setBorder(null);
@@ -160,14 +184,14 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel1.add(create_account, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 430, 170, 20));
 
-        show.setForeground(new java.awt.Color(153, 153, 153));
-        show.setText(" Show Password");
-        show.addMouseListener(new java.awt.event.MouseAdapter() {
+        eye.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/eye.png"))); // NOI18N
+        eye.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        eye.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                showMouseClicked(evt);
+                eyeMouseClicked(evt);
             }
         });
-        jPanel1.add(show, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 380, -1, 30));
+        jPanel1.add(eye, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 380, 20, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -255,15 +279,9 @@ public class Login extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_create_accountMouseClicked
 
-    private void showMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_showMouseClicked
-        show.setFocusable(true);
-        if (show.isSelected()) {
-            password.setEchoChar('\u0000');
-
-        } else {
-            password.setEchoChar('\u25cf');
-        }
-    }//GEN-LAST:event_showMouseClicked
+    private void eyeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eyeMouseClicked
+        togglePasswordVisibility();
+     }//GEN-LAST:event_eyeMouseClicked
 
     public static void main(String args[]) {
         try {
@@ -280,6 +298,7 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel create_account;
+    private javax.swing.JLabel eye;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
@@ -288,7 +307,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel password_icon;
     private javax.swing.JLabel shoptify;
     private javax.swing.JLabel shoptify_icon;
-    private javax.swing.JCheckBox show;
     private javax.swing.JTextField username;
     private javax.swing.JLabel username_icon;
     private javax.swing.JLabel welcome;

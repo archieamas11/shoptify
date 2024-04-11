@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 08, 2024 at 10:25 AM
+-- Generation Time: Apr 11, 2024 at 09:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,8 +32,9 @@ CREATE TABLE `accounts_table` (
   `email` varchar(50) NOT NULL,
   `fname` varchar(24) NOT NULL,
   `lname` varchar(24) NOT NULL,
+  `gender` varchar(50) NOT NULL,
   `username` varchar(24) NOT NULL,
-  `password` varchar(24) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `role` varchar(24) NOT NULL,
   `profile_picture` longblob DEFAULT NULL,
   `date` date DEFAULT NULL
@@ -43,8 +44,10 @@ CREATE TABLE `accounts_table` (
 -- Dumping data for table `accounts_table`
 --
 
-INSERT INTO `accounts_table` (`account_id`, `email`, `fname`, `lname`, `username`, `password`, `role`, `profile_picture`, `date`) VALUES
-(1020, '213', '123', '123', '213', '123222222222222', 'Admin', NULL, '2024-04-08');
+INSERT INTO `accounts_table` (`account_id`, `email`, `fname`, `lname`, `gender`, `username`, `password`, `role`, `profile_picture`, `date`) VALUES
+(1021, '1', '1', '1', '', '1', '$2a$10$IuaBakuMCeHBEdPaJIoaL.7T66rpjvKW3LnPSwqI29NTP28Rx0Qou', 'Admin', NULL, '2024-04-11'),
+(1022, '2', '2', '2', '', '2', '$2a$10$NOxD84Sv8QpWql02gEoGI.Df6f07g39wWNi3LpbSmAY.5uDRUdjZW', 'User', NULL, '2024-04-11'),
+(1023, '3', '3', '3', '', '3', '$2a$10$R0WWdm9JqV.X1UDPYj.f..Ik/jslWSSBxMss.ybcJqpQksT/PFr2G', 'User', NULL, '2024-04-11');
 
 -- --------------------------------------------------------
 
@@ -54,6 +57,7 @@ INSERT INTO `accounts_table` (`account_id`, `email`, `fname`, `lname`, `username
 
 CREATE TABLE `add2cart` (
   `cart_id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
   `product_name` varchar(50) NOT NULL,
   `product_price` int(50) NOT NULL,
   `product_quantity` int(100) NOT NULL,
@@ -64,23 +68,10 @@ CREATE TABLE `add2cart` (
 -- Dumping data for table `add2cart`
 --
 
-INSERT INTO `add2cart` (`cart_id`, `product_name`, `product_price`, `product_quantity`, `timestamp`) VALUES
-(1, 'Samsung Galaxy s20', 35000, 2, '2024-04-08 07:23:04');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `bought_products`
---
-
-CREATE TABLE `bought_products` (
-  `Transaction_ID` int(11) NOT NULL,
-  `Account_ID` int(11) DEFAULT NULL,
-  `Product_ID` int(11) DEFAULT NULL,
-  `Quantity` int(11) DEFAULT NULL,
-  `Total_Price` decimal(10,2) DEFAULT NULL,
-  `Transaction_Date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `add2cart` (`cart_id`, `username`, `product_name`, `product_price`, `product_quantity`, `timestamp`) VALUES
+(2, '2', 'Archie ALbarico', 4543, 3, '2024-04-11 04:42:03'),
+(3, '3', 'ywa', 4543, 1, '2024-04-11 05:31:11'),
+(4, '2', 'Samsung Galaxy s20', 35000, 1, '2024-04-11 05:28:44');
 
 -- --------------------------------------------------------
 
@@ -115,11 +106,13 @@ INSERT INTO `products` (`p_id`, `Product Name`, `Price`, `Stock`, `Description`,
 --
 
 CREATE TABLE `purchase` (
-  `transaction ID` int(11) NOT NULL,
-  `product name` varchar(50) NOT NULL,
-  `unit price` int(11) NOT NULL,
+  `transaction_id` int(11) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `product_name` varchar(50) NOT NULL,
+  `unit_price` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `total price` int(11) NOT NULL
+  `total_price` int(11) NOT NULL,
+  `date_purchase` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -139,13 +132,6 @@ ALTER TABLE `add2cart`
   ADD PRIMARY KEY (`cart_id`);
 
 --
--- Indexes for table `bought_products`
---
-ALTER TABLE `bought_products`
-  ADD PRIMARY KEY (`Transaction_ID`),
-  ADD KEY `Account_ID` (`Account_ID`);
-
---
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -155,7 +141,7 @@ ALTER TABLE `products`
 -- Indexes for table `purchase`
 --
 ALTER TABLE `purchase`
-  ADD PRIMARY KEY (`transaction ID`);
+  ADD PRIMARY KEY (`transaction_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -165,13 +151,13 @@ ALTER TABLE `purchase`
 -- AUTO_INCREMENT for table `accounts_table`
 --
 ALTER TABLE `accounts_table`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1021;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1024;
 
 --
 -- AUTO_INCREMENT for table `add2cart`
 --
 ALTER TABLE `add2cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -183,18 +169,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `purchase`
 --
 ALTER TABLE `purchase`
-  MODIFY `transaction ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `bought_products`
---
-ALTER TABLE `bought_products`
-  ADD CONSTRAINT `bought_products_ibfk_1` FOREIGN KEY (`Account_ID`) REFERENCES `accounts_table` (`account_id`),
-  ADD CONSTRAINT `bought_products_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `products` (`p_id`);
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

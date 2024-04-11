@@ -23,24 +23,57 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import net.proteanit.sql.DbUtils;
+import javax.swing.table.DefaultTableModel;
 
 public class userDashboard extends javax.swing.JFrame {
 
     public userDashboard() {
         initComponents();
         displayUserProducts();
-        displayPurchase();
+        displayCart();
+    }
+    private String selectedGender = "";
+
+    private void getSelectedGender(String gender) {
+        selectedGender = gender;
     }
 
-    public void displayPurchase() {
+    public void displayCart() {
         try {
             databaseConnector dbc = new databaseConnector();
-            ResultSet rs = dbc.getData("SELECT * FROM purchase");
-            purchase_table.setModel(DbUtils.resultSetToTableModel(rs));
-            rs.close();
-        } catch (Exception ex) {
-            System.out.println("Errors: " + ex.getMessage());
+
+            String username = UserManager.getLoggedInUser();
+
+            // Select only the rows where the username matches the currently logged-in user
+            String selectQuery = "SELECT * FROM add2cart WHERE username = ?";
+            PreparedStatement selectStmt = dbc.getConnection().prepareStatement(selectQuery);
+            selectStmt.setString(1, username);
+            ResultSet rs = selectStmt.executeQuery();
+
+            // Create a DefaultTableModel to hold the data for the JTable
+            DefaultTableModel model = new DefaultTableModel();
+            // Add columns to the model
+            model.addColumn("Product Name");
+            model.addColumn("Price");
+            model.addColumn("Quantity");
+
+            // Populate the model with data from the ResultSet
+            while (rs.next()) {
+                String productName = rs.getString("product_name");
+                int price = rs.getInt("product_price");
+                int quantity = rs.getInt("product_quantity");
+
+                // Add a row to the model
+                model.addRow(new Object[]{productName, price, quantity});
+            }
+
+            // Set the model to your JTable
+            cart_table.setModel(model);
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error executing SQL query: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("SQLException: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -183,10 +216,11 @@ public class userDashboard extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         quantity = new javax.swing.JSpinner();
         jPanel4 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        cart1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        cart_table = new javax.swing.JTable();
+        search = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        searchbtn = new javax.swing.JButton();
         myprofile = new javax.swing.JPanel();
         profile = new javax.swing.JLabel();
         edit = new javax.swing.JLabel();
@@ -194,6 +228,7 @@ public class userDashboard extends javax.swing.JFrame {
         manage = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jPanel10 = new javax.swing.JPanel();
+        image_view = new javax.swing.JLabel();
         select = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -203,9 +238,9 @@ public class userDashboard extends javax.swing.JFrame {
         email = new javax.swing.JTextField();
         manage3 = new javax.swing.JLabel();
         manage4 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        other = new javax.swing.JRadioButton();
+        male = new javax.swing.JRadioButton();
+        female = new javax.swing.JRadioButton();
         manage5 = new javax.swing.JLabel();
         year = new javax.swing.JComboBox<>();
         day = new javax.swing.JComboBox<>();
@@ -225,7 +260,8 @@ public class userDashboard extends javax.swing.JFrame {
         myprofile3 = new javax.swing.JLabel();
         myprofile4 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
         purchase_table = new javax.swing.JTable();
         jPanel8 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -647,26 +683,42 @@ public class userDashboard extends javax.swing.JFrame {
 
         tabs.addTab("tab3", productInfo);
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel7.setText("cart");
-        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 50, 50, 40));
+        cart_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
 
-        cart1.setText("jLabel2");
-        jPanel4.add(cart1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 110, 110));
+            }
+        ));
+        jScrollPane3.setViewportView(cart_table);
 
-        jLabel2.setText("jLabel2");
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, -1, -1));
+        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 1080, 470));
+        jPanel4.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 300, 40));
 
-        jLabel10.setText("jLabel10");
-        jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 160, -1, -1));
+        jButton2.setBackground(new java.awt.Color(0, 158, 226));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Add New Items");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 60, 130, 40));
+
+        searchbtn.setText("Search");
+        jPanel4.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 60, 110, 40));
 
         tabs.addTab("tab4", jPanel4);
 
         myprofile.setBackground(new java.awt.Color(245, 245, 245));
         myprofile.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        profile.setText("jLabel12");
         myprofile.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 40, 40));
 
         edit.setText("Edit Profile");
@@ -687,11 +739,11 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+            .addComponent(image_view, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 110, Short.MAX_VALUE)
+            .addComponent(image_view, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
         );
 
         jPanel9.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 230, 120, 110));
@@ -730,14 +782,29 @@ public class userDashboard extends javax.swing.JFrame {
         manage4.setText("Email");
         jPanel9.add(manage4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 290, -1, -1));
 
-        jRadioButton1.setText(" Other");
-        jPanel9.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 350, -1, 20));
+        other.setText(" Other");
+        other.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                otherMouseClicked(evt);
+            }
+        });
+        jPanel9.add(other, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 350, -1, 20));
 
-        jRadioButton2.setText(" Male");
-        jPanel9.add(jRadioButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, -1, 20));
+        male.setText(" Male");
+        male.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                maleMouseClicked(evt);
+            }
+        });
+        jPanel9.add(male, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, -1, 20));
 
-        jRadioButton3.setText(" Female");
-        jPanel9.add(jRadioButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 350, -1, 20));
+        female.setText(" Female");
+        female.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                femaleMouseClicked(evt);
+            }
+        });
+        jPanel9.add(female, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 350, -1, 20));
 
         manage5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage5.setForeground(new java.awt.Color(102, 102, 102));
@@ -818,6 +885,10 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("My Purchase Table");
+        jPanel7.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
+
         purchase_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -829,9 +900,9 @@ public class userDashboard extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(purchase_table);
+        jScrollPane4.setViewportView(purchase_table);
 
-        jPanel7.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, 1090, 500));
+        jPanel7.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 1080, 470));
 
         tabs.addTab("tab6", jPanel7);
 
@@ -992,21 +1063,17 @@ public class userDashboard extends javax.swing.JFrame {
         tabs.setSelectedIndex(0);
     }//GEN-LAST:event_jLabel5MouseClicked
 
-    private int getGeneratedKey(PreparedStatement stmt) throws SQLException {
-        ResultSet rs = stmt.getGeneratedKeys();
-        if (rs.next()) {
-            return rs.getInt(1);
-        } else {
-            throw new SQLException("Creating statement failed, no ID obtained.");
-        }
-    }
-
     private void cartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartActionPerformed
         String username = UserManager.getLoggedInUser();
         String productName = labelname.getText();
         String cartPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
         int cartPrice = Integer.parseInt(cartPriceStr);
         int cartQuant = (int) quantity.getValue();
+
+        if (username == null) {
+            JOptionPane.showMessageDialog(null, "Please log in to add item to cart");
+            return;
+        }
 
         try {
             databaseConnector dbc = new databaseConnector();
@@ -1020,7 +1087,6 @@ public class userDashboard extends javax.swing.JFrame {
             boolean userExists = rs.next(); // This will be true if the user exists
 
             // If the user exists, check if the same product_name already exists in the add2cart table for that username
-            int cartId = 0;
             if (userExists) {
                 String checkProductQuery = "SELECT * FROM add2cart WHERE username = ? AND product_name = ?";
                 PreparedStatement checkProductStmt = dbc.getConnection().prepareStatement(checkProductQuery);
@@ -1029,7 +1095,7 @@ public class userDashboard extends javax.swing.JFrame {
                 ResultSet checkRs = checkProductStmt.executeQuery();
 
                 if (checkRs.next()) {
-                    // If the product_name exists for that username, only update the product_quantity (without creating a new cart_id)
+                    // If the product_name exists for username, only update the product_quantity
                     int existingQuant = checkRs.getInt("product_quantity");
                     int newQuant = existingQuant + cartQuant;
 
@@ -1040,7 +1106,7 @@ public class userDashboard extends javax.swing.JFrame {
                     updateStmt.setString(3, productName);
                     updateStmt.executeUpdate();
 
-                    JOptionPane.showMessageDialog(null, "Item quantity updated in the cart successfully!");
+                    JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
                     tabs.setSelectedIndex(0);
                     quantity.setValue(1);
                     return; // Exit the method since we've already updated the quantity
@@ -1055,7 +1121,6 @@ public class userDashboard extends javax.swing.JFrame {
                 insertStmt.setInt(4, cartQuant);
 
                 insertStmt.executeUpdate();
-                cartId = getGeneratedKey(insertStmt);
 
             } else {
                 // If the user doesn't exist, create a new cart_id
@@ -1067,13 +1132,12 @@ public class userDashboard extends javax.swing.JFrame {
                 insertStmt.setInt(4, cartQuant);
 
                 insertStmt.executeUpdate();
-                cartId = getGeneratedKey(insertStmt);
             }
 
             JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
+
             tabs.setSelectedIndex(0);
             quantity.setValue(1);
-
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error executing SQL query: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println("SQLException: " + e.getMessage());
@@ -1221,15 +1285,42 @@ public class userDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Item bought successfully!");
 
             tabs.setSelectedIndex(5);
-            displayPurchase();
+            //displayPurchase();
             quantity.setValue(1);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error executing SQL query: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println("SQLException: " + e.getMessage());
             e.printStackTrace();
         }
-
     }//GEN-LAST:event_buyActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        tabs.setSelectedIndex(0);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void maleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maleMouseClicked
+        male.setSelected(true);
+        female.setSelected(false);
+        other.setSelected(false);
+        String gender = "Male";
+        getSelectedGender(gender);
+    }//GEN-LAST:event_maleMouseClicked
+
+    private void femaleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_femaleMouseClicked
+        male.setSelected(false);
+        female.setSelected(true);
+        other.setSelected(false);
+        String gender = "Female";
+        getSelectedGender(gender);
+    }//GEN-LAST:event_femaleMouseClicked
+
+    private void otherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_otherMouseClicked
+        male.setSelected(false);
+        female.setSelected(false);
+        other.setSelected(true);
+        String gender = "Other";
+        getSelectedGender(gender);
+    }//GEN-LAST:event_otherMouseClicked
 
     public static void main(String args[]) {
         try {
@@ -1248,12 +1339,13 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel atay;
     private javax.swing.JButton buy;
     private javax.swing.JButton cart;
-    private javax.swing.JLabel cart1;
+    private javax.swing.JTable cart_table;
     private javax.swing.JComboBox<String> day;
     private javax.swing.JEditorPane des;
     private javax.swing.JLabel edit;
     private javax.swing.JLabel edit1;
     private javax.swing.JTextField email;
+    private javax.swing.JRadioButton female;
     private javax.swing.JTextField fname;
     private javax.swing.JTextField fname1;
     private javax.swing.JTextField fname2;
@@ -1274,9 +1366,10 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel image7;
     private javax.swing.JLabel image8;
     private javax.swing.JLabel image9;
+    private javax.swing.JLabel image_view;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
@@ -1287,7 +1380,6 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -1299,11 +1391,9 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -1317,6 +1407,7 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField lname;
     private javax.swing.JLabel logout;
     private javax.swing.JLabel logout1;
+    private javax.swing.JRadioButton male;
     private javax.swing.JLabel manage;
     private javax.swing.JLabel manage1;
     private javax.swing.JLabel manage10;
@@ -1354,6 +1445,7 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel name8;
     private javax.swing.JLabel name9;
     private javax.swing.JLabel next;
+    private javax.swing.JRadioButton other;
     private javax.swing.JPanel p1;
     private javax.swing.JPanel p10;
     private javax.swing.JPanel p11;
@@ -1385,6 +1477,8 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JTable purchase_table;
     private javax.swing.JSpinner quantity;
     private javax.swing.JButton savebtn;
+    private javax.swing.JTextField search;
+    private javax.swing.JButton searchbtn;
     private javax.swing.JButton select;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JComboBox<String> year;

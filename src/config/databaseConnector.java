@@ -11,7 +11,7 @@ public class databaseConnector {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommerce", "root", "");
         } catch (SQLException e) {
-            System.err.println("Cannot connect to database: " + e.getMessage());
+            System.out.println("Cannot connect to database: " + e.getMessage());
         }
     }
 
@@ -25,7 +25,6 @@ public class databaseConnector {
 
         return rst;
     }
-    
 
     public void deleteProduct(int id) {
         try {
@@ -41,5 +40,4 @@ public class databaseConnector {
             System.out.println("Error deleting data: " + e.getMessage());
         }
     }
-
 }
