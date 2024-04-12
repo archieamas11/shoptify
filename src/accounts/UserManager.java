@@ -1,21 +1,18 @@
 package accounts;
-/**
- *
- * @author MARITIME 02
- */
+
 public class UserManager {
 
-    private static String loggedInUser;
+    private static int loggedInUserId;
 
-    public static String getLoggedInUser() {
-        return loggedInUser;
+    public static int getLoggedInUserId() {
+        return loggedInUserId;
     }
 
-    public static void setLoggedInUser(String username) {
-        loggedInUser = username;
+    public static void setLoggedInUserId(int accountId) {
+        loggedInUserId = accountId;
     }
 
     public static void logout() {
-        loggedInUser = null;
+        loggedInUserId = -1;
     }
 }

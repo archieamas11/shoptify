@@ -20,6 +20,7 @@ public class Login extends javax.swing.JFrame {
     private boolean passwordVisible = false;
     private ImageIcon hideIcon;
     private ImageIcon showIcon;
+    public static int accountId;
 
     public Login() {
         initComponents();
@@ -35,12 +36,13 @@ public class Login extends javax.swing.JFrame {
         databaseConnector connector = new databaseConnector();
 
         try {
-            String query = "SELECT * FROM accounts_table WHERE username = ? AND role = ?";
+            String query = "SELECT account_id, password FROM accounts_table WHERE username = ? AND role = ?";
             PreparedStatement statement = connector.getConnection().prepareStatement(query);
             statement.setString(1, user);
             statement.setString(2, role);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
+                accountId = rs.getInt("account_id");
                 String hash = rs.getString("password");
                 if (BCrypt.checkpw(pass, hash)) {
                     return true;
@@ -217,13 +219,13 @@ public class Login extends javax.swing.JFrame {
         } else {
             if (loginAccount(user, pass, "Admin")) {
                 JOptionPane.showMessageDialog(null, "Admin Login Success!");
-                UserManager.setLoggedInUser(user);
+                UserManager.setLoggedInUserId(accountId);
                 adminDashboard ads = new adminDashboard();
                 ads.setVisible(true);
                 this.dispose();
             } else if (loginAccount(user, pass, "User")) {
                 JOptionPane.showMessageDialog(null, "User Login Success!");
-                UserManager.setLoggedInUser(user);
+                UserManager.setLoggedInUserId(accountId);
                 userDashboard use = new userDashboard();
                 use.setVisible(true);
                 this.dispose();

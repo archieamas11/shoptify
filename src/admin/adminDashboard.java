@@ -543,10 +543,10 @@ public class adminDashboard extends javax.swing.JFrame {
             TableModel model = product_table.getModel();
             try {
                 databaseConnector dbc = new databaseConnector();
-                ResultSet rs = dbc.getData("SELECT * FROM products WHERE p_id =" + model.getValueAt(rowIndex, 0));
+                ResultSet rs = dbc.getData("SELECT * FROM products WHERE product_id =" + model.getValueAt(rowIndex, 0));
 
                 if (rs.next()) {
-                    id.setText("" + rs.getString("p_id"));
+                    id.setText("" + rs.getString("product_id"));
                     name.setText("" + rs.getString("Product Name"));
                     price.setText("" + rs.getString("Price"));
                     stocks.setText(rs.getString("Stock"));
@@ -684,7 +684,7 @@ public class adminDashboard extends javax.swing.JFrame {
                 if (selectedFile.exists()) {
                     BufferedInputStream bis = new BufferedInputStream(new FileInputStream(selectedFile));
 
-                    sql = "UPDATE products SET `Product Name`=?, Price=?, Stock=?, Description=?, image=?, Status=? WHERE p_id=?";
+                    sql = "UPDATE products SET `Product Name`=?, Price=?, Stock=?, Description=?, image=?, Status=? WHERE product_id=?";
                     pst = dbc.getConnection().prepareStatement(sql);
                     pst.setString(1, name.getText());
                     pst.setString(2, price.getText());
@@ -700,7 +700,7 @@ public class adminDashboard extends javax.swing.JFrame {
                     return;
                 }
             } else {
-                sql = "UPDATE products SET `Product Name`=?, Price=?, Stock=?, Description=?, Status=? WHERE p_id=?";
+                sql = "UPDATE products SET `Product Name`=?, Price=?, Stock=?, Description=?, Status=? WHERE product_id=?";
                 pst = dbc.getConnection().prepareStatement(sql);
                 pst.setString(1, name.getText());
                 pst.setString(2, price.getText());
