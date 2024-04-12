@@ -1105,22 +1105,24 @@ public class userDashboard extends javax.swing.JFrame {
                 updateStmt.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
+                displayCart();
                 tabs.setSelectedIndex(0);
                 quantity.setValue(1);
-                return; // Exit the method since we've already updated the quantity
+                return;
+            } else {
+
+                // If the product doesn't exist, insert a new record
+                String insertQuery = "INSERT INTO add2cart (account_id, product_name, product_price, product_quantity) VALUES (?, ?, ?, ?)";
+                PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
+                insertStmt.setInt(1, accountId);
+                insertStmt.setString(2, productName);
+                insertStmt.setInt(3, cartPrice);
+                insertStmt.setInt(4, cartQuant);
+
+                insertStmt.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
             }
-
-            // If the product doesn't exist, insert a new record
-            String insertQuery = "INSERT INTO add2cart (account_id, product_name, product_price, product_quantity) VALUES (?, ?, ?, ?)";
-            PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
-            insertStmt.setInt(1, accountId);
-            insertStmt.setString(2, productName);
-            insertStmt.setInt(3, cartPrice);
-            insertStmt.setInt(4, cartQuant);
-
-            insertStmt.executeUpdate();
-
-            JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
             displayCart();
             tabs.setSelectedIndex(0);
             quantity.setValue(1);
@@ -1218,61 +1220,58 @@ public class userDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_savebtnActionPerformed
 
     private void buyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buyActionPerformed
+        int accountId = UserManager.getLoggedInUserId();
+        String productName = labelname.getText();
+        String buyPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
+        int buyPrice = Integer.parseInt(buyPriceStr);
+        int buyQuant = (int) quantity.getValue();
+        int totalPrice = buyPrice * buyQuant;
+
         try {
             databaseConnector dbc = new databaseConnector();
 
-            // Retrieve the username from the accounts_table
-            String getUsernameQuery = "SELECT username FROM accounts_table WHERE username";
-            PreparedStatement getUsernameStmt = dbc.getConnection().prepareStatement(getUsernameQuery);
-            ResultSet usernameRs = getUsernameStmt.executeQuery();
-            String username;
-            if (usernameRs.next()) {
-                username = usernameRs.getString("username"); // Retrieve the username from the result set
-            } else {
-                // Handle the case where username is not found in accounts_table
-                JOptionPane.showMessageDialog(null, "Username not found in accounts table!", "Error", JOptionPane.ERROR_MESSAGE);
-                return; // Exit the method or handle the error appropriately
-            }
-
-            String product_name = labelname.getText();
-            String priceStr = labelprice.getText().replaceAll("[^0-9]", ""); // Remove any non-numeric characters
-            int unit_price = Integer.parseInt(priceStr);
-
-            int quantity_bought = (int) quantity.getValue();
-            int total_price = unit_price * quantity_bought;
-
-            // Check if a purchase with the same username and product already exists
-            String checkQuery = "SELECT * FROM purchase WHERE username = ? AND product_name = ?";
-            PreparedStatement checkStmt = dbc.getConnection().prepareStatement(checkQuery);
-            checkStmt.setString(1, username);
-            checkStmt.setString(2, product_name);
-            ResultSet checkRs = checkStmt.executeQuery();
+            // Check if the purchase already exists for the given cart ID and product name
+            String checkPurchaseQuery = "SELECT * FROM purchase WHERE account_id = ? AND product_name = ?";
+            PreparedStatement checkPurchaseStmt = dbc.getConnection().prepareStatement(checkPurchaseQuery);
+            checkPurchaseStmt.setInt(1, accountId);
+            checkPurchaseStmt.setString(2, productName);
+            ResultSet checkRs = checkPurchaseStmt.executeQuery();
 
             if (checkRs.next()) {
-                // Update the quantity and total price if the purchase exists
-                String updateQuery = "UPDATE purchase SET quantity = quantity + ?, total_price = total_price + ? WHERE username = ? AND product_name = ?";
+                // If purchase exists, update total_quantity and total_price
+                int existingQuant = checkRs.getInt("total_quantity");
+                int newQuant = existingQuant + buyQuant;
+                int existingTotalPrice = checkRs.getInt("total_price");
+                int newTotalPrice = existingTotalPrice + totalPrice;
+
+                String updateQuery = "UPDATE purchase SET total_quantity = ?, total_price = ? WHERE account_id = ? AND product_name = ?";
                 PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
-                updateStmt.setInt(1, quantity_bought);
-                updateStmt.setInt(2, total_price);
-                updateStmt.setString(3, username);
-                updateStmt.setString(4, product_name);
+                updateStmt.setInt(1, newQuant);
+                updateStmt.setInt(2, newTotalPrice);
+                updateStmt.setInt(3, accountId);
+                updateStmt.setString(4, productName);
                 updateStmt.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Purchase updated successfully!");
+                //displayPurchase();
+                tabs.setSelectedIndex(0);
+                quantity.setValue(1);
+                return;
             } else {
-                // Insert a new record if the purchase does not exist
-                String insertQuery = "INSERT INTO purchase(product_name, unit_price, quantity, total_price, timestamp, username) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?)";
+                String insertQuery = "INSERT INTO purchase (account_id, product_name, product_price, total_quantity, total_price, date_purchase) VALUES (?, ?, ?, ?, ?, NOW())";
                 PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery);
-                insertStmt.setString(1, product_name);
-                insertStmt.setInt(2, unit_price);
-                insertStmt.setInt(3, quantity_bought);
-                insertStmt.setInt(4, total_price);
-                insertStmt.setString(5, username);
+                insertStmt.setInt(1, accountId);
+                insertStmt.setString(2, productName);
+                insertStmt.setInt(3, buyPrice);
+                insertStmt.setInt(4, buyQuant);
+                insertStmt.setInt(5, totalPrice);
+
                 insertStmt.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Purchase added successfully!");
             }
-
-            JOptionPane.showMessageDialog(null, "Item bought successfully!");
-
-            tabs.setSelectedIndex(5);
             //displayPurchase();
+            tabs.setSelectedIndex(0);
             quantity.setValue(1);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error executing SQL query: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
