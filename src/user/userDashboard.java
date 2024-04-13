@@ -77,7 +77,7 @@ public class userDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
             Connection connection = dbc.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT `image`, `Product Name`, `Price` FROM products WHERE Status =?");
+            PreparedStatement statement = connection.prepareStatement("SELECT `image`, `Product Name`, `Price` FROM products WHERE Status = ? AND Stock > 0");
             statement.setString(1, "Available");
             ResultSet rs = statement.executeQuery();
 
@@ -111,7 +111,6 @@ public class userDashboard extends javax.swing.JFrame {
     }
 
     private void panelMouseClicked(JPanel panel, JLabel nameLabel, JLabel priceLabel, JLabel imageLabel, int productID) {
-
         if (panel != null && imageLabel.getIcon() != null && nameLabel.getText() != null && !nameLabel.getText().isEmpty() && priceLabel.getText() != null && !priceLabel.getText().isEmpty()) {
             ImageIcon icon = (ImageIcon) imageLabel.getIcon();
             Image image = icon.getImage();
@@ -149,10 +148,10 @@ public class userDashboard extends javax.swing.JFrame {
 
         jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        home = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         myCart = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        home = new javax.swing.JLabel();
         tabs = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         p1 = new javax.swing.JPanel();
@@ -222,10 +221,12 @@ public class userDashboard extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         cart_table = new javax.swing.JTable();
         search = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
         searchbtn = new javax.swing.JButton();
         searchbtn1 = new javax.swing.JButton();
         searchbtn2 = new javax.swing.JButton();
+        sc = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jSeparator8 = new javax.swing.JSeparator();
         myprofile = new javax.swing.JPanel();
         profile = new javax.swing.JLabel();
         edit = new javax.swing.JLabel();
@@ -265,9 +266,15 @@ public class userDashboard extends javax.swing.JFrame {
         myprofile3 = new javax.swing.JLabel();
         myprofile4 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         purchase_table = new javax.swing.JTable();
+        searchbtn3 = new javax.swing.JButton();
+        search1 = new javax.swing.JTextField();
+        searchbtn4 = new javax.swing.JButton();
+        searchbtn5 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jSeparator10 = new javax.swing.JSeparator();
+        home2 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         profile2 = new javax.swing.JPanel();
@@ -305,16 +312,6 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        home.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        home.setForeground(new java.awt.Color(0, 158, 226));
-        home.setText("SHOPTIFY");
-        home.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                homeMouseClicked(evt);
-            }
-        });
-        jPanel2.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, -1, 50));
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/purchase.png"))); // NOI18N
         jLabel1.setText("My Purchases");
@@ -343,6 +340,16 @@ public class userDashboard extends javax.swing.JFrame {
             }
         });
         jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 10, 40, 40));
+
+        home.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        home.setForeground(new java.awt.Color(0, 158, 226));
+        home.setText("SHOPTIFY");
+        home.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                homeMouseClicked(evt);
+            }
+        });
+        jPanel2.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, -1, 50));
 
         jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 40));
 
@@ -705,26 +712,35 @@ public class userDashboard extends javax.swing.JFrame {
         jScrollPane3.setViewportView(cart_table);
 
         jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 1080, 470));
-        jPanel4.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, 300, 40));
+        jPanel4.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 60, 300, 40));
 
-        jButton2.setBackground(new java.awt.Color(0, 158, 226));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Add New Items");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-        jPanel4.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 60, 130, 40));
+        searchbtn.setBackground(new java.awt.Color(102, 102, 102));
+        searchbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/edi-icon-24.png"))); // NOI18N
+        searchbtn.setBorder(null);
+        jPanel4.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 60, 60, 40));
 
-        searchbtn.setText("Delete");
-        jPanel4.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 60, 110, 40));
+        searchbtn1.setBackground(new java.awt.Color(0, 158, 226));
+        searchbtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
+        searchbtn1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
+        jPanel4.add(searchbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 60, 60, 40));
 
-        searchbtn1.setText("Search");
-        jPanel4.add(searchbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 60, 110, 40));
+        searchbtn2.setBackground(new java.awt.Color(255, 51, 51));
+        searchbtn2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-delete-24.png"))); // NOI18N
+        searchbtn2.setBorder(null);
+        jPanel4.add(searchbtn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 60, 60, 40));
 
-        searchbtn2.setText("Edit");
-        jPanel4.add(searchbtn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 60, 110, 40));
+        sc.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        sc.setForeground(new java.awt.Color(0, 158, 226));
+        sc.setText("Shopping Cart");
+        jPanel4.add(sc, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, -1, 50));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buy-48.png"))); // NOI18N
+        jPanel4.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, -1, 50));
+
+        jSeparator8.setBackground(new java.awt.Color(0, 158, 226));
+        jSeparator8.setForeground(new java.awt.Color(0, 158, 226));
+        jSeparator8.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel4.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 40, 30));
 
         tabs.addTab("tab4", jPanel4);
 
@@ -896,10 +912,6 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("My Purchase Table");
-        jPanel7.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
-
         purchase_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -914,6 +926,40 @@ public class userDashboard extends javax.swing.JFrame {
         jScrollPane4.setViewportView(purchase_table);
 
         jPanel7.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 1080, 470));
+
+        searchbtn3.setBackground(new java.awt.Color(0, 158, 226));
+        searchbtn3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
+        searchbtn3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
+        jPanel7.add(searchbtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 60, 60, 40));
+        jPanel7.add(search1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 60, 300, 40));
+
+        searchbtn4.setBackground(new java.awt.Color(102, 102, 102));
+        searchbtn4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/edi-icon-24.png"))); // NOI18N
+        searchbtn4.setBorder(null);
+        jPanel7.add(searchbtn4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 60, 60, 40));
+
+        searchbtn5.setBackground(new java.awt.Color(255, 51, 51));
+        searchbtn5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-delete-24.png"))); // NOI18N
+        searchbtn5.setBorder(null);
+        jPanel7.add(searchbtn5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 60, 60, 40));
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buy-48.png"))); // NOI18N
+        jPanel7.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, -1, 50));
+
+        jSeparator10.setBackground(new java.awt.Color(0, 158, 226));
+        jSeparator10.setForeground(new java.awt.Color(0, 158, 226));
+        jSeparator10.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel7.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 40, 30));
+
+        home2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        home2.setForeground(new java.awt.Color(0, 158, 226));
+        home2.setText("My Purchase");
+        home2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                home2MouseClicked(evt);
+            }
+        });
+        jPanel7.add(home2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, -1, 50));
 
         tabs.addTab("tab6", jPanel7);
 
@@ -1050,10 +1096,6 @@ public class userDashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
-        tabs.setSelectedIndex(0);
-    }//GEN-LAST:event_homeMouseClicked
-
     private void nextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextMouseClicked
         tabs.setSelectedIndex(1);
     }//GEN-LAST:event_nextMouseClicked
@@ -1116,7 +1158,6 @@ public class userDashboard extends javax.swing.JFrame {
 
                 return;
             } else {
-
                 // If the product doesn't exist, insert a new record
                 String insertQuery = "INSERT INTO add2cart (account_id, product_id, product_name, product_price, product_quantity) VALUES (?, ?, ?, ?, ?)";
                 PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
@@ -1218,7 +1259,7 @@ public class userDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_myprofile5MouseClicked
 
     private void myprofile8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myprofile8MouseClicked
-        // TODO add your handling code here:
+        tabs.setSelectedIndex(4);
     }//GEN-LAST:event_myprofile8MouseClicked
 
     private void savebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savebtnActionPerformed
@@ -1236,6 +1277,18 @@ public class userDashboard extends javax.swing.JFrame {
 
         try {
             databaseConnector dbc = new databaseConnector();
+
+            // Fetch current stock and status of the product
+            String fetchProductQuery = "SELECT stock, status FROM products WHERE product_id = ?";
+            PreparedStatement fetchProductStmt = dbc.getConnection().prepareStatement(fetchProductQuery);
+            fetchProductStmt.setInt(1, id);
+            ResultSet fetchRs = fetchProductStmt.executeQuery();
+            if (!fetchRs.next()) {
+                JOptionPane.showMessageDialog(null, "Product not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int currentStock = fetchRs.getInt("stock");
+            String currentStatus = fetchRs.getString("status");
 
             // Check if the purchase already exists for the given cart ID and product name
             String checkPurchaseQuery = "SELECT * FROM purchase WHERE account_id = ? AND product_id = ?";
@@ -1260,10 +1313,8 @@ public class userDashboard extends javax.swing.JFrame {
                 updateStmt.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Purchase updated successfully!");
-                //displayPurchase();
-                tabs.setSelectedIndex(0);
-                quantity.setValue(1);
-                return;
+                // Update stock and status if necessary
+                updateStockAndStatus(dbc, id, currentStock - buyQuant, currentStatus);
             } else {
                 String insertQuery = "INSERT INTO purchase (account_id, product_id, product_name, product_price, total_quantity, total_price, date_purchase) VALUES (?, ?, ?, ?, ?, ?, NOW())";
                 PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery);
@@ -1277,8 +1328,10 @@ public class userDashboard extends javax.swing.JFrame {
                 insertStmt.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Purchase added successfully!");
+                // Update stock and status if necessary
+                updateStockAndStatus(dbc, id, currentStock - buyQuant, currentStatus);
             }
-            //displayPurchase();
+            displayUserProducts();
             tabs.setSelectedIndex(0);
             quantity.setValue(1);
         } catch (SQLException e) {
@@ -1288,9 +1341,24 @@ public class userDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_buyActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        tabs.setSelectedIndex(0);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void updateStockAndStatus(databaseConnector dbc, int productId, int newStock, String currentStatus) throws SQLException {
+        if (newStock < 1) {
+            // Update product status to 'not available' if stock is less than 1
+            String updateStatusQuery = "UPDATE products SET Stock = ?, Status = 'Unavailable' WHERE product_id = ?";
+            PreparedStatement updateStatusStmt = dbc.getConnection().prepareStatement(updateStatusQuery);
+            updateStatusStmt.setInt(1, newStock);
+            updateStatusStmt.setInt(2, productId);
+            updateStatusStmt.executeUpdate();
+        } else {
+            // Update only the stock if it's more than 0
+            String updateStockQuery = "UPDATE products SET Stock = ? WHERE product_id = ?";
+            PreparedStatement updateStockStmt = dbc.getConnection().prepareStatement(updateStockQuery);
+            updateStockStmt.setInt(1, newStock);
+            updateStockStmt.setInt(2, productId);
+            updateStockStmt.executeUpdate();
+        }
+        displayUserProducts();
+    }
 
     private void maleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maleMouseClicked
         male.setSelected(true);
@@ -1316,6 +1384,15 @@ public class userDashboard extends javax.swing.JFrame {
         getSelectedGender(gender);
     }//GEN-LAST:event_otherMouseClicked
 
+    private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
+        tabs.setSelectedIndex(0);
+        displayUserProducts();
+    }//GEN-LAST:event_homeMouseClicked
+
+    private void home2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_home2MouseClicked
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -1324,8 +1401,10 @@ public class userDashboard extends javax.swing.JFrame {
                     new userDashboard().setVisible(true);
                 }
             });
+
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(frontPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(frontPage.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -1348,6 +1427,7 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField fname5;
     private javax.swing.JTextField fname6;
     private javax.swing.JLabel home;
+    private javax.swing.JLabel home2;
     private javax.swing.JLabel image1;
     private javax.swing.JLabel image10;
     private javax.swing.JLabel image11;
@@ -1362,18 +1442,18 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel image9;
     private javax.swing.JLabel image_view;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -1389,12 +1469,14 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JLabel labelname;
     private javax.swing.JLabel labelprice;
@@ -1471,10 +1553,15 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JTable purchase_table;
     private javax.swing.JSpinner quantity;
     private javax.swing.JButton savebtn;
+    private javax.swing.JLabel sc;
     private javax.swing.JTextField search;
+    private javax.swing.JTextField search1;
     private javax.swing.JButton searchbtn;
     private javax.swing.JButton searchbtn1;
     private javax.swing.JButton searchbtn2;
+    private javax.swing.JButton searchbtn3;
+    private javax.swing.JButton searchbtn4;
+    private javax.swing.JButton searchbtn5;
     private javax.swing.JButton select;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JComboBox<String> year;
