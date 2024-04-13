@@ -34,6 +34,7 @@ public class userDashboard extends javax.swing.JFrame {
         displayCart();
     }
     private String selectedGender = "";
+    public static int productID;
 
     private void getSelectedGender(String gender) {
         selectedGender = gender;
@@ -104,13 +105,12 @@ public class userDashboard extends javax.swing.JFrame {
                     e.printStackTrace();
                 }
             }
-            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private void panelMouseClicked(JPanel panel, JLabel nameLabel, JLabel priceLabel, JLabel imageLabel) {
+    private void panelMouseClicked(JPanel panel, JLabel nameLabel, JLabel priceLabel, JLabel imageLabel, int productID) {
 
         if (panel != null && imageLabel.getIcon() != null && nameLabel.getText() != null && !nameLabel.getText().isEmpty() && priceLabel.getText() != null && !priceLabel.getText().isEmpty()) {
             ImageIcon icon = (ImageIcon) imageLabel.getIcon();
@@ -123,16 +123,20 @@ public class userDashboard extends javax.swing.JFrame {
 
             try {
                 databaseConnector dbc = new databaseConnector();
-                PreparedStatement statement = dbc.getConnection().prepareStatement("SELECT `Description` FROM products WHERE `Product Name` = ?");
+                String query = "SELECT product_id, Description FROM products WHERE `Product Name` = ?";
+                PreparedStatement statement = dbc.getConnection().prepareStatement(query);
                 statement.setString(1, nameLabel.getText());
+
                 ResultSet rs = statement.executeQuery();
                 if (rs.next()) {
+                    productID = rs.getInt("product_id");
                     String description = rs.getString("Description");
                     des.setText(description);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            productIDs.setProductID(productID);
             tabs.setSelectedIndex(2);
         } else {
             System.out.println("Panel is empty");
@@ -1055,15 +1059,15 @@ public class userDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_nextMouseClicked
 
     private void p1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p1MouseClicked
-        panelMouseClicked(p1, name1, price1, image1);
+        panelMouseClicked(p1, name1, price1, image1, productID);
     }//GEN-LAST:event_p1MouseClicked
 
     private void p3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p3MouseClicked
-        panelMouseClicked(p3, name3, price3, image3);
+        panelMouseClicked(p3, name3, price3, image3, productID);
      }//GEN-LAST:event_p3MouseClicked
 
     private void p2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p2MouseClicked
-        panelMouseClicked(p2, name2, price2, image2);
+        panelMouseClicked(p2, name2, price2, image2, productID);
     }//GEN-LAST:event_p2MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
@@ -1072,6 +1076,7 @@ public class userDashboard extends javax.swing.JFrame {
 
     private void cartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartActionPerformed
         int accountId = UserManager.getLoggedInUserId();
+        int id = productIDs.getProductID();
         String productName = labelname.getText();
         String cartPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
         int cartPrice = Integer.parseInt(cartPriceStr);
@@ -1086,10 +1091,10 @@ public class userDashboard extends javax.swing.JFrame {
             databaseConnector dbc = new databaseConnector();
 
             // Check if the product already exists in the cart for the logged-in user
-            String checkProductQuery = "SELECT * FROM add2cart WHERE account_id = ? AND product_name = ?";
+            String checkProductQuery = "SELECT * FROM add2cart WHERE account_id = ? AND product_id = ?";
             PreparedStatement checkProductStmt = dbc.getConnection().prepareStatement(checkProductQuery);
             checkProductStmt.setInt(1, accountId);
-            checkProductStmt.setString(2, productName);
+            checkProductStmt.setInt(2, id);
             ResultSet checkRs = checkProductStmt.executeQuery();
 
             if (checkRs.next()) {
@@ -1097,30 +1102,31 @@ public class userDashboard extends javax.swing.JFrame {
                 int existingQuant = checkRs.getInt("product_quantity");
                 int newQuant = existingQuant + cartQuant;
 
-                String updateQuery = "UPDATE add2cart SET product_quantity = ? WHERE account_id = ? AND product_name = ?";
+                String updateQuery = "UPDATE add2cart SET product_quantity = ? WHERE account_id = ? AND product_id = ?";
                 PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
                 updateStmt.setInt(1, newQuant);
                 updateStmt.setInt(2, accountId);
-                updateStmt.setString(3, productName);
+                updateStmt.setInt(3, id);
                 updateStmt.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
                 displayCart();
                 tabs.setSelectedIndex(0);
                 quantity.setValue(1);
+
                 return;
             } else {
 
                 // If the product doesn't exist, insert a new record
-                String insertQuery = "INSERT INTO add2cart (account_id, product_name, product_price, product_quantity) VALUES (?, ?, ?, ?)";
+                String insertQuery = "INSERT INTO add2cart (account_id, product_id, product_name, product_price, product_quantity) VALUES (?, ?, ?, ?, ?)";
                 PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
                 insertStmt.setInt(1, accountId);
-                insertStmt.setString(2, productName);
-                insertStmt.setInt(3, cartPrice);
-                insertStmt.setInt(4, cartQuant);
+                insertStmt.setInt(2, id);
+                insertStmt.setString(3, productName);
+                insertStmt.setInt(4, cartPrice);
+                insertStmt.setInt(5, cartQuant);
 
                 insertStmt.executeUpdate();
-
                 JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
             }
             displayCart();
@@ -1147,39 +1153,39 @@ public class userDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void p4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p4MouseClicked
-        panelMouseClicked(p4, name4, price4, image4);
+        panelMouseClicked(p4, name4, price4, image4, productID);
     }//GEN-LAST:event_p4MouseClicked
 
     private void p5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p5MouseClicked
-        panelMouseClicked(p5, name5, price5, image5);
+        panelMouseClicked(p5, name5, price5, image5, productID);
     }//GEN-LAST:event_p5MouseClicked
 
     private void p6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p6MouseClicked
-        panelMouseClicked(p6, name6, price6, image6);
+        panelMouseClicked(p6, name6, price6, image6, productID);
     }//GEN-LAST:event_p6MouseClicked
 
     private void p7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p7MouseClicked
-        panelMouseClicked(p7, name7, price7, image7);
+        panelMouseClicked(p7, name7, price7, image7, productID);
     }//GEN-LAST:event_p7MouseClicked
 
     private void p8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p8MouseClicked
-        panelMouseClicked(p8, name8, price8, image8);
+        panelMouseClicked(p8, name8, price8, image8, productID);
     }//GEN-LAST:event_p8MouseClicked
 
     private void p9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p9MouseClicked
-        panelMouseClicked(p9, name9, price9, image9);
+        panelMouseClicked(p9, name9, price9, image9, productID);
     }//GEN-LAST:event_p9MouseClicked
 
     private void p10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p10MouseClicked
-        panelMouseClicked(p10, name10, price10, image10);
+        panelMouseClicked(p10, name10, price10, image10, productID);
     }//GEN-LAST:event_p10MouseClicked
 
     private void p11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p11MouseClicked
-        panelMouseClicked(p11, name11, price11, image11);
+        panelMouseClicked(p11, name11, price11, image11, productID);
     }//GEN-LAST:event_p11MouseClicked
 
     private void p12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p12MouseClicked
-        panelMouseClicked(p12, name12, price12, image12);
+        panelMouseClicked(p12, name12, price12, image12, productID);
     }//GEN-LAST:event_p12MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1221,6 +1227,7 @@ public class userDashboard extends javax.swing.JFrame {
 
     private void buyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buyActionPerformed
         int accountId = UserManager.getLoggedInUserId();
+        int id = productIDs.getProductID();
         String productName = labelname.getText();
         String buyPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
         int buyPrice = Integer.parseInt(buyPriceStr);
@@ -1231,10 +1238,10 @@ public class userDashboard extends javax.swing.JFrame {
             databaseConnector dbc = new databaseConnector();
 
             // Check if the purchase already exists for the given cart ID and product name
-            String checkPurchaseQuery = "SELECT * FROM purchase WHERE account_id = ? AND product_name = ?";
+            String checkPurchaseQuery = "SELECT * FROM purchase WHERE account_id = ? AND product_id = ?";
             PreparedStatement checkPurchaseStmt = dbc.getConnection().prepareStatement(checkPurchaseQuery);
             checkPurchaseStmt.setInt(1, accountId);
-            checkPurchaseStmt.setString(2, productName);
+            checkPurchaseStmt.setInt(2, id);
             ResultSet checkRs = checkPurchaseStmt.executeQuery();
 
             if (checkRs.next()) {
@@ -1243,13 +1250,13 @@ public class userDashboard extends javax.swing.JFrame {
                 int newQuant = existingQuant + buyQuant;
                 int existingTotalPrice = checkRs.getInt("total_price");
                 int newTotalPrice = existingTotalPrice + totalPrice;
-
-                String updateQuery = "UPDATE purchase SET total_quantity = ?, total_price = ? WHERE account_id = ? AND product_name = ?";
+                String updateQuery = "UPDATE purchase SET total_quantity = ?, total_price = ? WHERE account_id = ? AND product_id = ?";
                 PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
                 updateStmt.setInt(1, newQuant);
                 updateStmt.setInt(2, newTotalPrice);
                 updateStmt.setInt(3, accountId);
-                updateStmt.setString(4, productName);
+                updateStmt.setInt(4, id);
+
                 updateStmt.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Purchase updated successfully!");
@@ -1258,13 +1265,14 @@ public class userDashboard extends javax.swing.JFrame {
                 quantity.setValue(1);
                 return;
             } else {
-                String insertQuery = "INSERT INTO purchase (account_id, product_name, product_price, total_quantity, total_price, date_purchase) VALUES (?, ?, ?, ?, ?, NOW())";
+                String insertQuery = "INSERT INTO purchase (account_id, product_id, product_name, product_price, total_quantity, total_price, date_purchase) VALUES (?, ?, ?, ?, ?, ?, NOW())";
                 PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery);
                 insertStmt.setInt(1, accountId);
-                insertStmt.setString(2, productName);
-                insertStmt.setInt(3, buyPrice);
-                insertStmt.setInt(4, buyQuant);
-                insertStmt.setInt(5, totalPrice);
+                insertStmt.setInt(2, id);
+                insertStmt.setString(3, productName);
+                insertStmt.setInt(4, buyPrice);
+                insertStmt.setInt(5, buyQuant);
+                insertStmt.setInt(6, totalPrice);
 
                 insertStmt.executeUpdate();
 

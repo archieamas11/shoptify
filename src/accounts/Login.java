@@ -32,14 +32,16 @@ public class Login extends javax.swing.JFrame {
         // login.putClientProperty(FlatClientProperties.STYLE, "arc: 30");
     }
 
-    public static boolean loginAccount(String user, String pass, String role) {
+    public static boolean loginAccount(String user, String pass, String role, String stats) {
         databaseConnector connector = new databaseConnector();
 
         try {
-            String query = "SELECT account_id, password FROM accounts_table WHERE username = ? AND role = ?";
+            String query = "SELECT account_id, password FROM accounts_table WHERE username = ? AND role = ? AND status = ?";
             PreparedStatement statement = connector.getConnection().prepareStatement(query);
             statement.setString(1, user);
             statement.setString(2, role);
+            statement.setString(3, stats);
+
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 accountId = rs.getInt("account_id");
@@ -217,13 +219,13 @@ public class Login extends javax.swing.JFrame {
         if (user.equals("Username") || pass.equals("Password")) {
             JOptionPane.showMessageDialog(null, "Please Input both username and password!");
         } else {
-            if (loginAccount(user, pass, "Admin")) {
+            if (loginAccount(user, pass, "Admin", "Activated")) {
                 JOptionPane.showMessageDialog(null, "Admin Login Success!");
                 UserManager.setLoggedInUserId(accountId);
                 adminDashboard ads = new adminDashboard();
                 ads.setVisible(true);
                 this.dispose();
-            } else if (loginAccount(user, pass, "User")) {
+            } else if (loginAccount(user, pass, "User", "Activated")) {
                 JOptionPane.showMessageDialog(null, "User Login Success!");
                 UserManager.setLoggedInUserId(accountId);
                 userDashboard use = new userDashboard();

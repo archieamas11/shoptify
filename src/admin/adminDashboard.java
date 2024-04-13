@@ -610,7 +610,7 @@ public class adminDashboard extends javax.swing.JFrame {
             }
 
             try (InputStream is = new FileInputStream(selectedFile)) {
-                String insertQuery = "INSERT INTO `products`(`Product Name`, Price, Stock, Description, Status, image, date) VALUES (?, ?, ?, ?, ?, ? , CURDATE())";
+                String insertQuery = "INSERT INTO `products`(`Product Name`, Price, Stock, Description, Status, image, Date Created) VALUES (?, ?, ?, ?, ?, ? , CURDATE())";
                 PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
                 insertStmt.setString(1, valname);
                 insertStmt.setString(2, valprice);
