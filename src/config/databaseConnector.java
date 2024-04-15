@@ -40,4 +40,19 @@ public class databaseConnector {
             System.out.println("Error deleting data: " + e.getMessage());
         }
     }
+    
+    public void deleteCart(int id) {
+        try {
+            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM add2cart WHERE product_id = ?");
+            stmt.setInt(1, id);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error deleting data: " + e.getMessage());
+        }
+    }
 }
