@@ -43,7 +43,7 @@ public class databaseConnector {
     
     public void deleteCart(int id) {
         try {
-            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM add2cart WHERE product_id = ?");
+            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM add2cart WHERE cart_id = ?");
             stmt.setInt(1, id);
 
             stmt.executeUpdate();
@@ -54,5 +54,26 @@ public class databaseConnector {
         } catch (SQLException e) {
             System.out.println("Error deleting data: " + e.getMessage());
         }
+    }
+    
+      public int updateData(String sql) {
+        int num = 0;
+        try {
+
+            String query = sql;
+            PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement(query);
+            int rowsUpdated = pstmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Data updated successfully!");
+                num = 1;
+            } else {
+                System.out.println("Data update failed!");
+                num = 0;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return num;
     }
 }

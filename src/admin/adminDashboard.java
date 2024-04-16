@@ -10,6 +10,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,8 +34,13 @@ import net.proteanit.sql.DbUtils;
 
 public class adminDashboard extends javax.swing.JFrame {
 
-    String path = null;
-    File selectedFile = null;
+    public byte[] imageBytes;
+    File selectedFile;
+    String path;
+    String fileName = null;
+    String imgPath = null;
+    byte[] person_image = null;
+    public String action, reference;
 
     public adminDashboard() {
         initComponents();
@@ -65,6 +74,56 @@ public class adminDashboard extends javax.swing.JFrame {
             rs.close();
         } catch (Exception ex) {
             System.out.println("Errors: " + ex.getMessage());
+        }
+    }
+
+    public ImageIcon ResizeImage(String ImagePath, byte[] pic) {
+        ImageIcon MyImage = null;
+        if (ImagePath != null) {
+            MyImage = new ImageIcon(ImagePath);
+        } else {
+            MyImage = new ImageIcon(pic);
+        }
+        Image img = MyImage.getImage();
+        Image newImg = img.getScaledInstance(images.getWidth(), images.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImg);
+        return image;
+    }
+
+    public int FileExistenceChecker(String path) {
+        File file = new File(path);
+        String fileName = file.getName();
+
+        Path filePath = Paths.get("src/images", fileName);
+        boolean fileExists = Files.exists(filePath);
+
+        if (fileExists) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public void imageUpdater(String existingFilePath, String newFilePath) {
+        File existingFile = new File(existingFilePath);
+        if (existingFile.exists()) {
+            String parentDirectory = existingFile.getParent();
+            File newFile = new File(newFilePath);
+            String newFileName = newFile.getName();
+            File updatedFile = new File(parentDirectory, newFileName);
+            existingFile.delete();
+            try {
+                Files.copy(newFile.toPath(), updatedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                System.out.println("Image updated successfully.");
+            } catch (IOException e) {
+                System.out.println("Error occurred while updating the image: ");
+            }
+        } else {
+            try {
+                Files.copy(selectedFile.toPath(), new File(reference).toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                System.out.println("Error on update!");
+            }
         }
     }
 
@@ -112,7 +171,7 @@ public class adminDashboard extends javax.swing.JFrame {
         image_container = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        jButton16 = new javax.swing.JButton();
+        importt = new javax.swing.JButton();
         savebtn = new javax.swing.JButton();
         delete = new javax.swing.JButton();
         add = new javax.swing.JButton();
@@ -382,13 +441,13 @@ public class adminDashboard extends javax.swing.JFrame {
         });
         jPanel18.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, 30));
 
-        jButton16.setText("Import");
-        jButton16.addActionListener(new java.awt.event.ActionListener() {
+        importt.setText("Import");
+        importt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton16ActionPerformed(evt);
+                importtActionPerformed(evt);
             }
         });
-        jPanel18.add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 160, 120, 30));
+        jPanel18.add(importt, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 160, 120, 30));
 
         savebtn.setText("Save");
         savebtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1041,7 +1100,8 @@ public class adminDashboard extends javax.swing.JFrame {
 
     }//GEN-LAST:event_savebtnMouseClicked
 
-    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+    private void importtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importtActionPerformed
+
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter fnwf = new FileNameExtensionFilter("PNG JPG AND JPEG", "png", "jpeg", "jpg");
         fileChooser.addChoosableFileFilter(fnwf);
@@ -1056,8 +1116,7 @@ public class adminDashboard extends javax.swing.JFrame {
             Image img = ii.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             images.setIcon(new ImageIcon(img));
         }
-        System.out.println(path);
-    }//GEN-LAST:event_jButton16ActionPerformed
+    }//GEN-LAST:event_importtActionPerformed
 
     private void jLabel23CaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jLabel23CaretPositionChanged
         // TODO add your handling code here:
@@ -1136,8 +1195,8 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField id;
     private javax.swing.JTextField image_container;
     private javax.swing.JLabel images;
+    private javax.swing.JButton importt;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

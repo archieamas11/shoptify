@@ -39,7 +39,7 @@ public class userDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(jPanel12, 30);
         UXmethods.RoundBorders.setArcStyle(jPanel6, 30);
 
-        UXmethods.RoundBorders.setArcStyle(searchbtn2, 10);
+        UXmethods.RoundBorders.setArcStyle(deleteCart, 10);
         UXmethods.RoundBorders.setArcStyle(quantity_increase, 0);
         UXmethods.RoundBorders.setArcStyle(quantity_decrease, 0);
         UXmethods.RoundBorders.setArcStyle(txtNumber, 0);
@@ -63,7 +63,7 @@ public class userDashboard extends javax.swing.JFrame {
             int accountId = UserManager.getLoggedInUserId();
 
             databaseConnector dbc = new databaseConnector();
-            String query = "SELECT product_id, product_name, product_price, product_quantity, timestamp FROM add2cart WHERE account_id = ?";
+            String query = "SELECT cart_id, product_id, product_name, product_price, product_quantity, timestamp FROM add2cart WHERE account_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
             pst.setInt(1, accountId);
             ResultSet rs = pst.executeQuery();
@@ -125,8 +125,9 @@ public class userDashboard extends javax.swing.JFrame {
             label.setVisible(false);
         }
     }
+    private int quan = 1;
 
-    private void panelMouseClicked(JPanel panel, JLabel nameLabel, JLabel priceLabel, JLabel imageLabel, int productID) {
+    private void panelMouseClicked(JPanel panel, JLabel nameLabel, JLabel priceLabel, JLabel imageLabel, int productID, int stocks) {
         if (panel != null && imageLabel.getIcon() != null && nameLabel.getText() != null && !nameLabel.getText().isEmpty() && priceLabel.getText() != null && !priceLabel.getText().isEmpty()) {
             ImageIcon icon = (ImageIcon) imageLabel.getIcon();
             Image image = icon.getImage();
@@ -138,7 +139,7 @@ public class userDashboard extends javax.swing.JFrame {
 
             try {
                 databaseConnector dbc = new databaseConnector();
-                String query = "SELECT product_id, Description FROM products WHERE `Product Name` = ?";
+                String query = "SELECT product_id, Description, Stock FROM products WHERE `Product Name` = ?";
                 PreparedStatement statement = dbc.getConnection().prepareStatement(query);
                 statement.setString(1, nameLabel.getText());
 
@@ -147,6 +148,8 @@ public class userDashboard extends javax.swing.JFrame {
                     productID = rs.getInt("product_id");
                     String description = rs.getString("Description");
                     des.setText(description);
+                    stocks = rs.getInt("Stock");
+                    quan = stocks;
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -233,7 +236,9 @@ public class userDashboard extends javax.swing.JFrame {
         buy = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        quantity = new javax.swing.JSpinner();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        displayQuant = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         quantity_decrease = new javax.swing.JButton();
@@ -252,7 +257,7 @@ public class userDashboard extends javax.swing.JFrame {
         add = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         cart_table = new javax.swing.JTable();
-        searchbtn2 = new javax.swing.JButton();
+        deleteCart = new javax.swing.JButton();
         jSeparator11 = new javax.swing.JSeparator();
         myprofile = new javax.swing.JPanel();
         profile = new javax.swing.JLabel();
@@ -688,7 +693,7 @@ public class userDashboard extends javax.swing.JFrame {
         jScrollPane2.setViewportView(des);
 
         productInfo.add(jScrollPane2);
-        jScrollPane2.setBounds(620, 340, 360, 140);
+        jScrollPane2.setBounds(620, 380, 360, 140);
 
         cart.setText("Add to Cart");
         cart.addActionListener(new java.awt.event.ActionListener() {
@@ -717,11 +722,30 @@ public class userDashboard extends javax.swing.JFrame {
         productInfo.add(jLabel6);
         jLabel6.setBounds(620, 280, 60, 30);
 
-        quantity.setFocusCycleRoot(true);
-        quantity.setName(""); // NOI18N
-        quantity.setValue(1);
-        productInfo.add(quantity);
-        quantity.setBounds(620, 310, 50, 22);
+        jButton2.setFont(new java.awt.Font("Times New Roman", 0, 15)); // NOI18N
+        jButton2.setText("+");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        productInfo.add(jButton2);
+        jButton2.setBounds(680, 310, 30, 30);
+
+        jButton3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton3.setText("-");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        productInfo.add(jButton3);
+        jButton3.setBounds(620, 310, 30, 30);
+
+        displayQuant.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        displayQuant.setText("1");
+        productInfo.add(displayQuant);
+        displayQuant.setBounds(650, 310, 30, 30);
 
         tabs.addTab("tab3", productInfo);
 
@@ -768,6 +792,11 @@ public class userDashboard extends javax.swing.JFrame {
         checkout.setBackground(new java.awt.Color(0, 158, 226));
         checkout.setForeground(new java.awt.Color(255, 255, 255));
         checkout.setText("Checkout");
+        checkout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkoutActionPerformed(evt);
+            }
+        });
         jPanel6.add(checkout, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 500, 300, 40));
 
         jLabel7.setForeground(new java.awt.Color(102, 102, 102));
@@ -822,15 +851,15 @@ public class userDashboard extends javax.swing.JFrame {
 
         jPanel12.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 630, 450));
 
-        searchbtn2.setBackground(new java.awt.Color(255, 51, 51));
-        searchbtn2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-delete-24.png"))); // NOI18N
-        searchbtn2.setBorder(null);
-        searchbtn2.addActionListener(new java.awt.event.ActionListener() {
+        deleteCart.setBackground(new java.awt.Color(255, 51, 51));
+        deleteCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-delete-24.png"))); // NOI18N
+        deleteCart.setBorder(null);
+        deleteCart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchbtn2ActionPerformed(evt);
+                deleteCartActionPerformed(evt);
             }
         });
-        jPanel12.add(searchbtn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, 50, 40));
+        jPanel12.add(deleteCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, 50, 40));
 
         jPanel4.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 710, 570));
         jPanel4.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 1080, 20));
@@ -1194,15 +1223,15 @@ public class userDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_nextMouseClicked
 
     private void p1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p1MouseClicked
-        panelMouseClicked(p1, name1, price1, image1, productID);
+        panelMouseClicked(p1, name1, price1, image1, productID, quan);
     }//GEN-LAST:event_p1MouseClicked
 
     private void p3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p3MouseClicked
-        panelMouseClicked(p3, name3, price3, image3, productID);
+        panelMouseClicked(p3, name3, price3, image3, productID, quan);
      }//GEN-LAST:event_p3MouseClicked
 
     private void p2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p2MouseClicked
-        panelMouseClicked(p2, name2, price2, image2, productID);
+        panelMouseClicked(p2, name2, price2, image2, productID, quan);
     }//GEN-LAST:event_p2MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
@@ -1215,7 +1244,8 @@ public class userDashboard extends javax.swing.JFrame {
         String productName = labelname.getText();
         String cartPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
         int cartPrice = Integer.parseInt(cartPriceStr);
-        int cartQuant = (int) quantity.getValue();
+        String displayQuantStr = displayQuant.getText();
+        int cartQuant = Integer.parseInt(displayQuantStr);
 
         if (accountId == -1) {
             JOptionPane.showMessageDialog(null, "Please log in to add item to cart");
@@ -1247,7 +1277,6 @@ public class userDashboard extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
                 displayCart();
                 tabs.setSelectedIndex(0);
-                quantity.setValue(1);
 
                 return;
             } else {
@@ -1263,9 +1292,10 @@ public class userDashboard extends javax.swing.JFrame {
                 insertStmt.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
             }
+            num = 1;
+            displayQuant.setText(String.valueOf(num));
             displayCart();
             tabs.setSelectedIndex(0);
-            quantity.setValue(1);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error executing SQL query: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println("SQLException: " + e.getMessage());
@@ -1287,39 +1317,39 @@ public class userDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void p4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p4MouseClicked
-        panelMouseClicked(p4, name4, price4, image4, productID);
+        panelMouseClicked(p4, name4, price4, image4, productID, quan);
     }//GEN-LAST:event_p4MouseClicked
 
     private void p5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p5MouseClicked
-        panelMouseClicked(p5, name5, price5, image5, productID);
+        panelMouseClicked(p5, name5, price5, image5, productID, stock);
     }//GEN-LAST:event_p5MouseClicked
 
     private void p6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p6MouseClicked
-        panelMouseClicked(p6, name6, price6, image6, productID);
+        panelMouseClicked(p6, name6, price6, image6, productID, quan);
     }//GEN-LAST:event_p6MouseClicked
 
     private void p7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p7MouseClicked
-        panelMouseClicked(p7, name7, price7, image7, productID);
+        panelMouseClicked(p7, name7, price7, image7, productID, quan);
     }//GEN-LAST:event_p7MouseClicked
 
     private void p8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p8MouseClicked
-        panelMouseClicked(p8, name8, price8, image8, productID);
+        panelMouseClicked(p8, name8, price8, image8, productID, quan);
     }//GEN-LAST:event_p8MouseClicked
 
     private void p9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p9MouseClicked
-        panelMouseClicked(p9, name9, price9, image9, productID);
+        panelMouseClicked(p9, name9, price9, image9, productID, quan);
     }//GEN-LAST:event_p9MouseClicked
 
     private void p10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p10MouseClicked
-        panelMouseClicked(p10, name10, price10, image10, productID);
+        panelMouseClicked(p10, name10, price10, image10, productID, quan);
     }//GEN-LAST:event_p10MouseClicked
 
     private void p11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p11MouseClicked
-        panelMouseClicked(p11, name11, price11, image11, productID);
+        panelMouseClicked(p11, name11, price11, image11, productID, quan);
     }//GEN-LAST:event_p11MouseClicked
 
     private void p12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p12MouseClicked
-        panelMouseClicked(p12, name12, price12, image12, productID);
+        panelMouseClicked(p12, name12, price12, image12, productID, quan);
     }//GEN-LAST:event_p12MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -1365,7 +1395,9 @@ public class userDashboard extends javax.swing.JFrame {
         String productName = labelname.getText();
         String buyPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
         int buyPrice = Integer.parseInt(buyPriceStr);
-        int buyQuant = (int) quantity.getValue();
+        String buyQuantStr = displayQuant.getText();
+        int buyQuant = Integer.parseInt(buyQuantStr);
+
         int totalPrice = buyPrice * buyQuant;
 
         try {
@@ -1424,9 +1456,10 @@ public class userDashboard extends javax.swing.JFrame {
                 // Update stock and status if necessary
                 updateStockAndStatus(dbc, id, currentStock - buyQuant, currentStatus);
             }
+            num = 1;
+            displayQuant.setText(String.valueOf(num));
             displayUserProducts();
             tabs.setSelectedIndex(0);
-            quantity.setValue(1);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error executing SQL query: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             System.out.println("SQLException: " + e.getMessage());
@@ -1513,14 +1546,14 @@ public class userDashboard extends javax.swing.JFrame {
         total = tblQuant * tblPrice;
         tamount.setText(String.valueOf(total));
     }
-
+    private int cart_id;
     private void cart_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cart_tableMouseClicked
         int rowIndex = cart_table.getSelectedRow();
         TableModel model = cart_table.getModel();
 
-        String tblQuantStr = model.getValueAt(rowIndex, 3).toString();
-        String tblName = model.getValueAt(rowIndex, 1).toString();
-        String tblPriceStr = model.getValueAt(rowIndex, 2).toString();
+        String tblQuantStr = model.getValueAt(rowIndex, 4).toString();
+        String tblName = model.getValueAt(rowIndex, 2).toString();
+        String tblPriceStr = model.getValueAt(rowIndex, 3).toString();
 
         tblPrice = Integer.parseInt(tblPriceStr);
 
@@ -1530,7 +1563,8 @@ public class userDashboard extends javax.swing.JFrame {
 
         updateTotal();
 
-        int product_id = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+        int product_id = Integer.parseInt(model.getValueAt(rowIndex, 1).toString());
+        cart_id = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
 
         try {
             databaseConnector dbc = new databaseConnector();
@@ -1563,7 +1597,7 @@ public class userDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cart_tableMouseClicked
 
-    private void searchbtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbtn2ActionPerformed
+    private void deleteCartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCartActionPerformed
         int rowIndex = cart_table.getSelectedRow();
         if (rowIndex < 0) {
             JOptionPane.showMessageDialog(null, "Please select a product first");
@@ -1575,10 +1609,122 @@ public class userDashboard extends javax.swing.JFrame {
             if (a == JOptionPane.YES_OPTION) {
                 databaseConnector dbc = new databaseConnector();
                 dbc.deleteCart(Integer.parseInt(id));
+                num = 1;
+                displayQuant.setText(String.valueOf(num));
+                total = 0;
+                tamount.setText(String.valueOf(total));
+                name.setText("");
+                photo.setIcon(null);
                 displayCart();
             }
         }
-    }//GEN-LAST:event_searchbtn2ActionPerformed
+    }//GEN-LAST:event_deleteCartActionPerformed
+    private int num = 1;
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        if (num < quan) {
+            num++;
+            displayQuant.setText(String.valueOf(num));
+        } else {
+            JOptionPane.showMessageDialog(null, "Insufficient stock. Available stock: " + quan);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        if (num > 1) {
+            num--;
+            displayQuant.setText(String.valueOf(num));
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutActionPerformed
+        int accountId = UserManager.getLoggedInUserId();
+        int id = productIDs.getProductID();
+        String productName = labelname.getText();
+        String buyPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
+        int buyPrice = Integer.parseInt(buyPriceStr);
+        String buyQuantStr = txtNumber.getText();
+        int buyQuant = Integer.parseInt(buyQuantStr);
+
+        try {
+            databaseConnector dbc = new databaseConnector();
+
+            // Fetch current stock and status of the product
+            String fetchProductQuery = "SELECT stock, status FROM products WHERE product_id = ?";
+            PreparedStatement fetchProductStmt = dbc.getConnection().prepareStatement(fetchProductQuery);
+            fetchProductStmt.setInt(1, id);
+            ResultSet fetchRs = fetchProductStmt.executeQuery();
+            if (!fetchRs.next()) {
+                JOptionPane.showMessageDialog(null, "Product not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            int currentStock = fetchRs.getInt("stock");
+            String currentStatus = fetchRs.getString("status");
+
+            // Check if the purchase already exists for the given cart ID and product name
+            String checkPurchaseQuery = "SELECT * FROM purchase WHERE account_id = ? AND product_id = ?";
+            PreparedStatement checkPurchaseStmt = dbc.getConnection().prepareStatement(checkPurchaseQuery);
+            checkPurchaseStmt.setInt(1, accountId);
+            checkPurchaseStmt.setInt(2, id);
+            ResultSet checkRs = checkPurchaseStmt.executeQuery();
+
+            if (checkRs.next()) {
+                // If purchase exists, update total_quantity and total_price
+
+                int existingQuant = checkRs.getInt("total_quantity");
+                int newQuant = existingQuant + buyQuant;
+                int existingTotalPrice = checkRs.getInt("total_price");
+                int newTotalPrice = existingTotalPrice + total;
+
+                if (newQuant > stock) {
+                    JOptionPane.showMessageDialog(null, "Insufficient stock. Available stock: " + stock);
+                } else {
+                    String updateQuery = "UPDATE purchase SET total_quantity = ?, total_price = ? WHERE account_id = ? AND product_id = ?";
+                    PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
+                    updateStmt.setInt(1, newQuant);
+                    updateStmt.setInt(2, newTotalPrice);
+                    updateStmt.setInt(3, accountId);
+                    updateStmt.setInt(4, id);
+                    updateStmt.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Purchase updated successfully!");
+                    updateStockAndStatus(dbc, id, currentStock - buyQuant, currentStatus);
+                }
+            } else {
+                String insertQuery = "INSERT INTO purchase (account_id, product_id, product_name, product_price, total_quantity, total_price, date_purchase) VALUES (?, ?, ?, ?, ?, ?, NOW())";
+                PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery);
+                insertStmt.setInt(1, accountId);
+                insertStmt.setInt(2, id);
+                insertStmt.setString(3, productName);
+                insertStmt.setInt(4, buyPrice);
+                insertStmt.setInt(5, buyQuant);
+                insertStmt.setInt(6, total);
+
+                if (buyQuant > stock) {
+                    JOptionPane.showMessageDialog(null, "nsufficient stock. Available stock: " + stock);
+                } else {
+                    insertStmt.executeUpdate();
+                }
+                JOptionPane.showMessageDialog(null, "Purchase added successfully!");
+                // Update stock and status if necessary
+                updateStockAndStatus(dbc, id, currentStock - buyQuant, currentStatus);
+            }
+
+            dbc.deleteCart(cart_id);
+            System.out.println(cart_id);
+            num = 1;
+            displayQuant.setText(String.valueOf(num));
+            total = 0;
+            tamount.setText(String.valueOf(total));
+            displayUserProducts();
+            tabs.setSelectedIndex(0);
+
+            name.setText("");
+            photo.setIcon(null);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error executing SQL query: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("SQLException: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_checkoutActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -1604,7 +1750,9 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JButton checkout;
     private javax.swing.JPanel container;
     private javax.swing.JComboBox<String> day;
+    private javax.swing.JButton deleteCart;
     private javax.swing.JEditorPane des;
+    private javax.swing.JTextField displayQuant;
     private javax.swing.JLabel edit;
     private javax.swing.JLabel edit1;
     private javax.swing.JTextField email;
@@ -1632,6 +1780,8 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel image9;
     private javax.swing.JLabel image_view;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1746,7 +1896,6 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel profile1;
     private javax.swing.JPanel profile2;
     private javax.swing.JTable purchase_table;
-    private javax.swing.JSpinner quantity;
     private javax.swing.JButton quantity_decrease;
     private javax.swing.JButton quantity_increase;
     private javax.swing.JButton savebtn;
@@ -1754,7 +1903,6 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField search;
     private javax.swing.JTextField search1;
     private javax.swing.JButton searchbtn1;
-    private javax.swing.JButton searchbtn2;
     private javax.swing.JButton searchbtn3;
     private javax.swing.JButton searchbtn4;
     private javax.swing.JButton searchbtn5;
