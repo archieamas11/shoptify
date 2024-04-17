@@ -142,9 +142,6 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel15 = new javax.swing.JPanel();
         p1 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jLabel13 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -196,12 +193,13 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-administrator-male-100.png"))); // NOI18N
-        jLabel6.setText("jLabel6");
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 50, 100, -1));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-administrator-male-100.png"))); // NOI18N
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 250, -1));
 
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Admin");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, -1));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 250, -1));
 
         logout.setBackground(new java.awt.Color(255, 51, 51));
         logout.setForeground(new java.awt.Color(255, 255, 255));
@@ -257,8 +255,9 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 190, 40));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setText("ADMINISTRATOR");
-        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 40));
+        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 250, 40));
 
         jPanel5.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 720));
 
@@ -540,19 +539,6 @@ public class adminDashboard extends javax.swing.JFrame {
 
         jPanel15.add(p1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 200, 200));
 
-        jButton5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-edit-24.png"))); // NOI18N
-        jPanel15.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 90, 38));
-
-        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-edit-24.png"))); // NOI18N
-        jPanel15.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, 90, 38));
-
-        jLabel13.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel13.setText("Not available");
-        jLabel13.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel15.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 200, 170, 30));
-
         jScrollPane1.setViewportView(jPanel15);
 
         s.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 910, 579));
@@ -706,7 +692,6 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel14.setText("File extension: .JPEG, .PNG ");
         jPanel14.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 400, -1, -1));
 
-        jButton3.setText("jButton3");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -992,7 +977,6 @@ public class adminDashboard extends javax.swing.JFrame {
                 ImageIcon icon = new ImageIcon(resizedImage);
                 displayPhoto.setIcon(icon);
 
-                // Save the image file to the src/images directory
                 String imageName = selectedFile.getName();
                 String imagePath = "src/images/" + imageName;
                 File destination = new File(imagePath);
@@ -1085,14 +1069,11 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
