@@ -2,6 +2,7 @@ package admin;
 
 import accounts.Login;
 import com.formdev.flatlaf.FlatLightLaf;
+import config.GetImage;
 import config.databaseConnector;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -33,14 +34,6 @@ import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
 public class adminDashboard extends javax.swing.JFrame {
-
-    public byte[] imageBytes;
-    File selectedFile;
-    String path;
-    String fileName = null;
-    String imgPath = null;
-    byte[] person_image = null;
-    public String action, reference;
 
     public adminDashboard() {
         initComponents();
@@ -77,56 +70,6 @@ public class adminDashboard extends javax.swing.JFrame {
         }
     }
 
-    public ImageIcon ResizeImage(String ImagePath, byte[] pic) {
-        ImageIcon MyImage = null;
-        if (ImagePath != null) {
-            MyImage = new ImageIcon(ImagePath);
-        } else {
-            MyImage = new ImageIcon(pic);
-        }
-        Image img = MyImage.getImage();
-        Image newImg = img.getScaledInstance(images.getWidth(), images.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon image = new ImageIcon(newImg);
-        return image;
-    }
-
-    public int FileExistenceChecker(String path) {
-        File file = new File(path);
-        String fileName = file.getName();
-
-        Path filePath = Paths.get("src/images", fileName);
-        boolean fileExists = Files.exists(filePath);
-
-        if (fileExists) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    public void imageUpdater(String existingFilePath, String newFilePath) {
-        File existingFile = new File(existingFilePath);
-        if (existingFile.exists()) {
-            String parentDirectory = existingFile.getParent();
-            File newFile = new File(newFilePath);
-            String newFileName = newFile.getName();
-            File updatedFile = new File(parentDirectory, newFileName);
-            existingFile.delete();
-            try {
-                Files.copy(newFile.toPath(), updatedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                System.out.println("Image updated successfully.");
-            } catch (IOException e) {
-                System.out.println("Error occurred while updating the image: ");
-            }
-        } else {
-            try {
-                Files.copy(selectedFile.toPath(), new File(reference).toPath(), StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                System.out.println("Error on update!");
-            }
-        }
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -149,15 +92,12 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         total_orders = new javax.swing.JLabel();
         jPanel13 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         total_products = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         total_sales = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -167,7 +107,7 @@ public class adminDashboard extends javax.swing.JFrame {
         product_table = new javax.swing.JTable();
         jPanel18 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
-        images = new javax.swing.JLabel();
+        displayPhoto = new javax.swing.JLabel();
         image_container = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
@@ -210,11 +150,6 @@ public class adminDashboard extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         accounts_table = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
-        search = new javax.swing.JTextField();
-        searchbtn1 = new javax.swing.JButton();
-        searchbtn3 = new javax.swing.JButton();
-        searchbtn2 = new javax.swing.JButton();
-        searchbtn4 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         manage5 = new javax.swing.JLabel();
@@ -332,7 +267,7 @@ public class adminDashboard extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 10));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 20));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -344,9 +279,6 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setText("Total Orders");
         jPanel16.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, -1, 30));
-
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buy-48.png"))); // NOI18N
-        jPanel16.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         total_orders.setText("total_orders");
         jPanel16.add(total_orders, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, -1, -1));
@@ -360,9 +292,6 @@ public class adminDashboard extends javax.swing.JFrame {
 
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-products-48.png"))); // NOI18N
-        jPanel12.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
-
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel12.setText("Total Products");
         jPanel12.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, -1, 30));
@@ -373,9 +302,6 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel6.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 80, 290, 80));
 
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-sales-48.png"))); // NOI18N
-        jPanel10.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel8.setText("Total Sales");
@@ -423,8 +349,8 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel21.setText("Product Name");
         jPanel18.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, 30));
 
-        images.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel18.add(images, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 120, 110));
+        displayPhoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel18.add(displayPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 120, 110));
         jPanel18.add(image_container, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 120, 110));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -450,11 +376,6 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel18.add(importt, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 160, 120, 30));
 
         savebtn.setText("Save");
-        savebtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                savebtnMouseClicked(evt);
-            }
-        });
         savebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 savebtnActionPerformed(evt);
@@ -551,22 +472,22 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel8.add(search2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 300, 40));
 
         searchbtn5.setBackground(new java.awt.Color(0, 158, 226));
-        searchbtn5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
+        searchbtn5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-24.png"))); // NOI18N
         searchbtn5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
         jPanel8.add(searchbtn5, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 10, 60, 40));
 
         searchbtn6.setBackground(new java.awt.Color(102, 102, 102));
-        searchbtn6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/edi-icon-24.png"))); // NOI18N
+        searchbtn6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/edi-icon-24.png"))); // NOI18N
         searchbtn6.setBorder(null);
         jPanel8.add(searchbtn6, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 60, 40));
 
         searchbtn7.setBackground(new java.awt.Color(122, 183, 147));
-        searchbtn7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-plus-24.png"))); // NOI18N
+        searchbtn7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-plus-24.png"))); // NOI18N
         searchbtn7.setBorder(null);
         jPanel8.add(searchbtn7, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 10, 60, 40));
 
         searchbtn8.setBackground(new java.awt.Color(255, 51, 51));
-        searchbtn8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-delete-24.png"))); // NOI18N
+        searchbtn8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-delete-24.png"))); // NOI18N
         searchbtn8.setBorder(null);
         jPanel8.add(searchbtn8, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, 60, 40));
 
@@ -671,35 +592,6 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel16.setForeground(new java.awt.Color(0, 158, 226));
         jLabel16.setText("Buyer's Account");
         jPanel4.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, 40));
-
-        search.setForeground(new java.awt.Color(102, 102, 102));
-        search.setText("  Search");
-        jPanel4.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 300, 40));
-
-        searchbtn1.setBackground(new java.awt.Color(0, 158, 226));
-        searchbtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
-        searchbtn1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
-        jPanel4.add(searchbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 10, 60, 40));
-
-        searchbtn3.setBackground(new java.awt.Color(122, 183, 147));
-        searchbtn3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-plus-24.png"))); // NOI18N
-        searchbtn3.setBorder(null);
-        jPanel4.add(searchbtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 10, 60, 40));
-
-        searchbtn2.setBackground(new java.awt.Color(255, 51, 51));
-        searchbtn2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-delete-24.png"))); // NOI18N
-        searchbtn2.setBorder(null);
-        jPanel4.add(searchbtn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, 60, 40));
-
-        searchbtn4.setBackground(new java.awt.Color(102, 102, 102));
-        searchbtn4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/edi-icon-24.png"))); // NOI18N
-        searchbtn4.setBorder(null);
-        searchbtn4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchbtn4ActionPerformed(evt);
-            }
-        });
-        jPanel4.add(searchbtn4, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 60, 40));
 
         tabs.addTab("tab5", jPanel4);
 
@@ -915,6 +807,7 @@ public class adminDashboard extends javax.swing.JFrame {
                 ResultSet rs = dbc.getData("SELECT * FROM products WHERE product_id =" + model.getValueAt(rowIndex, 0));
 
                 if (rs.next()) {
+
                     id.setText("" + rs.getString("product_id"));
                     name.setText("" + rs.getString("Product Name"));
                     price.setText("" + rs.getString("Price"));
@@ -922,14 +815,10 @@ public class adminDashboard extends javax.swing.JFrame {
                     description.setText(rs.getString("Description"));
                     status.setSelectedItem(rs.getString("Status"));
 
-                    Blob imageBlob = rs.getBlob("image");
-                    if (imageBlob != null) {
-                        InputStream imageStream = imageBlob.getBinaryStream();
-                        BufferedImage bufferedImage = ImageIO.read(imageStream);
-                        Image scaledImage = bufferedImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-                        ImageIcon imageIcon = new ImageIcon(scaledImage);
-                        images.setIcon(imageIcon);
-                    }
+                    int height = 120;
+                    int width = 110;
+                    String getImageFromDatabase = rs.getString("ImagePath");
+                    GetImage.displayImage(displayPhoto, getImageFromDatabase, height, width);
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
@@ -949,20 +838,22 @@ public class adminDashboard extends javax.swing.JFrame {
     private void jLabel24CaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jLabel24CaretPositionChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel24CaretPositionChanged
-
+    String fileName;
+    String imagePath;
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         String valname = name.getText();
         String valprice = price.getText();
         String valstocks = stocks.getText();
         String valdes = description.getText();
-
         String valstats = (String) status.getSelectedItem();
 
         if (valname.isEmpty() || valprice.isEmpty() || valstocks.isEmpty() || selectedFile == null || !selectedFile.exists()) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields and select an image.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        File selectedFile = new File(path);
+
+        fileName = selectedFile.getName();
+        imagePath = "src/images/" + fileName;
 
         try {
             databaseConnector dbc = new databaseConnector();
@@ -974,52 +865,32 @@ public class adminDashboard extends javax.swing.JFrame {
             rs.next();
             int count = rs.getInt(1);
             if (count > 0) {
-                JOptionPane.showMessageDialog(null, "Product already exists.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Product already exist!");
                 return;
             }
 
-            try (InputStream is = new FileInputStream(selectedFile)) {
-                String insertQuery = "INSERT INTO `products`(`Product Name`, Price, Stock, Description, Status, image, Date Created) VALUES (?, ?, ?, ?, ?, ? , CURDATE())";
-                PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
+            String insertQuery = "INSERT INTO `products`(`Product Name`, `Price`, `Stock`, `Description`, `Status`, `ImagePath`, `Date Created`) VALUES (?, ?, ?, ?, ?, ?, CURDATE())";
+            try (PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
                 insertStmt.setString(1, valname);
                 insertStmt.setString(2, valprice);
                 insertStmt.setString(3, valstocks);
                 insertStmt.setString(4, valdes);
                 insertStmt.setString(5, valstats);
-                insertStmt.setBlob(6, is);
-
+                insertStmt.setString(6, imagePath);
                 insertStmt.executeUpdate();
-
-                ResultSet generatedKeys = insertStmt.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    int productId = generatedKeys.getInt(1);
-
-                    DefaultTableModel model = (DefaultTableModel) product_table.getModel();
-                    model.addRow(new Object[]{productId, valname, valprice, valstocks, valdes, valstats});
-                } else {
-                    JOptionPane.showMessageDialog(null, "Failed to retrieve product ID.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
             }
-            JOptionPane.showMessageDialog(null, "Product Added");
+            JOptionPane.showMessageDialog(null, "Product added successfully!");
             id.setText("");
             name.setText("");
             price.setText("");
             stocks.setText("");
             status.setSelectedIndex(0);
             description.setText("");
+            displayPhoto.setIcon(null);
             displayData();
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error executing SQL query: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println("SQLException: " + e.getMessage());
-            e.printStackTrace();
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error reading image file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println("IOException: " + e.getMessage());
-            e.printStackTrace();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error adding product: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println("Exception: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "error adding product!" + e.getMessage());
             e.printStackTrace();
         }
     }//GEN-LAST:event_addActionPerformed
@@ -1044,51 +915,57 @@ public class adminDashboard extends javax.swing.JFrame {
     private void savebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savebtnActionPerformed
         try {
             databaseConnector dbc = new databaseConnector();
-            PreparedStatement pst;
             String sql;
+            String productName = name.getText();
+            String productPrice = price.getText();
+            String productStocks = stocks.getText();
+            String productDescription = description.getText();
+            String productStatus = (String) status.getSelectedItem();
+            String productId = id.getText();
 
-            if (path != null) {
-                File selectedFile = new File(path);
+            if (selectedFile != null) {
+                fileName = selectedFile.getName();
+                imagePath = "src/images/" + fileName;
 
-                if (selectedFile.exists()) {
-                    BufferedInputStream bis = new BufferedInputStream(new FileInputStream(selectedFile));
+                sql = "UPDATE products SET `Product Name`=?, Price=?, Stock=?, Description=?, ImagePath=?, Status=? WHERE product_id=?";
+                try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
+                    pst.setString(1, productName);
+                    pst.setString(2, productPrice);
+                    pst.setString(3, productStocks);
+                    pst.setString(4, productDescription);
+                    pst.setString(5, imagePath);
+                    pst.setString(6, productStatus);
+                    pst.setString(7, productId);
 
-                    sql = "UPDATE products SET `Product Name`=?, Price=?, Stock=?, Description=?, image=?, Status=? WHERE product_id=?";
-                    pst = dbc.getConnection().prepareStatement(sql);
-                    pst.setString(1, name.getText());
-                    pst.setString(2, price.getText());
-                    pst.setString(3, stocks.getText());
-                    pst.setString(4, description.getText());
-                    pst.setBinaryStream(5, bis, (int) selectedFile.length());
-                    pst.setString(6, (String) status.getSelectedItem());
-                    pst.setString(7, id.getText());
+                    int rowsUpdated = pst.executeUpdate();
 
-                    bis.close();
-                } else {
-                    JOptionPane.showMessageDialog(null, "File not found at the specified path: " + path);
-                    return;
+                    if (rowsUpdated > 0) {
+                        JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
+                        displayData();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Failed to update data!");
+                    }
                 }
             } else {
                 sql = "UPDATE products SET `Product Name`=?, Price=?, Stock=?, Description=?, Status=? WHERE product_id=?";
-                pst = dbc.getConnection().prepareStatement(sql);
-                pst.setString(1, name.getText());
-                pst.setString(2, price.getText());
-                pst.setString(3, stocks.getText());
-                pst.setString(4, description.getText());
-                pst.setString(5, (String) status.getSelectedItem());
-                pst.setString(6, id.getText());
+                try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
+                    pst.setString(1, productName);
+                    pst.setString(2, productPrice);
+                    pst.setString(3, productStocks);
+                    pst.setString(4, productDescription);
+                    pst.setString(5, productStatus);
+                    pst.setString(6, productId);
 
+                    int rowsUpdated = pst.executeUpdate();
+
+                    if (rowsUpdated > 0) {
+                        JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
+                        displayData();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Failed to update data!");
+                    }
+                }
             }
-
-            int rowsUpdated = pst.executeUpdate();
-
-            if (rowsUpdated > 0) {
-                JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
-                displayData();
-            } else {
-                JOptionPane.showMessageDialog(null, "Failed to update data!");
-            }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
             System.out.println(e.getMessage());
@@ -1096,25 +973,38 @@ public class adminDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_savebtnActionPerformed
 
-    private void savebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_savebtnMouseClicked
-
-    }//GEN-LAST:event_savebtnMouseClicked
+    File selectedFile;
 
     private void importtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importtActionPerformed
-
         JFileChooser fileChooser = new JFileChooser();
-        FileNameExtensionFilter fnwf = new FileNameExtensionFilter("PNG JPG AND JPEG", "png", "jpeg", "jpg");
-        fileChooser.addChoosableFileFilter(fnwf);
-        int load = fileChooser.showOpenDialog(null);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "jpeg", "png", "gif");
+        fileChooser.setFileFilter(filter);
 
-        if (load == fileChooser.APPROVE_OPTION) {
+        int result = fileChooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
             selectedFile = fileChooser.getSelectedFile();
-            //reference = "src/images/" + selectedFile.getName();
-            path = selectedFile.getAbsolutePath();
 
-            ImageIcon ii = new ImageIcon(path);
-            Image img = ii.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-            images.setIcon(new ImageIcon(img));
+            try {
+                BufferedImage originalImage = ImageIO.read(selectedFile);
+
+                Image resizedImage = originalImage.getScaledInstance(120, 110, Image.SCALE_SMOOTH);
+                ImageIcon icon = new ImageIcon(resizedImage);
+                displayPhoto.setIcon(icon);
+
+                // Save the image file to the src/images directory
+                String imageName = selectedFile.getName();
+                String imagePath = "src/images/" + imageName;
+                File destination = new File(imagePath);
+                Files.copy(selectedFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                // Update the selectedFile to point to the new location
+                selectedFile = destination;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error reading image file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_importtActionPerformed
 
@@ -1129,10 +1019,6 @@ public class adminDashboard extends javax.swing.JFrame {
     private void accounts_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accounts_tableMouseClicked
 
     }//GEN-LAST:event_accounts_tableMouseClicked
-
-    private void searchbtn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbtn4ActionPerformed
-        tabs.setSelectedIndex(5);
-    }//GEN-LAST:event_searchbtn4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
 
@@ -1189,12 +1075,12 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton dashboard;
     private javax.swing.JButton delete;
     private javax.swing.JEditorPane description;
+    private javax.swing.JLabel displayPhoto;
     private javax.swing.JButton editbtn;
     private javax.swing.JRadioButton female;
     private javax.swing.JButton graphs;
     private javax.swing.JTextField id;
     private javax.swing.JTextField image_container;
-    private javax.swing.JLabel images;
     private javax.swing.JButton importt;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -1205,7 +1091,6 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -1220,12 +1105,10 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1285,12 +1168,7 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JTable product_table;
     private javax.swing.JPanel s;
     private javax.swing.JButton savebtn;
-    private javax.swing.JTextField search;
     private javax.swing.JTextField search2;
-    private javax.swing.JButton searchbtn1;
-    private javax.swing.JButton searchbtn2;
-    private javax.swing.JButton searchbtn3;
-    private javax.swing.JButton searchbtn4;
     private javax.swing.JButton searchbtn5;
     private javax.swing.JButton searchbtn6;
     private javax.swing.JButton searchbtn7;

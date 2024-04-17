@@ -4,12 +4,9 @@ import accounts.Login;
 import accounts.UserManager;
 import accounts.frontPage;
 import com.formdev.flatlaf.FlatLightLaf;
+import config.GetImage;
 import config.databaseConnector;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,18 +29,14 @@ public class userDashboard extends javax.swing.JFrame {
         initComponents();
         displayUserProducts();
         displayCart();
-        //jPanel12.setBackground(new Color(242, 242, 242));
+        displayPurchase();
 
         //Panels
-        UXmethods.RoundBorders.setArcStyle(jPanel12, 30);
-        UXmethods.RoundBorders.setArcStyle(jPanel6, 30);
+        UXmethods.RoundBorders.setArcStyle(cartTableContainer, 30);
+        UXmethods.RoundBorders.setArcStyle(cartViewContainer, 30);
 
         UXmethods.RoundBorders.setArcStyle(deleteCart, 10);
-        UXmethods.RoundBorders.setArcStyle(quantity_increase, 0);
-        UXmethods.RoundBorders.setArcStyle(quantity_decrease, 0);
-        UXmethods.RoundBorders.setArcStyle(txtNumber, 0);
 
-        UXmethods.RoundBorders.setArcStyle(photo, 15);
         UXmethods.RoundBorders.setArcStyle(container, 30);
 
         UXmethods.RoundBorders.setArcStyle(checkout, 30);
@@ -75,11 +67,29 @@ public class userDashboard extends javax.swing.JFrame {
         }
     }
 
+    public void displayPurchase() {
+
+        try {
+            int accountId = UserManager.getLoggedInUserId();
+
+            databaseConnector dbc = new databaseConnector();
+            String query = "SELECT transaction_id, product_id, product_name, product_price, total_quantity, total_price, date_purchase FROM purchase WHERE account_id = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setInt(1, accountId);
+            ResultSet rs = pst.executeQuery();
+            purchase_table.setModel(DbUtils.resultSetToTableModel(rs));
+            rs.close();
+            pst.close();
+        } catch (Exception ex) {
+            System.out.println("Errors: " + ex.getMessage());
+        }
+    }
+
     private void displayUserProducts() {
         try {
             databaseConnector dbc = new databaseConnector();
             Connection connection = dbc.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT `image`, `Product Name`, `Price` FROM products WHERE Status = ? AND Stock > 0");
+            PreparedStatement statement = connection.prepareStatement("SELECT `ImagePath`, `Product Name`, `Price` FROM products WHERE Status = ? AND Stock > 0");
             statement.setString(1, "Available");
             ResultSet rs = statement.executeQuery();
 
@@ -89,23 +99,18 @@ public class userDashboard extends javax.swing.JFrame {
 
             int productCounter = 0;
             while (rs.next() && productCounter < imageLabels.length) {
-                Blob imageBlob = rs.getBlob("image");
-                InputStream imageStream = imageBlob.getBinaryStream();
-                try {
-                    BufferedImage bufferedImage = ImageIO.read(imageStream);
-                    Image scaledImage = bufferedImage.getScaledInstance(210, 200, Image.SCALE_SMOOTH);
-                    ImageIcon imageIcon = new ImageIcon(scaledImage);
-                    String productName = rs.getString("Product Name");
-                    int productPrice = rs.getInt("Price");
 
-                    imageLabels[productCounter].setIcon(imageIcon);
-                    nameLabels[productCounter].setText(productName);
-                    priceLabels[productCounter].setText("₱   " + productPrice);
+                int height = 150;
+                int width = 150;
+                String getImageFromDatabase = rs.getString("ImagePath");
 
-                    productCounter++;
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                String productName = rs.getString("Product Name");
+                int productPrice = rs.getInt("Price");
+                GetImage.displayImage(imageLabels[productCounter], getImageFromDatabase, height, width);
+                nameLabels[productCounter].setText(productName);
+                priceLabels[productCounter].setText("₱   " + productPrice);
+
+                productCounter++;
             }
 
             for (int i = productCounter; i < imageLabels.length; i++) {
@@ -129,11 +134,13 @@ public class userDashboard extends javax.swing.JFrame {
 
     private void panelMouseClicked(JPanel panel, JLabel nameLabel, JLabel priceLabel, JLabel imageLabel, int productID, int stocks) {
         if (panel != null && imageLabel.getIcon() != null && nameLabel.getText() != null && !nameLabel.getText().isEmpty() && priceLabel.getText() != null && !priceLabel.getText().isEmpty()) {
+
             ImageIcon icon = (ImageIcon) imageLabel.getIcon();
             Image image = icon.getImage();
             Image scaledImage = image.getScaledInstance(330, 330, Image.SCALE_SMOOTH);
             ImageIcon selectedImage = new ImageIcon(scaledImage);
-            atay.setIcon(selectedImage);
+            bigPhoto.setIcon(selectedImage);
+
             labelname.setText(nameLabel.getText());
             labelprice.setText(priceLabel.getText());
 
@@ -227,7 +234,7 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         productInfo = new javax.swing.JPanel();
-        atay = new javax.swing.JLabel();
+        bigPhoto = new javax.swing.JLabel();
         labelname = new javax.swing.JLabel();
         labelprice = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -240,7 +247,7 @@ public class userDashboard extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         displayQuant = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        cartViewContainer = new javax.swing.JPanel();
         quantity_decrease = new javax.swing.JButton();
         quantity_increase = new javax.swing.JButton();
         txtNumber = new javax.swing.JTextField();
@@ -250,8 +257,8 @@ public class userDashboard extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         container = new javax.swing.JPanel();
         name = new javax.swing.JLabel();
-        photo = new javax.swing.JButton();
-        jPanel12 = new javax.swing.JPanel();
+        photo = new javax.swing.JLabel();
+        cartTableContainer = new javax.swing.JPanel();
         searchbtn1 = new javax.swing.JButton();
         search = new javax.swing.JTextField();
         add = new javax.swing.JButton();
@@ -669,8 +676,8 @@ public class userDashboard extends javax.swing.JFrame {
 
         productInfo.setBackground(new java.awt.Color(255, 255, 255));
         productInfo.setLayout(null);
-        productInfo.add(atay);
-        atay.setBounds(240, 150, 330, 330);
+        productInfo.add(bigPhoto);
+        bigPhoto.setBounds(240, 150, 330, 330);
 
         labelname.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         labelname.setText("label");
@@ -693,7 +700,7 @@ public class userDashboard extends javax.swing.JFrame {
         jScrollPane2.setViewportView(des);
 
         productInfo.add(jScrollPane2);
-        jScrollPane2.setBounds(620, 380, 360, 140);
+        jScrollPane2.setBounds(620, 380, 360, 100);
 
         cart.setText("Add to Cart");
         cart.addActionListener(new java.awt.event.ActionListener() {
@@ -752,8 +759,8 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel6.setToolTipText("");
-        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        cartViewContainer.setToolTipText("");
+        cartViewContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         quantity_decrease.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         quantity_decrease.setText("-");
@@ -762,7 +769,7 @@ public class userDashboard extends javax.swing.JFrame {
                 quantity_decreaseActionPerformed(evt);
             }
         });
-        jPanel6.add(quantity_decrease, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 40, 40));
+        cartViewContainer.add(quantity_decrease, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 40, 40));
 
         quantity_increase.setFont(new java.awt.Font("Times New Roman", 1, 15)); // NOI18N
         quantity_increase.setText("+");
@@ -771,23 +778,23 @@ public class userDashboard extends javax.swing.JFrame {
                 quantity_increaseActionPerformed(evt);
             }
         });
-        jPanel6.add(quantity_increase, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 40, 40));
+        cartViewContainer.add(quantity_increase, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 340, 40, 40));
 
         txtNumber.setBackground(new java.awt.Color(242, 242, 242));
         txtNumber.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
         txtNumber.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtNumber.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jPanel6.add(txtNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, 70, 40));
+        cartViewContainer.add(txtNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, 70, 40));
 
         tamount.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         tamount.setForeground(new java.awt.Color(0, 158, 226));
         tamount.setText("49000");
-        jPanel6.add(tamount, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 450, -1, 40));
+        cartViewContainer.add(tamount, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 450, -1, 40));
 
         sc2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         sc2.setForeground(new java.awt.Color(102, 102, 102));
         sc2.setText("Total:");
-        jPanel6.add(sc2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, -1, 40));
+        cartViewContainer.add(sc2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, -1, 40));
 
         checkout.setBackground(new java.awt.Color(0, 158, 226));
         checkout.setForeground(new java.awt.Color(255, 255, 255));
@@ -797,11 +804,11 @@ public class userDashboard extends javax.swing.JFrame {
                 checkoutActionPerformed(evt);
             }
         });
-        jPanel6.add(checkout, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 500, 300, 40));
+        cartViewContainer.add(checkout, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 500, 300, 40));
 
         jLabel7.setForeground(new java.awt.Color(102, 102, 102));
         jLabel7.setText("Quanity");
-        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, -1, -1));
+        cartViewContainer.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, -1, -1));
 
         container.setBackground(new java.awt.Color(204, 204, 204));
         container.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -810,29 +817,26 @@ public class userDashboard extends javax.swing.JFrame {
         name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         name.setText("Samsung Galaxy Oten");
         name.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        container.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 200, 250, 40));
+        container.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 250, 50));
+        container.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 240, 200));
 
-        photo.setBackground(new java.awt.Color(153, 153, 153));
-        photo.setBorder(null);
-        container.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 240, 170));
+        cartViewContainer.add(container, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 280, 260));
 
-        jPanel6.add(container, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 280, 260));
+        jPanel4.add(cartViewContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 40, 360, 570));
 
-        jPanel4.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 40, 360, 570));
-
-        jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        cartTableContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         searchbtn1.setBackground(new java.awt.Color(0, 158, 226));
         searchbtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
         searchbtn1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
-        jPanel12.add(searchbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 60, 40));
-        jPanel12.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 250, 40));
+        cartTableContainer.add(searchbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 60, 40));
+        cartTableContainer.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 250, 40));
 
         add.setBackground(new java.awt.Color(0, 158, 226));
         add.setForeground(new java.awt.Color(255, 255, 255));
         add.setText("Add new Items");
         add.setBorder(null);
-        jPanel12.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 30, 120, 40));
+        cartTableContainer.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 120, 40));
 
         cart_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -849,7 +853,7 @@ public class userDashboard extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(cart_table);
 
-        jPanel12.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 630, 450));
+        cartTableContainer.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 650, 450));
 
         deleteCart.setBackground(new java.awt.Color(255, 51, 51));
         deleteCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-delete-24.png"))); // NOI18N
@@ -859,10 +863,10 @@ public class userDashboard extends javax.swing.JFrame {
                 deleteCartActionPerformed(evt);
             }
         });
-        jPanel12.add(deleteCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 30, 50, 40));
+        cartTableContainer.add(deleteCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 30, 50, 40));
 
-        jPanel4.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 710, 570));
-        jPanel4.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, 1080, 20));
+        jPanel4.add(cartTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 710, 570));
+        jPanel4.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 1100, 20));
 
         tabs.addTab("tab4", jPanel4);
 
@@ -1053,7 +1057,7 @@ public class userDashboard extends javax.swing.JFrame {
         searchbtn3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
         searchbtn3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
         jPanel7.add(searchbtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 60, 60, 40));
-        jPanel7.add(search1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 60, 300, 40));
+        jPanel7.add(search1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 60, 300, 40));
 
         searchbtn4.setBackground(new java.awt.Color(102, 102, 102));
         searchbtn4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/edi-icon-24.png"))); // NOI18N
@@ -1458,6 +1462,7 @@ public class userDashboard extends javax.swing.JFrame {
             }
             num = 1;
             displayQuant.setText(String.valueOf(num));
+            displayPurchase();
             displayUserProducts();
             tabs.setSelectedIndex(0);
         } catch (SQLException e) {
@@ -1568,21 +1573,17 @@ public class userDashboard extends javax.swing.JFrame {
 
         try {
             databaseConnector dbc = new databaseConnector();
-            String query = "SELECT Stock, image FROM products WHERE product_id = ?";
+            String query = "SELECT Stock, ImagePath FROM products WHERE product_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
             pst.setInt(1, product_id);
             ResultSet rs = pst.executeQuery();
 
             if (rs.next()) {
                 stock = rs.getInt("Stock");
-                Blob imageBlob = rs.getBlob("image");
-                if (imageBlob != null) {
-                    InputStream imageStream = imageBlob.getBinaryStream();
-                    BufferedImage bufferedImage = ImageIO.read(imageStream);
-                    Image scaledImage = bufferedImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-                    ImageIcon imageIcon = new ImageIcon(scaledImage);
-                    photo.setIcon(imageIcon);
-                }
+                int height = 240;
+                int width = 200;
+                String getImageFromDatabase = rs.getString("ImagePath");
+                GetImage.displayImage(photo, getImageFromDatabase, height, width);
             } else {
                 JOptionPane.showMessageDialog(null, "No stock found for product_id: " + product_id);
             }
@@ -1714,6 +1715,7 @@ public class userDashboard extends javax.swing.JFrame {
             displayQuant.setText(String.valueOf(num));
             total = 0;
             tamount.setText(String.valueOf(total));
+            displayPurchase();
             displayUserProducts();
             tabs.setSelectedIndex(0);
 
@@ -1743,9 +1745,11 @@ public class userDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
-    private javax.swing.JLabel atay;
+    private javax.swing.JLabel bigPhoto;
     private javax.swing.JButton buy;
     private javax.swing.JButton cart;
+    private javax.swing.JPanel cartTableContainer;
+    private javax.swing.JPanel cartViewContainer;
     private javax.swing.JTable cart_table;
     private javax.swing.JButton checkout;
     private javax.swing.JPanel container;
@@ -1799,12 +1803,10 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
@@ -1878,7 +1880,7 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel p7;
     private javax.swing.JPanel p8;
     private javax.swing.JPanel p9;
-    private javax.swing.JButton photo;
+    private javax.swing.JLabel photo;
     private javax.swing.JLabel price1;
     private javax.swing.JLabel price10;
     private javax.swing.JLabel price11;

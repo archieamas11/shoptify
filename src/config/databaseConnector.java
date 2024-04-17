@@ -28,7 +28,7 @@ public class databaseConnector {
 
     public void deleteProduct(int id) {
         try {
-            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM products WHERE p_id = ?");
+            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM products WHERE product_id = ?");
             stmt.setInt(1, id);
 
             stmt.executeUpdate();
