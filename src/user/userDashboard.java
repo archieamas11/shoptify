@@ -6,7 +6,11 @@ import accounts.frontPage;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.databaseConnector;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +18,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -40,8 +45,74 @@ public class userDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(container, 30);
 
         UXmethods.RoundBorders.setArcStyle(checkout, 30);
+
+        //Animations
+        //customizeJPanel(p1);
+        
     }
 
+    /////////////////////////////////////
+    private static class BounceEffect {
+
+        private final javax.swing.Timer timer;
+        private final Component component;
+        private final int originalY;
+
+        public BounceEffect(Component component) {
+            this.component = component;
+            this.originalY = component.getLocation().y;
+            timer = new javax.swing.Timer(10, (ActionEvent e) -> {
+                bounce();
+            });
+        }
+
+        public void startBounce() {
+            if (!timer.isRunning()) {
+                timer.start();
+            }
+        }
+
+        public void stopBounce() {
+            if (timer.isRunning()) {
+                timer.stop();
+                resetPosition();
+            }
+        }
+
+        private void bounce() {
+            int newY = component.getLocation().y + 2;
+            component.setLocation(component.getLocation().x, newY);
+
+            if (newY >= originalY + 10) {
+                timer.stop();
+                resetPosition();
+            }
+        }
+
+        private void resetPosition() {
+            component.setLocation(component.getLocation().x, originalY);
+        }
+    }
+
+    private void customizeJPanel(JPanel panel) {
+        panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        userDashboard.BounceEffect bounceEffect = new userDashboard.BounceEffect(panel);
+        panel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                bounceEffect.startBounce();
+                panel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                bounceEffect.stopBounce();
+                panel.setBorder(BorderFactory.createEmptyBorder());
+            }
+        });
+    }
+
+    //////////////////////////////////////
     private String selectedGender = "";
     public static int productID;
 
@@ -87,6 +158,7 @@ public class userDashboard extends javax.swing.JFrame {
 
     private void displayUserProducts() {
         try {
+            
             databaseConnector dbc = new databaseConnector();
             Connection connection = dbc.getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT `ImagePath`, `Product Name`, `Price` FROM products WHERE Status = ? AND Stock > 0");
@@ -100,8 +172,8 @@ public class userDashboard extends javax.swing.JFrame {
             int productCounter = 0;
             while (rs.next() && productCounter < imageLabels.length) {
 
-                int height = 150;
-                int width = 150;
+                int height = 210;
+                int width = 120;
                 String getImageFromDatabase = rs.getString("ImagePath");
 
                 String productName = rs.getString("Product Name");
@@ -400,7 +472,7 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(null);
 
-        p1.setBackground(new java.awt.Color(255, 255, 255));
+        p1.setBackground(new java.awt.Color(204, 204, 204));
         p1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p1MouseClicked(evt);

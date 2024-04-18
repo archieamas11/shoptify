@@ -148,7 +148,7 @@ public class Login extends javax.swing.JFrame {
         username.setForeground(new java.awt.Color(153, 153, 153));
         username.setText("Username");
         username.setToolTipText("");
-        username.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+        username.setBorder(null);
         username.setDisabledTextColor(new java.awt.Color(153, 153, 153));
         username.setName(""); // NOI18N
         username.setSelectedTextColor(new java.awt.Color(0, 0, 255));

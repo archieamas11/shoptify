@@ -47,8 +47,12 @@ public class frontPage extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        arti = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -63,7 +67,7 @@ public class frontPage extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Get Started");
-        frontPageContainer.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 420, 30));
+        frontPageContainer.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 420, 50));
 
         loginbtn.setBackground(new java.awt.Color(0, 158, 226));
         loginbtn.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -88,38 +92,60 @@ public class frontPage extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(214, 214, 214));
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-buying-94.png"))); // NOI18N
         jLabel1.setOpaque(true);
-        frontPageContainer.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 540, 40, -1));
+        frontPageContainer.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 540, 420, -1));
 
         jPanel2.add(frontPageContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 50, 420, 620));
 
-        jLabel2.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel2.setForeground(new java.awt.Color(102, 102, 102));
         jLabel2.setText("essentials to exquisite jewelry, Shoptify has it all.");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 470, 580, 20));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 158, 226));
-        jLabel3.setText("Welcome to Shoptify");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 490, 60));
+        jLabel3.setText("SHOPTIFY");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 220, 250, 60));
 
-        jLabel6.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel6.setForeground(new java.awt.Color(102, 102, 102));
         jLabel6.setText("Discover a world of endless possibilities as you explore our vast collection of products, carefully curated to ");
         jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 430, 580, 20));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 158, 226));
-        jLabel7.setText("Your Ultimate Destination ");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, -1, -1));
+        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel7.setText("Shopping ");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 280, -1, -1));
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 158, 226));
-        jLabel8.setText("for Shopping!  ");
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, -1, -1));
-
-        jLabel9.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel9.setForeground(new java.awt.Color(102, 102, 102));
         jLabel9.setText("cater to your every need and desire. From fashion-forward apparel to cutting-edge gadgets, from home ");
         jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 450, 580, 20));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel5.setText("WELCOME TO");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 330, 60));
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel10.setText("Your ");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 280, -1, -1));
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 158, 226));
+        jLabel11.setText("Destination!");
+        jPanel2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, -1, -1));
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel12.setText("Ultimate");
+        jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, -1, -1));
+
+        arti.setForeground(new java.awt.Color(255, 255, 255));
+        arti.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        arti.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Add a heading (1).gif"))); // NOI18N
+        arti.setFocusable(false);
+        jPanel2.add(arti, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -166,14 +192,18 @@ public class frontPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel arti;
     private javax.swing.JPanel frontPageContainer;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton loginbtn;
