@@ -1,24 +1,19 @@
 package admin;
 
 import accounts.Login;
+import static accounts.Login.accountId;
+import accounts.UserManager;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.databaseConnector;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +24,6 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -147,12 +141,17 @@ public class adminDashboard extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         accounts_table = new javax.swing.JTable();
         jLabel16 = new javax.swing.JLabel();
+        searchbtn9 = new javax.swing.JButton();
+        edit = new javax.swing.JButton();
+        searchbtn11 = new javax.swing.JButton();
+        searchbtn12 = new javax.swing.JButton();
+        search3 = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jPanel14 = new javax.swing.JPanel();
         manage5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        fname = new javax.swing.JTextField();
+        lname = new javax.swing.JTextField();
+        address = new javax.swing.JTextField();
         manage6 = new javax.swing.JLabel();
         male = new javax.swing.JRadioButton();
         female = new javax.swing.JRadioButton();
@@ -161,26 +160,27 @@ public class adminDashboard extends javax.swing.JFrame {
         myprofile1 = new javax.swing.JLabel();
         manage1 = new javax.swing.JLabel();
         manage8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        stats = new javax.swing.JComboBox<>();
+        role = new javax.swing.JComboBox<>();
         manage9 = new javax.swing.JLabel();
         manage10 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        submit = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
-        select = new javax.swing.JButton();
+        selectFile = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jTextField4 = new javax.swing.JTextField();
+        username = new javax.swing.JTextField();
         manage11 = new javax.swing.JLabel();
         manage12 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        date = new javax.swing.JTextField();
         manage13 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        ID = new javax.swing.JTextField();
         jSeparator7 = new javax.swing.JSeparator();
         jSeparator4 = new javax.swing.JSeparator();
         manage14 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
+        jPanel20 = new javax.swing.JPanel();
+        display = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -266,7 +266,7 @@ public class adminDashboard extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 20));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 10));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -562,11 +562,6 @@ public class adminDashboard extends javax.swing.JFrame {
 
             }
         ));
-        accounts_table.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                accounts_tableMouseClicked(evt);
-            }
-        });
         jScrollPane6.setViewportView(accounts_table);
 
         jPanel19.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 890, 530));
@@ -579,6 +574,35 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel16.setText("Buyer's Account");
         jPanel4.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, 40));
 
+        searchbtn9.setBackground(new java.awt.Color(0, 158, 226));
+        searchbtn9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-24.png"))); // NOI18N
+        searchbtn9.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
+        jPanel4.add(searchbtn9, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 10, 60, 40));
+
+        edit.setBackground(new java.awt.Color(102, 102, 102));
+        edit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/edi-icon-24.png"))); // NOI18N
+        edit.setBorder(null);
+        edit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editActionPerformed(evt);
+            }
+        });
+        jPanel4.add(edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 60, 40));
+
+        searchbtn11.setBackground(new java.awt.Color(122, 183, 147));
+        searchbtn11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-plus-24.png"))); // NOI18N
+        searchbtn11.setBorder(null);
+        jPanel4.add(searchbtn11, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 10, 60, 40));
+
+        searchbtn12.setBackground(new java.awt.Color(255, 51, 51));
+        searchbtn12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-delete-24.png"))); // NOI18N
+        searchbtn12.setBorder(null);
+        jPanel4.add(searchbtn12, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, 60, 40));
+
+        search3.setForeground(new java.awt.Color(102, 102, 102));
+        search3.setText("  Search");
+        jPanel4.add(search3, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 300, 40));
+
         tabs.addTab("tab5", jPanel4);
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
@@ -590,9 +614,9 @@ public class adminDashboard extends javax.swing.JFrame {
         manage5.setForeground(new java.awt.Color(102, 102, 102));
         manage5.setText("Address");
         jPanel14.add(manage5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, -1, 30));
-        jPanel14.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 120, 40));
-        jPanel14.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 310, 120, 40));
-        jPanel14.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 250, 40));
+        jPanel14.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 120, 40));
+        jPanel14.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 310, 120, 40));
+        jPanel14.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 250, 40));
 
         manage6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage6.setForeground(new java.awt.Color(102, 102, 102));
@@ -651,11 +675,11 @@ public class adminDashboard extends javax.swing.JFrame {
         manage8.setText("First Name");
         jPanel14.add(manage8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, -1, 30));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activated", "Inactive", "Pending" }));
-        jPanel14.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 310, 240, 40));
+        stats.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activated", "Inactive", "Pending" }));
+        jPanel14.add(stats, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 310, 240, 40));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Buyer", "Seller" }));
-        jPanel14.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 240, 40));
+        role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
+        jPanel14.add(role, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 240, 40));
 
         manage9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage9.setForeground(new java.awt.Color(102, 102, 102));
@@ -667,20 +691,19 @@ public class adminDashboard extends javax.swing.JFrame {
         manage10.setText("Role");
         jPanel14.add(manage10, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 210, -1, 30));
 
-        jButton2.setBackground(new java.awt.Color(0, 158, 226));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Save");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        submit.setBackground(new java.awt.Color(0, 158, 226));
+        submit.setForeground(new java.awt.Color(255, 255, 255));
+        submit.setText("Save");
+        submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                submitActionPerformed(evt);
             }
         });
-        jPanel14.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 250, 40));
+        jPanel14.add(submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 250, 40));
         jPanel14.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 830, 20));
 
-        select.setText("Select Image");
-        select.setEnabled(false);
-        jPanel14.add(select, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 340, 120, 30));
+        selectFile.setText("Select Image");
+        jPanel14.add(selectFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 340, 120, 30));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(153, 153, 153));
@@ -692,15 +715,8 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel14.setText("File extension: .JPEG, .PNG ");
         jPanel14.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 400, -1, -1));
 
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel14.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 210, 120, 110));
-
-        jTextField4.setEditable(false);
-        jPanel14.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 250, 40));
+        username.setEditable(false);
+        jPanel14.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 250, 40));
 
         manage11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage11.setForeground(new java.awt.Color(102, 102, 102));
@@ -711,15 +727,15 @@ public class adminDashboard extends javax.swing.JFrame {
         manage12.setForeground(new java.awt.Color(102, 102, 102));
         manage12.setText("Email");
         jPanel14.add(manage12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, 30));
-        jPanel14.add(jTextField5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 380, 250, 40));
+        jPanel14.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 380, 250, 40));
 
         manage13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage13.setForeground(new java.awt.Color(102, 102, 102));
         manage13.setText("Buyer ID");
         jPanel14.add(manage13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, 30));
 
-        jTextField6.setEditable(false);
-        jPanel14.add(jTextField6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 250, 40));
+        ID.setEditable(false);
+        jPanel14.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 250, 40));
 
         jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel14.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 110, 30, 420));
@@ -729,7 +745,20 @@ public class adminDashboard extends javax.swing.JFrame {
         manage14.setForeground(new java.awt.Color(102, 102, 102));
         manage14.setText("Status");
         jPanel14.add(manage14, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 280, -1, 30));
-        jPanel14.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 250, 40));
+        jPanel14.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 250, 40));
+
+        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
+        jPanel20.setLayout(jPanel20Layout);
+        jPanel20Layout.setHorizontalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(display, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+        );
+        jPanel20Layout.setVerticalGroup(
+            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(display, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+        );
+
+        jPanel14.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 210, 120, 110));
 
         jPanel11.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 920, 590));
 
@@ -826,6 +855,8 @@ public class adminDashboard extends javax.swing.JFrame {
     String fileName;
     String imagePath;
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
+        UserManager.setLoggedInUserId(accountId);
+        int adminID = accountId;
         String valname = name.getText();
         String valprice = price.getText();
         String valstocks = stocks.getText();
@@ -854,14 +885,15 @@ public class adminDashboard extends javax.swing.JFrame {
                 return;
             }
 
-            String insertQuery = "INSERT INTO `products`(`Product Name`, `Price`, `Stock`, `Description`, `Status`, `ImagePath`, `Date Created`) VALUES (?, ?, ?, ?, ?, ?, CURDATE())";
+            String insertQuery = "INSERT INTO `products`(`account_id`, `Product Name`, `Price`, `Stock`, `Description`, `Status`, `ImagePath`, `Date Created`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE())";
             try (PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
-                insertStmt.setString(1, valname);
-                insertStmt.setString(2, valprice);
-                insertStmt.setString(3, valstocks);
-                insertStmt.setString(4, valdes);
-                insertStmt.setString(5, valstats);
-                insertStmt.setString(6, imagePath);
+                insertStmt.setInt(1, adminID);
+                insertStmt.setString(2, valname);
+                insertStmt.setString(3, valprice);
+                insertStmt.setString(4, valstocks);
+                insertStmt.setString(5, valdes);
+                insertStmt.setString(6, valstats);
+                insertStmt.setString(7, imagePath);
                 insertStmt.executeUpdate();
             }
             JOptionPane.showMessageDialog(null, "Product added successfully!");
@@ -1000,17 +1032,33 @@ public class adminDashboard extends javax.swing.JFrame {
         tabs.setSelectedIndex(4);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void accounts_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accounts_tableMouseClicked
+    private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
+        try {
+            databaseConnector dbc = new databaseConnector();
+            String accountStatus = (String) stats.getSelectedItem();
+            String accountRole = (String) role.getSelectedItem();
 
-    }//GEN-LAST:event_accounts_tableMouseClicked
+            String sql = "UPDATE accounts_table SET role=?, status=?";
+            try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
+                pst.setString(1, accountRole);
+                pst.setString(2, accountStatus);
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+                int rowsUpdated = pst.executeUpdate();
 
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
+                    tabs.setSelectedIndex(4);
+                    displayAccounts();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failed to update data!");
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_submitActionPerformed
 
     private void otherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_otherMouseClicked
         male.setSelected(false);
@@ -1037,6 +1085,40 @@ public class adminDashboard extends javax.swing.JFrame {
         String gender = "Male";
     }//GEN-LAST:event_maleMouseClicked
 
+    private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
+        tabs.setSelectedIndex(5);
+
+        int rowIndex = accounts_table.getSelectedRow();
+
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please Select an Item!");
+        } else {
+            TableModel model = accounts_table.getModel();
+            try {
+                databaseConnector dbc = new databaseConnector();
+                ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE account_id =" + model.getValueAt(rowIndex, 0));
+                if (rs.next()) {
+                    ID.setText("" + rs.getString("account_id"));
+                    fname.setText("" + rs.getString("fname"));
+                    lname.setText("" + rs.getString("lname"));
+                    email.setText("" + rs.getString("email"));
+                    address.setText(rs.getString("address"));
+                    username.setText(rs.getString("username"));
+                    role.setSelectedItem(rs.getString("role"));
+                    int height = 120;
+                    int width = 110;
+                    String getImageFromDatabase = rs.getString("profile_picture");
+                    GetImage.displayImage(display, getImageFromDatabase, height, width);
+                    date.setText(rs.getString("date joined"));
+                    stats.setSelectedItem(rs.getString("status"));
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
+                System.out.println(e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_editActionPerformed
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -1054,23 +1136,26 @@ public class adminDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField ID;
     private javax.swing.JTable accounts_table;
     private javax.swing.JButton add;
+    private javax.swing.JTextField address;
     private javax.swing.JButton dashboard;
+    private javax.swing.JTextField date;
     private javax.swing.JButton delete;
     private javax.swing.JEditorPane description;
+    private javax.swing.JLabel display;
     private javax.swing.JLabel displayPhoto;
+    private javax.swing.JButton edit;
     private javax.swing.JButton editbtn;
+    private javax.swing.JTextField email;
     private javax.swing.JRadioButton female;
+    private javax.swing.JTextField fname;
     private javax.swing.JButton graphs;
     private javax.swing.JTextField id;
     private javax.swing.JTextField image_container;
     private javax.swing.JButton importt;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -1102,6 +1187,7 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -1118,13 +1204,7 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
+    private javax.swing.JTextField lname;
     private javax.swing.JButton logout;
     private javax.swing.JRadioButton male;
     private javax.swing.JButton manage;
@@ -1147,19 +1227,27 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel p_image;
     private javax.swing.JTextField price;
     private javax.swing.JTable product_table;
+    private javax.swing.JComboBox<String> role;
     private javax.swing.JPanel s;
     private javax.swing.JButton savebtn;
     private javax.swing.JTextField search2;
+    private javax.swing.JTextField search3;
+    private javax.swing.JButton searchbtn11;
+    private javax.swing.JButton searchbtn12;
     private javax.swing.JButton searchbtn5;
     private javax.swing.JButton searchbtn6;
     private javax.swing.JButton searchbtn7;
     private javax.swing.JButton searchbtn8;
-    private javax.swing.JButton select;
+    private javax.swing.JButton searchbtn9;
+    private javax.swing.JButton selectFile;
+    private javax.swing.JComboBox<String> stats;
     private javax.swing.JComboBox<String> status;
     private javax.swing.JTextField stocks;
+    private javax.swing.JButton submit;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JLabel total_orders;
     private javax.swing.JLabel total_products;
     private javax.swing.JLabel total_sales;
+    private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }

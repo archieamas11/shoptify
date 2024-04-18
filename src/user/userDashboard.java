@@ -6,11 +6,7 @@ import accounts.frontPage;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.databaseConnector;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,7 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -39,77 +34,14 @@ public class userDashboard extends javax.swing.JFrame {
         //Panels
         UXmethods.RoundBorders.setArcStyle(cartTableContainer, 30);
         UXmethods.RoundBorders.setArcStyle(cartViewContainer, 30);
-
         UXmethods.RoundBorders.setArcStyle(deleteCart, 10);
-
         UXmethods.RoundBorders.setArcStyle(container, 30);
-
         UXmethods.RoundBorders.setArcStyle(checkout, 30);
+        UXmethods.RoundBorders.setArcStyle(add, 10);
+        UXmethods.RoundBorders.setArcStyle(searchbtn1, 10);
 
         //Animations
         //customizeJPanel(p1);
-        
-    }
-
-    /////////////////////////////////////
-    private static class BounceEffect {
-
-        private final javax.swing.Timer timer;
-        private final Component component;
-        private final int originalY;
-
-        public BounceEffect(Component component) {
-            this.component = component;
-            this.originalY = component.getLocation().y;
-            timer = new javax.swing.Timer(10, (ActionEvent e) -> {
-                bounce();
-            });
-        }
-
-        public void startBounce() {
-            if (!timer.isRunning()) {
-                timer.start();
-            }
-        }
-
-        public void stopBounce() {
-            if (timer.isRunning()) {
-                timer.stop();
-                resetPosition();
-            }
-        }
-
-        private void bounce() {
-            int newY = component.getLocation().y + 2;
-            component.setLocation(component.getLocation().x, newY);
-
-            if (newY >= originalY + 10) {
-                timer.stop();
-                resetPosition();
-            }
-        }
-
-        private void resetPosition() {
-            component.setLocation(component.getLocation().x, originalY);
-        }
-    }
-
-    private void customizeJPanel(JPanel panel) {
-        panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        userDashboard.BounceEffect bounceEffect = new userDashboard.BounceEffect(panel);
-        panel.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                bounceEffect.startBounce();
-                panel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
-            }
-
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                bounceEffect.stopBounce();
-                panel.setBorder(BorderFactory.createEmptyBorder());
-            }
-        });
     }
 
     //////////////////////////////////////
@@ -144,7 +76,7 @@ public class userDashboard extends javax.swing.JFrame {
             int accountId = UserManager.getLoggedInUserId();
 
             databaseConnector dbc = new databaseConnector();
-            String query = "SELECT transaction_id, product_id, product_name, product_price, total_quantity, total_price, date_purchase FROM purchase WHERE account_id = ?";
+            String query = "SELECT transaction_id, account_id, product_id, product_name, product_price, total_quantity, total_price, date_purchase FROM purchase WHERE account_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
             pst.setInt(1, accountId);
             ResultSet rs = pst.executeQuery();
@@ -158,7 +90,7 @@ public class userDashboard extends javax.swing.JFrame {
 
     private void displayUserProducts() {
         try {
-            
+
             databaseConnector dbc = new databaseConnector();
             Connection connection = dbc.getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT `ImagePath`, `Product Name`, `Price` FROM products WHERE Status = ? AND Stock > 0");
@@ -304,7 +236,7 @@ public class userDashboard extends javax.swing.JFrame {
         next = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        back = new javax.swing.JLabel();
         productInfo = new javax.swing.JPanel();
         bigPhoto = new javax.swing.JLabel();
         labelname = new javax.swing.JLabel();
@@ -347,8 +279,6 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         image_view = new javax.swing.JLabel();
         select = new javax.swing.JButton();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
         manage1 = new javax.swing.JLabel();
         manage2 = new javax.swing.JLabel();
@@ -370,7 +300,6 @@ public class userDashboard extends javax.swing.JFrame {
         myprofile1 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
-        jSeparator4 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         logout = new javax.swing.JLabel();
         myprofile2 = new javax.swing.JLabel();
@@ -379,13 +308,6 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         purchase_table = new javax.swing.JTable();
-        searchbtn3 = new javax.swing.JButton();
-        search1 = new javax.swing.JTextField();
-        searchbtn4 = new javax.swing.JButton();
-        searchbtn5 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jSeparator10 = new javax.swing.JSeparator();
-        home2 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         profile2 = new javax.swing.JPanel();
@@ -424,7 +346,7 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/purchase.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/purchase.png"))); // NOI18N
         jLabel1.setText("My Purchases");
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -434,7 +356,7 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 10, -1, 40));
 
         myCart.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        myCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/cart.png"))); // NOI18N
+        myCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cart.png"))); // NOI18N
         myCart.setText("My Cart");
         myCart.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -444,7 +366,7 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel2.add(myCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 10, -1, 40));
 
         jLabel3.setFont(getFont());
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/myProfile.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/myProfile.png"))); // NOI18N
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel3MouseClicked(evt);
@@ -465,14 +387,14 @@ public class userDashboard extends javax.swing.JFrame {
         jLabel2.setText("HOME");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 20, -1, 20));
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 40));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 60));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(null);
 
-        p1.setBackground(new java.awt.Color(204, 204, 204));
+        p1.setBackground(new java.awt.Color(255, 255, 255));
         p1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p1MouseClicked(evt);
@@ -721,7 +643,7 @@ public class userDashboard extends javax.swing.JFrame {
         jPanel1.add(p12);
         p12.setBounds(850, 430, 210, 180);
 
-        next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/next_right.png"))); // NOI18N
+        next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/next_right.png"))); // NOI18N
         next.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 nextMouseClicked(evt);
@@ -736,13 +658,13 @@ public class userDashboard extends javax.swing.JFrame {
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/back.png"))); // NOI18N
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/back.png"))); // NOI18N
+        back.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                backMouseClicked(evt);
             }
         });
-        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 90, 580));
+        jPanel3.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 90, 580));
 
         tabs.addTab("tab2", jPanel3);
 
@@ -871,6 +793,8 @@ public class userDashboard extends javax.swing.JFrame {
         checkout.setBackground(new java.awt.Color(0, 158, 226));
         checkout.setForeground(new java.awt.Color(255, 255, 255));
         checkout.setText("Checkout");
+        checkout.setBorder(null);
+        checkout.setBorderPainted(false);
         checkout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkoutActionPerformed(evt);
@@ -899,8 +823,9 @@ public class userDashboard extends javax.swing.JFrame {
         cartTableContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         searchbtn1.setBackground(new java.awt.Color(0, 158, 226));
-        searchbtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
-        searchbtn1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
+        searchbtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-24.png"))); // NOI18N
+        searchbtn1.setBorder(null);
+        searchbtn1.setBorderPainted(false);
         cartTableContainer.add(searchbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 60, 40));
         cartTableContainer.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 250, 40));
 
@@ -908,6 +833,7 @@ public class userDashboard extends javax.swing.JFrame {
         add.setForeground(new java.awt.Color(255, 255, 255));
         add.setText("Add new Items");
         add.setBorder(null);
+        add.setBorderPainted(false);
         cartTableContainer.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 120, 40));
 
         cart_table.setModel(new javax.swing.table.DefaultTableModel(
@@ -928,8 +854,9 @@ public class userDashboard extends javax.swing.JFrame {
         cartTableContainer.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 650, 450));
 
         deleteCart.setBackground(new java.awt.Color(255, 51, 51));
-        deleteCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-delete-24.png"))); // NOI18N
+        deleteCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-delete-24.png"))); // NOI18N
         deleteCart.setBorder(null);
+        deleteCart.setBorderPainted(false);
         deleteCart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteCartActionPerformed(evt);
@@ -975,16 +902,6 @@ public class userDashboard extends javax.swing.JFrame {
 
         select.setText("Select Image");
         jPanel9.add(select, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 360, 120, 30));
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel11.setText("File extension: .JPEG, .PNG ");
-        jPanel9.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 420, -1, -1));
-
-        jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel16.setText("File size: maximum 1 MB ");
-        jPanel9.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 400, -1, -1));
         jPanel9.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 860, 20));
 
         manage1.setForeground(new java.awt.Color(102, 102, 102));
@@ -1076,7 +993,6 @@ public class userDashboard extends javax.swing.JFrame {
         jLabel15.setText("username");
         myprofile.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, -1, -1));
         myprofile.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 150, 20));
-        myprofile.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 170, -1, -1));
         myprofile.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 170, 50, 160));
 
         logout.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -1124,40 +1040,6 @@ public class userDashboard extends javax.swing.JFrame {
         jScrollPane4.setViewportView(purchase_table);
 
         jPanel7.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 1080, 470));
-
-        searchbtn3.setBackground(new java.awt.Color(0, 158, 226));
-        searchbtn3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
-        searchbtn3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
-        jPanel7.add(searchbtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 60, 60, 40));
-        jPanel7.add(search1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 60, 300, 40));
-
-        searchbtn4.setBackground(new java.awt.Color(102, 102, 102));
-        searchbtn4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/edi-icon-24.png"))); // NOI18N
-        searchbtn4.setBorder(null);
-        jPanel7.add(searchbtn4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1050, 60, 60, 40));
-
-        searchbtn5.setBackground(new java.awt.Color(255, 51, 51));
-        searchbtn5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-delete-24.png"))); // NOI18N
-        searchbtn5.setBorder(null);
-        jPanel7.add(searchbtn5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 60, 60, 40));
-
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buy-48.png"))); // NOI18N
-        jPanel7.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, -1, 50));
-
-        jSeparator10.setBackground(new java.awt.Color(0, 158, 226));
-        jSeparator10.setForeground(new java.awt.Color(0, 158, 226));
-        jSeparator10.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel7.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 60, 40, 30));
-
-        home2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        home2.setForeground(new java.awt.Color(0, 158, 226));
-        home2.setText("My Purchase");
-        home2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                home2MouseClicked(evt);
-            }
-        });
-        jPanel7.add(home2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 50, -1, 50));
 
         tabs.addTab("tab6", jPanel7);
 
@@ -1277,7 +1159,7 @@ public class userDashboard extends javax.swing.JFrame {
 
         tabs.addTab("tab8", profile2);
 
-        jPanel5.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 1280, 690));
+        jPanel5.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1280, 700));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1310,9 +1192,9 @@ public class userDashboard extends javax.swing.JFrame {
         panelMouseClicked(p2, name2, price2, image2, productID, quan);
     }//GEN-LAST:event_p2MouseClicked
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
         tabs.setSelectedIndex(0);
-    }//GEN-LAST:event_jLabel5MouseClicked
+    }//GEN-LAST:event_backMouseClicked
 
     private void cartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartActionPerformed
         int accountId = UserManager.getLoggedInUserId();
@@ -1592,10 +1474,6 @@ public class userDashboard extends javax.swing.JFrame {
         displayUserProducts();
     }//GEN-LAST:event_homeMouseClicked
 
-    private void home2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_home2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_home2MouseClicked
-
     private int tblQuant = 0;
     private int tblPrice;
     private int total = 0;
@@ -1817,6 +1695,7 @@ public class userDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
+    private javax.swing.JLabel back;
     private javax.swing.JLabel bigPhoto;
     private javax.swing.JButton buy;
     private javax.swing.JButton cart;
@@ -1841,7 +1720,6 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField fname5;
     private javax.swing.JTextField fname6;
     private javax.swing.JLabel home;
-    private javax.swing.JLabel home2;
     private javax.swing.JLabel image1;
     private javax.swing.JLabel image10;
     private javax.swing.JLabel image11;
@@ -1859,18 +1737,14 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -1886,11 +1760,9 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
@@ -1975,11 +1847,7 @@ public class userDashboard extends javax.swing.JFrame {
     private javax.swing.JButton savebtn;
     private javax.swing.JLabel sc2;
     private javax.swing.JTextField search;
-    private javax.swing.JTextField search1;
     private javax.swing.JButton searchbtn1;
-    private javax.swing.JButton searchbtn3;
-    private javax.swing.JButton searchbtn4;
-    private javax.swing.JButton searchbtn5;
     private javax.swing.JButton select;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JLabel tamount;
