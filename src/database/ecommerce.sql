@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2024 at 10:16 AM
+-- Generation Time: Apr 18, 2024 at 12:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,9 +48,8 @@ CREATE TABLE `accounts_table` (
 
 INSERT INTO `accounts_table` (`account_id`, `email`, `fname`, `lname`, `address`, `gender`, `username`, `password`, `role`, `profile_picture`, `date joined`, `status`) VALUES
 (1021, '1', '1', '1', NULL, NULL, '1', '$2a$10$IuaBakuMCeHBEdPaJIoaL.7T66rpjvKW3LnPSwqI29NTP28Rx0Qou', 'Admin', NULL, '2024-04-11', 'Activated'),
-(1022, '2', '2', '2', NULL, NULL, '2', '$2a$10$NOxD84Sv8QpWql02gEoGI.Df6f07g39wWNi3LpbSmAY.5uDRUdjZW', 'User', NULL, '2024-04-11', 'Activated'),
-(1024, '3', '3', '3', NULL, NULL, '3', '$2a$10$ZFdsOK5sQCKxsBUo9uhFcefNJmmP4TjdfehpYi.sLHZXgST9m7B26', 'User', NULL, '2024-04-12', 'Activated'),
-(1025, '4', '4', '4', NULL, NULL, '4', '$2a$10$qo48E7elfBuSyh49eTkAxOfxO13KNWfnVBY67OiRN.TQc.p68zO4a', 'User', NULL, '2024-04-13', 'Pending');
+(1022, '2', '2', '2', NULL, NULL, '2', '$2a$10$NOxD84Sv8QpWql02gEoGI.Df6f07g39wWNi3LpbSmAY.5uDRUdjZW', 'Admin', NULL, '2024-04-11', 'Activated'),
+(1024, '3', '3', '3', NULL, NULL, '3', '$2a$10$ZFdsOK5sQCKxsBUo9uhFcefNJmmP4TjdfehpYi.sLHZXgST9m7B26', 'Buyer', NULL, '2024-04-12', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -86,6 +85,7 @@ INSERT INTO `add2cart` (`cart_id`, `account_id`, `product_id`, `product_name`, `
 
 CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
+  `account_id` int(11) NOT NULL,
   `Product Name` varchar(50) NOT NULL,
   `Price` int(11) NOT NULL,
   `Stock` int(11) NOT NULL,
@@ -99,10 +99,12 @@ CREATE TABLE `products` (
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`product_id`, `Product Name`, `Price`, `Stock`, `Description`, `Status`, `ImagePath`, `Date Created`) VALUES
-(1001, 'Samsung Galaxy s20', 35000, 3, 'Introducing the latest new Samsung Galaxy smartphone, designed to revolutionize your mobile experience. With its sleek design and cutting-edge features.', 'Available', 'src/images/phone.png', '2024-04-01'),
-(1024, 'Archie ALbarico', 4543, 3, '\"Archie Albarico\" sounds like a unique and memorable name. \"Archie\" is a friendly and familiar first name, often associated with comic book characters like Archie Andrews. \"Albarico\" is less common and could be of Italian or Spanish origin, adding a touch of exoticism to the name.', 'Available', 'src/images/2024 Yearly Calendar.png', '2024-04-03'),
-(1027, 'Gaming Headset', 1299, 3, 'Immerse yourself in the game with our high-quality gaming headset! Experience crystal-clear audio and deep bass for an unparalleled gaming experience. Designed for comfort during long gaming sessions, our headset features adjustable headbands and plush ear cushions. ', 'Available', 'src/images/headset.png', '2024-04-17');
+INSERT INTO `products` (`product_id`, `account_id`, `Product Name`, `Price`, `Stock`, `Description`, `Status`, `ImagePath`, `Date Created`) VALUES
+(1001, 1021, 'Samsung Galaxy s20', 35000, 3, 'Introducing the latest new Samsung Galaxy smartphone, designed to revolutionize your mobile experience. With its sleek design and cutting-edge features.', 'Available', 'src/images/phone.png', '2024-04-01'),
+(1024, 1021, 'Archie ALbarico', 4543, 3, '\"Archie Albarico\" sounds like a unique and memorable name. \"Archie\" is a friendly and familiar first name, often associated with comic book characters like Archie Andrews. \"Albarico\" is less common and could be of Italian or Spanish origin, adding a touch of exoticism to the name.', 'Available', 'src/images/2024 Yearly Calendar.png', '2024-04-03'),
+(1027, 1021, 'Gaming Headset', 1299, 3, 'Immerse yourself in the game with our high-quality gaming headset! Experience crystal-clear audio and deep bass for an unparalleled gaming experience. Designed for comfort during long gaming sessions, our headset features adjustable headbands and plush ear cushions. ', 'Available', 'src/images/headset.png', '2024-04-17'),
+(1028, 1021, '123', 123, 123, '123', 'Available', 'src/images/headset.png', '2024-04-18'),
+(1029, 1021, '1234', 1234, 1233, '1234', 'Available', 'src/images/2.png', '2024-04-18');
 
 -- --------------------------------------------------------
 
@@ -126,7 +128,8 @@ CREATE TABLE `purchase` (
 --
 
 INSERT INTO `purchase` (`transaction_id`, `account_id`, `product_id`, `product_name`, `product_price`, `total_quantity`, `total_price`, `date_purchase`) VALUES
-(36, 1024, 1001, 'Samsung Galaxy s20', 35000, 3, 105000, '2024-04-17 06:43:15');
+(36, 1024, 1001, 'Samsung Galaxy s20', 35000, 3, 105000, '2024-04-17 06:43:15'),
+(37, 1022, 1029, '1234', 1234, 1, 1234, '2024-04-18 09:00:52');
 
 --
 -- Indexes for dumped tables
@@ -150,7 +153,8 @@ ALTER TABLE `add2cart`
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
-  ADD PRIMARY KEY (`product_id`);
+  ADD PRIMARY KEY (`product_id`),
+  ADD KEY `account_id` (`account_id`);
 
 --
 -- Indexes for table `purchase`
@@ -168,7 +172,7 @@ ALTER TABLE `purchase`
 -- AUTO_INCREMENT for table `accounts_table`
 --
 ALTER TABLE `accounts_table`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1026;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1027;
 
 --
 -- AUTO_INCREMENT for table `add2cart`
@@ -180,13 +184,13 @@ ALTER TABLE `add2cart`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1028;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1030;
 
 --
 -- AUTO_INCREMENT for table `purchase`
 --
 ALTER TABLE `purchase`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- Constraints for dumped tables
@@ -198,6 +202,12 @@ ALTER TABLE `purchase`
 ALTER TABLE `add2cart`
   ADD CONSTRAINT `add2cart_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_account_id` FOREIGN KEY (`account_id`) REFERENCES `accounts_table` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts_table` (`account_id`);
 
 --
 -- Constraints for table `purchase`
