@@ -58,7 +58,7 @@ public class databaseConnector {
 
     public void deleteCart(int id) {
         try {
-            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM add2cart WHERE car_id = ?");
+            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM add2cart WHERE cart_id = ?");
             stmt.setInt(1, id);
 
             stmt.executeUpdate();
