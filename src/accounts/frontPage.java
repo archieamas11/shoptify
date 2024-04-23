@@ -87,7 +87,7 @@ public class frontPage extends javax.swing.JFrame {
                 signupbtnActionPerformed(evt);
             }
         });
-        frontPageContainer.add(signupbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 340, 200, 50));
+        frontPageContainer.add(signupbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 330, 200, 50));
 
         jLabel1.setBackground(new java.awt.Color(214, 214, 214));
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));

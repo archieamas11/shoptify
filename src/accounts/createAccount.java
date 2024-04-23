@@ -2,6 +2,7 @@ package accounts;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import config.databaseConnector;
+import config.isAccountExist;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -237,14 +238,13 @@ public class createAccount extends javax.swing.JFrame {
         }
 
         databaseConnector dbc = new databaseConnector();
-
         try {
-            if (checkEmail(em)) {
+            if (isAccountExist.checkEmail(em)) {
                 JOptionPane.showMessageDialog(null, "Email already registered.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            if (checkUsername(user)) {
+            if (isAccountExist.checkUsername(user)) {
                 JOptionPane.showMessageDialog(null, "Username already taken.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
