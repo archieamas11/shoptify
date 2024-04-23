@@ -220,7 +220,6 @@ public class createAccount extends javax.swing.JFrame {
         String last_name = lname.getText();
         String em = email.getText();
         String phone = number.getText();
-
         String user = username.getText();
         String pass = password.getText();
         String selectedRole = (String) role.getSelectedItem();
@@ -228,13 +227,17 @@ public class createAccount extends javax.swing.JFrame {
         if (em.isEmpty() || first_name.isEmpty() || last_name.isEmpty() || selectedRole.isEmpty() || user.isEmpty() || pass.isEmpty() || phone.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-        }
-
-        //if (pass.length() < 8) {
+        } //if (pass.length() < 8) {
         //JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long.", "Error", JOptionPane.ERROR_MESSAGE);
         //return;
         //}
+        if (phone.length() < 11 || phone.length() > 12 || !phone.matches("\\d+")) {
+            JOptionPane.showMessageDialog(null, "Invalid number", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         databaseConnector dbc = new databaseConnector();
+
         try {
             if (checkEmail(em)) {
                 JOptionPane.showMessageDialog(null, "Email already registered.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -301,8 +304,10 @@ public class createAccount extends javax.swing.JFrame {
                     new createAccount().setVisible(true);
                 }
             });
+
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(createAccount.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(createAccount.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

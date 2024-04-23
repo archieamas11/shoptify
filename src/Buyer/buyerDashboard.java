@@ -346,7 +346,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/purchase.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/purchase.png"))); // NOI18N
         jLabel1.setText("My Purchases");
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -356,7 +356,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 10, -1, 40));
 
         myCart.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        myCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/cart.png"))); // NOI18N
+        myCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/cart.png"))); // NOI18N
         myCart.setText("My Cart");
         myCart.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -366,7 +366,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         jPanel2.add(myCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 10, -1, 40));
 
         jLabel3.setFont(getFont());
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/myProfile.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/myProfile.png"))); // NOI18N
         jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel3MouseClicked(evt);
@@ -643,7 +643,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(p12);
         p12.setBounds(850, 430, 210, 180);
 
-        next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/next_right.png"))); // NOI18N
+        next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/next_right.png"))); // NOI18N
         next.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 nextMouseClicked(evt);
@@ -658,7 +658,7 @@ public class buyerDashboard extends javax.swing.JFrame {
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/back.png"))); // NOI18N
+        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/back.png"))); // NOI18N
         back.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 backMouseClicked(evt);
@@ -823,7 +823,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         cartTableContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         searchbtn1.setBackground(new java.awt.Color(0, 158, 226));
-        searchbtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-24.png"))); // NOI18N
+        searchbtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
         searchbtn1.setBorder(null);
         searchbtn1.setBorderPainted(false);
         cartTableContainer.add(searchbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 60, 40));
@@ -854,7 +854,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         cartTableContainer.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 650, 450));
 
         deleteCart.setBackground(new java.awt.Color(255, 51, 51));
-        deleteCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-delete-24.png"))); // NOI18N
+        deleteCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-delete-24.png"))); // NOI18N
         deleteCart.setBorder(null);
         deleteCart.setBorderPainted(false);
         deleteCart.addActionListener(new java.awt.event.ActionListener() {

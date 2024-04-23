@@ -194,7 +194,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-administrator-male-100.png"))); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-administrator-male-100.png"))); // NOI18N
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 250, -1));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -477,22 +477,22 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel8.add(search2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 300, 40));
 
         searchbtn5.setBackground(new java.awt.Color(0, 158, 226));
-        searchbtn5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-24.png"))); // NOI18N
+        searchbtn5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
         searchbtn5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
         jPanel8.add(searchbtn5, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 10, 60, 40));
 
         searchbtn6.setBackground(new java.awt.Color(102, 102, 102));
-        searchbtn6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/edi-icon-24.png"))); // NOI18N
+        searchbtn6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/edi-icon-24.png"))); // NOI18N
         searchbtn6.setBorder(null);
         jPanel8.add(searchbtn6, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 60, 40));
 
         searchbtn7.setBackground(new java.awt.Color(122, 183, 147));
-        searchbtn7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-plus-24.png"))); // NOI18N
+        searchbtn7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-plus-24.png"))); // NOI18N
         searchbtn7.setBorder(null);
         jPanel8.add(searchbtn7, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 10, 60, 40));
 
         searchbtn8.setBackground(new java.awt.Color(255, 51, 51));
-        searchbtn8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-delete-24.png"))); // NOI18N
+        searchbtn8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-delete-24.png"))); // NOI18N
         searchbtn8.setBorder(null);
         jPanel8.add(searchbtn8, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, 60, 40));
 
@@ -581,12 +581,12 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel4.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, 40));
 
         searchbtn9.setBackground(new java.awt.Color(0, 158, 226));
-        searchbtn9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-search-24.png"))); // NOI18N
+        searchbtn9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
         searchbtn9.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
         jPanel4.add(searchbtn9, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 10, 60, 40));
 
         edit.setBackground(new java.awt.Color(102, 102, 102));
-        edit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/edi-icon-24.png"))); // NOI18N
+        edit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/edi-icon-24.png"))); // NOI18N
         edit.setBorder(null);
         edit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -596,12 +596,12 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel4.add(edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 10, 60, 40));
 
         searchbtn11.setBackground(new java.awt.Color(122, 183, 147));
-        searchbtn11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-plus-24.png"))); // NOI18N
+        searchbtn11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-plus-24.png"))); // NOI18N
         searchbtn11.setBorder(null);
         jPanel4.add(searchbtn11, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 10, 60, 40));
 
         searchbtn12.setBackground(new java.awt.Color(255, 51, 51));
-        searchbtn12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-delete-24.png"))); // NOI18N
+        searchbtn12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-delete-24.png"))); // NOI18N
         searchbtn12.setBorder(null);
         jPanel4.add(searchbtn12, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, 60, 40));
 
@@ -930,6 +930,7 @@ public class sellerDashboard extends javax.swing.JFrame {
             if (a == JOptionPane.YES_OPTION) {
                 databaseConnector dbc = new databaseConnector();
                 dbc.deleteProduct(Integer.parseInt(id));
+                JOptionPane.showMessageDialog(null, "Product deleted successfully!");
                 displayData();
             }
         }

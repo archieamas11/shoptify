@@ -66,8 +66,8 @@ public class Login extends javax.swing.JFrame {
     private void togglePasswordVisibility() {
         passwordVisible = !passwordVisible;
 
-        hideIcon = new ImageIcon(getClass().getResource("/images/eye_hide.png"));
-        showIcon = new ImageIcon(getClass().getResource("/images/eye.png"));
+        hideIcon = new ImageIcon(getClass().getResource("/image/eye_hide.png"));
+        showIcon = new ImageIcon(getClass().getResource("/image/eye.png"));
 
         if (passwordVisible) {
             eye.setIcon(showIcon);
@@ -98,7 +98,6 @@ public class Login extends javax.swing.JFrame {
         eye = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -115,7 +114,7 @@ public class Login extends javax.swing.JFrame {
         welcome.setText("Welcome back to ");
         jPanel1.add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 240, 210, 30));
 
-        shoptify_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-buying-94.png"))); // NOI18N
+        shoptify_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buying-94.png"))); // NOI18N
         jPanel1.add(shoptify_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 110, -1, -1));
 
         login.setBackground(new java.awt.Color(0, 158, 226));
@@ -170,7 +169,7 @@ public class Login extends javax.swing.JFrame {
         });
         usernameContainer.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 210, 40));
 
-        username_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-male-user-24.png"))); // NOI18N
+        username_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-male-user-24.png"))); // NOI18N
         usernameContainer.add(username_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 40));
 
         jPanel1.add(usernameContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 320, 290, 40));
@@ -202,11 +201,11 @@ public class Login extends javax.swing.JFrame {
         passwordContainer.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 210, 40));
 
         password_icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        password_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-lock-24.png"))); // NOI18N
+        password_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-lock-24.png"))); // NOI18N
         passwordContainer.add(password_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 20, 40));
 
         eye.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        eye.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/eye.png"))); // NOI18N
+        eye.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/eye_hide.png"))); // NOI18N
         eye.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         eye.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

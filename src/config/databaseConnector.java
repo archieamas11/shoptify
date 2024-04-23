@@ -40,10 +40,10 @@ public class databaseConnector {
             System.out.println("Error deleting data: " + e.getMessage());
         }
     }
-    
-    public void deleteCart(int id) {
+
+    public void deleteAccount(int id) {
         try {
-            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM add2cart WHERE cart_id = ?");
+            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM accounts_table WHERE account_id = ?");
             stmt.setInt(1, id);
 
             stmt.executeUpdate();
@@ -55,8 +55,23 @@ public class databaseConnector {
             System.out.println("Error deleting data: " + e.getMessage());
         }
     }
-    
-      public int updateData(String sql) {
+
+    public void deleteCart(int id) {
+        try {
+            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM add2cart WHERE car_id = ?");
+            stmt.setInt(1, id);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            connection.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error deleting data: " + e.getMessage());
+        }
+    }
+
+    public int updateData(String sql) {
         int num = 0;
         try {
 

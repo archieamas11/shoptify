@@ -52,7 +52,6 @@ public class frontPage extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        arti = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -93,7 +92,7 @@ public class frontPage extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(214, 214, 214));
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-buying-94.png"))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buying-94.png"))); // NOI18N
         jLabel1.setOpaque(true);
         frontPageContainer.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 540, 420, -1));
 
@@ -141,12 +140,6 @@ public class frontPage extends javax.swing.JFrame {
         jLabel12.setText("Ultimate");
         jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, -1, -1));
 
-        arti.setForeground(new java.awt.Color(255, 255, 255));
-        arti.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        arti.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Add a heading (1).gif"))); // NOI18N
-        arti.setFocusable(false);
-        jPanel2.add(arti, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -192,7 +185,6 @@ public class frontPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel arti;
     private javax.swing.JPanel frontPageContainer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
