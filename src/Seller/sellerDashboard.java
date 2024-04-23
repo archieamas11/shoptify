@@ -1,4 +1,4 @@
-package admin;
+package Seller;
 
 import accounts.Login;
 import static accounts.Login.accountId;
@@ -27,9 +27,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
-public class adminDashboard extends javax.swing.JFrame {
+public class sellerDashboard extends javax.swing.JFrame {
 
-    public adminDashboard() {
+    public sellerDashboard() {
         initComponents();
         displayData();
         displayProducts();
@@ -198,10 +198,11 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 250, -1));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Admin");
+        jLabel1.setText("SELLER");
         jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 250, -1));
 
         logout.setBackground(new java.awt.Color(255, 51, 51));
+        logout.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         logout.setForeground(new java.awt.Color(255, 255, 255));
         logout.setText("Logout");
         logout.addActionListener(new java.awt.event.ActionListener() {
@@ -211,6 +212,7 @@ public class adminDashboard extends javax.swing.JFrame {
         });
         jPanel3.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 620, 190, 40));
 
+        dashboard.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         dashboard.setText("Dashboard");
         dashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -219,6 +221,7 @@ public class adminDashboard extends javax.swing.JFrame {
         });
         jPanel3.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 190, 40));
 
+        manage.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         manage.setText("Manage");
         manage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,6 +230,7 @@ public class adminDashboard extends javax.swing.JFrame {
         });
         jPanel3.add(manage, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 190, 40));
 
+        orders.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         orders.setText("Orders");
         orders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,6 +239,7 @@ public class adminDashboard extends javax.swing.JFrame {
         });
         jPanel3.add(orders, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 190, 40));
 
+        graphs.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         graphs.setText("Products");
         graphs.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,6 +251,7 @@ public class adminDashboard extends javax.swing.JFrame {
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel3.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 50, 720));
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setText("Accounts");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -256,7 +262,7 @@ public class adminDashboard extends javax.swing.JFrame {
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setText("ADMINISTRATOR");
+        jLabel15.setText("WELCOME");
         jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 250, 40));
 
         jPanel5.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 720));
@@ -869,7 +875,7 @@ public class adminDashboard extends javax.swing.JFrame {
         }
 
         fileName = selectedFile.getName();
-        imagePath = "src/images/" + fileName;
+        imagePath = "src/ProductsImages/" + fileName;
 
         try {
             databaseConnector dbc = new databaseConnector();
@@ -942,7 +948,7 @@ public class adminDashboard extends javax.swing.JFrame {
 
             if (selectedFile != null) {
                 fileName = selectedFile.getName();
-                imagePath = "src/images/" + fileName;
+                imagePath = "src/ProductsImages/" + fileName;
 
                 sql = "UPDATE products SET `Product Name`=?, Price=?, Stock=?, Description=?, ImagePath=?, Status=? WHERE product_id=?";
                 try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
@@ -1010,7 +1016,7 @@ public class adminDashboard extends javax.swing.JFrame {
                 displayPhoto.setIcon(icon);
 
                 String imageName = selectedFile.getName();
-                String imagePath = "src/images/" + imageName;
+                String imagePath = "src/ProductsImages/" + imageName;
                 File destination = new File(imagePath);
                 Files.copy(selectedFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -1125,12 +1131,12 @@ public class adminDashboard extends javax.swing.JFrame {
             /* Create and display the form */
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    new adminDashboard().setVisible(true);
+                    new sellerDashboard().setVisible(true);
                 }
             });
 
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(adminDashboard.class
+            Logger.getLogger(sellerDashboard.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -19,7 +19,7 @@ public class createAccount extends javax.swing.JFrame {
     public createAccount() {
         initComponents();
         UXmethods.RoundBorders.setArcStyle(createAccountContainer, 30);
-                UXmethods.RoundBorders.setArcStyle(submit, 15);
+        UXmethods.RoundBorders.setArcStyle(submit, 15);
 
     }
 
@@ -72,6 +72,8 @@ public class createAccount extends javax.swing.JFrame {
         password = new javax.swing.JTextField();
         role = new javax.swing.JComboBox<>();
         submit = new javax.swing.JButton();
+        number = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
 
@@ -86,13 +88,13 @@ public class createAccount extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("START NOW");
         createAccountContainer.add(jLabel2);
-        jLabel2.setBounds(60, 40, 120, 20);
+        jLabel2.setBounds(60, 20, 120, 20);
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 40)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 158, 226));
         jLabel6.setText("Create new account");
         createAccountContainer.add(jLabel6);
-        jLabel6.setBounds(60, 60, 410, 49);
+        jLabel6.setBounds(60, 40, 410, 49);
 
         login.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         login.setForeground(new java.awt.Color(102, 102, 102));
@@ -103,46 +105,52 @@ public class createAccount extends javax.swing.JFrame {
             }
         });
         createAccountContainer.add(login);
-        login.setBounds(60, 130, 190, 15);
+        login.setBounds(60, 90, 190, 15);
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel7.setText("First Name");
         createAccountContainer.add(jLabel7);
-        jLabel7.setBounds(100, 190, 70, 20);
+        jLabel7.setBounds(100, 130, 70, 20);
         createAccountContainer.add(fname);
-        fname.setBounds(100, 210, 160, 40);
+        fname.setBounds(100, 150, 160, 40);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel8.setText("Last Name");
         createAccountContainer.add(jLabel8);
-        jLabel8.setBounds(290, 190, 57, 20);
+        jLabel8.setBounds(290, 130, 57, 20);
         createAccountContainer.add(lname);
-        lname.setBounds(290, 210, 160, 40);
+        lname.setBounds(290, 150, 160, 40);
         createAccountContainer.add(email);
-        email.setBounds(100, 280, 350, 40);
+        email.setBounds(100, 220, 350, 40);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel9.setText("Email");
         createAccountContainer.add(jLabel9);
-        jLabel9.setBounds(100, 260, 70, 20);
+        jLabel9.setBounds(100, 200, 70, 20);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel10.setText("Username");
         createAccountContainer.add(jLabel10);
-        jLabel10.setBounds(100, 330, 70, 20);
+        jLabel10.setBounds(100, 340, 70, 20);
         createAccountContainer.add(username);
-        username.setBounds(100, 350, 350, 40);
+        username.setBounds(100, 360, 350, 40);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel11.setText("Password");
+        jLabel11.setText("Phone Number");
         createAccountContainer.add(jLabel11);
-        jLabel11.setBounds(100, 400, 70, 20);
-        createAccountContainer.add(password);
-        password.setBounds(100, 420, 350, 40);
+        jLabel11.setBounds(100, 270, 90, 20);
 
-        role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
+        password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordActionPerformed(evt);
+            }
+        });
+        createAccountContainer.add(password);
+        password.setBounds(100, 430, 350, 40);
+
+        role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Seller", "Buyer" }));
         createAccountContainer.add(role);
-        role.setBounds(100, 480, 350, 40);
+        role.setBounds(100, 490, 350, 40);
 
         submit.setBackground(new java.awt.Color(0, 158, 226));
         submit.setForeground(new java.awt.Color(255, 255, 255));
@@ -155,7 +163,14 @@ public class createAccount extends javax.swing.JFrame {
             }
         });
         createAccountContainer.add(submit);
-        submit.setBounds(100, 550, 350, 40);
+        submit.setBounds(100, 570, 350, 40);
+        createAccountContainer.add(number);
+        number.setBounds(100, 290, 350, 40);
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel12.setText("Password");
+        createAccountContainer.add(jLabel12);
+        jLabel12.setBounds(100, 410, 70, 20);
 
         jPanel1.add(createAccountContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 40, 540, 640));
 
@@ -204,19 +219,21 @@ public class createAccount extends javax.swing.JFrame {
         String first_name = fname.getText();
         String last_name = lname.getText();
         String em = email.getText();
+        String phone = number.getText();
+
         String user = username.getText();
         String pass = password.getText();
         String selectedRole = (String) role.getSelectedItem();
 
-        if (em.isEmpty() || first_name.isEmpty() || last_name.isEmpty() || selectedRole.isEmpty() || user.isEmpty() || pass.isEmpty()) {
+        if (em.isEmpty() || first_name.isEmpty() || last_name.isEmpty() || selectedRole.isEmpty() || user.isEmpty() || pass.isEmpty() || phone.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         //if (pass.length() < 8) {
-            //JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long.", "Error", JOptionPane.ERROR_MESSAGE);
-            //return;
-            //}
+        //JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long.", "Error", JOptionPane.ERROR_MESSAGE);
+        //return;
+        //}
         databaseConnector dbc = new databaseConnector();
         try {
             if (checkEmail(em)) {
@@ -231,15 +248,16 @@ public class createAccount extends javax.swing.JFrame {
 
             String hashedPass = BCrypt.hashpw(pass, BCrypt.gensalt());
 
-            String sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `username`,`password`, `role`, `date joined`, `status`) VALUES (?, ?, ?, ?, ?, ?, CURDATE(), ?)";
+            String sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `phone number`, `username`,`password`, `role`, `date joined`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), ?)";
             PreparedStatement pst = (PreparedStatement) dbc.getConnection().prepareStatement(sql);
             pst.setString(1, em);
             pst.setString(2, first_name);
             pst.setString(3, last_name);
-            pst.setString(4, user);
-            pst.setString(5, hashedPass);
-            pst.setString(6, selectedRole);
-            pst.setString(7, "Pending");
+            pst.setString(4, phone);
+            pst.setString(5, user);
+            pst.setString(6, hashedPass);
+            pst.setString(7, selectedRole);
+            pst.setString(8, "Pending");
 
             pst.executeUpdate();
             pst.close();
@@ -250,6 +268,7 @@ public class createAccount extends javax.swing.JFrame {
             fname.setText("");
             lname.setText("");
             username.setText("");
+            number.setText("");
             password.setText("");
             role.setSelectedIndex(0);
             Login back = new Login();
@@ -266,6 +285,9 @@ public class createAccount extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_loginMouseClicked
 
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -289,6 +311,7 @@ public class createAccount extends javax.swing.JFrame {
     private javax.swing.JTextField fname;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -299,6 +322,7 @@ public class createAccount extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField lname;
     private javax.swing.JLabel login;
+    private javax.swing.JTextField number;
     private javax.swing.JTextField password;
     private javax.swing.JComboBox<String> role;
     private javax.swing.JButton submit;

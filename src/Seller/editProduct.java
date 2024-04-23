@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package admin;
+package Seller;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import java.util.logging.Level;
@@ -79,12 +79,12 @@ public class editProduct extends javax.swing.JFrame {
             /* Create and display the form */
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    new adminDashboard().setVisible(true);
+                    new sellerDashboard().setVisible(true);
                 }
             });
 
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(adminDashboard.class
+            Logger.getLogger(sellerDashboard.class
                     .getName()).log(Level.SEVERE, null, ex);
         }
     }

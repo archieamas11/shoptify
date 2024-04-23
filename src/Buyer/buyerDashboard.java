@@ -1,4 +1,4 @@
-package user;
+package Buyer;
 
 import accounts.Login;
 import accounts.UserManager;
@@ -23,9 +23,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
-public class userDashboard extends javax.swing.JFrame {
+public class buyerDashboard extends javax.swing.JFrame {
 
-    public userDashboard() {
+    public buyerDashboard() {
         initComponents();
         displayUserProducts();
         displayCart();
@@ -387,7 +387,7 @@ public class userDashboard extends javax.swing.JFrame {
         jLabel2.setText("HOME");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 20, -1, 20));
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 60));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 30));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -922,7 +922,7 @@ public class userDashboard extends javax.swing.JFrame {
         manage4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage4.setForeground(new java.awt.Color(102, 102, 102));
         manage4.setText("Email");
-        jPanel9.add(manage4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 290, -1, -1));
+        jPanel9.add(manage4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, -1, -1));
 
         other.setText(" Other");
         other.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -951,7 +951,7 @@ public class userDashboard extends javax.swing.JFrame {
         manage5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage5.setForeground(new java.awt.Color(102, 102, 102));
         manage5.setText("Gender");
-        jPanel9.add(manage5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, -1, 20));
+        jPanel9.add(manage5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, -1, 20));
 
         year.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013" }));
         jPanel9.add(year, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 400, -1, 30));
@@ -1683,7 +1683,7 @@ public class userDashboard extends javax.swing.JFrame {
             UIManager.setLookAndFeel(new FlatLightLaf());
             java.awt.EventQueue.invokeLater(new Runnable() {
                 public void run() {
-                    new userDashboard().setVisible(true);
+                    new buyerDashboard().setVisible(true);
                 }
             });
 

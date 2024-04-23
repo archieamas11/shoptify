@@ -1,6 +1,7 @@
 package accounts;
 
-import admin.adminDashboard;
+import Admin.adminDashboard;
+import Seller.sellerDashboard;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.databaseConnector;
 import java.awt.Color;
@@ -13,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.mindrot.jbcrypt.BCrypt;
-import user.userDashboard;
+import Buyer.buyerDashboard;
 
 public class Login extends javax.swing.JFrame {
 
@@ -106,16 +107,16 @@ public class Login extends javax.swing.JFrame {
         shoptify.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         shoptify.setForeground(new java.awt.Color(0, 158, 226));
         shoptify.setText("Shoptify");
-        jPanel1.add(shoptify, new org.netbeans.lib.awtextra.AbsoluteConstraints(645, 240, -1, 30));
+        jPanel1.add(shoptify, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 240, -1, 30));
 
         welcome.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         welcome.setForeground(new java.awt.Color(153, 153, 153));
         welcome.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         welcome.setText("Welcome back to ");
-        jPanel1.add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 240, 210, 30));
+        jPanel1.add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 240, 210, 30));
 
         shoptify_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-buying-94.png"))); // NOI18N
-        jPanel1.add(shoptify_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 80, -1, -1));
+        jPanel1.add(shoptify_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 110, -1, -1));
 
         login.setBackground(new java.awt.Color(0, 158, 226));
         login.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
@@ -129,7 +130,7 @@ public class Login extends javax.swing.JFrame {
                 loginActionPerformed(evt);
             }
         });
-        jPanel1.add(login, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 490, 290, 40));
+        jPanel1.add(login, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 490, 290, 40));
 
         create_account.setForeground(new java.awt.Color(102, 102, 102));
         create_account.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -139,7 +140,7 @@ public class Login extends javax.swing.JFrame {
                 create_accountMouseClicked(evt);
             }
         });
-        jPanel1.add(create_account, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 430, 290, 20));
+        jPanel1.add(create_account, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 430, 290, 20));
 
         usernameContainer.setBackground(new java.awt.Color(245, 245, 245));
         usernameContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -172,7 +173,7 @@ public class Login extends javax.swing.JFrame {
         username_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-male-user-24.png"))); // NOI18N
         usernameContainer.add(username_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 40));
 
-        jPanel1.add(usernameContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 320, 290, 40));
+        jPanel1.add(usernameContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 320, 290, 40));
 
         passwordContainer.setBackground(new java.awt.Color(245, 245, 245));
         passwordContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -214,7 +215,7 @@ public class Login extends javax.swing.JFrame {
         });
         passwordContainer.add(eye, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 20, 40));
 
-        jPanel1.add(passwordContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 380, 290, 40));
+        jPanel1.add(passwordContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 290, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -224,7 +225,7 @@ public class Login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
         );
 
         pack();
@@ -292,16 +293,22 @@ public class Login extends javax.swing.JFrame {
         if (user.equals("Username") || pass.equals("Password")) {
             JOptionPane.showMessageDialog(null, "Please Input both username and password!");
         } else {
-            if (loginAccount(user, pass, "Admin", "Activated")) {
+            if (loginAccount(user, pass, "Seller", "Active")) {
                 JOptionPane.showMessageDialog(null, "Admin Login Success!");
                 UserManager.setLoggedInUserId(accountId);
-                adminDashboard ads = new adminDashboard();
+                sellerDashboard ads = new sellerDashboard();
                 ads.setVisible(true);
                 this.dispose();
-            } else if (loginAccount(user, pass, "User", "Activated")) {
+            } else if (loginAccount(user, pass, "Buyer", "Active")) {
                 JOptionPane.showMessageDialog(null, "User Login Success!");
                 UserManager.setLoggedInUserId(accountId);
-                userDashboard use = new userDashboard();
+                buyerDashboard use = new buyerDashboard();
+                use.setVisible(true);
+                this.dispose();
+            } else if (loginAccount(user, pass, "Admin", "Active")) {
+                JOptionPane.showMessageDialog(null, "User Login Success!");
+                UserManager.setLoggedInUserId(accountId);
+                adminDashboard use = new adminDashboard();
                 use.setVisible(true);
                 this.dispose();
             } else {
