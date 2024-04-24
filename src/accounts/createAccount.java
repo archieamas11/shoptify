@@ -250,8 +250,9 @@ public class createAccount extends javax.swing.JFrame {
             }
 
             String hashedPass = BCrypt.hashpw(pass, BCrypt.gensalt());
+            String defaultImage = "src/sampleProfiles/default profile 100x100.png";
 
-            String sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `phone number`, `username`,`password`, `role`, `date joined`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), ?)";
+            String sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `phone number`, `username`,`password`, `role`, `date joined`, `status`, `profile_picture`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), ?, ?)";
             PreparedStatement pst = (PreparedStatement) dbc.getConnection().prepareStatement(sql);
             pst.setString(1, em);
             pst.setString(2, first_name);
@@ -261,6 +262,7 @@ public class createAccount extends javax.swing.JFrame {
             pst.setString(6, hashedPass);
             pst.setString(7, selectedRole);
             pst.setString(8, "Pending");
+            pst.setString(9, defaultImage);
 
             pst.executeUpdate();
             pst.close();

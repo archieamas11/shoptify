@@ -46,28 +46,44 @@ public class adminDashboard extends javax.swing.JFrame {
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
         displayAccounts();
         displayAccountName();
-        UXmethods.RoundBorders.setArcStyle(scroll, 15);
-        UXmethods.RoundBorders.setArcStyle(search, 15);
+
+        //Informations Panel
+        UXmethods.RoundBorders.setArcStyle(c1, 15);
+        UXmethods.RoundBorders.setArcStyle(c2, 15);
+        UXmethods.RoundBorders.setArcStyle(c3, 15);
+        UXmethods.RoundBorders.setArcStyle(c4, 15);
+        UXmethods.RoundBorders.setArcStyle(c5, 15);
+
+        // Buttons
         UXmethods.RoundBorders.setArcStyle(edit, 15);
         UXmethods.RoundBorders.setArcStyle(delete, 15);
         UXmethods.RoundBorders.setArcStyle(add, 15);
         UXmethods.RoundBorders.setArcStyle(searchIcon, 15);
-        UXmethods.RoundBorders.setArcStyle(yawa, 30);
-        UXmethods.RoundBorders.setArcStyle(yawa1, 30);
-        UXmethods.RoundBorders.setArcStyle(hays, 15);
-        UXmethods.RoundBorders.setArcStyle(save, 15);
-        UXmethods.RoundBorders.setArcStyle(save2, 15);
-        UXmethods.RoundBorders.setArcStyle(delete, 15);
-        UXmethods.RoundBorders.setArcStyle(fullname, 15);
-        UXmethods.RoundBorders.setArcStyle(email, 15);
-        UXmethods.RoundBorders.setArcStyle(number, 15);
-        UXmethods.RoundBorders.setArcStyle(address, 15);
-        UXmethods.RoundBorders.setArcStyle(role, 15);
-        UXmethods.RoundBorders.setArcStyle(status, 15);
+        UXmethods.RoundBorders.setArcStyle(editAccountSaveBtn, 15);
+        UXmethods.RoundBorders.setArcStyle(addAccountsaveBtn, 15);
+
+        // Components
+        UXmethods.RoundBorders.setArcStyle(scrollBar, 15);
+        UXmethods.RoundBorders.setArcStyle(searchBar, 15);
+        UXmethods.RoundBorders.setArcStyle(accountTableContainer, 30);
+        UXmethods.RoundBorders.setArcStyle(dashboardContainer, 15);
+        UXmethods.RoundBorders.setArcStyle(editProfileContainer, 30);
+        UXmethods.RoundBorders.setArcStyle(addAccountContainer, 30);
+
+        // Dashboard Buttons
         UXmethods.RoundBorders.setArcStyle(dashboard, 50);
         UXmethods.RoundBorders.setArcStyle(profile, 50);
         UXmethods.RoundBorders.setArcStyle(logout, 50);
-        search.setFocusable(false);
+
+        UXmethods.RoundBorders.setArcStyle(delete, 15);
+        UXmethods.RoundBorders.setArcStyle(fname, 15);
+        UXmethods.RoundBorders.setArcStyle(status, 15);
+        UXmethods.RoundBorders.setArcStyle(number, 15);
+        UXmethods.RoundBorders.setArcStyle(role, 15);
+        UXmethods.RoundBorders.setArcStyle(role, 15);
+        UXmethods.RoundBorders.setArcStyle(editStatus, 15);
+
+        searchBar.setFocusable(false);
     }
 
     public void displayAccountName() {
@@ -115,7 +131,7 @@ public class adminDashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        hays = new javax.swing.JPanel();
+        dashboardContainer = new javax.swing.JPanel();
         dashboard = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         profile = new javax.swing.JButton();
@@ -125,49 +141,60 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        delete = new javax.swing.JButton();
-        edit = new javax.swing.JButton();
         add = new javax.swing.JButton();
         searchIcon = new javax.swing.JButton();
-        search = new javax.swing.JTextField();
+        searchBar = new javax.swing.JTextField();
         tabs = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        yawa = new javax.swing.JPanel();
-        scroll = new javax.swing.JScrollPane();
+        accountTableContainer = new javax.swing.JPanel();
+        scrollBar = new javax.swing.JScrollPane();
         accounts_table = new javax.swing.JTable();
-        jPanel4 = new javax.swing.JPanel();
-        yawa1 = new javax.swing.JPanel();
-        myprofile1 = new javax.swing.JLabel();
-        manage1 = new javax.swing.JLabel();
-        jSeparator6 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
+        fname = new javax.swing.JLabel();
         photo = new javax.swing.JLabel();
-        manage2 = new javax.swing.JLabel();
-        manage3 = new javax.swing.JLabel();
-        fullname = new javax.swing.JTextField();
-        email = new javax.swing.JTextField();
-        address = new javax.swing.JTextField();
+        jSeparator9 = new javax.swing.JSeparator();
+        statusIcon = new javax.swing.JLabel();
+        status = new javax.swing.JLabel();
+        delete = new javax.swing.JButton();
+        edit = new javax.swing.JButton();
+        c1 = new javax.swing.JPanel();
+        manage16 = new javax.swing.JLabel();
         id = new javax.swing.JLabel();
-        manage4 = new javax.swing.JLabel();
-        manage5 = new javax.swing.JLabel();
-        status = new javax.swing.JComboBox<>();
-        role = new javax.swing.JComboBox<>();
-        save = new javax.swing.JButton();
-        manage6 = new javax.swing.JLabel();
-        manage7 = new javax.swing.JLabel();
-        number = new javax.swing.JTextField();
+        c2 = new javax.swing.JPanel();
+        manage17 = new javax.swing.JLabel();
+        email = new javax.swing.JLabel();
+        c3 = new javax.swing.JPanel();
+        manage14 = new javax.swing.JLabel();
+        number = new javax.swing.JLabel();
+        c4 = new javax.swing.JPanel();
+        manage15 = new javax.swing.JLabel();
+        address = new javax.swing.JLabel();
+        c5 = new javax.swing.JPanel();
         manage8 = new javax.swing.JLabel();
-        myprofile2 = new javax.swing.JLabel();
+        role = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        editProfileContainer = new javax.swing.JPanel();
+        manage3 = new javax.swing.JLabel();
+        editStatus = new javax.swing.JComboBox<>();
+        editAccountSaveBtn = new javax.swing.JButton();
+        manage7 = new javax.swing.JLabel();
+        editRole = new javax.swing.JComboBox<>();
+        myprofile4 = new javax.swing.JLabel();
+        manage10 = new javax.swing.JLabel();
+        jSeparator10 = new javax.swing.JSeparator();
+        fullname = new javax.swing.JLabel();
+        displayStatus = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        displayPhoto = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        yawa2 = new javax.swing.JPanel();
+        addAccountContainer = new javax.swing.JPanel();
         first = new javax.swing.JTextField();
         last = new javax.swing.JTextField();
         num = new javax.swing.JTextField();
         em = new javax.swing.JTextField();
         user = new javax.swing.JTextField();
         pass = new javax.swing.JTextField();
-        save2 = new javax.swing.JButton();
+        addAccountsaveBtn = new javax.swing.JButton();
         jSeparator8 = new javax.swing.JSeparator();
         select = new javax.swing.JButton();
         displayImage = new javax.swing.JLabel();
@@ -179,13 +206,13 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        myprofile3 = new javax.swing.JLabel();
-        manage9 = new javax.swing.JLabel();
         jSeparator7 = new javax.swing.JSeparator();
         roles = new javax.swing.JComboBox<>();
         addresss = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        myprofile5 = new javax.swing.JLabel();
+        manage11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -194,8 +221,8 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        hays.setBackground(new java.awt.Color(241, 241, 241));
-        hays.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        dashboardContainer.setBackground(new java.awt.Color(241, 241, 241));
+        dashboardContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         dashboard.setBackground(new java.awt.Color(153, 204, 255));
         dashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-dashboard-24.png"))); // NOI18N
@@ -205,11 +232,11 @@ public class adminDashboard extends javax.swing.JFrame {
                 dashboardActionPerformed(evt);
             }
         });
-        hays.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 50, 50));
+        dashboardContainer.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 50, 50));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/2.png"))); // NOI18N
-        hays.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 70, 50));
+        dashboardContainer.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 70, 50));
 
         profile.setBackground(new java.awt.Color(153, 204, 255));
         profile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-account-24.png"))); // NOI18N
@@ -219,7 +246,7 @@ public class adminDashboard extends javax.swing.JFrame {
                 profileActionPerformed(evt);
             }
         });
-        hays.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 50, 50));
+        dashboardContainer.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 50, 50));
 
         logout.setBackground(new java.awt.Color(255, 102, 102));
         logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-logout-24.png"))); // NOI18N
@@ -229,10 +256,10 @@ public class adminDashboard extends javax.swing.JFrame {
                 logoutActionPerformed(evt);
             }
         });
-        hays.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, 50, 50));
-        hays.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 50, 10));
+        dashboardContainer.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, 50, 50));
+        dashboardContainer.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 50, 10));
 
-        jPanel1.add(hays, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 70, 670));
+        jPanel1.add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 70, 670));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -252,6 +279,84 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel19.setText("Welcome, ");
         jPanel5.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 50, 30));
 
+        add.setBackground(new java.awt.Color(122, 183, 147));
+        add.setForeground(new java.awt.Color(255, 255, 255));
+        add.setText("Add Account");
+        add.setBorder(null);
+        add.setBorderPainted(false);
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed(evt);
+            }
+        });
+        jPanel5.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 40, 180, 50));
+
+        searchIcon.setBackground(new java.awt.Color(204, 204, 204));
+        searchIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
+        searchIcon.setBorder(null);
+        searchIcon.setBorderPainted(false);
+        jPanel5.add(searchIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 40, 60, 50));
+
+        searchBar.setText("Search");
+        searchBar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchBarMouseClicked(evt);
+            }
+        });
+        searchBar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBarActionPerformed(evt);
+            }
+        });
+        jPanel5.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 40, 330, 50));
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 120));
+
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        accountTableContainer.setBackground(new java.awt.Color(241, 241, 241));
+        accountTableContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        scrollBar.setBackground(new java.awt.Color(0, 0, 0));
+
+        accounts_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        accounts_table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        accounts_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                accounts_tableMouseClicked(evt);
+            }
+        });
+        scrollBar.setViewportView(accounts_table);
+
+        accountTableContainer.add(scrollBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 800, 500));
+
+        fname.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        fname.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        fname.setText("FIRST NAME");
+        accountTableContainer.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 70, 180, 40));
+
+        photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        accountTableContainer.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 70, 70, 70));
+        accountTableContainer.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 170, 270, 20));
+
+        statusIcon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        statusIcon.setForeground(new java.awt.Color(102, 102, 102));
+        statusIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        accountTableContainer.add(statusIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 120, -1, 20));
+
+        status.setForeground(new java.awt.Color(102, 102, 102));
+        accountTableContainer.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 120, -1, 20));
+
         delete.setBackground(new java.awt.Color(255, 102, 102));
         delete.setForeground(new java.awt.Color(255, 255, 255));
         delete.setText("Delete");
@@ -262,7 +367,7 @@ public class adminDashboard extends javax.swing.JFrame {
                 deleteActionPerformed(evt);
             }
         });
-        jPanel5.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 40, 80, 50));
+        accountTableContainer.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 490, 130, 50));
 
         edit.setBackground(new java.awt.Color(102, 102, 102));
         edit.setForeground(new java.awt.Color(255, 255, 255));
@@ -274,65 +379,84 @@ public class adminDashboard extends javax.swing.JFrame {
                 editActionPerformed(evt);
             }
         });
-        jPanel5.add(edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 40, 80, 50));
+        accountTableContainer.add(edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 490, 130, 50));
 
-        add.setBackground(new java.awt.Color(122, 183, 147));
-        add.setForeground(new java.awt.Color(255, 255, 255));
-        add.setText("Add Account");
-        add.setBorder(null);
-        add.setBorderPainted(false);
-        add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addActionPerformed(evt);
-            }
-        });
-        jPanel5.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 40, 180, 50));
+        c1.setBackground(new java.awt.Color(255, 255, 255));
+        c1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        searchIcon.setBackground(new java.awt.Color(204, 204, 204));
-        searchIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
-        searchIcon.setBorder(null);
-        searchIcon.setBorderPainted(false);
-        jPanel5.add(searchIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 40, 60, 50));
+        manage16.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage16.setForeground(new java.awt.Color(102, 102, 102));
+        manage16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        manage16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-name-tag-woman-horizontal-24.png"))); // NOI18N
+        c1.add(manage16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 30));
 
-        search.setText("Search");
-        search.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                searchMouseClicked(evt);
-            }
-        });
-        search.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchActionPerformed(evt);
-            }
-        });
-        jPanel5.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 40, 330, 50));
+        id.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        id.setForeground(new java.awt.Color(102, 102, 102));
+        c1.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 120));
+        accountTableContainer.add(c1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 180, 270, 30));
 
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        c2.setBackground(new java.awt.Color(255, 255, 255));
+        c2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        manage17.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage17.setForeground(new java.awt.Color(102, 102, 102));
+        manage17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        manage17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-email-24.png"))); // NOI18N
+        c2.add(manage17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 30));
 
-        yawa.setBackground(new java.awt.Color(241, 241, 241));
-        yawa.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        email.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        email.setForeground(new java.awt.Color(102, 102, 102));
+        c2.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
-        scroll.setBackground(new java.awt.Color(0, 0, 0));
+        accountTableContainer.add(c2, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 220, 270, 30));
 
-        accounts_table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        c3.setBackground(new java.awt.Color(255, 255, 255));
+        c3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-            },
-            new String [] {
+        manage14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage14.setForeground(new java.awt.Color(102, 102, 102));
+        manage14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        manage14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-phone-24.png"))); // NOI18N
+        c3.add(manage14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 30));
 
-            }
-        ));
-        accounts_table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        scroll.setViewportView(accounts_table);
+        number.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        number.setForeground(new java.awt.Color(102, 102, 102));
+        c3.add(number, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
-        yawa.add(scroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 1070, 500));
+        accountTableContainer.add(c3, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 260, 270, 30));
 
-        jPanel7.add(yawa, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
+        c4.setBackground(new java.awt.Color(255, 255, 255));
+        c4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        manage15.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage15.setForeground(new java.awt.Color(102, 102, 102));
+        manage15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        manage15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-address-24.png"))); // NOI18N
+        c4.add(manage15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 30));
+
+        address.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        address.setForeground(new java.awt.Color(102, 102, 102));
+        c4.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
+
+        accountTableContainer.add(c4, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 300, 270, 30));
+
+        c5.setBackground(new java.awt.Color(255, 255, 255));
+        c5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        manage8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage8.setForeground(new java.awt.Color(102, 102, 102));
+        manage8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        manage8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-admin-24.png"))); // NOI18N
+        c5.add(manage8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 30));
+
+        role.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        role.setForeground(new java.awt.Color(102, 102, 102));
+        c5.add(role, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
+
+        accountTableContainer.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 340, 270, 30));
+
+        jPanel7.add(accountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
 
         jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 690));
 
@@ -341,138 +465,98 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        yawa1.setBackground(new java.awt.Color(241, 241, 241));
-        yawa1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        myprofile1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
-        myprofile1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        myprofile1.setText("Account Picture");
-        yawa1.add(myprofile1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 340, 560, 30));
-
-        manage1.setForeground(new java.awt.Color(102, 102, 102));
-        manage1.setText("Manage Profile");
-        yawa1.add(manage1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, 30));
-        yawa1.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 1090, 20));
-
-        jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        yawa1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 140, 30, 380));
-
-        photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        photo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default.png"))); // NOI18N
-        yawa1.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 210, 120, 120));
-
-        manage2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage2.setForeground(new java.awt.Color(102, 102, 102));
-        manage2.setText("Account ID");
-        yawa1.add(manage2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, -1));
+        editProfileContainer.setBackground(new java.awt.Color(241, 241, 241));
+        editProfileContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         manage3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage3.setForeground(new java.awt.Color(102, 102, 102));
         manage3.setText("Status");
-        yawa1.add(manage3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 440, -1, 40));
+        editProfileContainer.add(manage3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 330, -1, 30));
 
-        fullname.setEditable(false);
-        yawa1.add(fullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 270, 40));
+        editStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Inactive", "Pending" }));
+        editProfileContainer.add(editStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 360, 320, 40));
 
-        email.setEditable(false);
-        yawa1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, 270, 40));
-
-        address.setEditable(false);
-        yawa1.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 320, 270, 40));
-
-        id.setForeground(new java.awt.Color(153, 153, 153));
-        id.setText("chielbrc");
-        yawa1.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, -1, 40));
-
-        manage4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage4.setForeground(new java.awt.Color(102, 102, 102));
-        manage4.setText("Name");
-        yawa1.add(manage4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, -1, 40));
-
-        manage5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage5.setForeground(new java.awt.Color(102, 102, 102));
-        manage5.setText("Email");
-        yawa1.add(manage5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, -1, 40));
-
-        status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Inactive", "Pending" }));
-        yawa1.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 270, 40));
-
-        role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Seller", "Buyer" }));
-        yawa1.add(role, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 380, 270, 40));
-
-        save.setBackground(new java.awt.Color(0, 158, 226));
-        save.setForeground(new java.awt.Color(255, 255, 255));
-        save.setText("Save");
-        save.addActionListener(new java.awt.event.ActionListener() {
+        editAccountSaveBtn.setBackground(new java.awt.Color(0, 158, 226));
+        editAccountSaveBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editAccountSaveBtn.setText("Save");
+        editAccountSaveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveActionPerformed(evt);
+                editAccountSaveBtnActionPerformed(evt);
             }
         });
-        yawa1.add(save, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 500, -1, 40));
-
-        manage6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage6.setForeground(new java.awt.Color(102, 102, 102));
-        manage6.setText("Address");
-        yawa1.add(manage6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 320, -1, 40));
+        editProfileContainer.add(editAccountSaveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 420, -1, 40));
 
         manage7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage7.setForeground(new java.awt.Color(102, 102, 102));
         manage7.setText("Role");
-        yawa1.add(manage7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 380, -1, 40));
+        editProfileContainer.add(manage7, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 260, -1, 30));
 
-        number.setEditable(false);
-        yawa1.add(number, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, 270, 40));
+        editRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Seller", "Buyer" }));
+        editProfileContainer.add(editRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 290, 320, 40));
 
-        manage8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage8.setForeground(new java.awt.Color(102, 102, 102));
-        manage8.setText("Phone Number");
-        yawa1.add(manage8, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, -1, 40));
+        myprofile4.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        myprofile4.setText("Edit Account");
+        editProfileContainer.add(myprofile4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 120, 30));
 
-        myprofile2.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
-        myprofile2.setText("Account Profile");
-        yawa1.add(myprofile2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 140, 30));
+        manage10.setForeground(new java.awt.Color(102, 102, 102));
+        manage10.setText("Manage account profile ");
+        editProfileContainer.add(manage10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, 30));
+        editProfileContainer.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 1060, 20));
 
-        jPanel4.add(yawa1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
+        fullname.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        fullname.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        fullname.setText("Archie Albarico");
+        editProfileContainer.add(fullname, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 170, 190, 40));
+
+        displayStatus.setForeground(new java.awt.Color(153, 153, 153));
+        displayStatus.setText("Pending");
+        editProfileContainer.add(displayStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 206, -1, 20));
+
+        jLabel13.setText("Status:");
+        editProfileContainer.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 206, -1, 20));
+        editProfileContainer.add(displayPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 150, 100, 100));
+
+        jPanel4.add(editProfileContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
 
         tabs.addTab("tab2", jPanel4);
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        yawa2.setBackground(new java.awt.Color(241, 241, 241));
-        yawa2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        addAccountContainer.setBackground(new java.awt.Color(241, 241, 241));
+        addAccountContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         first.setBackground(new java.awt.Color(241, 241, 241));
-        yawa2.add(first, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 100, 430, 40));
+        addAccountContainer.add(first, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 280, 30));
 
         last.setBackground(new java.awt.Color(241, 241, 241));
-        yawa2.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 430, 40));
+        addAccountContainer.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 280, 30));
 
         num.setBackground(new java.awt.Color(241, 241, 241));
-        yawa2.add(num, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 400, 430, 40));
+        addAccountContainer.add(num, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 360, 280, 30));
 
         em.setBackground(new java.awt.Color(241, 241, 241));
-        yawa2.add(em, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 430, 40));
+        addAccountContainer.add(em, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 200, 280, 30));
 
         user.setBackground(new java.awt.Color(241, 241, 241));
-        yawa2.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 430, 40));
+        addAccountContainer.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 240, 280, 30));
 
         pass.setBackground(new java.awt.Color(241, 241, 241));
-        yawa2.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 300, 430, 40));
+        addAccountContainer.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 280, 280, 30));
 
-        save2.setBackground(new java.awt.Color(0, 158, 226));
-        save2.setForeground(new java.awt.Color(255, 255, 255));
-        save2.setText("Save");
-        save2.setBorderPainted(false);
-        save2.addActionListener(new java.awt.event.ActionListener() {
+        addAccountsaveBtn.setBackground(new java.awt.Color(0, 158, 226));
+        addAccountsaveBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addAccountsaveBtn.setText("Save");
+        addAccountsaveBtn.setBorderPainted(false);
+        addAccountsaveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                save2ActionPerformed(evt);
+                addAccountsaveBtnActionPerformed(evt);
             }
         });
-        yawa2.add(save2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 510, -1, 40));
+        addAccountContainer.add(addAccountsaveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 470, -1, 30));
 
         jSeparator8.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        yawa2.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 100, 60, 420));
+        addAccountContainer.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 120, 60, 380));
 
         select.setBackground(new java.awt.Color(241, 241, 241));
         select.setText("Select Image");
@@ -481,80 +565,86 @@ public class adminDashboard extends javax.swing.JFrame {
                 selectActionPerformed(evt);
             }
         });
-        yawa2.add(select, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 340, 120, 40));
+        addAccountContainer.add(select, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 340, 120, 40));
 
         displayImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default.png"))); // NOI18N
-        yawa2.add(displayImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 206, 120, 120));
+        addAccountContainer.add(displayImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 206, 120, 120));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(153, 153, 153));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("* Optional");
-        yawa2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 390, 490, -1));
+        addAccountContainer.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 390, 490, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel4.setText("Phone Number");
-        yawa2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 400, -1, 40));
+        addAccountContainer.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 360, 100, 30));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Role");
-        yawa2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 450, -1, 40));
+        addAccountContainer.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 400, 30, 30));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("First Name");
-        yawa2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, -1, 40));
+        addAccountContainer.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 120, 70, 30));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel7.setText("Last Name");
-        yawa2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, 40));
+        addAccountContainer.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 70, 30));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel8.setText("Email");
-        yawa2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, -1, 40));
+        addAccountContainer.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, 40, 30));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel9.setText("Username");
-        yawa2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, -1, 40));
+        addAccountContainer.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 240, 70, 30));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel10.setText("Password");
-        yawa2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, -1, 40));
-
-        myprofile3.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
-        myprofile3.setText("Add Account");
-        yawa2.add(myprofile3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 120, 30));
-
-        manage9.setForeground(new java.awt.Color(102, 102, 102));
-        manage9.setText("Manage account profile ");
-        yawa2.add(manage9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
-        yawa2.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 1060, 20));
+        addAccountContainer.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 280, 70, 30));
+        addAccountContainer.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 1060, 20));
 
         roles.setBackground(new java.awt.Color(241, 241, 241));
         roles.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Seller", "Buyer" }));
-        yawa2.add(roles, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 450, 430, 40));
+        addAccountContainer.add(roles, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 400, 280, 30));
 
         addresss.setBackground(new java.awt.Color(241, 241, 241));
-        yawa2.add(addresss, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 350, 430, 40));
+        addAccountContainer.add(addresss, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 320, 280, 30));
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel11.setText("Address");
-        yawa2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 350, -1, 40));
+        addAccountContainer.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 50, 30));
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(153, 153, 153));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("File extension: .JPEG, .PNG ");
-        yawa2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 410, 490, -1));
+        addAccountContainer.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 410, 490, -1));
 
-        jPanel6.add(yawa2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
+        myprofile5.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
+        myprofile5.setText("Add Account");
+        addAccountContainer.add(myprofile5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 120, 30));
+
+        manage11.setForeground(new java.awt.Color(102, 102, 102));
+        manage11.setText("Create new account profile");
+        addAccountContainer.add(manage11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, 30));
+
+        jPanel6.add(addAccountContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
 
         tabs.addTab("tab3", jPanel6);
 
@@ -577,47 +667,38 @@ public class adminDashboard extends javax.swing.JFrame {
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
         int rowIndex = accounts_table.getSelectedRow();
-
-        if (rowIndex < 0) {
-            JOptionPane.showMessageDialog(null, "Please Select an Item!");
-        } else {
-            TableModel model = accounts_table.getModel();
-            try {
+        try {
+            if (rowIndex < 0) {
+                JOptionPane.showMessageDialog(null, "Please Select an Item!");
+            } else {
+                TableModel model = accounts_table.getModel();
                 databaseConnector dbc = new databaseConnector();
-                ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE account_id =" + model.getValueAt(rowIndex, 0));
-
+                ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE account_id = " + model.getValueAt(rowIndex, 0));
                 if (rs.next()) {
+                    int height = 100;
+                    int width = 100;
+                    String firstName = rs.getString("fname");
+                    String lastName = rs.getString("lname");
+                    firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
+                    lastName = Character.toUpperCase(lastName.charAt(0)) + lastName.substring(1);
 
-                    id.setText("" + rs.getString("account_id"));
-                    fullname.setText(rs.getString("fname") + " " + rs.getString("lname"));
-                    email.setText("" + rs.getString("email"));
-                    number.setText("" + rs.getString("phone number"));
-                    address.setText("" + rs.getString("address"));
-                    role.setSelectedItem(rs.getString("role"));
-                    status.setSelectedItem(rs.getString("Status"));
-
-                    int height = 120;
-                    int width = 120;
+                    fullname.setText(firstName + " " + lastName);
+                    displayStatus.setText(rs.getString("Status"));
+                    editStatus.setSelectedItem(rs.getString("Status"));
+                    editRole.setSelectedItem(rs.getString("role"));
                     String getImageFromDatabase = rs.getString("profile_picture");
-                    GetImage.displayImage(photo, getImageFromDatabase, height, width);
-
+                    GetImage.displayImage(displayPhoto, getImageFromDatabase, height, width);
                     tabs.setSelectedIndex(1);
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
-                System.out.println(e.getMessage());
+
             }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_editActionPerformed
 
     private void dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardActionPerformed
-        id.setText("");
-        fullname.setText("");
-        email.setText("");
-        number.setText("");
-        address.setText("");
-        role.setSelectedItem("Admin");
-        status.setSelectedItem("Active");
         tabs.setSelectedIndex(0);
     }//GEN-LAST:event_dashboardActionPerformed
 
@@ -625,13 +706,13 @@ public class adminDashboard extends javax.swing.JFrame {
         tabs.setSelectedIndex(1);
     }//GEN-LAST:event_profileActionPerformed
 
-    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+    private void editAccountSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAccountSaveBtnActionPerformed
         try {
             databaseConnector dbc = new databaseConnector();
             String sql;
             String accountID = id.getText();
-            String stats = (String) status.getSelectedItem();
-            String rolee = (String) role.getSelectedItem();
+            String stats = (String) editStatus.getSelectedItem();
+            String rolee = (String) editRole.getSelectedItem();
 
             sql = "UPDATE accounts_table SET status=?, role=? WHERE account_id=?";
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
@@ -645,13 +726,15 @@ public class adminDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Account Updated Successfully!");
                     displayAccounts();
                     tabs.setSelectedIndex(0);
-                    id.setText("");
-                    fullname.setText("");
-                    email.setText("");
+                    status.setText("");
+                    fname.setText("");
+                    status.setText("");
                     number.setText("");
-                    address.setText("");
-                    role.setSelectedItem("Admin");
-                    status.setSelectedItem("Active");
+                    role.setText("");
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/sampleProfiles/default.png"));
+                    photo.setIcon(icon);
+                    editRole.setSelectedItem("Admin");
+                    editStatus.setSelectedItem("Active");
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed to update Account!");
                 }
@@ -662,7 +745,7 @@ public class adminDashboard extends javax.swing.JFrame {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
-    }//GEN-LAST:event_saveActionPerformed
+    }//GEN-LAST:event_editAccountSaveBtnActionPerformed
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         Login logout = new Login();
@@ -692,7 +775,7 @@ public class adminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_addActionPerformed
     String fileName;
     String imagePath;
-    private void save2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_save2ActionPerformed
+    private void addAccountsaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAccountsaveBtnActionPerformed
         String first_name = first.getText();
         String last_name = last.getText();
         String emails = em.getText();
@@ -734,8 +817,10 @@ public class adminDashboard extends javax.swing.JFrame {
                 pst = (PreparedStatement) dbc.getConnection().prepareStatement(sql);
                 pst.setString(10, imagePath);
             } else {
+                String defaultImage = "src/sampleProfiles/default profile 100x100.png";
                 sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `phone number`, `username`, `password`, `role`, `date joined`, `status`, `address`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), ?, ?)";
                 pst = (PreparedStatement) dbc.getConnection().prepareStatement(sql);
+                pst.setString(10, defaultImage);
             }
 
             pst.setString(1, emails);
@@ -758,15 +843,15 @@ public class adminDashboard extends javax.swing.JFrame {
             first.setText("");
             last.setText("");
             user.setText("");
-            address.setText("");
+            role.setText("");
             num.setText("");
             pass.setText("");
-            role.setSelectedIndex(0);
+            editRole.setSelectedIndex(0);
             tabs.setSelectedIndex(0);
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }//GEN-LAST:event_save2ActionPerformed
+    }//GEN-LAST:event_addAccountsaveBtnActionPerformed
     File selectedFile;
     private void selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -799,15 +884,64 @@ public class adminDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_selectActionPerformed
 
-    private void searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchActionPerformed
+    private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
         tabs.setSelectedIndex(0);
-    }//GEN-LAST:event_searchActionPerformed
+    }//GEN-LAST:event_searchBarActionPerformed
 
-    private void searchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchMouseClicked
+    private void searchBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchBarMouseClicked
         tabs.setSelectedIndex(0);
-        search.setFocusable(true);
-        search.setText("");
-    }//GEN-LAST:event_searchMouseClicked
+        searchBar.setFocusable(true);
+        searchBar.setText("");
+    }//GEN-LAST:event_searchBarMouseClicked
+
+    private ImageIcon pendingIcon;
+    private ImageIcon activeIcon;
+    private ImageIcon inactiveIcon;
+
+
+    private void accounts_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accounts_tableMouseClicked
+        int rowIndex = accounts_table.getSelectedRow();
+
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please Select an Item!");
+        } else {
+            TableModel model = accounts_table.getModel();
+            try {
+                databaseConnector dbc = new databaseConnector();
+                ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE account_id =" + model.getValueAt(rowIndex, 0));
+
+                if (rs.next()) {
+                    id.setText("" + rs.getString("account_id"));
+                    String firstName = rs.getString("fname");
+                    firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
+                    fname.setText(firstName);
+                    email.setText("" + rs.getString("email"));
+                    number.setText("" + rs.getString("phone number"));
+                    address.setText("" + rs.getString("address"));
+                    role.setText("" + rs.getString("role"));
+                    String statusValue = rs.getString("Status");
+                    status.setText(statusValue);
+                    activeIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"));
+                    inactiveIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-inavtiveon-24 (2).png"));
+                    pendingIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-pendingon-24.png"));
+                    if (statusValue.equals("Pending")) {
+                        statusIcon.setIcon(pendingIcon);
+                    } else if (statusValue.equals("Active")) {
+                        statusIcon.setIcon(activeIcon);
+                    } else if (statusValue.equals("Inactive")) {
+                        statusIcon.setIcon(inactiveIcon);
+                    }
+                    int height = 70;
+                    int width = 70;
+                    String getImageFromDatabase = rs.getString("profile_picture");
+                    GetImage.displayImage(photo, getImageFromDatabase, height, width);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
+                System.out.println(e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_accounts_tableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -830,24 +964,40 @@ public class adminDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel accountTableContainer;
     private javax.swing.JTable accounts_table;
     private javax.swing.JButton add;
-    private javax.swing.JTextField address;
+    private javax.swing.JPanel addAccountContainer;
+    private javax.swing.JButton addAccountsaveBtn;
+    private javax.swing.JLabel address;
     private javax.swing.JTextField addresss;
+    private javax.swing.JPanel c1;
+    private javax.swing.JPanel c2;
+    private javax.swing.JPanel c3;
+    private javax.swing.JPanel c4;
+    private javax.swing.JPanel c5;
     private javax.swing.JButton dashboard;
+    private javax.swing.JPanel dashboardContainer;
     private javax.swing.JButton delete;
     private javax.swing.JLabel displayImage;
+    private javax.swing.JLabel displayPhoto;
+    private javax.swing.JLabel displayStatus;
     private javax.swing.JButton edit;
+    private javax.swing.JButton editAccountSaveBtn;
+    private javax.swing.JPanel editProfileContainer;
+    private javax.swing.JComboBox<String> editRole;
+    private javax.swing.JComboBox<String> editStatus;
     private javax.swing.JTextField em;
-    private javax.swing.JTextField email;
+    private javax.swing.JLabel email;
     private javax.swing.JTextField first;
-    private javax.swing.JTextField fullname;
-    private javax.swing.JPanel hays;
+    private javax.swing.JLabel fname;
+    private javax.swing.JLabel fullname;
     private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel3;
@@ -864,43 +1014,38 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTextField last;
     private javax.swing.JButton logout;
-    private javax.swing.JLabel manage1;
-    private javax.swing.JLabel manage2;
+    private javax.swing.JLabel manage10;
+    private javax.swing.JLabel manage11;
+    private javax.swing.JLabel manage14;
+    private javax.swing.JLabel manage15;
+    private javax.swing.JLabel manage16;
+    private javax.swing.JLabel manage17;
     private javax.swing.JLabel manage3;
-    private javax.swing.JLabel manage4;
-    private javax.swing.JLabel manage5;
-    private javax.swing.JLabel manage6;
     private javax.swing.JLabel manage7;
     private javax.swing.JLabel manage8;
-    private javax.swing.JLabel manage9;
-    private javax.swing.JLabel myprofile1;
-    private javax.swing.JLabel myprofile2;
-    private javax.swing.JLabel myprofile3;
+    private javax.swing.JLabel myprofile4;
+    private javax.swing.JLabel myprofile5;
     private javax.swing.JLabel name;
     private javax.swing.JTextField num;
-    private javax.swing.JTextField number;
+    private javax.swing.JLabel number;
     private javax.swing.JTextField pass;
     private javax.swing.JLabel photo;
     private javax.swing.JButton profile;
-    private javax.swing.JComboBox<String> role;
+    private javax.swing.JLabel role;
     private javax.swing.JComboBox<String> roles;
-    private javax.swing.JButton save;
-    private javax.swing.JButton save2;
-    private javax.swing.JScrollPane scroll;
-    private javax.swing.JTextField search;
+    private javax.swing.JScrollPane scrollBar;
+    private javax.swing.JTextField searchBar;
     private javax.swing.JButton searchIcon;
     private javax.swing.JButton select;
-    private javax.swing.JComboBox<String> status;
+    private javax.swing.JLabel status;
+    private javax.swing.JLabel statusIcon;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTextField user;
-    private javax.swing.JPanel yawa;
-    private javax.swing.JPanel yawa1;
-    private javax.swing.JPanel yawa2;
     // End of variables declaration//GEN-END:variables
 }

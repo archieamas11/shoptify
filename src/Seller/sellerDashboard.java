@@ -812,7 +812,6 @@ public class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_graphsActionPerformed
 
     private void p1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p1MouseClicked
-        editProduct edit = new editProduct();
     }//GEN-LAST:event_p1MouseClicked
 
     private void editbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbtnActionPerformed
@@ -827,7 +826,6 @@ public class sellerDashboard extends javax.swing.JFrame {
                 ResultSet rs = dbc.getData("SELECT * FROM products WHERE product_id =" + model.getValueAt(rowIndex, 0));
 
                 if (rs.next()) {
-
                     id.setText("" + rs.getString("product_id"));
                     name.setText("" + rs.getString("Product Name"));
                     price.setText("" + rs.getString("Price"));

@@ -21,12 +21,15 @@ public class GetImage {
 
     public static void displayImage(JLabel displayPhoto, String getImageFromDatabase, int height, int width) {
         try {
+            BufferedImage bufferedImage = ImageIO.read(new File(getImageFromDatabase));
+            Image scaledImage = bufferedImage.getScaledInstance(height, width, Image.SCALE_SMOOTH);
+            ImageIcon imageIcon = new ImageIcon(scaledImage);
+
             if (getImageFromDatabase != null && !getImageFromDatabase.isEmpty()) {
-                BufferedImage bufferedImage = ImageIO.read(new File(getImageFromDatabase));
-                Image scaledImage = bufferedImage.getScaledInstance(height, width, Image.SCALE_SMOOTH);
-                ImageIcon imageIcon = new ImageIcon(scaledImage);
+
                 displayPhoto.setIcon(imageIcon);
             } else {
+                displayPhoto.setIcon(imageIcon);
                 JOptionPane.showMessageDialog(null, "No Image found!");
             }
         } catch (IOException e) {
