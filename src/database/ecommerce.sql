@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2024 at 08:52 AM
+-- Generation Time: Apr 24, 2024 at 11:31 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,7 +47,8 @@ CREATE TABLE `accounts_table` (
 --
 
 INSERT INTO `accounts_table` (`account_id`, `email`, `fname`, `lname`, `address`, `phone number`, `username`, `password`, `role`, `profile_picture`, `date joined`, `status`) VALUES
-(1028, 'archiealbarico69@gmail.com', 'archie', 'albarico', NULL, '09231226478', 'archieamas11', '$2a$10$rzkJ4E2xbRf6A2a0DZn6mufnBK6ogjfYmIpxjmGeKn4He4XiKjsEG', 'Admin', NULL, '2024-04-23', 'Active');
+(1037, '1', '1', '1', NULL, '09231226478', '1', '$2a$10$Z4y24ScI.ip77WO.Vz/Bh.wiPAlwOtaZcARlv9xaq55HKiaLbN8Hy', 'Admin', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Active'),
+(1040, '2', '2', '2', '2', '09231226478', '2', '$2a$10$88HZhTvIKqmk/Kr3dAaGcOx2Q7ZzeATeQSRm1E0ThP4XNgBWF6lBi', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -141,19 +142,19 @@ ALTER TABLE `purchase`
 -- AUTO_INCREMENT for table `accounts_table`
 --
 ALTER TABLE `accounts_table`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1029;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1041;
 
 --
 -- AUTO_INCREMENT for table `add2cart`
 --
 ALTER TABLE `add2cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1030;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1032;
 
 --
 -- AUTO_INCREMENT for table `purchase`
