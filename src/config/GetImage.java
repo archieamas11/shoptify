@@ -29,7 +29,6 @@ public class GetImage {
 
                 displayPhoto.setIcon(imageIcon);
             } else {
-                displayPhoto.setIcon(imageIcon);
                 JOptionPane.showMessageDialog(null, "No Image found!");
             }
         } catch (IOException e) {

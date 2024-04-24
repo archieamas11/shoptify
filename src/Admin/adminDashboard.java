@@ -61,6 +61,7 @@ public class adminDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(searchIcon, 15);
         UXmethods.RoundBorders.setArcStyle(editAccountSaveBtn, 15);
         UXmethods.RoundBorders.setArcStyle(addAccountsaveBtn, 15);
+        UXmethods.RoundBorders.setArcStyle(delete, 15);
 
         // Components
         UXmethods.RoundBorders.setArcStyle(scrollBar, 15);
@@ -72,15 +73,10 @@ public class adminDashboard extends javax.swing.JFrame {
 
         // Dashboard Buttons
         UXmethods.RoundBorders.setArcStyle(dashboard, 50);
-        UXmethods.RoundBorders.setArcStyle(profile, 50);
         UXmethods.RoundBorders.setArcStyle(logout, 50);
 
-        UXmethods.RoundBorders.setArcStyle(delete, 15);
-        UXmethods.RoundBorders.setArcStyle(fname, 15);
-        UXmethods.RoundBorders.setArcStyle(status, 15);
-        UXmethods.RoundBorders.setArcStyle(number, 15);
-        UXmethods.RoundBorders.setArcStyle(role, 15);
-        UXmethods.RoundBorders.setArcStyle(role, 15);
+        //Test
+        UXmethods.RoundBorders.setArcStyle(editRole, 15);
         UXmethods.RoundBorders.setArcStyle(editStatus, 15);
 
         searchBar.setFocusable(false);
@@ -91,15 +87,42 @@ public class adminDashboard extends javax.swing.JFrame {
             int accountId = UserManager.getLoggedInUserId();
 
             databaseConnector dbc = new databaseConnector();
-            String query = "SELECT fname FROM accounts_table WHERE account_id = ?";
+            String query = "SELECT fname, account_id, email, `phone number`, address, role, status, profile_picture FROM accounts_table WHERE account_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
             pst.setInt(1, accountId);
             ResultSet rs = pst.executeQuery();
-
             if (rs.next()) {
                 String firstName = rs.getString("fname");
+                firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
+                fname.setText(firstName + "!");
+                id.setText("" + rs.getString("account_id"));
+                email.setText("" + rs.getString("email"));
+                number.setText("" + rs.getString("phone number"));
+                address.setText("" + rs.getString("address"));
+                role.setText("" + rs.getString("role"));
+                String statusValue = rs.getString("status");
+                status.setText(statusValue);
 
-                name.setText(firstName + "!");
+                // Set status icon based on status value
+                ImageIcon activeIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"));
+                ImageIcon inactiveIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-inavtiveon-24 (2).png"));
+                ImageIcon pendingIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-pendingon-24.png"));
+
+                if (statusValue.equals("Pending")) {
+                    statusIcon.setIcon(pendingIcon);
+                } else if (statusValue.equals("Active")) {
+                    statusIcon.setIcon(activeIcon);
+                } else if (statusValue.equals("Inactive")) {
+                    statusIcon.setIcon(inactiveIcon);
+                }
+
+                // Display profile picture
+                int height = 70;
+                int width = 70;
+                String profilePicture = rs.getString("profile_picture");
+                GetImage.displayImage(photo, profilePicture, height, width);
+                System.out.println(accountId);
+
             }
             rs.close();
             pst.close();
@@ -134,7 +157,6 @@ public class adminDashboard extends javax.swing.JFrame {
         dashboardContainer = new javax.swing.JPanel();
         dashboard = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        profile = new javax.swing.JButton();
         logout = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel5 = new javax.swing.JPanel();
@@ -172,6 +194,7 @@ public class adminDashboard extends javax.swing.JFrame {
         c5 = new javax.swing.JPanel();
         manage8 = new javax.swing.JLabel();
         role = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         editProfileContainer = new javax.swing.JPanel();
         manage3 = new javax.swing.JLabel();
@@ -190,7 +213,7 @@ public class adminDashboard extends javax.swing.JFrame {
         addAccountContainer = new javax.swing.JPanel();
         first = new javax.swing.JTextField();
         last = new javax.swing.JTextField();
-        num = new javax.swing.JTextField();
+        phoneNumber = new javax.swing.JTextField();
         em = new javax.swing.JTextField();
         user = new javax.swing.JTextField();
         pass = new javax.swing.JTextField();
@@ -237,16 +260,6 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/2.png"))); // NOI18N
         dashboardContainer.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 70, 50));
-
-        profile.setBackground(new java.awt.Color(153, 204, 255));
-        profile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-account-24.png"))); // NOI18N
-        profile.setBorderPainted(false);
-        profile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                profileActionPerformed(evt);
-            }
-        });
-        dashboardContainer.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 50, 50));
 
         logout.setBackground(new java.awt.Color(255, 102, 102));
         logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-logout-24.png"))); // NOI18N
@@ -456,6 +469,10 @@ public class adminDashboard extends javax.swing.JFrame {
 
         accountTableContainer.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 340, 270, 30));
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Accounts Table");
+        accountTableContainer.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
         jPanel7.add(accountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
 
         jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 690));
@@ -532,8 +549,8 @@ public class adminDashboard extends javax.swing.JFrame {
         last.setBackground(new java.awt.Color(241, 241, 241));
         addAccountContainer.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 280, 30));
 
-        num.setBackground(new java.awt.Color(241, 241, 241));
-        addAccountContainer.add(num, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 360, 280, 30));
+        phoneNumber.setBackground(new java.awt.Color(241, 241, 241));
+        addAccountContainer.add(phoneNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 360, 280, 30));
 
         em.setBackground(new java.awt.Color(241, 241, 241));
         addAccountContainer.add(em, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 200, 280, 30));
@@ -702,10 +719,6 @@ public class adminDashboard extends javax.swing.JFrame {
         tabs.setSelectedIndex(0);
     }//GEN-LAST:event_dashboardActionPerformed
 
-    private void profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profileActionPerformed
-        tabs.setSelectedIndex(1);
-    }//GEN-LAST:event_profileActionPerformed
-
     private void editAccountSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAccountSaveBtnActionPerformed
         try {
             databaseConnector dbc = new databaseConnector();
@@ -779,7 +792,7 @@ public class adminDashboard extends javax.swing.JFrame {
         String first_name = first.getText();
         String last_name = last.getText();
         String emails = em.getText();
-        String phone = num.getText();
+        String phone = phoneNumber.getText();
         String addre = addresss.getText();
         String username = user.getText();
         String password = pass.getText();
@@ -789,7 +802,7 @@ public class adminDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if (phone.length() < 11 || phone.length() > 12 || !phone.matches("\\d+")) {
+        if (phone.length() < 11 || phone.length() > 11 || !phone.matches("\\d+")) {
             JOptionPane.showMessageDialog(null, "Invalid number", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -818,7 +831,7 @@ public class adminDashboard extends javax.swing.JFrame {
                 pst.setString(10, imagePath);
             } else {
                 String defaultImage = "src/sampleProfiles/default profile 100x100.png";
-                sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `phone number`, `username`, `password`, `role`, `date joined`, `status`, `address`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), ?, ?)";
+                sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `phone number`, `username`, `password`, `role`, `date joined`, `status`, `address`, `profile_picture`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), ?, ?, ?)";
                 pst = (PreparedStatement) dbc.getConnection().prepareStatement(sql);
                 pst.setString(10, defaultImage);
             }
@@ -844,8 +857,9 @@ public class adminDashboard extends javax.swing.JFrame {
             last.setText("");
             user.setText("");
             role.setText("");
-            num.setText("");
+            phoneNumber.setText("");
             pass.setText("");
+            addresss.setText("");
             editRole.setSelectedIndex(0);
             tabs.setSelectedIndex(0);
         } catch (Exception e) {
@@ -1000,6 +1014,7 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1032,11 +1047,10 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel myprofile4;
     private javax.swing.JLabel myprofile5;
     private javax.swing.JLabel name;
-    private javax.swing.JTextField num;
     private javax.swing.JLabel number;
     private javax.swing.JTextField pass;
+    private javax.swing.JTextField phoneNumber;
     private javax.swing.JLabel photo;
-    private javax.swing.JButton profile;
     private javax.swing.JLabel role;
     private javax.swing.JComboBox<String> roles;
     private javax.swing.JScrollPane scrollBar;
