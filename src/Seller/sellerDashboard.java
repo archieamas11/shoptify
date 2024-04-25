@@ -770,7 +770,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         tabs.addTab("tab6", jPanel11);
 
-        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1040, 730));
+        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1030, 720));
 
         jPanel5.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 1020, 720));
 

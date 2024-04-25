@@ -95,7 +95,8 @@ public final class adminDashboard extends javax.swing.JFrame {
             if (rs.next()) {
                 String firstName = rs.getString("fname");
                 firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
-                fname.setText(firstName + "!");
+                fname.setText(firstName);
+                name.setText(firstName + "!");
                 id.setText("" + rs.getString("account_id"));
                 email.setText("" + rs.getString("email"));
                 number.setText("" + rs.getString("phone number"));
@@ -104,7 +105,6 @@ public final class adminDashboard extends javax.swing.JFrame {
                 String statusValue = rs.getString("status");
                 status.setText(statusValue);
 
-                // Set status icon based on status value
                 ImageIcon activeIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"));
                 ImageIcon inactiveIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-inavtiveon-24 (2).png"));
                 ImageIcon pendingIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-pendingon-24.png"));
@@ -116,14 +116,11 @@ public final class adminDashboard extends javax.swing.JFrame {
                 } else if (statusValue.equals("Inactive")) {
                     statusIcon.setIcon(inactiveIcon);
                 }
-
-                // Display profile picture
                 int height = 70;
                 int width = 70;
                 String profilePicture = rs.getString("profile_picture");
                 GetImage.displayImage(photo, profilePicture, height, width);
                 System.out.println(accountId);
-
             }
             rs.close();
             pst.close();
@@ -273,7 +270,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         dashboardContainer.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, 50, 50));
         dashboardContainer.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 50, 10));
 
-        jPanel1.add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 70, 670));
+        jPanel1.add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 70, 670));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -683,8 +680,8 @@ public final class adminDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
-        int rowIndex = accounts_table.getSelectedRow();
         try {
+            int rowIndex = accounts_table.getSelectedRow();
             if (rowIndex < 0) {
                 JOptionPane.showMessageDialog(null, "Please Select an Item!");
             } else {
@@ -707,7 +704,6 @@ public final class adminDashboard extends javax.swing.JFrame {
                     GetImage.displayImage(displayPhoto, getImageFromDatabase, height, width);
                     tabs.setSelectedIndex(1);
                 }
-
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
@@ -738,21 +734,12 @@ public final class adminDashboard extends javax.swing.JFrame {
                 if (rowsUpdated > 0) {
                     JOptionPane.showMessageDialog(null, "Account Updated Successfully!");
                     displayAccounts();
+                    displayAccountName();
                     tabs.setSelectedIndex(0);
-                    status.setText("");
-                    fname.setText("");
-                    status.setText("");
-                    number.setText("");
-                    role.setText("");
-                    ImageIcon icon = new ImageIcon(getClass().getResource("/sampleProfiles/default.png"));
-                    photo.setIcon(icon);
-                    editRole.setSelectedItem("Admin");
-                    editStatus.setSelectedItem("Active");
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed to update Account!");
                 }
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
             System.out.println(e.getMessage());
