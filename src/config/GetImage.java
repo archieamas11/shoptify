@@ -24,9 +24,7 @@ public class GetImage {
             BufferedImage bufferedImage = ImageIO.read(new File(getImageFromDatabase));
             Image scaledImage = bufferedImage.getScaledInstance(height, width, Image.SCALE_SMOOTH);
             ImageIcon imageIcon = new ImageIcon(scaledImage);
-
             if (getImageFromDatabase != null && !getImageFromDatabase.isEmpty()) {
-
                 displayPhoto.setIcon(imageIcon);
             } else {
                 JOptionPane.showMessageDialog(null, "No Image found!");
@@ -35,6 +33,5 @@ public class GetImage {
             JOptionPane.showMessageDialog(null, "Error loading image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-
     }
 }

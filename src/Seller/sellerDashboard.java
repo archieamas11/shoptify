@@ -35,7 +35,19 @@ public class sellerDashboard extends javax.swing.JFrame {
         displayProducts();
         displayAccounts();
 
-        UXmethods.RoundBorders.setArcStyle(logout, 30);
+        //Buttons
+        UXmethods.RoundBorders.setArcStyle(logout, 50);
+        UXmethods.RoundBorders.setArcStyle(dashboard, 50);
+        UXmethods.RoundBorders.setArcStyle(dashboardIcon, 50);
+        UXmethods.RoundBorders.setArcStyle(manageIcon, 50);
+        UXmethods.RoundBorders.setArcStyle(manage, 50);
+
+        //Containers
+        UXmethods.RoundBorders.setArcStyle(c1, 50);
+        UXmethods.RoundBorders.setArcStyle(c2, 50);
+        UXmethods.RoundBorders.setArcStyle(c3, 50);
+        UXmethods.RoundBorders.setArcStyle(c5, 50);
+
     }
 
     private void displayProducts() {
@@ -73,13 +85,20 @@ public class sellerDashboard extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         logout = new javax.swing.JButton();
-        dashboard = new javax.swing.JButton();
-        manage = new javax.swing.JButton();
-        orders = new javax.swing.JButton();
-        graphs = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
+        c1 = new javax.swing.JPanel();
+        dashboardIcon = new javax.swing.JButton();
+        dashboard = new javax.swing.JButton();
+        c2 = new javax.swing.JPanel();
+        manage = new javax.swing.JButton();
+        manageIcon = new javax.swing.JButton();
+        c3 = new javax.swing.JPanel();
+        orders = new javax.swing.JButton();
+        ordersIcon = new javax.swing.JButton();
+        c5 = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         tabs = new javax.swing.JTabbedPane();
@@ -129,13 +148,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         searchbtn7 = new javax.swing.JButton();
         searchbtn8 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        p_image = new javax.swing.JLabel();
         s = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel15 = new javax.swing.JPanel();
-        p1 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
@@ -205,6 +218,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         logout.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         logout.setForeground(new java.awt.Color(255, 255, 255));
         logout.setText("Logout");
+        logout.setBorderPainted(false);
         logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logoutActionPerformed(evt);
@@ -212,58 +226,90 @@ public class sellerDashboard extends javax.swing.JFrame {
         });
         jPanel3.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 620, 190, 40));
 
-        dashboard.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        dashboard.setText("Dashboard");
-        dashboard.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dashboardActionPerformed(evt);
-            }
-        });
-        jPanel3.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 220, 190, 40));
-
-        manage.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        manage.setText("Manage");
-        manage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                manageActionPerformed(evt);
-            }
-        });
-        jPanel3.add(manage, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 190, 40));
-
-        orders.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        orders.setText("Orders");
-        orders.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ordersActionPerformed(evt);
-            }
-        });
-        jPanel3.add(orders, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 190, 40));
-
-        graphs.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        graphs.setText("Products");
-        graphs.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                graphsActionPerformed(evt);
-            }
-        });
-        jPanel3.add(graphs, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 400, 190, 40));
-
         jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel3.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 50, 720));
-
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setText("Accounts");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 190, 40));
 
         jLabel15.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setText("WELCOME");
         jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 250, 40));
+
+        c1.setBackground(new java.awt.Color(204, 204, 255));
+        c1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        dashboardIcon.setBackground(new java.awt.Color(204, 204, 255));
+        dashboardIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-dashboard-24.png"))); // NOI18N
+        dashboardIcon.setBorderPainted(false);
+        c1.add(dashboardIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 40));
+
+        dashboard.setBackground(new java.awt.Color(204, 204, 255));
+        dashboard.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        dashboard.setText("Dashboard");
+        dashboard.setBorderPainted(false);
+        dashboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashboardActionPerformed(evt);
+            }
+        });
+        c1.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 150, 40));
+
+        jPanel3.add(c1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 190, 40));
+
+        c2.setBackground(new java.awt.Color(204, 204, 255));
+        c2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        manage.setBackground(new java.awt.Color(204, 204, 255));
+        manage.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        manage.setText("Manage");
+        manage.setBorderPainted(false);
+        manage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageActionPerformed(evt);
+            }
+        });
+        c2.add(manage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 150, 40));
+
+        manageIcon.setBackground(new java.awt.Color(204, 204, 255));
+        manageIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-edit-24_1.png"))); // NOI18N
+        manageIcon.setBorderPainted(false);
+        c2.add(manageIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 40));
+
+        jPanel3.add(c2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 190, 40));
+
+        c3.setBackground(new java.awt.Color(204, 204, 255));
+        c3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        orders.setBackground(new java.awt.Color(204, 204, 255));
+        orders.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        orders.setText("Orders");
+        orders.setBorderPainted(false);
+        orders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ordersActionPerformed(evt);
+            }
+        });
+        c3.add(orders, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 150, 40));
+
+        ordersIcon.setBorderPainted(false);
+        c3.add(ordersIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 40));
+
+        jPanel3.add(c3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 190, 40));
+
+        c5.setBackground(new java.awt.Color(204, 204, 255));
+        c5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel3.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 190, 40));
+        jPanel3.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 590, 170, 20));
+
+        jButton1.setBackground(new java.awt.Color(204, 204, 255));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton1.setText("Accounts");
+        jButton1.setBorderPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 150, 40));
 
         jPanel5.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 720));
 
@@ -499,56 +545,10 @@ public class sellerDashboard extends javax.swing.JFrame {
         tabs.addTab("tab2", jPanel8);
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel9.setBackground(new java.awt.Color(255, 255, 51));
-
-        p_image.setText("jLabel5");
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(p_image, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(73, Short.MAX_VALUE))
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(p_image, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jPanel2.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, 330, 210));
-
         tabs.addTab("tab3", jPanel2);
 
         s.setBackground(new java.awt.Color(255, 255, 255));
         s.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        p1.setBackground(new java.awt.Color(255, 153, 153));
-        p1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p1MouseClicked(evt);
-            }
-        });
-        p1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel5.setText("jLabel5");
-        p1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 200));
-
-        jPanel15.add(p1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 200, 200));
-
-        jScrollPane1.setViewportView(jPanel15);
-
-        s.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 910, 579));
-
         tabs.addTab("tab4", s);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
@@ -806,13 +806,6 @@ public class sellerDashboard extends javax.swing.JFrame {
     private void ordersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordersActionPerformed
         tabs.setSelectedIndex(2);
     }//GEN-LAST:event_ordersActionPerformed
-
-    private void graphsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_graphsActionPerformed
-        tabs.setSelectedIndex(3);
-    }//GEN-LAST:event_graphsActionPerformed
-
-    private void p1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p1MouseClicked
-    }//GEN-LAST:event_p1MouseClicked
 
     private void editbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbtnActionPerformed
         int rowIndex = product_table.getSelectedRow();
@@ -1145,7 +1138,12 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JTable accounts_table;
     private javax.swing.JButton add;
     private javax.swing.JTextField address;
+    private javax.swing.JPanel c1;
+    private javax.swing.JPanel c2;
+    private javax.swing.JPanel c3;
+    private javax.swing.JPanel c5;
     private javax.swing.JButton dashboard;
+    private javax.swing.JButton dashboardIcon;
     private javax.swing.JTextField date;
     private javax.swing.JButton delete;
     private javax.swing.JEditorPane description;
@@ -1156,7 +1154,6 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField email;
     private javax.swing.JRadioButton female;
     private javax.swing.JTextField fname;
-    private javax.swing.JButton graphs;
     private javax.swing.JTextField id;
     private javax.swing.JTextField image_container;
     private javax.swing.JButton importt;
@@ -1176,7 +1173,6 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1186,7 +1182,6 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
@@ -1199,11 +1194,10 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -1224,12 +1218,12 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel manage7;
     private javax.swing.JLabel manage8;
     private javax.swing.JLabel manage9;
+    private javax.swing.JButton manageIcon;
     private javax.swing.JLabel myprofile1;
     private javax.swing.JTextField name;
     private javax.swing.JButton orders;
+    private javax.swing.JButton ordersIcon;
     private javax.swing.JRadioButton other;
-    private javax.swing.JPanel p1;
-    private javax.swing.JLabel p_image;
     private javax.swing.JTextField price;
     private javax.swing.JTable product_table;
     private javax.swing.JComboBox<String> role;

@@ -19,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -36,7 +37,7 @@ import org.mindrot.jbcrypt.BCrypt;
  *
  * @author MARITIME 02
  */
-public class adminDashboard extends javax.swing.JFrame {
+public final class adminDashboard extends javax.swing.JFrame {
 
     /**
      * Creates new form adminDashboard
@@ -126,7 +127,7 @@ public class adminDashboard extends javax.swing.JFrame {
             }
             rs.close();
             pst.close();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Errors: " + ex.getMessage());
         }
     }
@@ -355,7 +356,6 @@ public class adminDashboard extends javax.swing.JFrame {
 
         fname.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         fname.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        fname.setText("FIRST NAME");
         accountTableContainer.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 70, 180, 40));
 
         photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -365,7 +365,7 @@ public class adminDashboard extends javax.swing.JFrame {
         statusIcon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         statusIcon.setForeground(new java.awt.Color(102, 102, 102));
         statusIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        accountTableContainer.add(statusIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 120, -1, 20));
+        accountTableContainer.add(statusIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 120, 30, 20));
 
         status.setForeground(new java.awt.Color(102, 102, 102));
         accountTableContainer.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 120, -1, 20));
