@@ -22,6 +22,16 @@ public class createAccount extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(createAccountContainer, 30);
         UXmethods.RoundBorders.setArcStyle(submit, 15);
 
+        //Container
+        UXmethods.RoundBorders.setArcStyle(fname, 15);
+        UXmethods.RoundBorders.setArcStyle(lname, 15);
+        UXmethods.RoundBorders.setArcStyle(address, 15);
+        UXmethods.RoundBorders.setArcStyle(number, 15);
+        UXmethods.RoundBorders.setArcStyle(username, 15);
+        UXmethods.RoundBorders.setArcStyle(password, 15);
+        UXmethods.RoundBorders.setArcStyle(email, 15);
+        UXmethods.RoundBorders.setArcStyle(role, 15);
+
     }
 
     public static boolean checkEmail(String email) {
@@ -62,9 +72,7 @@ public class createAccount extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         login = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        fname = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        lname = new javax.swing.JTextField();
         email = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -75,10 +83,16 @@ public class createAccount extends javax.swing.JFrame {
         submit = new javax.swing.JButton();
         number = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        address = new javax.swing.JTextField();
+        lname = new javax.swing.JTextField();
+        fname = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         setResizable(false);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -111,47 +125,49 @@ public class createAccount extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel7.setText("First Name");
         createAccountContainer.add(jLabel7);
-        jLabel7.setBounds(100, 130, 70, 20);
-        createAccountContainer.add(fname);
-        fname.setBounds(100, 150, 160, 40);
+        jLabel7.setBounds(100, 120, 70, 20);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel8.setText("Last Name");
         createAccountContainer.add(jLabel8);
-        jLabel8.setBounds(290, 130, 57, 20);
-        createAccountContainer.add(lname);
-        lname.setBounds(290, 150, 160, 40);
+        jLabel8.setBounds(280, 120, 57, 20);
+
+        email.setBackground(new java.awt.Color(242, 242, 242));
         createAccountContainer.add(email);
-        email.setBounds(100, 220, 350, 40);
+        email.setBounds(100, 200, 350, 40);
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel9.setText("Email");
         createAccountContainer.add(jLabel9);
-        jLabel9.setBounds(100, 200, 70, 20);
+        jLabel9.setBounds(100, 180, 70, 20);
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel10.setText("Username");
         createAccountContainer.add(jLabel10);
-        jLabel10.setBounds(100, 340, 70, 20);
+        jLabel10.setBounds(100, 360, 70, 20);
+
+        username.setBackground(new java.awt.Color(242, 242, 242));
         createAccountContainer.add(username);
-        username.setBounds(100, 360, 350, 40);
+        username.setBounds(100, 380, 350, 40);
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel11.setText("Phone Number");
         createAccountContainer.add(jLabel11);
-        jLabel11.setBounds(100, 270, 90, 20);
+        jLabel11.setBounds(100, 240, 90, 20);
 
+        password.setBackground(new java.awt.Color(242, 242, 242));
         password.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordActionPerformed(evt);
             }
         });
         createAccountContainer.add(password);
-        password.setBounds(100, 430, 350, 40);
+        password.setBounds(100, 440, 350, 40);
 
+        role.setBackground(new java.awt.Color(242, 242, 242));
         role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Seller", "Buyer" }));
         createAccountContainer.add(role);
-        role.setBounds(100, 490, 350, 40);
+        role.setBounds(100, 500, 350, 40);
 
         submit.setBackground(new java.awt.Color(0, 158, 226));
         submit.setForeground(new java.awt.Color(255, 255, 255));
@@ -165,13 +181,38 @@ public class createAccount extends javax.swing.JFrame {
         });
         createAccountContainer.add(submit);
         submit.setBounds(100, 570, 350, 40);
+
+        number.setBackground(new java.awt.Color(242, 242, 242));
         createAccountContainer.add(number);
-        number.setBounds(100, 290, 350, 40);
+        number.setBounds(100, 260, 350, 40);
 
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel12.setText("Password");
+        jLabel12.setText("Role");
         createAccountContainer.add(jLabel12);
-        jLabel12.setBounds(100, 410, 70, 20);
+        jLabel12.setBounds(100, 480, 70, 20);
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel13.setText("Password");
+        createAccountContainer.add(jLabel13);
+        jLabel13.setBounds(100, 420, 70, 20);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setText("Address");
+        createAccountContainer.add(jLabel1);
+        jLabel1.setBounds(100, 300, 80, 15);
+
+        address.setBackground(new java.awt.Color(242, 242, 242));
+        createAccountContainer.add(address);
+        address.setBounds(100, 320, 350, 40);
+
+        lname.setBackground(new java.awt.Color(242, 242, 242));
+        createAccountContainer.add(lname);
+        lname.setBounds(280, 140, 170, 40);
+
+        fname.setBackground(new java.awt.Color(242, 242, 242));
+        fname.setForeground(new java.awt.Color(102, 102, 102));
+        createAccountContainer.add(fname);
+        fname.setBounds(100, 140, 170, 40);
 
         jPanel1.add(createAccountContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 40, 540, 640));
 
@@ -199,7 +240,7 @@ public class createAccount extends javax.swing.JFrame {
             .addGap(0, 720, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 370, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -223,9 +264,10 @@ public class createAccount extends javax.swing.JFrame {
         String phone = number.getText();
         String user = username.getText();
         String pass = password.getText();
+        String add = address.getText();
         String selectedRole = (String) role.getSelectedItem();
 
-        if (em.isEmpty() || first_name.isEmpty() || last_name.isEmpty() || selectedRole.isEmpty() || user.isEmpty() || pass.isEmpty() || phone.isEmpty()) {
+        if (em.isEmpty() || first_name.isEmpty() || last_name.isEmpty() || selectedRole.isEmpty() || user.isEmpty() || pass.isEmpty() || phone.isEmpty() || add.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         } //if (pass.length() < 8) {
@@ -252,7 +294,7 @@ public class createAccount extends javax.swing.JFrame {
             String hashedPass = BCrypt.hashpw(pass, BCrypt.gensalt());
             String defaultImage = "src/sampleProfiles/default profile 100x100.png";
 
-            String sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `phone number`, `username`,`password`, `role`, `date joined`, `status`, `profile_picture`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), ?, ?)";
+            String sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `phone number`, `username`,`password`, `role`, `date joined`, `status`, `profile_picture`, `address`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), ?, ?, ?)";
             PreparedStatement pst = (PreparedStatement) dbc.getConnection().prepareStatement(sql);
             pst.setString(1, em);
             pst.setString(2, first_name);
@@ -263,6 +305,7 @@ public class createAccount extends javax.swing.JFrame {
             pst.setString(7, selectedRole);
             pst.setString(8, "Pending");
             pst.setString(9, defaultImage);
+            pst.setString(10, add);
 
             pst.executeUpdate();
             pst.close();
@@ -274,6 +317,7 @@ public class createAccount extends javax.swing.JFrame {
             lname.setText("");
             username.setText("");
             number.setText("");
+            address.setText("");
             password.setText("");
             role.setSelectedIndex(0);
             Login back = new Login();
@@ -313,12 +357,15 @@ public class createAccount extends javax.swing.JFrame {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField address;
     private javax.swing.JPanel createAccountContainer;
     private javax.swing.JTextField email;
     private javax.swing.JTextField fname;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

@@ -15,6 +15,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.mindrot.jbcrypt.BCrypt;
 import Buyer.buyerDashboard;
+import config.isAccountExist;
 
 public class Login extends javax.swing.JFrame {
 
@@ -28,9 +29,10 @@ public class Login extends javax.swing.JFrame {
         username.setFocusable(false);
         password.setFocusable(false);
         login.setFocusable(false);
+        remember.setFocusable(false);
+
         // Round Borders
         // login.setBackground(new Color(0, 158, 226));
-
         UXmethods.RoundBorders.setArcStyle(usernameContainer, 30);
         UXmethods.RoundBorders.setArcStyle(passwordContainer, 30);
         UXmethods.RoundBorders.setArcStyle(login, 30);
@@ -96,6 +98,8 @@ public class Login extends javax.swing.JFrame {
         password = new javax.swing.JPasswordField();
         password_icon = new javax.swing.JLabel();
         eye = new javax.swing.JLabel();
+        forgotPasswordBtn = new javax.swing.JLabel();
+        remember = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -118,7 +122,7 @@ public class Login extends javax.swing.JFrame {
         jPanel1.add(shoptify_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 110, -1, -1));
 
         login.setBackground(new java.awt.Color(0, 158, 226));
-        login.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
+        login.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         login.setForeground(new java.awt.Color(255, 255, 255));
         login.setText("Login");
         login.setBorder(null);
@@ -139,7 +143,7 @@ public class Login extends javax.swing.JFrame {
                 create_accountMouseClicked(evt);
             }
         });
-        jPanel1.add(create_account, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 430, 290, 20));
+        jPanel1.add(create_account, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 540, 290, 20));
 
         usernameContainer.setBackground(new java.awt.Color(245, 245, 245));
         usernameContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -193,6 +197,11 @@ public class Login extends javax.swing.JFrame {
                 passwordMouseClicked(evt);
             }
         });
+        password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordActionPerformed(evt);
+            }
+        });
         password.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 passwordKeyPressed(evt);
@@ -215,6 +224,32 @@ public class Login extends javax.swing.JFrame {
         passwordContainer.add(eye, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 20, 40));
 
         jPanel1.add(passwordContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 290, 40));
+
+        forgotPasswordBtn.setForeground(new java.awt.Color(153, 153, 153));
+        forgotPasswordBtn.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        forgotPasswordBtn.setText("Forgot Password?");
+        forgotPasswordBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                forgotPasswordBtnMouseClicked(evt);
+            }
+        });
+        jPanel1.add(forgotPasswordBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 420, 100, 40));
+
+        remember.setForeground(new java.awt.Color(153, 153, 153));
+        remember.setText(" Remember me");
+        remember.setBorder(null);
+        remember.setContentAreaFilled(false);
+        remember.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rememberMouseClicked(evt);
+            }
+        });
+        remember.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rememberActionPerformed(evt);
+            }
+        });
+        jPanel1.add(remember, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 420, -1, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -279,12 +314,6 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_usernameFocusGained
 
-    private void create_accountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_create_accountMouseClicked
-        createAccount create = new createAccount();
-        create.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_create_accountMouseClicked
-
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         String user = username.getText();
         String pass = password.getText();
@@ -316,6 +345,76 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_loginActionPerformed
 
+    private void create_accountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_create_accountMouseClicked
+        createAccount create = new createAccount();
+        create.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_create_accountMouseClicked
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordActionPerformed
+
+    private void rememberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rememberMouseClicked
+        remember.setFocusable(true);
+        remember.requestFocusInWindow();
+    }//GEN-LAST:event_rememberMouseClicked
+
+    private void rememberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rememberActionPerformed
+        boolean isSelected;
+        if (remember.isSelected()) {
+            isSelected = true;
+        } else {
+            isSelected = false;
+        }
+        rememberMe.setRememberAccountValue(isSelected);
+        System.out.println(isSelected);
+    }//GEN-LAST:event_rememberActionPerformed
+
+    private void forgotPasswordBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPasswordBtnMouseClicked
+        String userInput = JOptionPane.showInputDialog(null, "Enter your username or email:");
+
+        if (userInput == null || userInput.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter a username or email.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        databaseConnector dbc = new databaseConnector();
+        try {
+            boolean isExist = isAccountExist.checkUsername(userInput) || isAccountExist.checkEmail(userInput);
+
+            if (!isExist) {
+                JOptionPane.showMessageDialog(null, "Username or email does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String newPassword = JOptionPane.showInputDialog(null, "Enter your new password:");
+            if (newPassword == null || newPassword.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please enter a new password.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Update the password in the database
+            String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            String updateQuery = "UPDATE accounts_table SET password = ? WHERE username = ? OR email = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery);
+            pst.setString(1, hashedNewPassword);
+            pst.setString(2, userInput);
+            pst.setString(3, userInput);
+
+            int rowsAffected = pst.executeUpdate();
+            pst.close();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Password updated successfully.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to update password.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_forgotPasswordBtnMouseClicked
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -332,11 +431,13 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel create_account;
     private javax.swing.JLabel eye;
+    private javax.swing.JLabel forgotPasswordBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton login;
     private javax.swing.JPasswordField password;
     private javax.swing.JPanel passwordContainer;
     private javax.swing.JLabel password_icon;
+    private javax.swing.JCheckBox remember;
     private javax.swing.JLabel shoptify;
     private javax.swing.JLabel shoptify_icon;
     private javax.swing.JTextField username;

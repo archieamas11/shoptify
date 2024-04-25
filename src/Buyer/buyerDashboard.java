@@ -22,6 +22,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class buyerDashboard extends javax.swing.JFrame {
 
@@ -45,13 +46,12 @@ public class buyerDashboard extends javax.swing.JFrame {
     }
 
     //////////////////////////////////////
-    private String selectedGender = "";
+    //private String selectedGender = "";
     public static int productID;
 
-    private void getSelectedGender(String gender) {
-        selectedGender = gender;
-    }
-
+    //private void getSelectedGender(String gender) {
+    //selectedGender = gender;
+    //}
     public void displayCart() {
 
         try {
@@ -274,10 +274,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         profile = new javax.swing.JLabel();
         edit = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
-        manage = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        jPanel10 = new javax.swing.JPanel();
-        image_view = new javax.swing.JLabel();
         select = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JSeparator();
         manage1 = new javax.swing.JLabel();
@@ -285,19 +282,22 @@ public class buyerDashboard extends javax.swing.JFrame {
         email = new javax.swing.JTextField();
         manage3 = new javax.swing.JLabel();
         manage4 = new javax.swing.JLabel();
-        other = new javax.swing.JRadioButton();
-        male = new javax.swing.JRadioButton();
-        female = new javax.swing.JRadioButton();
-        manage5 = new javax.swing.JLabel();
-        year = new javax.swing.JComboBox<>();
-        day = new javax.swing.JComboBox<>();
-        month = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         fname = new javax.swing.JTextField();
         manage6 = new javax.swing.JLabel();
         lname = new javax.swing.JTextField();
         myprofile1 = new javax.swing.JLabel();
+        manage5 = new javax.swing.JLabel();
+        address = new javax.swing.JTextField();
+        manage13 = new javax.swing.JLabel();
+        image_view = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        password1 = new javax.swing.JTextField();
+        manage14 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        password = new javax.swing.JPasswordField();
         jLabel15 = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
@@ -385,9 +385,14 @@ public class buyerDashboard extends javax.swing.JFrame {
         jPanel2.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, -1, 50));
 
         jLabel2.setText("HOME");
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 20, -1, 20));
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 30));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 40));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -879,26 +884,8 @@ public class buyerDashboard extends javax.swing.JFrame {
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        manage.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage.setForeground(new java.awt.Color(102, 102, 102));
-        manage.setText("Date of birth");
-        jPanel9.add(manage, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 400, -1, 20));
-
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel9.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 150, 30, 380));
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(image_view, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(image_view, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-        );
-
-        jPanel9.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 230, 120, 110));
 
         select.setText("Select Image");
         jPanel9.add(select, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 360, 120, 30));
@@ -912,7 +899,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         manage2.setForeground(new java.awt.Color(102, 102, 102));
         manage2.setText("Username");
         jPanel9.add(manage2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, -1, -1));
-        jPanel9.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, 270, 40));
+        jPanel9.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, 270, 40));
 
         manage3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage3.setForeground(new java.awt.Color(102, 102, 102));
@@ -921,46 +908,8 @@ public class buyerDashboard extends javax.swing.JFrame {
 
         manage4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage4.setForeground(new java.awt.Color(102, 102, 102));
-        manage4.setText("Email");
-        jPanel9.add(manage4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, -1, -1));
-
-        other.setText(" Other");
-        other.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                otherMouseClicked(evt);
-            }
-        });
-        jPanel9.add(other, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 350, -1, 20));
-
-        male.setText(" Male");
-        male.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                maleMouseClicked(evt);
-            }
-        });
-        jPanel9.add(male, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 350, -1, 20));
-
-        female.setText(" Female");
-        female.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                femaleMouseClicked(evt);
-            }
-        });
-        jPanel9.add(female, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 350, -1, 20));
-
-        manage5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage5.setForeground(new java.awt.Color(102, 102, 102));
-        manage5.setText("Gender");
-        jPanel9.add(manage5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, -1, 20));
-
-        year.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013" }));
-        jPanel9.add(year, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 400, -1, 30));
-
-        day.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-        jPanel9.add(day, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 400, -1, 30));
-
-        month.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
-        jPanel9.add(month, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 400, -1, 30));
+        manage4.setText("Address");
+        jPanel9.add(manage4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 440, -1, -1));
 
         jButton1.setBackground(new java.awt.Color(0, 158, 226));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -970,22 +919,53 @@ public class buyerDashboard extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel9.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 460, -1, 30));
+        jPanel9.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 510, -1, 30));
 
         jLabel12.setForeground(new java.awt.Color(153, 153, 153));
         jLabel12.setText("chielbrc");
-        jPanel9.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 140, -1, 20));
-        jPanel9.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, 270, 40));
+        jPanel9.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 140, -1, 20));
+        jPanel9.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 270, 40));
 
         manage6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage6.setForeground(new java.awt.Color(102, 102, 102));
         manage6.setText("Last name");
         jPanel9.add(manage6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, -1, -1));
-        jPanel9.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 270, 40));
+        jPanel9.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 270, 40));
 
         myprofile1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         myprofile1.setText("My Profile");
         jPanel9.add(myprofile1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 70, 30));
+
+        manage5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage5.setForeground(new java.awt.Color(102, 102, 102));
+        manage5.setText("Phone Number");
+        jPanel9.add(manage5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, -1, -1));
+        jPanel9.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 430, 270, 40));
+
+        manage13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage13.setForeground(new java.awt.Color(102, 102, 102));
+        manage13.setText("Password");
+        jPanel9.add(manage13, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, -1, -1));
+        jPanel9.add(image_view, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 226, 120, 120));
+
+        jLabel5.setText("Change");
+        jPanel9.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 440, -1, -1));
+
+        jLabel8.setText("Change");
+        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 340, -1, -1));
+        jPanel9.add(password1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 330, 270, 40));
+
+        manage14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage14.setForeground(new java.awt.Color(102, 102, 102));
+        manage14.setText("Email");
+        jPanel9.add(manage14, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, -1, -1));
+
+        jLabel10.setText("Change");
+        jPanel9.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 390, -1, -1));
+
+        password.setText("*******");
+        password.setBorder(null);
+        jPanel9.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 380, 270, 40));
 
         myprofile.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 1000, 600));
 
@@ -1266,8 +1246,41 @@ public class buyerDashboard extends javax.swing.JFrame {
         tabs.setSelectedIndex(3);
     }//GEN-LAST:event_myCartMouseClicked
 
+    public void displayAccountName() {
+        try {
+            int accountId = UserManager.getLoggedInUserId();
+
+            databaseConnector dbc = new databaseConnector();
+            String query = "SELECT username, fname, lname, email, address, profile_picture FROM accounts_table WHERE account_id = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setInt(1, accountId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                jLabel12.setText("" + rs.getString("username"));
+                jLabel15.setText("" + rs.getString("username"));
+                fname.setText("" + rs.getString("fname"));
+                lname.setText("" + rs.getString("lname"));
+                email.setText("" + rs.getString("email"));
+                address.setText("" + rs.getString("address"));
+                int heightSmall = 40;
+                int widthSmall = 40;
+                int height = 120;
+                int width = 120;
+                String profilePicture = rs.getString("profile_picture");
+                GetImage.displayImage(profile, profilePicture, heightSmall, widthSmall);
+                GetImage.displayImage(image_view, profilePicture, height, width);
+            }
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            System.out.println("Errors: " + ex.getMessage());
+        }
+    }
+
+
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         tabs.setSelectedIndex(4);
+        displayAccountName();
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
@@ -1444,30 +1457,6 @@ public class buyerDashboard extends javax.swing.JFrame {
         }
         displayUserProducts();
     }
-
-    private void maleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maleMouseClicked
-        male.setSelected(true);
-        female.setSelected(false);
-        other.setSelected(false);
-        String gender = "Male";
-        getSelectedGender(gender);
-    }//GEN-LAST:event_maleMouseClicked
-
-    private void femaleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_femaleMouseClicked
-        male.setSelected(false);
-        female.setSelected(true);
-        other.setSelected(false);
-        String gender = "Female";
-        getSelectedGender(gender);
-    }//GEN-LAST:event_femaleMouseClicked
-
-    private void otherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_otherMouseClicked
-        male.setSelected(false);
-        female.setSelected(false);
-        other.setSelected(true);
-        String gender = "Other";
-        getSelectedGender(gender);
-    }//GEN-LAST:event_otherMouseClicked
 
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
         tabs.setSelectedIndex(0);
@@ -1678,6 +1667,10 @@ public class buyerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_checkoutActionPerformed
 
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+        tabs.setSelectedIndex(0);
+    }//GEN-LAST:event_jLabel2MouseClicked
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -1695,6 +1688,7 @@ public class buyerDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
+    private javax.swing.JTextField address;
     private javax.swing.JLabel back;
     private javax.swing.JLabel bigPhoto;
     private javax.swing.JButton buy;
@@ -1704,14 +1698,12 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JTable cart_table;
     private javax.swing.JButton checkout;
     private javax.swing.JPanel container;
-    private javax.swing.JComboBox<String> day;
     private javax.swing.JButton deleteCart;
     private javax.swing.JEditorPane des;
     private javax.swing.JTextField displayQuant;
     private javax.swing.JLabel edit;
     private javax.swing.JLabel edit1;
     private javax.swing.JTextField email;
-    private javax.swing.JRadioButton female;
     private javax.swing.JTextField fname;
     private javax.swing.JTextField fname1;
     private javax.swing.JTextField fname2;
@@ -1737,17 +1729,19 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1772,12 +1766,12 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField lname;
     private javax.swing.JLabel logout;
     private javax.swing.JLabel logout1;
-    private javax.swing.JRadioButton male;
-    private javax.swing.JLabel manage;
     private javax.swing.JLabel manage1;
     private javax.swing.JLabel manage10;
     private javax.swing.JLabel manage11;
     private javax.swing.JLabel manage12;
+    private javax.swing.JLabel manage13;
+    private javax.swing.JLabel manage14;
     private javax.swing.JLabel manage2;
     private javax.swing.JLabel manage3;
     private javax.swing.JLabel manage4;
@@ -1786,7 +1780,6 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel manage7;
     private javax.swing.JLabel manage8;
     private javax.swing.JLabel manage9;
-    private javax.swing.JComboBox<String> month;
     private javax.swing.JLabel myCart;
     private javax.swing.JPanel myprofile;
     private javax.swing.JLabel myprofile1;
@@ -1811,7 +1804,6 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel name8;
     private javax.swing.JLabel name9;
     private javax.swing.JLabel next;
-    private javax.swing.JRadioButton other;
     private javax.swing.JPanel p1;
     private javax.swing.JPanel p10;
     private javax.swing.JPanel p11;
@@ -1824,6 +1816,8 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel p7;
     private javax.swing.JPanel p8;
     private javax.swing.JPanel p9;
+    private javax.swing.JPasswordField password;
+    private javax.swing.JTextField password1;
     private javax.swing.JLabel photo;
     private javax.swing.JLabel price1;
     private javax.swing.JLabel price10;
@@ -1852,6 +1846,5 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JLabel tamount;
     private javax.swing.JTextField txtNumber;
-    private javax.swing.JComboBox<String> year;
     // End of variables declaration//GEN-END:variables
 }

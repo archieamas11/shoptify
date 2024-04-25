@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2024 at 11:31 AM
+-- Generation Time: Apr 25, 2024 at 09:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,8 +47,9 @@ CREATE TABLE `accounts_table` (
 --
 
 INSERT INTO `accounts_table` (`account_id`, `email`, `fname`, `lname`, `address`, `phone number`, `username`, `password`, `role`, `profile_picture`, `date joined`, `status`) VALUES
-(1037, '1', '1', '1', NULL, '09231226478', '1', '$2a$10$Z4y24ScI.ip77WO.Vz/Bh.wiPAlwOtaZcARlv9xaq55HKiaLbN8Hy', 'Admin', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Active'),
-(1040, '2', '2', '2', '2', '09231226478', '2', '$2a$10$88HZhTvIKqmk/Kr3dAaGcOx2Q7ZzeATeQSRm1E0ThP4XNgBWF6lBi', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Pending');
+(1037, '1', '1', '1', 'Tunghaan, Minglanilla, Cebu', '09231226478', '1', '$2a$10$pILBGF5OtaHEnqLgKOoM7.fj3ouigQXNyFoK64pMkYmBK7Mwm/p6i', 'Admin', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Active'),
+(1040, '2', '2', '2', 'Ward III, Minglanilla, Cebu', '09231226478', '2', '$2a$10$88HZhTvIKqmk/Kr3dAaGcOx2Q7ZzeATeQSRm1E0ThP4XNgBWF6lBi', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Inactive'),
+(1041, '3', '3', '3', '3', '33333333333', '3', '$2a$10$K2DfKxrsdwvbRj2RqxvMUODLGmDgYCNhBPEuTH00YUF8FovxfxxXW', 'Buyer', 'src/sampleProfiles/default profile 100x100.png', '2024-04-25', 'Active');
 
 -- --------------------------------------------------------
 
@@ -142,7 +143,7 @@ ALTER TABLE `purchase`
 -- AUTO_INCREMENT for table `accounts_table`
 --
 ALTER TABLE `accounts_table`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1041;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1042;
 
 --
 -- AUTO_INCREMENT for table `add2cart`
