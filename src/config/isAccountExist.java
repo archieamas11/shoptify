@@ -7,6 +7,7 @@ package config;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -37,6 +38,27 @@ public class isAccountExist {
             pst.setString(1, user);
             ResultSet rs = pst.executeQuery();
             return rs.next();
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+
+    public static boolean checkPassword(String password, int id) {
+
+        databaseConnector dbc = new databaseConnector();
+
+        try {
+            String query = "SELECT * FROM accounts_table WHERE account_id = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setInt(1, id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                String hash = rs.getString("password");
+                if (BCrypt.checkpw(password, hash)) {
+                    return true;
+                }
+            }
+            return false;
         } catch (SQLException ex) {
             return false;
         }
