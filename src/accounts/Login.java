@@ -166,11 +166,6 @@ public class Login extends javax.swing.JFrame {
                 usernameMouseClicked(evt);
             }
         });
-        username.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
-            }
-        });
         usernameContainer.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 210, 40));
 
         username_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-male-user-24.png"))); // NOI18N
@@ -195,11 +190,6 @@ public class Login extends javax.swing.JFrame {
         password.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 passwordMouseClicked(evt);
-            }
-        });
-        password.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordActionPerformed(evt);
             }
         });
         password.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -293,10 +283,6 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_passwordFocusGained
 
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
-
     private void usernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usernameMouseClicked
         username.setFocusable(true);
         username.requestFocusInWindow();
@@ -350,10 +336,6 @@ public class Login extends javax.swing.JFrame {
         create.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_create_accountMouseClicked
-
-    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordActionPerformed
 
     private void rememberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rememberMouseClicked
         remember.setFocusable(true);

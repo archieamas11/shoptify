@@ -10,6 +10,8 @@ import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.databaseConnector;
 import config.isAccountExist;
+import config.search;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
@@ -50,6 +52,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
         displayAccounts();
         displayAccountName();
+        displayArchiveAccounts();
 
         //Informations Panel
         UXmethods.RoundBorders.setArcStyle(c1, 15);
@@ -57,6 +60,11 @@ public final class adminDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(c3, 15);
         UXmethods.RoundBorders.setArcStyle(c4, 15);
         UXmethods.RoundBorders.setArcStyle(c5, 15);
+        UXmethods.RoundBorders.setArcStyle(c6, 15);
+        UXmethods.RoundBorders.setArcStyle(c7, 15);
+        UXmethods.RoundBorders.setArcStyle(c8, 15);
+        UXmethods.RoundBorders.setArcStyle(c9, 15);
+        UXmethods.RoundBorders.setArcStyle(c10, 15);
         UXmethods.RoundBorders.setArcStyle(z1, 15);
         UXmethods.RoundBorders.setArcStyle(z2, 15);
         UXmethods.RoundBorders.setArcStyle(z3, 15);
@@ -66,17 +74,21 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         // Buttons
         UXmethods.RoundBorders.setArcStyle(edit, 15);
-        UXmethods.RoundBorders.setArcStyle(delete, 15);
+        UXmethods.RoundBorders.setArcStyle(add2archive, 15);
         UXmethods.RoundBorders.setArcStyle(add, 15);
         UXmethods.RoundBorders.setArcStyle(searchIcon, 15);
         UXmethods.RoundBorders.setArcStyle(editAccountSaveBtn, 15);
         UXmethods.RoundBorders.setArcStyle(addAccountsaveBtn, 15);
+        UXmethods.RoundBorders.setArcStyle(add2archive, 15);
+        UXmethods.RoundBorders.setArcStyle(restore, 15);
         UXmethods.RoundBorders.setArcStyle(delete, 15);
 
         // Components
         UXmethods.RoundBorders.setArcStyle(scrollBar, 15);
         UXmethods.RoundBorders.setArcStyle(searchBar, 15);
         UXmethods.RoundBorders.setArcStyle(accountTableContainer, 30);
+        UXmethods.RoundBorders.setArcStyle(archiveAccountTableContainer, 30);
+        UXmethods.RoundBorders.setArcStyle(archiveAccountTableContainerScroll, 30);
         UXmethods.RoundBorders.setArcStyle(dashboardContainer, 15);
         UXmethods.RoundBorders.setArcStyle(editProfileContainer, 30);
         UXmethods.RoundBorders.setArcStyle(addAccountContainer, 30);
@@ -84,6 +96,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         // Dashboard Buttons
         UXmethods.RoundBorders.setArcStyle(dashboard, 50);
         UXmethods.RoundBorders.setArcStyle(logout, 50);
+        UXmethods.RoundBorders.setArcStyle(archiveBtn, 50);
 
         //Test
         UXmethods.RoundBorders.setArcStyle(editStatus, 15);
@@ -151,6 +164,19 @@ public final class adminDashboard extends javax.swing.JFrame {
         }
     }
 
+    private void displayArchiveAccounts() {
+
+        try {
+            databaseConnector dbc = new databaseConnector();
+
+            ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE status = 'archived'");
+            archive_table.setModel(DbUtils.resultSetToTableModel(rs));
+            rs.close();
+        } catch (Exception ex) {
+            System.out.println("Errors: " + ex.getMessage());
+        }
+    }
+
     private void saveButton(JComboBox status, JComboBox role) {
         try {
             databaseConnector dbc = new databaseConnector();
@@ -188,7 +214,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
 
-            ResultSet rs = dbc.getData("SELECT * FROM accounts_table");
+            ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE status IN ('Active', 'Inactive', 'Pending')");
             accounts_table.setModel(DbUtils.resultSetToTableModel(rs));
             rs.close();
         } catch (Exception ex) {
@@ -211,6 +237,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         profile = new javax.swing.JLabel();
         logout = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        archiveBtn = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
@@ -229,7 +256,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         jSeparator9 = new javax.swing.JSeparator();
         statusIcon = new javax.swing.JLabel();
         status = new javax.swing.JLabel();
-        delete = new javax.swing.JButton();
+        add2archive = new javax.swing.JButton();
         edit = new javax.swing.JButton();
         c1 = new javax.swing.JPanel();
         manage16 = new javax.swing.JLabel();
@@ -273,7 +300,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         jSeparator8 = new javax.swing.JSeparator();
         select = new javax.swing.JButton();
         displayImage = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        optional = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -320,6 +347,33 @@ public final class adminDashboard extends javax.swing.JFrame {
         changePassword = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        archiveAccountTableContainer = new javax.swing.JPanel();
+        archiveAccountTableContainerScroll = new javax.swing.JScrollPane();
+        archive_table = new javax.swing.JTable();
+        fname1 = new javax.swing.JLabel();
+        photo1 = new javax.swing.JLabel();
+        jSeparator12 = new javax.swing.JSeparator();
+        statusIcon1 = new javax.swing.JLabel();
+        status1 = new javax.swing.JLabel();
+        c6 = new javax.swing.JPanel();
+        manage18 = new javax.swing.JLabel();
+        id1 = new javax.swing.JLabel();
+        c7 = new javax.swing.JPanel();
+        manage24 = new javax.swing.JLabel();
+        email1 = new javax.swing.JLabel();
+        c8 = new javax.swing.JPanel();
+        manage25 = new javax.swing.JLabel();
+        number1 = new javax.swing.JLabel();
+        c9 = new javax.swing.JPanel();
+        manage26 = new javax.swing.JLabel();
+        address1 = new javax.swing.JLabel();
+        c10 = new javax.swing.JPanel();
+        manage27 = new javax.swing.JLabel();
+        role1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        restore = new javax.swing.JButton();
+        delete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -361,6 +415,16 @@ public final class adminDashboard extends javax.swing.JFrame {
         dashboardContainer.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, 50, 50));
         dashboardContainer.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 50, 10));
 
+        archiveBtn.setBackground(new java.awt.Color(153, 204, 255));
+        archiveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-archive-24.png"))); // NOI18N
+        archiveBtn.setBorderPainted(false);
+        archiveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                archiveBtnActionPerformed(evt);
+            }
+        });
+        dashboardContainer.add(archiveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 50, 50));
+
         jPanel1.add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 70, 670));
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
@@ -391,28 +455,39 @@ public final class adminDashboard extends javax.swing.JFrame {
                 addActionPerformed(evt);
             }
         });
-        jPanel5.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 40, 180, 50));
+        jPanel5.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 40, 240, 50));
 
-        searchIcon.setBackground(new java.awt.Color(204, 204, 204));
+        searchIcon.setBackground(new java.awt.Color(0, 158, 226));
         searchIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
         searchIcon.setBorder(null);
         searchIcon.setBorderPainted(false);
-        jPanel5.add(searchIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 40, 60, 50));
+        searchIcon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchIconActionPerformed(evt);
+            }
+        });
+        jPanel5.add(searchIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 40, 60, 50));
 
-        searchBar.setText("Search");
+        searchBar.setForeground(new java.awt.Color(140, 140, 140));
+        searchBar.setText("  Search");
+        searchBar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                searchBarFocusLost(evt);
+            }
+        });
         searchBar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 searchBarMouseClicked(evt);
             }
         });
-        searchBar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBarActionPerformed(evt);
+        searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchBarKeyReleased(evt);
             }
         });
-        jPanel5.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 40, 330, 50));
+        jPanel5.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 40, 500, 50));
 
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 10));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 120));
 
         tabs.setBackground(new java.awt.Color(255, 255, 255));
         tabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -443,7 +518,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         });
         scrollBar.setViewportView(accounts_table);
 
-        accountTableContainer.add(scrollBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 800, 500));
+        accountTableContainer.add(scrollBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 810, 500));
 
         fname.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         fname.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -461,17 +536,17 @@ public final class adminDashboard extends javax.swing.JFrame {
         status.setForeground(new java.awt.Color(102, 102, 102));
         accountTableContainer.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 120, -1, 20));
 
-        delete.setBackground(new java.awt.Color(255, 102, 102));
-        delete.setForeground(new java.awt.Color(255, 255, 255));
-        delete.setText("Delete");
-        delete.setBorder(null);
-        delete.setBorderPainted(false);
-        delete.addActionListener(new java.awt.event.ActionListener() {
+        add2archive.setBackground(new java.awt.Color(255, 102, 102));
+        add2archive.setForeground(new java.awt.Color(255, 255, 255));
+        add2archive.setText("Add to Archive");
+        add2archive.setBorder(null);
+        add2archive.setBorderPainted(false);
+        add2archive.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteActionPerformed(evt);
+                add2archiveActionPerformed(evt);
             }
         });
-        accountTableContainer.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 490, 130, 50));
+        accountTableContainer.add(add2archive, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 490, 130, 50));
 
         edit.setBackground(new java.awt.Color(102, 102, 102));
         edit.setForeground(new java.awt.Color(255, 255, 255));
@@ -562,7 +637,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Accounts Table");
-        accountTableContainer.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+        accountTableContainer.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 20));
 
         jPanel7.add(accountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
 
@@ -674,15 +749,16 @@ public final class adminDashboard extends javax.swing.JFrame {
                 selectActionPerformed(evt);
             }
         });
-        addAccountContainer.add(select, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 340, 120, 40));
+        addAccountContainer.add(select, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 340, 130, 40));
 
-        displayImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default.png"))); // NOI18N
-        addAccountContainer.add(displayImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 206, 120, 120));
+        displayImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        displayImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/120x120.png"))); // NOI18N
+        addAccountContainer.add(displayImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 206, 490, 120));
 
-        jLabel3.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("* Optional");
-        addAccountContainer.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 390, 490, -1));
+        optional.setForeground(new java.awt.Color(153, 153, 153));
+        optional.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        optional.setText("* Optional");
+        addAccountContainer.add(optional, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 390, 490, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(102, 102, 102));
@@ -934,6 +1010,159 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         tabs.addTab("tab4", jPanel2);
 
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        archiveAccountTableContainer.setBackground(new java.awt.Color(241, 241, 241));
+        archiveAccountTableContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        archiveAccountTableContainerScroll.setBackground(new java.awt.Color(0, 0, 0));
+
+        archive_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        archive_table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        archive_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                archive_tableMouseClicked(evt);
+            }
+        });
+        archiveAccountTableContainerScroll.setViewportView(archive_table);
+
+        archiveAccountTableContainer.add(archiveAccountTableContainerScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 810, 500));
+
+        fname1.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
+        fname1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        fname1.setText("FIRST NAME");
+        archiveAccountTableContainer.add(fname1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 70, 180, 40));
+
+        photo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        photo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default profile 70x70.png"))); // NOI18N
+        archiveAccountTableContainer.add(photo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 70, 70, 70));
+        archiveAccountTableContainer.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 170, 270, 20));
+
+        statusIcon1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        statusIcon1.setForeground(new java.awt.Color(102, 102, 102));
+        statusIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        statusIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"))); // NOI18N
+        archiveAccountTableContainer.add(statusIcon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 120, 30, 20));
+
+        status1.setForeground(new java.awt.Color(102, 102, 102));
+        status1.setText("Status");
+        archiveAccountTableContainer.add(status1, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 120, -1, 20));
+
+        c6.setBackground(new java.awt.Color(255, 255, 255));
+        c6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        manage18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage18.setForeground(new java.awt.Color(102, 102, 102));
+        manage18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        manage18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-name-tag-woman-horizontal-24.png"))); // NOI18N
+        c6.add(manage18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 30));
+
+        id1.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        id1.setForeground(new java.awt.Color(102, 102, 102));
+        c6.add(id1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
+
+        archiveAccountTableContainer.add(c6, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 180, 270, 30));
+
+        c7.setBackground(new java.awt.Color(255, 255, 255));
+        c7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        manage24.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage24.setForeground(new java.awt.Color(102, 102, 102));
+        manage24.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        manage24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-email-24.png"))); // NOI18N
+        c7.add(manage24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 30));
+
+        email1.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        email1.setForeground(new java.awt.Color(102, 102, 102));
+        c7.add(email1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
+
+        archiveAccountTableContainer.add(c7, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 220, 270, 30));
+
+        c8.setBackground(new java.awt.Color(255, 255, 255));
+        c8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        manage25.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage25.setForeground(new java.awt.Color(102, 102, 102));
+        manage25.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        manage25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-phone-24.png"))); // NOI18N
+        c8.add(manage25, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 30));
+
+        number1.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        number1.setForeground(new java.awt.Color(102, 102, 102));
+        c8.add(number1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
+
+        archiveAccountTableContainer.add(c8, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 260, 270, 30));
+
+        c9.setBackground(new java.awt.Color(255, 255, 255));
+        c9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        manage26.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage26.setForeground(new java.awt.Color(102, 102, 102));
+        manage26.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        manage26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-address-24.png"))); // NOI18N
+        c9.add(manage26, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 30));
+
+        address1.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        address1.setForeground(new java.awt.Color(102, 102, 102));
+        c9.add(address1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
+
+        archiveAccountTableContainer.add(c9, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 300, 270, 30));
+
+        c10.setBackground(new java.awt.Color(255, 255, 255));
+        c10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        manage27.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        manage27.setForeground(new java.awt.Color(102, 102, 102));
+        manage27.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        manage27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-admin-24.png"))); // NOI18N
+        c10.add(manage27, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 30));
+
+        role1.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
+        role1.setForeground(new java.awt.Color(102, 102, 102));
+        c10.add(role1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
+
+        archiveAccountTableContainer.add(c10, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 340, 270, 30));
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel3.setText("Archive Accounts Table");
+        archiveAccountTableContainer.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 20));
+
+        restore.setBackground(new java.awt.Color(122, 183, 147));
+        restore.setForeground(new java.awt.Color(255, 255, 255));
+        restore.setText("Restore");
+        restore.setBorder(null);
+        restore.setBorderPainted(false);
+        restore.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restoreActionPerformed(evt);
+            }
+        });
+        archiveAccountTableContainer.add(restore, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 490, 130, 50));
+
+        delete.setBackground(new java.awt.Color(255, 102, 102));
+        delete.setForeground(new java.awt.Color(255, 255, 255));
+        delete.setText("Delete");
+        delete.setBorder(null);
+        delete.setBorderPainted(false);
+        delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteActionPerformed(evt);
+            }
+        });
+        archiveAccountTableContainer.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 490, 130, 50));
+
+        jPanel8.add(archiveAccountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
+
+        tabs.addTab("tab5", jPanel8);
+
         jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 720));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -996,23 +1225,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         logout.setVisible(true);
         this.hide();
     }//GEN-LAST:event_logoutActionPerformed
-
-    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-        int rowIndex = accounts_table.getSelectedRow();
-        if (rowIndex < 0) {
-            JOptionPane.showMessageDialog(null, "Please select a account first");
-        } else {
-            TableModel model = accounts_table.getModel();
-            Object value = model.getValueAt(rowIndex, 0);
-            String id = value.toString();
-            int a = JOptionPane.showConfirmDialog(null, "Are you sure?");
-            if (a == JOptionPane.YES_OPTION) {
-                databaseConnector dbc = new databaseConnector();
-                dbc.deleteAccount(Integer.parseInt(id));
-                JOptionPane.showMessageDialog(null, "Account deleted successfully!");
-                displayAccounts();
-            }
-        }    }//GEN-LAST:event_deleteActionPerformed
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         tabs.setSelectedIndex(2);
@@ -1129,20 +1341,10 @@ public final class adminDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_selectActionPerformed
 
-    private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
-        tabs.setSelectedIndex(0);
-    }//GEN-LAST:event_searchBarActionPerformed
-
-    private void searchBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchBarMouseClicked
-        tabs.setSelectedIndex(0);
-        searchBar.setFocusable(true);
-        searchBar.setText("");
-    }//GEN-LAST:event_searchBarMouseClicked
-
     private ImageIcon pendingIcon;
     private ImageIcon activeIcon;
     private ImageIcon inactiveIcon;
-
+    private ImageIcon archivedIcon;
 
     private void accounts_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accounts_tableMouseClicked
         int rowIndex = accounts_table.getSelectedRow();
@@ -1151,6 +1353,7 @@ public final class adminDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please Select an Item!");
         } else {
             TableModel model = accounts_table.getModel();
+
             try {
                 databaseConnector dbc = new databaseConnector();
                 ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE account_id =" + model.getValueAt(rowIndex, 0));
@@ -1386,6 +1589,154 @@ public final class adminDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_managePhotoMouseClicked
 
+
+    private void searchIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchIconActionPerformed
+        search.searchResult(accounts_table, searchBar);
+    }//GEN-LAST:event_searchIconActionPerformed
+
+    private void searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBarKeyReleased
+        search.searchResult(accounts_table, searchBar);
+    }//GEN-LAST:event_searchBarKeyReleased
+
+    private void searchBarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchBarFocusLost
+        if (searchBar.getText().isEmpty()) {
+            searchBar.setText("  Search");
+            searchBar.setForeground(Color.decode("#8C8C8C"));
+        }
+    }//GEN-LAST:event_searchBarFocusLost
+
+    private void searchBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchBarMouseClicked
+        searchBar.setFocusable(true);
+        searchBar.requestFocusInWindow();
+        if (searchBar.getText().isEmpty() || searchBar.getText().equals("  Search")) {
+            searchBar.setText("");
+            searchBar.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_searchBarMouseClicked
+
+    private void archiveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_archiveBtnActionPerformed
+        tabs.setSelectedIndex(4);
+    }//GEN-LAST:event_archiveBtnActionPerformed
+
+    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
+        int rowIndex = archive_table.getSelectedRow();
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please select a account first");
+        } else {
+            TableModel model = archive_table.getModel();
+            Object value = model.getValueAt(rowIndex, 0);
+            String id = value.toString();
+            int a = JOptionPane.showConfirmDialog(null, "Are you sure?");
+            if (a == JOptionPane.YES_OPTION) {
+                databaseConnector dbc = new databaseConnector();
+                dbc.deleteAccount(Integer.parseInt(id));
+                JOptionPane.showMessageDialog(null, "Account deleted successfully!");
+                displayAccounts();
+                displayArchiveAccounts();
+            }
+        }
+    }//GEN-LAST:event_deleteActionPerformed
+
+    private void restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restoreActionPerformed
+        try {
+            databaseConnector dbc = new databaseConnector();
+            int accountID = Integer.parseInt(id1.getText());
+            String sql = "UPDATE accounts_table SET `status`='Pending' WHERE `account_id`=?";
+
+            try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
+                pst.setInt(1, accountID);
+
+                int rowsUpdated = pst.executeUpdate();
+
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
+                    displayAccounts();
+                    displayArchiveAccounts();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failed to update data!");
+                }
+
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_restoreActionPerformed
+
+    private void add2archiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add2archiveActionPerformed
+        try {
+            databaseConnector dbc = new databaseConnector();
+            int accountID = Integer.parseInt(id.getText());
+            String sql = "UPDATE accounts_table SET `Status`='archived' WHERE `account_id`=?";
+
+            try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
+                pst.setInt(1, accountID);
+
+                int rowsUpdated = pst.executeUpdate();
+
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
+                    displayAccounts();
+                    displayArchiveAccounts();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failed to update data!");
+                }
+
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_add2archiveActionPerformed
+
+    private void archive_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_archive_tableMouseClicked
+        int rowIndex = archive_table.getSelectedRow();
+
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please Select an Item!");
+        } else {
+            TableModel model = archive_table.getModel();
+
+            try {
+                databaseConnector dbc = new databaseConnector();
+                ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE account_id =" + model.getValueAt(rowIndex, 0));
+
+                if (rs.next()) {
+                    id1.setText("" + rs.getString("account_id"));
+                    String firstName = rs.getString("fname");
+                    firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
+                    fname1.setText(firstName);
+                    email1.setText("" + rs.getString("email"));
+                    number1.setText("" + rs.getString("phone number"));
+                    address1.setText("" + rs.getString("address"));
+                    role1.setText("" + rs.getString("role"));
+                    String statusValue = rs.getString("Status");
+                    status1.setText(statusValue);
+                    activeIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"));
+                    inactiveIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-inavtiveon-24 (2).png"));
+                    archivedIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-inavtiveon-24 (2).png"));
+                    pendingIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-pendingon-24.png"));
+                    if (statusValue.equals("Pending")) {
+                        statusIcon1.setIcon(pendingIcon);
+                    } else if (statusValue.equals("Active")) {
+                        statusIcon1.setIcon(activeIcon);
+                    } else if (statusValue.equals("Inactive")) {
+                        statusIcon1.setIcon(inactiveIcon);
+                    } else {
+                        statusIcon1.setIcon(archivedIcon);
+                    }
+                    int height = 70;
+                    int width = 70;
+                    String getImageFromDatabase = rs.getString("profile_picture");
+                    GetImage.displayImage(photo1, getImageFromDatabase, height, width);
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
+                System.out.println(e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_archive_tableMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1410,15 +1761,26 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel accountTableContainer;
     private javax.swing.JTable accounts_table;
     private javax.swing.JButton add;
+    private javax.swing.JButton add2archive;
     private javax.swing.JPanel addAccountContainer;
     private javax.swing.JButton addAccountsaveBtn;
     private javax.swing.JLabel address;
+    private javax.swing.JLabel address1;
     private javax.swing.JTextField addresss;
+    private javax.swing.JPanel archiveAccountTableContainer;
+    private javax.swing.JScrollPane archiveAccountTableContainerScroll;
+    private javax.swing.JButton archiveBtn;
+    private javax.swing.JTable archive_table;
     private javax.swing.JPanel c1;
+    private javax.swing.JPanel c10;
     private javax.swing.JPanel c2;
     private javax.swing.JPanel c3;
     private javax.swing.JPanel c4;
     private javax.swing.JPanel c5;
+    private javax.swing.JPanel c6;
+    private javax.swing.JPanel c7;
+    private javax.swing.JPanel c8;
+    private javax.swing.JPanel c9;
     private javax.swing.JLabel changePassword;
     private javax.swing.JButton dashboard;
     private javax.swing.JPanel dashboardContainer;
@@ -1434,10 +1796,13 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> editStatus;
     private javax.swing.JTextField em;
     private javax.swing.JLabel email;
+    private javax.swing.JLabel email1;
     private javax.swing.JTextField first;
     private javax.swing.JLabel fname;
+    private javax.swing.JLabel fname1;
     private javax.swing.JLabel fullname;
     private javax.swing.JLabel id;
+    private javax.swing.JLabel id1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -1464,9 +1829,11 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
@@ -1480,10 +1847,15 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel manage15;
     private javax.swing.JLabel manage16;
     private javax.swing.JLabel manage17;
+    private javax.swing.JLabel manage18;
     private javax.swing.JLabel manage19;
     private javax.swing.JLabel manage20;
     private javax.swing.JLabel manage21;
     private javax.swing.JLabel manage22;
+    private javax.swing.JLabel manage24;
+    private javax.swing.JLabel manage25;
+    private javax.swing.JLabel manage26;
+    private javax.swing.JLabel manage27;
     private javax.swing.JLabel manage3;
     private javax.swing.JLabel manage7;
     private javax.swing.JLabel manage8;
@@ -1502,18 +1874,25 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel myprofile6;
     private javax.swing.JLabel name;
     private javax.swing.JLabel number;
+    private javax.swing.JLabel number1;
+    private javax.swing.JLabel optional;
     private javax.swing.JTextField pass;
     private javax.swing.JTextField phoneNumber;
     private javax.swing.JLabel photo;
+    private javax.swing.JLabel photo1;
     private javax.swing.JLabel profile;
+    private javax.swing.JButton restore;
     private javax.swing.JLabel role;
+    private javax.swing.JLabel role1;
     private javax.swing.JComboBox<String> roles;
     private javax.swing.JScrollPane scrollBar;
     private javax.swing.JTextField searchBar;
     private javax.swing.JButton searchIcon;
     private javax.swing.JButton select;
     private javax.swing.JLabel status;
+    private javax.swing.JLabel status1;
     private javax.swing.JLabel statusIcon;
+    private javax.swing.JLabel statusIcon1;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTextField user;
     private javax.swing.JPanel z1;

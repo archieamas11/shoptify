@@ -6,6 +6,8 @@ import accounts.UserManager;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.databaseConnector;
+import config.search;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -99,6 +101,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         c5 = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jButton1 = new javax.swing.JButton();
+        accountIcon = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         tabs = new javax.swing.JTabbedPane();
@@ -142,8 +145,8 @@ public class sellerDashboard extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         description = new javax.swing.JEditorPane();
         jLabel17 = new javax.swing.JLabel();
-        search2 = new javax.swing.JTextField();
-        searchbtn5 = new javax.swing.JButton();
+        searchbtn = new javax.swing.JButton();
+        searchBar = new javax.swing.JTextField();
         searchbtn6 = new javax.swing.JButton();
         searchbtn7 = new javax.swing.JButton();
         searchbtn8 = new javax.swing.JButton();
@@ -237,12 +240,12 @@ public class sellerDashboard extends javax.swing.JFrame {
         c1.setBackground(new java.awt.Color(204, 204, 255));
         c1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        dashboardIcon.setBackground(new java.awt.Color(204, 204, 255));
+        dashboardIcon.setBackground(new java.awt.Color(153, 204, 255));
         dashboardIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-dashboard-24.png"))); // NOI18N
         dashboardIcon.setBorderPainted(false);
         c1.add(dashboardIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 40));
 
-        dashboard.setBackground(new java.awt.Color(204, 204, 255));
+        dashboard.setBackground(new java.awt.Color(153, 204, 255));
         dashboard.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         dashboard.setText("Dashboard");
         dashboard.setBorderPainted(false);
@@ -258,7 +261,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         c2.setBackground(new java.awt.Color(204, 204, 255));
         c2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        manage.setBackground(new java.awt.Color(204, 204, 255));
+        manage.setBackground(new java.awt.Color(153, 204, 255));
         manage.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         manage.setText("Manage");
         manage.setBorderPainted(false);
@@ -269,7 +272,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         });
         c2.add(manage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 150, 40));
 
-        manageIcon.setBackground(new java.awt.Color(204, 204, 255));
+        manageIcon.setBackground(new java.awt.Color(153, 204, 255));
         manageIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-edit-24_1.png"))); // NOI18N
         manageIcon.setBorderPainted(false);
         c2.add(manageIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 40));
@@ -279,7 +282,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         c3.setBackground(new java.awt.Color(204, 204, 255));
         c3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        orders.setBackground(new java.awt.Color(204, 204, 255));
+        orders.setBackground(new java.awt.Color(153, 204, 255));
         orders.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         orders.setText("Orders");
         orders.setBorderPainted(false);
@@ -295,12 +298,12 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         jPanel3.add(c3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 190, 40));
 
-        c5.setBackground(new java.awt.Color(204, 204, 255));
+        c5.setBackground(new java.awt.Color(153, 204, 255));
         c5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel3.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 190, 40));
         jPanel3.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 590, 170, 20));
 
-        jButton1.setBackground(new java.awt.Color(204, 204, 255));
+        jButton1.setBackground(new java.awt.Color(153, 204, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton1.setText("Accounts");
         jButton1.setBorderPainted(false);
@@ -310,6 +313,9 @@ public class sellerDashboard extends javax.swing.JFrame {
             }
         });
         jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 150, 40));
+
+        accountIcon.setBorderPainted(false);
+        jPanel3.add(accountIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 40, 40));
 
         jPanel5.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 720));
 
@@ -518,14 +524,29 @@ public class sellerDashboard extends javax.swing.JFrame {
         jLabel17.setText("Products");
         jPanel8.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, 40));
 
-        search2.setForeground(new java.awt.Color(102, 102, 102));
-        search2.setText("  Search");
-        jPanel8.add(search2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 300, 40));
+        searchbtn.setBackground(new java.awt.Color(0, 158, 226));
+        searchbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
+        searchbtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
+        jPanel8.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 10, 60, 40));
 
-        searchbtn5.setBackground(new java.awt.Color(0, 158, 226));
-        searchbtn5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
-        searchbtn5.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
-        jPanel8.add(searchbtn5, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 10, 60, 40));
+        searchBar.setForeground(new java.awt.Color(140, 140, 140));
+        searchBar.setText("  Search");
+        searchBar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                searchBarFocusGained(evt);
+            }
+        });
+        searchBar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchBarMouseClicked(evt);
+            }
+        });
+        searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchBarKeyReleased(evt);
+            }
+        });
+        jPanel8.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 330, 40));
 
         searchbtn6.setBackground(new java.awt.Color(102, 102, 102));
         searchbtn6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/edi-icon-24.png"))); // NOI18N
@@ -1117,6 +1138,26 @@ public class sellerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_editActionPerformed
 
+    private void searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBarKeyReleased
+        search.searchResult(product_table, searchBar);
+    }//GEN-LAST:event_searchBarKeyReleased
+
+    private void searchBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchBarMouseClicked
+        searchBar.setFocusable(true);
+        searchBar.requestFocusInWindow();
+        if (searchBar.getText().isEmpty()) {
+            searchBar.setText("Username");
+            searchBar.setForeground(Color.decode("#999999"));
+        }
+    }//GEN-LAST:event_searchBarMouseClicked
+
+    private void searchBarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchBarFocusGained
+        if (searchBar.getText().equals("  Search")) {
+            searchBar.setText("");
+            searchBar.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_searchBarFocusGained
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -1135,6 +1176,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ID;
+    private javax.swing.JButton accountIcon;
     private javax.swing.JTable accounts_table;
     private javax.swing.JButton add;
     private javax.swing.JTextField address;
@@ -1229,11 +1271,11 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> role;
     private javax.swing.JPanel s;
     private javax.swing.JButton savebtn;
-    private javax.swing.JTextField search2;
     private javax.swing.JTextField search3;
+    private javax.swing.JTextField searchBar;
+    private javax.swing.JButton searchbtn;
     private javax.swing.JButton searchbtn11;
     private javax.swing.JButton searchbtn12;
-    private javax.swing.JButton searchbtn5;
     private javax.swing.JButton searchbtn6;
     private javax.swing.JButton searchbtn7;
     private javax.swing.JButton searchbtn8;

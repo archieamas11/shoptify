@@ -1588,7 +1588,6 @@ public class buyerDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
 
-            // Fetch current stock and status of the product
             String fetchProductQuery = "SELECT stock, status FROM products WHERE product_id = ?";
             PreparedStatement fetchProductStmt = dbc.getConnection().prepareStatement(fetchProductQuery);
             fetchProductStmt.setInt(1, id);
