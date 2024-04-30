@@ -28,7 +28,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -72,7 +74,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(z5, 15);
         UXmethods.RoundBorders.setArcStyle(z6, 15);
 
-        // Buttons
+        //Buttons
         UXmethods.RoundBorders.setArcStyle(edit, 15);
         UXmethods.RoundBorders.setArcStyle(add2archive, 15);
         UXmethods.RoundBorders.setArcStyle(add, 15);
@@ -83,17 +85,17 @@ public final class adminDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(restore, 15);
         UXmethods.RoundBorders.setArcStyle(delete, 15);
 
-        // Components
+        //Components
         UXmethods.RoundBorders.setArcStyle(scrollBar, 15);
+        UXmethods.RoundBorders.setArcStyle(archiveAccountTableContainerScroll, 15);
         UXmethods.RoundBorders.setArcStyle(searchBar, 15);
         UXmethods.RoundBorders.setArcStyle(accountTableContainer, 30);
         UXmethods.RoundBorders.setArcStyle(archiveAccountTableContainer, 30);
-        UXmethods.RoundBorders.setArcStyle(archiveAccountTableContainerScroll, 30);
         UXmethods.RoundBorders.setArcStyle(dashboardContainer, 15);
         UXmethods.RoundBorders.setArcStyle(editProfileContainer, 30);
         UXmethods.RoundBorders.setArcStyle(addAccountContainer, 30);
 
-        // Dashboard Buttons
+        //Dashboard Buttons
         UXmethods.RoundBorders.setArcStyle(dashboard, 50);
         UXmethods.RoundBorders.setArcStyle(logout, 50);
         UXmethods.RoundBorders.setArcStyle(archiveBtn, 50);
@@ -119,6 +121,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 String lastName = rs.getString("lname");
                 firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
                 lastName = Character.toUpperCase(lastName.charAt(0)) + lastName.substring(1);
+
                 //Profile
                 manageFullName.setText(firstName + " " + lastName);
                 manageStatus.setText("" + rs.getString("status"));
@@ -155,7 +158,6 @@ public final class adminDashboard extends javax.swing.JFrame {
                 int heights = 70;
                 int widths = 70;
                 GetImage.displayImage(photo, profilePicture, heights, widths);
-
             }
             rs.close();
             pst.close();
@@ -181,7 +183,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
             String sql;
-            String accountID = id.getText();
+            String account_id = id.getText();
             String stats = (String) status.getSelectedItem();
             String rolee = (String) role.getSelectedItem();
 
@@ -189,7 +191,7 @@ public final class adminDashboard extends javax.swing.JFrame {
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                 pst.setString(1, stats);
                 pst.setString(2, rolee);
-                pst.setString(3, accountID);
+                pst.setString(3, account_id);
 
                 int rowsUpdated = pst.executeUpdate();
 
@@ -1309,6 +1311,7 @@ public final class adminDashboard extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_addAccountsaveBtnActionPerformed
+
     File selectedFile;
     private void selectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -1346,49 +1349,61 @@ public final class adminDashboard extends javax.swing.JFrame {
     private ImageIcon inactiveIcon;
     private ImageIcon archivedIcon;
 
-    private void accounts_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accounts_tableMouseClicked
-        int rowIndex = accounts_table.getSelectedRow();
+    private void displaySelectedAccountInfo(JTable table, JLabel idField, JLabel fnameField, JLabel emailField,
+            JLabel numberField, JLabel addressField, JLabel roleField,
+            JLabel statusField, JLabel statusIcon, JLabel photoLabel) {
+        int rowIndex = table.getSelectedRow();
 
         if (rowIndex < 0) {
             JOptionPane.showMessageDialog(null, "Please Select an Item!");
         } else {
-            TableModel model = accounts_table.getModel();
+            TableModel model = table.getModel();
 
             try {
                 databaseConnector dbc = new databaseConnector();
                 ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE account_id =" + model.getValueAt(rowIndex, 0));
 
                 if (rs.next()) {
-                    id.setText("" + rs.getString("account_id"));
+                    idField.setText("" + rs.getString("account_id"));
                     String firstName = rs.getString("fname");
                     firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
-                    fname.setText(firstName);
-                    email.setText("" + rs.getString("email"));
-                    number.setText("" + rs.getString("phone number"));
-                    address.setText("" + rs.getString("address"));
-                    role.setText("" + rs.getString("role"));
+                    fnameField.setText(firstName);
+                    emailField.setText("" + rs.getString("email"));
+                    numberField.setText("" + rs.getString("phone number"));
+                    addressField.setText("" + rs.getString("address"));
+                    roleField.setText("" + rs.getString("role"));
                     String statusValue = rs.getString("Status");
-                    status.setText(statusValue);
-                    activeIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"));
-                    inactiveIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-inavtiveon-24 (2).png"));
-                    pendingIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-pendingon-24.png"));
+                    statusField.setText(statusValue);
+
+                    ImageIcon activeIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"));
+                    ImageIcon inactiveIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-inavtiveon-24 (2).png"));
+                    ImageIcon archivedIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-inavtiveon-24 (2).png"));
+                    ImageIcon pendingIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-pendingon-24.png"));
+
                     if (statusValue.equals("Pending")) {
                         statusIcon.setIcon(pendingIcon);
                     } else if (statusValue.equals("Active")) {
                         statusIcon.setIcon(activeIcon);
                     } else if (statusValue.equals("Inactive")) {
                         statusIcon.setIcon(inactiveIcon);
+                    } else {
+                        statusIcon.setIcon(archivedIcon);
                     }
+
                     int height = 70;
                     int width = 70;
                     String getImageFromDatabase = rs.getString("profile_picture");
-                    GetImage.displayImage(photo, getImageFromDatabase, height, width);
+                    GetImage.displayImage(photoLabel, getImageFromDatabase, height, width);
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
                 System.out.println(e.getMessage());
             }
         }
+    }
+
+    private void accounts_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accounts_tableMouseClicked
+        displaySelectedAccountInfo(accounts_table, id, fname, email, number, address, role, status, statusIcon, photo);
     }//GEN-LAST:event_accounts_tableMouseClicked
 
     private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
@@ -1649,11 +1664,11 @@ public final class adminDashboard extends javax.swing.JFrame {
                 int rowsUpdated = pst.executeUpdate();
 
                 if (rowsUpdated > 0) {
-                    JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
+                    JOptionPane.showMessageDialog(null, "Account has been retored Successfully!");
                     displayAccounts();
                     displayArchiveAccounts();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Failed to update data!");
+                    JOptionPane.showMessageDialog(null, "Failed to restore account!");
                 }
 
             }
@@ -1666,22 +1681,21 @@ public final class adminDashboard extends javax.swing.JFrame {
     private void add2archiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add2archiveActionPerformed
         try {
             databaseConnector dbc = new databaseConnector();
-            int accountID = Integer.parseInt(id.getText());
+            int account_id = Integer.parseInt(id.getText());
             String sql = "UPDATE accounts_table SET `Status`='archived' WHERE `account_id`=?";
 
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
-                pst.setInt(1, accountID);
+                pst.setInt(1, account_id);
 
                 int rowsUpdated = pst.executeUpdate();
 
                 if (rowsUpdated > 0) {
-                    JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
+                    JOptionPane.showMessageDialog(null, "Account added to archive Successfully!");
                     displayAccounts();
                     displayArchiveAccounts();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Failed to update data!");
+                    JOptionPane.showMessageDialog(null, "Failed to add the account to archive!");
                 }
-
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
@@ -1690,51 +1704,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_add2archiveActionPerformed
 
     private void archive_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_archive_tableMouseClicked
-        int rowIndex = archive_table.getSelectedRow();
-
-        if (rowIndex < 0) {
-            JOptionPane.showMessageDialog(null, "Please Select an Item!");
-        } else {
-            TableModel model = archive_table.getModel();
-
-            try {
-                databaseConnector dbc = new databaseConnector();
-                ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE account_id =" + model.getValueAt(rowIndex, 0));
-
-                if (rs.next()) {
-                    id1.setText("" + rs.getString("account_id"));
-                    String firstName = rs.getString("fname");
-                    firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
-                    fname1.setText(firstName);
-                    email1.setText("" + rs.getString("email"));
-                    number1.setText("" + rs.getString("phone number"));
-                    address1.setText("" + rs.getString("address"));
-                    role1.setText("" + rs.getString("role"));
-                    String statusValue = rs.getString("Status");
-                    status1.setText(statusValue);
-                    activeIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"));
-                    inactiveIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-inavtiveon-24 (2).png"));
-                    archivedIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-inavtiveon-24 (2).png"));
-                    pendingIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-pendingon-24.png"));
-                    if (statusValue.equals("Pending")) {
-                        statusIcon1.setIcon(pendingIcon);
-                    } else if (statusValue.equals("Active")) {
-                        statusIcon1.setIcon(activeIcon);
-                    } else if (statusValue.equals("Inactive")) {
-                        statusIcon1.setIcon(inactiveIcon);
-                    } else {
-                        statusIcon1.setIcon(archivedIcon);
-                    }
-                    int height = 70;
-                    int width = 70;
-                    String getImageFromDatabase = rs.getString("profile_picture");
-                    GetImage.displayImage(photo1, getImageFromDatabase, height, width);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
-                System.out.println(e.getMessage());
-            }
-        }
+        displaySelectedAccountInfo(archive_table, id1, fname1, email1, number1, address1, role1, status1, statusIcon1, photo1);
     }//GEN-LAST:event_archive_tableMouseClicked
 
     /**
