@@ -384,15 +384,16 @@ public class buyerDashboard extends javax.swing.JFrame {
         });
         jPanel2.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, -1, 50));
 
-        jLabel2.setText("HOME");
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-home-16.png"))); // NOI18N
+        jLabel2.setText(" HOME");
         jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel2MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 20, -1, 20));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, -1, 40));
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 40));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 60));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -728,7 +729,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         productInfo.add(jLabel6);
         jLabel6.setBounds(620, 280, 60, 30);
 
-        jButton2.setFont(new java.awt.Font("Times New Roman", 0, 15)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Times New Roman", 1, 15)); // NOI18N
         jButton2.setText("+");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -738,7 +739,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         productInfo.add(jButton2);
         jButton2.setBounds(680, 310, 30, 30);
 
-        jButton3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         jButton3.setText("-");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
