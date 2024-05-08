@@ -15,7 +15,9 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.mindrot.jbcrypt.BCrypt;
 import Buyer.buyerDashboard;
+import config.adminlogs;
 import config.isAccountExist;
+import javax.swing.JFrame;
 
 public class Login extends javax.swing.JFrame {
 
@@ -301,33 +303,56 @@ public class Login extends javax.swing.JFrame {
         String user = username.getText();
         String pass = password.getText();
 
-        if (user.equals("Username") || pass.equals("Password")) {
-            JOptionPane.showMessageDialog(null, "Please Input both username and password!");
+        if (user.isEmpty() || pass.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter both username and password!");
         } else {
-            if (loginAccount(user, pass, "Seller", "Active")) {
-                JOptionPane.showMessageDialog(null, "Admin Login Success!");
+            String loginType = checkLogin(user, pass);
+
+            if (loginType != null) {
+                JOptionPane.showMessageDialog(null, "Login Successful!");
                 UserManager.setLoggedInUserId(accountId);
-                sellerDashboard ads = new sellerDashboard();
-                ads.setVisible(true);
-                this.dispose();
-            } else if (loginAccount(user, pass, "Buyer", "Active")) {
-                JOptionPane.showMessageDialog(null, "User Login Success!");
-                UserManager.setLoggedInUserId(accountId);
-                buyerDashboard use = new buyerDashboard();
-                use.setVisible(true);
-                this.dispose();
-            } else if (loginAccount(user, pass, "Admin", "Active")) {
-                JOptionPane.showMessageDialog(null, "User Login Success!");
-                UserManager.setLoggedInUserId(accountId);
-                adminDashboard use = new adminDashboard();
-                use.setVisible(true);
-                this.dispose();
+
+                switch (loginType) {
+                    case "Seller":
+                        openDashboard(new sellerDashboard());
+                        break;
+                    case "Buyer":
+                        openDashboard(new buyerDashboard());
+                        break;
+                    case "Admin":
+                        openDashboard(new adminDashboard());
+                        recordAdminLogin();
+                        break;
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Login Failed: Account not found or incorrect password!");
                 password.setText("");
             }
         }
     }//GEN-LAST:event_loginActionPerformed
+
+    private String checkLogin(String user, String pass) {
+        if (loginAccount(user, pass, "Seller", "Active")) {
+            return "Seller";
+        } else if (loginAccount(user, pass, "Buyer", "Active")) {
+            return "Buyer";
+        } else if (loginAccount(user, pass, "Admin", "Active")) {
+            return "Admin";
+        }
+        return null;
+    }
+
+    private void openDashboard(JFrame dashboard) {
+        dashboard.setVisible(true);
+        this.dispose();
+    }
+
+    private void recordAdminLogin() {
+        int adminID = UserManager.getLoggedInUserId();
+        String action = "Logged in";
+        String details = "User " + adminID + " successfully logged in!";
+        adminlogs.recordLogs(adminID, action, details);
+    }
 
     private void create_accountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_create_accountMouseClicked
         createAccount create = new createAccount();

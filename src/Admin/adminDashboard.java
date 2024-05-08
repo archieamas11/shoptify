@@ -8,6 +8,7 @@ import accounts.Login;
 import accounts.UserManager;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
+import config.adminlogs;
 import config.databaseConnector;
 import config.isAccountExist;
 import config.search;
@@ -26,7 +27,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -55,6 +55,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         displayAccounts();
         displayAccountName();
         displayArchiveAccounts();
+        adminlogs.displayAdminLogs(actionlogs_table);
 
         //Informations Panel
         UXmethods.RoundBorders.setArcStyle(c1, 15);
@@ -93,11 +94,14 @@ public final class adminDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(dashboardContainer, 15);
         UXmethods.RoundBorders.setArcStyle(editProfileContainer, 30);
         UXmethods.RoundBorders.setArcStyle(addAccountContainer, 30);
+        UXmethods.RoundBorders.setArcStyle(actionLogsTableContainer, 15);
+        UXmethods.RoundBorders.setArcStyle(actionLogsTableContainerScroll, 15);
 
         //Dashboard Buttons
-        UXmethods.RoundBorders.setArcStyle(dashboard, 50);
-        UXmethods.RoundBorders.setArcStyle(logout, 50);
+        UXmethods.RoundBorders.setArcStyle(dashboardBtn, 50);
+        UXmethods.RoundBorders.setArcStyle(logoutBtn, 50);
         UXmethods.RoundBorders.setArcStyle(archiveBtn, 50);
+        UXmethods.RoundBorders.setArcStyle(logsBtn, 50);
 
         //Test
         UXmethods.RoundBorders.setArcStyle(editStatus, 15);
@@ -108,12 +112,11 @@ public final class adminDashboard extends javax.swing.JFrame {
 
     public void displayAccountName() {
         try {
-            int accountId = UserManager.getLoggedInUserId();
 
             databaseConnector dbc = new databaseConnector();
             String query = "SELECT fname, lname, account_id, email, `phone number`, address, role, status, profile_picture FROM accounts_table WHERE account_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
-            pst.setInt(1, accountId);
+            pst.setInt(1, accountID);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 String firstName = rs.getString("fname");
@@ -180,11 +183,10 @@ public final class adminDashboard extends javax.swing.JFrame {
 
     public void displayAccounts() {
         try {
-            int currentUserID = UserManager.getLoggedInUserId();
             databaseConnector dbc = new databaseConnector();
             String query = "SELECT `account_id` as `Account ID`, `fname` as `First Name`, `lname` as `Last Name`, `username` as `Username`, `address` as `Address`, `phone number` as `Phone Number`, `role` as `Role`, `date joined` as `Date Joined`, `status` as `Status` FROM accounts_table WHERE status IN ('Active', 'Inactive', 'Pending') AND account_id != ?";
             PreparedStatement statement = dbc.getConnection().prepareStatement(query);
-            statement.setInt(1, currentUserID);
+            statement.setInt(1, accountID);
             ResultSet rs = statement.executeQuery();
             accounts_table.setModel(DbUtils.resultSetToTableModel(rs));
             rs.close();
@@ -204,11 +206,12 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         dashboardContainer = new javax.swing.JPanel();
-        dashboard = new javax.swing.JButton();
+        dashboardBtn = new javax.swing.JButton();
         profile = new javax.swing.JLabel();
-        logout = new javax.swing.JButton();
+        logoutBtn = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         archiveBtn = new javax.swing.JButton();
+        logsBtn = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         name = new javax.swing.JLabel();
@@ -342,6 +345,11 @@ public final class adminDashboard extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         restore = new javax.swing.JButton();
         delete = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        actionLogsTableContainer = new javax.swing.JPanel();
+        actionLogsTableContainerScroll = new javax.swing.JScrollPane();
+        actionlogs_table = new javax.swing.JTable();
+        jLabel17 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -353,15 +361,15 @@ public final class adminDashboard extends javax.swing.JFrame {
         dashboardContainer.setBackground(new java.awt.Color(241, 241, 241));
         dashboardContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        dashboard.setBackground(new java.awt.Color(153, 204, 255));
-        dashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-dashboard-24.png"))); // NOI18N
-        dashboard.setBorderPainted(false);
-        dashboard.addActionListener(new java.awt.event.ActionListener() {
+        dashboardBtn.setBackground(new java.awt.Color(153, 204, 255));
+        dashboardBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-dashboard-24.png"))); // NOI18N
+        dashboardBtn.setBorderPainted(false);
+        dashboardBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dashboardActionPerformed(evt);
+                dashboardBtnActionPerformed(evt);
             }
         });
-        dashboardContainer.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 50, 50));
+        dashboardContainer.add(dashboardBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 50, 50));
 
         profile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         profile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/2.png"))); // NOI18N
@@ -372,15 +380,15 @@ public final class adminDashboard extends javax.swing.JFrame {
         });
         dashboardContainer.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 70, 50));
 
-        logout.setBackground(new java.awt.Color(255, 102, 102));
-        logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-logout-24.png"))); // NOI18N
-        logout.setBorderPainted(false);
-        logout.addActionListener(new java.awt.event.ActionListener() {
+        logoutBtn.setBackground(new java.awt.Color(255, 102, 102));
+        logoutBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-logout-24.png"))); // NOI18N
+        logoutBtn.setBorderPainted(false);
+        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logoutActionPerformed(evt);
+                logoutBtnActionPerformed(evt);
             }
         });
-        dashboardContainer.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, 50, 50));
+        dashboardContainer.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, 50, 50));
         dashboardContainer.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 50, 10));
 
         archiveBtn.setBackground(new java.awt.Color(153, 204, 255));
@@ -392,6 +400,16 @@ public final class adminDashboard extends javax.swing.JFrame {
             }
         });
         dashboardContainer.add(archiveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 50, 50));
+
+        logsBtn.setBackground(new java.awt.Color(153, 204, 255));
+        logsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-paste-special-32_1.png"))); // NOI18N
+        logsBtn.setBorderPainted(false);
+        logsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logsBtnActionPerformed(evt);
+            }
+        });
+        dashboardContainer.add(logsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 50, 50));
 
         jPanel1.add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 70, 670));
 
@@ -1115,6 +1133,40 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         tabs.addTab("tab5", jPanel8);
 
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        actionLogsTableContainer.setBackground(new java.awt.Color(241, 241, 241));
+        actionLogsTableContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        actionLogsTableContainerScroll.setBackground(new java.awt.Color(0, 0, 0));
+
+        actionlogs_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        actionlogs_table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        actionlogs_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                actionlogs_tableMouseClicked(evt);
+            }
+        });
+        actionLogsTableContainerScroll.setViewportView(actionlogs_table);
+
+        actionLogsTableContainer.add(actionLogsTableContainerScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 1090, 500));
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel17.setText("Action Logs");
+        actionLogsTableContainer.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 20));
+
+        jPanel9.add(actionLogsTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
+
+        tabs.addTab("tab6", jPanel9);
+
         jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 720));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1164,15 +1216,18 @@ public final class adminDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_editActionPerformed
 
-    private void dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardActionPerformed
+    private void dashboardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardBtnActionPerformed
         tabs.setSelectedIndex(0);
-    }//GEN-LAST:event_dashboardActionPerformed
+    }//GEN-LAST:event_dashboardBtnActionPerformed
 
     private void editAccountSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAccountSaveBtnActionPerformed
         try {
             databaseConnector dbc = new databaseConnector();
             String sql;
             String account_id = id.getText();
+            String statuss = status.getText();
+            String roles = role.getText();
+
             String stats = (String) editStatus.getSelectedItem();
             String rolee = (String) editRole.getSelectedItem();
 
@@ -1188,6 +1243,19 @@ public final class adminDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Account Updated Successfully!");
                     displayAccounts();
                     displayAccountName();
+                    //logs
+                    String details = null;
+                    String action = "Change Status";
+                    if (!stats.equals(statuss) && !rolee.equals(roles)) {
+                        details = "User " + accountID + " Successfully changed the status and role of " + account_id + " to " + stats + " and " + rolee + "";
+                        action = "Change Status & Role";
+                    } else if (!stats.equals(statuss)) {
+                        details = "User " + accountID + " Successfully changed the status of " + account_id + " to " + stats + "";
+                    } else if (!rolee.equals(roles)) {
+                        details = "User " + accountID + " Successfully changed the role of " + account_id + " to " + rolee + "";
+                    }
+                    adminlogs.recordLogs(accountID, action, details);
+
                     tabs.setSelectedIndex(0);
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed to update Account!");
@@ -1200,11 +1268,15 @@ public final class adminDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_editAccountSaveBtnActionPerformed
 
-    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         Login logout = new Login();
         logout.setVisible(true);
-        this.hide();
-    }//GEN-LAST:event_logoutActionPerformed
+        this.dispose();
+
+        String action = "Logged out";
+        String details = "User " + accountID + " Successfully logged out!";
+        adminlogs.recordLogs(accountID, action, details);
+    }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
         tabs.setSelectedIndex(2);
@@ -1283,6 +1355,11 @@ public final class adminDashboard extends javax.swing.JFrame {
             phoneNumber.setText("");
             pass.setText("");
             addresss.setText("");
+
+            //logs
+            String details = "User " + accountID + " Successfully added an account";
+            String action = "Add account";
+            adminlogs.recordLogs(accountID, action, details);
             editRole.setSelectedIndex(0);
             tabs.setSelectedIndex(0);
         } catch (Exception e) {
@@ -1407,6 +1484,12 @@ public final class adminDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Account Updated Successfully!");
                     displayAccounts();
                     displayAccountName();
+
+                    //logs
+                    String details = "User " + accountID + " Successfully changed the role to " + rolee + "!";
+                    String action = "Change Role";
+                    adminlogs.recordLogs(accountID, action, details);
+
                     tabs.setSelectedIndex(0);
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed to update Account!");
@@ -1453,6 +1536,10 @@ public final class adminDashboard extends javax.swing.JFrame {
 
             if (rowsAffected > 0) {
                 JOptionPane.showMessageDialog(null, "Password updated successfully.");
+                //logs
+                String details = "User " + accountID + " Successfully changed the password!";
+                String action = "Change Password";
+                adminlogs.recordLogs(accountID, action, details);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to update password.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -1482,6 +1569,10 @@ public final class adminDashboard extends javax.swing.JFrame {
             if (rowsAffected > 0) {
                 JOptionPane.showMessageDialog(null, "Address updated successfully.");
                 displayAccountName();
+                //logs
+                String details = "User " + accountID + " Successfully changed the address!";
+                String action = "Change Address";
+                adminlogs.recordLogs(accountID, action, details);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to update address.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -1512,6 +1603,10 @@ public final class adminDashboard extends javax.swing.JFrame {
             if (rowsAffected > 0) {
                 JOptionPane.showMessageDialog(null, "Email address updated successfully.");
                 displayAccountName();
+                //logs
+                String details = "User " + accountID + " Successfully changed the email!";
+                String action = "Change Email";
+                adminlogs.recordLogs(accountID, action, details);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to update email address.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -1547,6 +1642,10 @@ public final class adminDashboard extends javax.swing.JFrame {
             if (rowsAffected > 0) {
                 JOptionPane.showMessageDialog(null, "Phone number updated successfully.");
                 displayAccountName();
+                //logs
+                String details = "User " + accountID + " Successfully changed the phone number!";
+                String action = "Change Number";
+                adminlogs.recordLogs(accountID, action, details);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to update Phone number.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -1615,6 +1714,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
     private void searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBarKeyReleased
         search.searchResult(accounts_table, searchBar);
+        search.searchResult(actionlogs_table, searchBar);
     }//GEN-LAST:event_searchBarKeyReleased
 
     private void searchBarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchBarFocusLost
@@ -1652,6 +1752,10 @@ public final class adminDashboard extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Account deleted successfully!");
                 displayAccounts();
                 displayArchiveAccounts();
+                //logs
+                String details = "User " + accountID + " Successfully deleted the account " + id1 + "!";
+                String action = "Delete Account";
+                adminlogs.recordLogs(accountID, action, details);
             }
         }
     }//GEN-LAST:event_deleteActionPerformed
@@ -1659,11 +1763,11 @@ public final class adminDashboard extends javax.swing.JFrame {
     private void restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restoreActionPerformed
         try {
             databaseConnector dbc = new databaseConnector();
-            int accountID = Integer.parseInt(id1.getText());
+            int restoredAccountID = Integer.parseInt(id1.getText());
             String sql = "UPDATE accounts_table SET `status`='Pending' WHERE `account_id`=?";
 
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
-                pst.setInt(1, accountID);
+                pst.setInt(1, restoredAccountID);
 
                 int rowsUpdated = pst.executeUpdate();
 
@@ -1671,6 +1775,9 @@ public final class adminDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Account has been retored Successfully!");
                     displayAccounts();
                     displayArchiveAccounts();
+                    String action = "Restore";
+                    String details = "User " + accountID + " Successfully restored account " + restoredAccountID + " from archive!";
+                    adminlogs.recordLogs(accountID, action, details);
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed to restore account!");
                 }
@@ -1697,6 +1804,10 @@ public final class adminDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Account added to archive Successfully!");
                     displayAccounts();
                     displayArchiveAccounts();
+
+                    String action = "Archive";
+                    String details = "User " + accountID + " Successfully put account " + account_id + " to archive!";
+                    adminlogs.recordLogs(accountID, action, details);
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed to add the account to archive!");
                 }
@@ -1710,6 +1821,15 @@ public final class adminDashboard extends javax.swing.JFrame {
     private void archive_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_archive_tableMouseClicked
         displaySelectedAccountInfo(archive_table, id1, fname1, email1, number1, address1, role1, status1, statusIcon1, photo1);
     }//GEN-LAST:event_archive_tableMouseClicked
+
+    private void logsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logsBtnActionPerformed
+        tabs.setSelectedIndex(5);
+        adminlogs.displayAdminLogs(actionlogs_table);
+    }//GEN-LAST:event_logsBtnActionPerformed
+
+    private void actionlogs_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actionlogs_tableMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_actionlogs_tableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1734,6 +1854,9 @@ public final class adminDashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accountTableContainer;
     private javax.swing.JTable accounts_table;
+    private javax.swing.JPanel actionLogsTableContainer;
+    private javax.swing.JScrollPane actionLogsTableContainerScroll;
+    private javax.swing.JTable actionlogs_table;
     private javax.swing.JButton add;
     private javax.swing.JButton add2archive;
     private javax.swing.JPanel addAccountContainer;
@@ -1756,7 +1879,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel c8;
     private javax.swing.JPanel c9;
     private javax.swing.JLabel changePassword;
-    private javax.swing.JButton dashboard;
+    private javax.swing.JButton dashboardBtn;
     private javax.swing.JPanel dashboardContainer;
     private javax.swing.JButton delete;
     private javax.swing.JLabel displayImage;
@@ -1784,6 +1907,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
@@ -1804,6 +1928,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
@@ -1812,7 +1937,8 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JTextField last;
-    private javax.swing.JButton logout;
+    private javax.swing.JButton logoutBtn;
+    private javax.swing.JButton logsBtn;
     private javax.swing.JLabel manage10;
     private javax.swing.JLabel manage11;
     private javax.swing.JLabel manage12;
