@@ -32,12 +32,9 @@ public class Login extends javax.swing.JFrame {
         remember.setFocusable(false);
 
         // Round Borders
-        // login.setBackground(new Color(0, 158, 226));
         UXmethods.RoundBorders.setArcStyle(usernameContainer, 30);
         UXmethods.RoundBorders.setArcStyle(passwordContainer, 30);
         UXmethods.RoundBorders.setArcStyle(login, 30);
-
-        // login.putClientProperty(FlatClientProperties.STYLE, "arc: 30");
     }
 
     public static boolean loginAccount(String user, String pass, String role, String stats) {
@@ -68,8 +65,8 @@ public class Login extends javax.swing.JFrame {
     private void togglePasswordVisibility() {
         passwordVisible = !passwordVisible;
 
-        hideIcon = new ImageIcon(getClass().getResource("/image/eye_hide.png"));
-        showIcon = new ImageIcon(getClass().getResource("/image/eye.png"));
+        hideIcon = new ImageIcon(getClass().getResource("/image/eye.png"));
+        showIcon = new ImageIcon(getClass().getResource("/image/eye_hide.png"));
 
         if (passwordVisible) {
             eye.setIcon(showIcon);
@@ -204,7 +201,7 @@ public class Login extends javax.swing.JFrame {
         passwordContainer.add(password_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 20, 40));
 
         eye.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        eye.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/eye_hide.png"))); // NOI18N
+        eye.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/eye.png"))); // NOI18N
         eye.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         eye.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -327,6 +324,7 @@ public class Login extends javax.swing.JFrame {
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(null, "Login Failed: Account not found or incorrect password!");
+                password.setText("");
             }
         }
     }//GEN-LAST:event_loginActionPerformed
@@ -354,15 +352,18 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_rememberActionPerformed
 
     private void forgotPasswordBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotPasswordBtnMouseClicked
-        String userInput = JOptionPane.showInputDialog(null, "Enter your username or email:");
-
-        if (userInput == null || userInput.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please enter a username or email.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        databaseConnector dbc = new databaseConnector();
         try {
+            databaseConnector dbc = new databaseConnector();
+            String userInput = JOptionPane.showInputDialog(null, "Enter your username or email:");
+
+            if (userInput == null) {
+                return;
+            }
+
+            if (userInput.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please enter a username or email.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             boolean isExist = isAccountExist.checkUsername(userInput) || isAccountExist.checkEmail(userInput);
 
             if (!isExist) {
@@ -376,7 +377,6 @@ public class Login extends javax.swing.JFrame {
                 return;
             }
 
-            // Update the password in the database
             String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
             String updateQuery = "UPDATE accounts_table SET password = ? WHERE username = ? OR email = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery);
