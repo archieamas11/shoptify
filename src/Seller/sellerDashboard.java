@@ -396,7 +396,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 50));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 20));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -515,7 +515,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                 savebtnActionPerformed(evt);
             }
         });
-        jPanel18.add(savebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 120, 140, 30));
+        jPanel18.add(savebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 80, 140, 30));
 
         add.setText("Add");
         add.addActionListener(new java.awt.event.ActionListener() {
@@ -573,7 +573,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(description);
 
-        jPanel18.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, 210, 70));
+        jPanel18.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 220, 70));
 
         archive.setBackground(new java.awt.Color(255, 51, 51));
         archive.setForeground(new java.awt.Color(255, 255, 255));
@@ -583,7 +583,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                 archiveActionPerformed(evt);
             }
         });
-        jPanel18.add(archive, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 160, 140, 30));
+        jPanel18.add(archive, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 120, 140, 30));
 
         jPanel8.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 400, 930, 230));
 

@@ -67,7 +67,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(c8, 15);
         UXmethods.RoundBorders.setArcStyle(c9, 15);
         UXmethods.RoundBorders.setArcStyle(c10, 15);
-        UXmethods.RoundBorders.setArcStyle(z1, 15);
         UXmethods.RoundBorders.setArcStyle(z2, 15);
         UXmethods.RoundBorders.setArcStyle(z3, 15);
         UXmethods.RoundBorders.setArcStyle(z4, 15);
@@ -130,7 +129,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 manageAddress.setText("" + rs.getString("address"));
 
                 //Dashboard
-                fname.setText(firstName);
+                name.setText(firstName);
                 id.setText("" + rs.getString("account_id"));
                 email.setText("" + rs.getString("email"));
                 number.setText("" + rs.getString("phone number"));
@@ -171,7 +170,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
 
-            ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE status = 'archived'");
+            ResultSet rs = dbc.getData("SELECT `account_id` as `Account ID`, `fname` as `First Name`, `lname` as `Last Name`, `username` as `Username`, `address` as `Address`, `phone number` as `Phone Number`, `role` as `Role`, `date joined` as `Date Joined`, `status` as `Status` FROM accounts_table WHERE status = 'archived'");
             archive_table.setModel(DbUtils.resultSetToTableModel(rs));
             rs.close();
         } catch (Exception ex) {
@@ -179,44 +178,14 @@ public final class adminDashboard extends javax.swing.JFrame {
         }
     }
 
-    private void saveButton(JComboBox status, JComboBox role) {
-        try {
-            databaseConnector dbc = new databaseConnector();
-            String sql;
-            String account_id = id.getText();
-            String stats = (String) status.getSelectedItem();
-            String rolee = (String) role.getSelectedItem();
-
-            sql = "UPDATE accounts_table SET status=?, role=? WHERE account_id=?";
-            try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
-                pst.setString(1, stats);
-                pst.setString(2, rolee);
-                pst.setString(3, account_id);
-
-                int rowsUpdated = pst.executeUpdate();
-
-                if (rowsUpdated > 0) {
-                    JOptionPane.showMessageDialog(null, "Account Updated Successfully!");
-                    displayAccounts();
-                    displayAccountName();
-                    tabs.setSelectedIndex(0);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Failed to update Account!");
-                }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
     public void displayAccounts() {
-
         try {
+            int currentUserID = UserManager.getLoggedInUserId();
             databaseConnector dbc = new databaseConnector();
-
-            ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE status IN ('Active', 'Inactive', 'Pending')");
+            String query = "SELECT `account_id` as `Account ID`, `fname` as `First Name`, `lname` as `Last Name`, `username` as `Username`, `address` as `Address`, `phone number` as `Phone Number`, `role` as `Role`, `date joined` as `Date Joined`, `status` as `Status` FROM accounts_table WHERE status IN ('Active', 'Inactive', 'Pending') AND account_id != ?";
+            PreparedStatement statement = dbc.getConnection().prepareStatement(query);
+            statement.setInt(1, currentUserID);
+            ResultSet rs = statement.executeQuery();
             accounts_table.setModel(DbUtils.resultSetToTableModel(rs));
             rs.close();
         } catch (Exception ex) {
@@ -327,9 +296,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         manageStatus = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         managePhoto = new javax.swing.JLabel();
-        z1 = new javax.swing.JPanel();
-        manageChangeStatus = new javax.swing.JComboBox<>();
-        manage13 = new javax.swing.JLabel();
         z2 = new javax.swing.JPanel();
         manage19 = new javax.swing.JLabel();
         manageEmail = new javax.swing.JLabel();
@@ -850,7 +816,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 manageSaveActionPerformed(evt);
             }
         });
-        editProfileContainer1.add(manageSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 500, -1, 40));
+        editProfileContainer1.add(manageSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 470, -1, 40));
 
         myprofile6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         myprofile6.setText("Manage Profile");
@@ -864,37 +830,21 @@ public final class adminDashboard extends javax.swing.JFrame {
         manageFullName.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         manageFullName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         manageFullName.setText("Archie Albarico");
-        editProfileContainer1.add(manageFullName, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 140, 190, 40));
+        editProfileContainer1.add(manageFullName, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 160, 190, 40));
 
         manageStatus.setForeground(new java.awt.Color(153, 153, 153));
         manageStatus.setText("Pending");
-        editProfileContainer1.add(manageStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 180, -1, 20));
+        editProfileContainer1.add(manageStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 200, -1, 20));
 
         jLabel14.setText("Status:");
-        editProfileContainer1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 180, -1, 20));
+        editProfileContainer1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 200, -1, 20));
 
         managePhoto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 managePhotoMouseClicked(evt);
             }
         });
-        editProfileContainer1.add(managePhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 120, 100, 100));
-
-        z1.setBackground(new java.awt.Color(255, 255, 255));
-        z1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        manageChangeStatus.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        manageChangeStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Active", "Inactive", "Pending" }));
-        manageChangeStatus.setBorder(null);
-        z1.add(manageChangeStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 260, 30));
-
-        manage13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage13.setForeground(new java.awt.Color(102, 102, 102));
-        manage13.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        manage13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-status-24.png"))); // NOI18N
-        z1.add(manage13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 30));
-
-        editProfileContainer1.add(z1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 400, 320, 30));
+        editProfileContainer1.add(managePhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 100, 100));
 
         z2.setBackground(new java.awt.Color(255, 255, 255));
         z2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -909,7 +859,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         manageEmail.setText("Email");
         z2.add(manageEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 230, 30));
 
-        editProfileContainer1.add(z2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 240, 320, 30));
+        editProfileContainer1.add(z2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 260, 320, 30));
 
         z3.setBackground(new java.awt.Color(255, 255, 255));
         z3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -924,7 +874,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         managePhone.setText("Phone");
         z3.add(managePhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 230, 30));
 
-        editProfileContainer1.add(z3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 280, 320, 30));
+        editProfileContainer1.add(z3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 300, 320, 30));
 
         z4.setBackground(new java.awt.Color(255, 255, 255));
         z4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -939,7 +889,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         manageAddress.setText("Address");
         z4.add(manageAddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 230, 30));
 
-        editProfileContainer1.add(z4, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 320, 320, 30));
+        editProfileContainer1.add(z4, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 340, 320, 30));
 
         z5.setBackground(new java.awt.Color(255, 255, 255));
         z5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -955,7 +905,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         manage9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-admin-24.png"))); // NOI18N
         z5.add(manage9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 30));
 
-        editProfileContainer1.add(z5, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 440, 320, 30));
+        editProfileContainer1.add(z5, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 420, 320, 30));
 
         z6.setBackground(new java.awt.Color(255, 255, 255));
         z6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -970,7 +920,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         jLabel16.setText("Password");
         z6.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 210, 30));
 
-        editProfileContainer1.add(z6, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 360, 320, 30));
+        editProfileContainer1.add(z6, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 380, 320, 30));
 
         jLabel15.setForeground(new java.awt.Color(0, 158, 226));
         jLabel15.setText("Change");
@@ -979,7 +929,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 jLabel15MouseClicked(evt);
             }
         });
-        editProfileContainer1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 240, -1, 30));
+        editProfileContainer1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 260, -1, 30));
 
         changePassword.setForeground(new java.awt.Color(0, 158, 226));
         changePassword.setText("Change");
@@ -988,7 +938,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 changePasswordMouseClicked(evt);
             }
         });
-        editProfileContainer1.add(changePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 360, -1, 30));
+        editProfileContainer1.add(changePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 380, -1, 30));
 
         jLabel20.setForeground(new java.awt.Color(0, 158, 226));
         jLabel20.setText("Change");
@@ -997,7 +947,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 jLabel20MouseClicked(evt);
             }
         });
-        editProfileContainer1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 320, -1, 30));
+        editProfileContainer1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 340, -1, 30));
 
         jLabel21.setForeground(new java.awt.Color(0, 158, 226));
         jLabel21.setText("Change");
@@ -1006,7 +956,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 jLabel21MouseClicked(evt);
             }
         });
-        editProfileContainer1.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 280, -1, 30));
+        editProfileContainer1.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 300, -1, 30));
 
         jPanel2.add(editProfileContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
 
@@ -1219,7 +1169,35 @@ public final class adminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_dashboardActionPerformed
 
     private void editAccountSaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editAccountSaveBtnActionPerformed
-        saveButton(editStatus, editRole);
+        try {
+            databaseConnector dbc = new databaseConnector();
+            String sql;
+            String account_id = id.getText();
+            String stats = (String) editStatus.getSelectedItem();
+            String rolee = (String) editRole.getSelectedItem();
+
+            sql = "UPDATE accounts_table SET status=?, role=? WHERE account_id=?";
+            try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
+                pst.setString(1, stats);
+                pst.setString(2, rolee);
+                pst.setString(3, account_id);
+
+                int rowsUpdated = pst.executeUpdate();
+
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(null, "Account Updated Successfully!");
+                    displayAccounts();
+                    displayAccountName();
+                    tabs.setSelectedIndex(0);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failed to update Account!");
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_editAccountSaveBtnActionPerformed
 
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
@@ -1412,7 +1390,33 @@ public final class adminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_profileMouseClicked
 
     private void manageSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageSaveActionPerformed
-        saveButton(manageChangeStatus, manageRole);
+        try {
+            databaseConnector dbc = new databaseConnector();
+            String sql;
+            String account_id = id.getText();
+            String rolee = (String) manageRole.getSelectedItem();
+
+            sql = "UPDATE accounts_table SET role=? WHERE account_id=?";
+            try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
+                pst.setString(1, rolee);
+                pst.setString(2, account_id);
+
+                int rowsUpdated = pst.executeUpdate();
+
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(null, "Account Updated Successfully!");
+                    displayAccounts();
+                    displayAccountName();
+                    tabs.setSelectedIndex(0);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failed to update Account!");
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_manageSaveActionPerformed
 
     private void changePasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changePasswordMouseClicked
@@ -1812,7 +1816,6 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel manage10;
     private javax.swing.JLabel manage11;
     private javax.swing.JLabel manage12;
-    private javax.swing.JLabel manage13;
     private javax.swing.JLabel manage14;
     private javax.swing.JLabel manage15;
     private javax.swing.JLabel manage16;
@@ -1831,7 +1834,6 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel manage8;
     private javax.swing.JLabel manage9;
     private javax.swing.JLabel manageAddress;
-    private javax.swing.JComboBox<String> manageChangeStatus;
     private javax.swing.JLabel manageEmail;
     private javax.swing.JLabel manageFullName;
     private javax.swing.JLabel managePhone;
@@ -1865,7 +1867,6 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel statusIcon1;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTextField user;
-    private javax.swing.JPanel z1;
     private javax.swing.JPanel z2;
     private javax.swing.JPanel z3;
     private javax.swing.JPanel z4;
