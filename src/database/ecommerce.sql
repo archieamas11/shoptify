@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2024 at 09:51 AM
+-- Generation Time: May 08, 2024 at 04:55 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,9 +47,10 @@ CREATE TABLE `accounts_table` (
 --
 
 INSERT INTO `accounts_table` (`account_id`, `email`, `fname`, `lname`, `address`, `phone number`, `username`, `password`, `role`, `profile_picture`, `date joined`, `status`) VALUES
-(1037, '1', '1', '1', 'Tunghaan, Minglanilla, Cebu', '09231226478', '1', '$2a$10$pILBGF5OtaHEnqLgKOoM7.fj3ouigQXNyFoK64pMkYmBK7Mwm/p6i', 'Admin', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Active'),
-(1040, '2', '2', '2', 'Ward III, Minglanilla, Cebu', '09231226478', '2', '$2a$10$88HZhTvIKqmk/Kr3dAaGcOx2Q7ZzeATeQSRm1E0ThP4XNgBWF6lBi', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Inactive'),
-(1041, '3', '3', '3', '3', '33333333333', '3', '$2a$10$K2DfKxrsdwvbRj2RqxvMUODLGmDgYCNhBPEuTH00YUF8FovxfxxXW', 'Buyer', 'src/sampleProfiles/default profile 100x100.png', '2024-04-25', 'Active');
+(1037, 'archieamas@gmail.com', 'archie', 'albarico', 'Sitio Tabay, Minglanilla, Cebu', '09231226477', '1', '$2a$10$PcpYRhrxFcMuokyYZMo2wuvo.v7RyaEdpJFzyaNLL0EPamDyI8tsm', 'Admin', 'src/sampleProfiles/5.png', '2024-04-24', 'Active'),
+(1040, '2', '2', '2', 'Ward III, Minglanilla, Cebu', '09491853866', '2', '$2a$10$88HZhTvIKqmk/Kr3dAaGcOx2Q7ZzeATeQSRm1E0ThP4XNgBWF6lBi', 'Buyer', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Active'),
+(1041, '3', '3', '3', 'Tuyan, Naga, Cebu', '09231226478', '3', '$2a$10$K2DfKxrsdwvbRj2RqxvMUODLGmDgYCNhBPEuTH00YUF8FovxfxxXW', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-25', 'Inactive'),
+(1043, '4', '4', '4', '4', '09491853866', '4', '$2a$10$zVjHhur/mSpPSEPNasJlJOcMStb1ec/Bo0Jr.fvGPW6d1Vxhy9GVm', 'Admin', 'src/sampleProfiles/default profile 100x100.png', '2024-04-26', 'Active');
 
 -- --------------------------------------------------------
 
@@ -102,6 +103,34 @@ CREATE TABLE `purchase` (
   `date_purchase` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_adminlogs`
+--
+
+CREATE TABLE `tbl_adminlogs` (
+  `adminlogs_id` int(11) NOT NULL,
+  `account_id` int(11) NOT NULL,
+  `adminlogs_action` varchar(100) NOT NULL,
+  `adminlogs_details` varchar(600) NOT NULL,
+  `adminlogs_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_sellerlogs`
+--
+
+CREATE TABLE `tbl_sellerlogs` (
+  `s_id` int(11) NOT NULL,
+  `a_id` int(11) NOT NULL,
+  `s_action` varchar(100) NOT NULL,
+  `s_details` varchar(600) NOT NULL,
+  `s_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -136,6 +165,20 @@ ALTER TABLE `purchase`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Indexes for table `tbl_adminlogs`
+--
+ALTER TABLE `tbl_adminlogs`
+  ADD PRIMARY KEY (`adminlogs_id`),
+  ADD KEY `account_id` (`account_id`);
+
+--
+-- Indexes for table `tbl_sellerlogs`
+--
+ALTER TABLE `tbl_sellerlogs`
+  ADD PRIMARY KEY (`s_id`),
+  ADD KEY `a_id` (`a_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -143,7 +186,7 @@ ALTER TABLE `purchase`
 -- AUTO_INCREMENT for table `accounts_table`
 --
 ALTER TABLE `accounts_table`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1042;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1044;
 
 --
 -- AUTO_INCREMENT for table `add2cart`
@@ -162,6 +205,18 @@ ALTER TABLE `products`
 --
 ALTER TABLE `purchase`
   MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
+-- AUTO_INCREMENT for table `tbl_adminlogs`
+--
+ALTER TABLE `tbl_adminlogs`
+  MODIFY `adminlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+
+--
+-- AUTO_INCREMENT for table `tbl_sellerlogs`
+--
+ALTER TABLE `tbl_sellerlogs`
+  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -186,6 +241,18 @@ ALTER TABLE `products`
 ALTER TABLE `purchase`
   ADD CONSTRAINT `purchase_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts_table` (`account_id`),
   ADD CONSTRAINT `purchase_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`);
+
+--
+-- Constraints for table `tbl_adminlogs`
+--
+ALTER TABLE `tbl_adminlogs`
+  ADD CONSTRAINT `tbl_adminlogs_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts_table` (`account_id`);
+
+--
+-- Constraints for table `tbl_sellerlogs`
+--
+ALTER TABLE `tbl_sellerlogs`
+  ADD CONSTRAINT `tbl_sellerlogs_ibfk_1` FOREIGN KEY (`a_id`) REFERENCES `accounts_table` (`account_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
