@@ -508,9 +508,11 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         fname.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         fname.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        fname.setText("FIRSTNAME");
         accountTableContainer.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 70, 180, 40));
 
         photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        photo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default profile 70x70.png"))); // NOI18N
         accountTableContainer.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 70, 70, 70));
         accountTableContainer.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 170, 270, 20));
 

@@ -27,6 +27,8 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
@@ -42,22 +44,14 @@ public class sellerDashboard extends javax.swing.JFrame {
         //Buttons
         UXmethods.RoundBorders.setArcStyle(logout, 50);
         UXmethods.RoundBorders.setArcStyle(dashboard, 50);
-        UXmethods.RoundBorders.setArcStyle(dashboardIcon, 50);
-        UXmethods.RoundBorders.setArcStyle(manageIcon, 50);
+
         UXmethods.RoundBorders.setArcStyle(manage, 50);
-        UXmethods.RoundBorders.setArcStyle(accountIcon, 50);
         UXmethods.RoundBorders.setArcStyle(accounts, 50);
         UXmethods.RoundBorders.setArcStyle(orders, 50);
-        UXmethods.RoundBorders.setArcStyle(ordersIcon, 50);
-        UXmethods.RoundBorders.setArcStyle(archiveProdIcon, 50);
         UXmethods.RoundBorders.setArcStyle(archivebtn, 50);
 
         //Containers
-        UXmethods.RoundBorders.setArcStyle(c1, 50);
-        UXmethods.RoundBorders.setArcStyle(c2, 50);
-        UXmethods.RoundBorders.setArcStyle(c3, 50);
-        UXmethods.RoundBorders.setArcStyle(c4, 50);
-        UXmethods.RoundBorders.setArcStyle(c5, 50);
+        UXmethods.RoundBorders.setArcStyle(dashboardContainer, 15);
 
     }
 
@@ -79,8 +73,29 @@ public class sellerDashboard extends javax.swing.JFrame {
     public void displayData() {
         try {
             databaseConnector dbc = new databaseConnector();
-            ResultSet rs = dbc.getData("SELECT * FROM products WHERE Status IN ('Available', 'Not Available')");
+            ResultSet rs = dbc.getData("SELECT `product_id` as `Product ID`, `account_id` as `Account ID`, `Product Name`, `Price`, `Stock`, `Status`, `Date Created` FROM products WHERE Status IN ('Available', 'Not Available')");
             product_table.setModel(DbUtils.resultSetToTableModel(rs));
+
+            TableColumn column;
+            column = product_table.getColumnModel().getColumn(0);
+            column.setPreferredWidth(20);
+            column = product_table.getColumnModel().getColumn(1);
+            column.setPreferredWidth(20);
+            column = product_table.getColumnModel().getColumn(2);
+            column.setPreferredWidth(200);
+            column = product_table.getColumnModel().getColumn(3);
+            column.setPreferredWidth(20);
+            column = product_table.getColumnModel().getColumn(4);
+            column.setPreferredWidth(20);
+            column = product_table.getColumnModel().getColumn(5); //descriptionm
+            column.setPreferredWidth(20);
+            column = product_table.getColumnModel().getColumn(6);
+            column.setPreferredWidth(20);
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+            product_table.setDefaultRenderer(Object.class, centerRenderer);
+
             rs.close();
         } catch (Exception ex) {
             System.out.println("Errors: " + ex.getMessage());
@@ -103,28 +118,14 @@ public class sellerDashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel5 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        dashboardContainer = new javax.swing.JPanel();
         logout = new javax.swing.JButton();
-        jSeparator3 = new javax.swing.JSeparator();
-        jLabel15 = new javax.swing.JLabel();
-        c1 = new javax.swing.JPanel();
-        dashboardIcon = new javax.swing.JButton();
-        dashboard = new javax.swing.JButton();
-        c2 = new javax.swing.JPanel();
-        manage = new javax.swing.JButton();
-        manageIcon = new javax.swing.JButton();
-        c3 = new javax.swing.JPanel();
-        ordersIcon = new javax.swing.JButton();
-        orders = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        c4 = new javax.swing.JPanel();
+        dashboard = new javax.swing.JButton();
+        manage = new javax.swing.JButton();
+        orders = new javax.swing.JButton();
         accounts = new javax.swing.JButton();
-        accountIcon = new javax.swing.JButton();
-        c5 = new javax.swing.JPanel();
         archivebtn = new javax.swing.JButton();
-        archiveProdIcon = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         tabs = new javax.swing.JTabbedPane();
@@ -139,36 +140,34 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         total_sales = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         product_table = new javax.swing.JTable();
-        jPanel18 = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
-        displayPhoto = new javax.swing.JLabel();
-        image_container = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        importt = new javax.swing.JButton();
-        savebtn = new javax.swing.JButton();
-        add = new javax.swing.JButton();
-        jLabel24 = new javax.swing.JLabel();
-        status = new javax.swing.JComboBox<>();
-        price = new javax.swing.JTextField();
-        jLabel26 = new javax.swing.JLabel();
-        stocks = new javax.swing.JTextField();
-        jSeparator6 = new javax.swing.JSeparator();
-        jLabel27 = new javax.swing.JLabel();
-        name = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
-        id = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        description = new javax.swing.JEditorPane();
-        archive = new javax.swing.JButton();
         searchbtn = new javax.swing.JButton();
         searchBar = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
+        add = new javax.swing.JButton();
+        savebtn = new javax.swing.JButton();
+        archive = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel22 = new javax.swing.JLabel();
+        id = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        name = new javax.swing.JTextField();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        price = new javax.swing.JTextField();
+        stocks = new javax.swing.JTextField();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        status = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        description = new javax.swing.JEditorPane();
+        displayPhoto = new javax.swing.JLabel();
+        importt = new javax.swing.JButton();
+        image_container = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         archiveAccountTableContainer = new javax.swing.JPanel();
         archiveAccountTableContainerScroll = new javax.swing.JScrollPane();
@@ -238,6 +237,11 @@ public class sellerDashboard extends javax.swing.JFrame {
         email = new javax.swing.JTextField();
         jPanel20 = new javax.swing.JPanel();
         display = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -247,156 +251,85 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel5.setPreferredSize(new java.awt.Dimension(1280, 720));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        dashboardContainer.setBackground(new java.awt.Color(241, 241, 241));
+        dashboardContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-administrator-male-100.png"))); // NOI18N
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 250, -1));
-
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("SELLER");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 250, -1));
-
-        logout.setBackground(new java.awt.Color(255, 51, 51));
+        logout.setBackground(new java.awt.Color(255, 102, 102));
         logout.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         logout.setForeground(new java.awt.Color(255, 255, 255));
-        logout.setText("Logout");
+        logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-logout-24.png"))); // NOI18N
         logout.setBorderPainted(false);
         logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logoutActionPerformed(evt);
             }
         });
-        jPanel3.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 620, 190, 40));
-
-        jSeparator3.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel3.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 0, 50, 720));
-
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setText("WELCOME");
-        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 250, 40));
-
-        c1.setBackground(new java.awt.Color(153, 204, 255));
-        c1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        dashboardIcon.setBackground(new java.awt.Color(153, 204, 255));
-        dashboardIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-dashboard-24.png"))); // NOI18N
-        dashboardIcon.setBorderPainted(false);
-        c1.add(dashboardIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 40));
+        dashboardContainer.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, 50, 50));
+        dashboardContainer.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 580, 50, 20));
 
         dashboard.setBackground(new java.awt.Color(153, 204, 255));
         dashboard.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        dashboard.setText("Dashboard");
+        dashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-dashboard-24.png"))); // NOI18N
         dashboard.setBorderPainted(false);
         dashboard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dashboardActionPerformed(evt);
             }
         });
-        c1.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 150, 40));
-
-        jPanel3.add(c1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 230, 190, 40));
-
-        c2.setBackground(new java.awt.Color(153, 204, 255));
-        c2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        dashboardContainer.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 50, 50));
 
         manage.setBackground(new java.awt.Color(153, 204, 255));
         manage.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        manage.setText("Manage");
+        manage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-edit-24_1.png"))); // NOI18N
         manage.setBorderPainted(false);
         manage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 manageActionPerformed(evt);
             }
         });
-        c2.add(manage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 150, 40));
-
-        manageIcon.setBackground(new java.awt.Color(153, 204, 255));
-        manageIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-edit-24_1.png"))); // NOI18N
-        manageIcon.setBorderPainted(false);
-        c2.add(manageIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 40));
-
-        jPanel3.add(c2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 190, 40));
-
-        c3.setBackground(new java.awt.Color(153, 204, 255));
-        c3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        ordersIcon.setBackground(new java.awt.Color(153, 204, 255));
-        ordersIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buy-24.png"))); // NOI18N
-        ordersIcon.setBorderPainted(false);
-        c3.add(ordersIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 40));
+        dashboardContainer.add(manage, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 50, 50));
 
         orders.setBackground(new java.awt.Color(153, 204, 255));
         orders.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        orders.setText("Orders");
+        orders.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buy-24.png"))); // NOI18N
         orders.setBorderPainted(false);
         orders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ordersActionPerformed(evt);
             }
         });
-        c3.add(orders, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 150, 40));
-
-        jPanel3.add(c3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 190, 40));
-        jPanel3.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 590, 170, 20));
-
-        c4.setBackground(new java.awt.Color(153, 204, 255));
-        c4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        dashboardContainer.add(orders, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 50, 50));
 
         accounts.setBackground(new java.awt.Color(153, 204, 255));
         accounts.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        accounts.setText("Accounts");
+        accounts.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-user-locked-24.png"))); // NOI18N
         accounts.setBorderPainted(false);
         accounts.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 accountsActionPerformed(evt);
             }
         });
-        c4.add(accounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 150, 40));
-
-        accountIcon.setBackground(new java.awt.Color(153, 204, 255));
-        accountIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-user-locked-24.png"))); // NOI18N
-        accountIcon.setBorderPainted(false);
-        c4.add(accountIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 40));
-
-        jPanel3.add(c4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 190, 40));
-
-        c5.setBackground(new java.awt.Color(153, 204, 255));
-        c5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        dashboardContainer.add(accounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 50, 50));
 
         archivebtn.setBackground(new java.awt.Color(153, 204, 255));
         archivebtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        archivebtn.setText("Archive Products");
+        archivebtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-archive-24.png"))); // NOI18N
         archivebtn.setBorderPainted(false);
         archivebtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 archivebtnActionPerformed(evt);
             }
         });
-        c5.add(archivebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 150, 40));
+        dashboardContainer.add(archivebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 50, 50));
 
-        archiveProdIcon.setBackground(new java.awt.Color(153, 204, 255));
-        archiveProdIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-archive-24.png"))); // NOI18N
-        archiveProdIcon.setBorderPainted(false);
-        archiveProdIcon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                archiveProdIconActionPerformed(evt);
-            }
-        });
-        c5.add(archiveProdIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 40, 40));
+        jPanel5.add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 70, 680));
 
-        jPanel3.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 190, 40));
-
-        jPanel5.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 720));
-
-        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setBackground(new java.awt.Color(102, 255, 102));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1020, 20));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 20));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -441,17 +374,18 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         jPanel6.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 290, 80));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
-        jLabel2.setText("Dashboard");
-        jPanel6.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, 40));
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(0, 158, 226));
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel19.setText("Dashboard");
+        jPanel6.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 150, 30));
 
         tabs.addTab("tab1", jPanel6);
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel17.setBackground(new java.awt.Color(235, 235, 235));
-        jPanel17.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel17.setBackground(new java.awt.Color(241, 241, 241));
         jPanel17.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         product_table.setAutoCreateRowSorter(true);
@@ -471,121 +405,9 @@ public class sellerDashboard extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(product_table);
 
-        jPanel17.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 890, 280));
+        jPanel17.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 690, 560));
 
-        jPanel8.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 930, 320));
-
-        jPanel18.setBackground(new java.awt.Color(235, 235, 235));
-        jPanel18.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel18.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel21.setText("Product Name");
-        jPanel18.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, 30));
-
-        displayPhoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel18.add(displayPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 120, 110));
-        jPanel18.add(image_container, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 120, 110));
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel7.setText("Manage Products");
-        jPanel18.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 20));
-
-        jLabel23.setText("Price");
-        jLabel23.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                jLabel23CaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-        });
-        jPanel18.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, 30));
-
-        importt.setText("Import");
-        importt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importtActionPerformed(evt);
-            }
-        });
-        jPanel18.add(importt, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 160, 120, 30));
-
-        savebtn.setText("Save");
-        savebtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                savebtnActionPerformed(evt);
-            }
-        });
-        jPanel18.add(savebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 80, 140, 30));
-
-        add.setText("Add");
-        add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addActionPerformed(evt);
-            }
-        });
-        jPanel18.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 40, 140, 30));
-
-        jLabel24.setText("Stocks");
-        jLabel24.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                jLabel24CaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-        });
-        jPanel18.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, 30));
-
-        status.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Not Available" }));
-        jPanel18.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 130, 30));
-        jPanel18.add(price, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 120, 120, 30));
-
-        jLabel26.setText("Description");
-        jLabel26.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                jLabel26CaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-        });
-        jPanel18.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, -1, 30));
-        jPanel18.add(stocks, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, 120, 30));
-
-        jSeparator6.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel18.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 40, 30, 150));
-
-        jLabel27.setText("Status");
-        jLabel27.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                jLabel27CaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-        });
-        jPanel18.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 40, -1, 30));
-        jPanel18.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 120, 30));
-
-        jLabel22.setText("Product ID");
-        jPanel18.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, 30));
-
-        id.setEnabled(false);
-        jPanel18.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 120, 30));
-
-        jScrollPane2.setViewportView(description);
-
-        jPanel18.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 220, 70));
-
-        archive.setBackground(new java.awt.Color(255, 51, 51));
-        archive.setForeground(new java.awt.Color(255, 255, 255));
-        archive.setText("Archive");
-        archive.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                archiveActionPerformed(evt);
-            }
-        });
-        jPanel18.add(archive, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 120, 140, 30));
-
-        jPanel8.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 400, 930, 230));
+        jPanel8.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 730, 600));
 
         searchbtn.setBackground(new java.awt.Color(0, 158, 226));
         searchbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
@@ -595,7 +417,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                 searchbtnActionPerformed(evt);
             }
         });
-        jPanel8.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 10, 60, 40));
+        jPanel8.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 10, 60, 40));
 
         searchBar.setForeground(new java.awt.Color(140, 140, 140));
         searchBar.setText("  Search");
@@ -614,13 +436,121 @@ public class sellerDashboard extends javax.swing.JFrame {
                 searchBarKeyReleased(evt);
             }
         });
-        jPanel8.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 10, 330, 40));
+        jPanel8.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, 330, 40));
 
         jLabel17.setBackground(new java.awt.Color(0, 158, 226));
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(0, 158, 226));
         jLabel17.setText("Products");
         jPanel8.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, 40));
+
+        add.setBackground(new java.awt.Color(122, 183, 147));
+        add.setForeground(new java.awt.Color(255, 255, 255));
+        add.setText("Add");
+        add.setBorderPainted(false);
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed(evt);
+            }
+        });
+        jPanel8.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 10, 110, 40));
+
+        savebtn.setText("Save");
+        savebtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                savebtnActionPerformed(evt);
+            }
+        });
+        jPanel8.add(savebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 10, 140, 40));
+
+        archive.setBackground(new java.awt.Color(255, 102, 102));
+        archive.setForeground(new java.awt.Color(255, 255, 255));
+        archive.setText("Archive");
+        archive.setBorderPainted(false);
+        archive.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                archiveActionPerformed(evt);
+            }
+        });
+        jPanel8.add(archive, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 580, 130, 50));
+
+        jButton2.setBackground(new java.awt.Color(102, 102, 102));
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Edit");
+        jButton2.setBorderPainted(false);
+        jPanel8.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 580, 130, 50));
+
+        jLabel22.setText("Product ID");
+        jPanel8.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 350, -1, 30));
+
+        id.setEnabled(false);
+        jPanel8.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 350, 160, 30));
+
+        jLabel21.setText("Product Name");
+        jPanel8.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 130, -1, 30));
+        jPanel8.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 130, 120, 30));
+
+        jLabel23.setText("Price");
+        jLabel23.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                jLabel23CaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        jPanel8.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 170, -1, 30));
+
+        jLabel24.setText("Stocks");
+        jLabel24.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                jLabel24CaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        jPanel8.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 210, -1, 30));
+        jPanel8.add(price, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 170, 120, 30));
+        jPanel8.add(stocks, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 210, 120, 30));
+
+        jLabel27.setText("Status");
+        jLabel27.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                jLabel27CaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        jPanel8.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 390, -1, 30));
+
+        jLabel26.setText("Description");
+        jLabel26.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                jLabel26CaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        jPanel8.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 420, -1, 30));
+
+        status.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Not Available" }));
+        jPanel8.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 390, 160, 30));
+
+        jScrollPane2.setViewportView(description);
+
+        jPanel8.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 460, 260, 100));
+
+        displayPhoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel8.add(displayPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 130, 120, 110));
+
+        importt.setText("Import");
+        importt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importtActionPerformed(evt);
+            }
+        });
+        jPanel8.add(importt, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 250, 120, 30));
+        jPanel8.add(image_container, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 130, 120, 110));
 
         tabs.addTab("tab2", jPanel8);
 
@@ -974,9 +904,36 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         tabs.addTab("tab6", jPanel11);
 
-        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1030, 720));
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel5.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 1020, 720));
+        jButton1.setBackground(new java.awt.Color(102, 204, 255));
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Save");
+        jButton1.setBorderPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel9.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 550, -1, 40));
+
+        jLabel1.setText("add account");
+        jPanel9.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 150, -1, -1));
+
+        tabs.addTab("tab7", jPanel9);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setText("Edit proructs");
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(368, 94, -1, -1));
+
+        tabs.addTab("tab8", jPanel3);
+
+        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 720));
+
+        jPanel5.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 1180, 720));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1025,61 +982,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     String fileName;
     String imagePath;
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-        UserManager.setLoggedInUserId(accountId);
-        int adminID = accountId;
-        String valname = name.getText();
-        String valprice = price.getText();
-        String valstocks = stocks.getText();
-        String valdes = description.getText();
-        String valstats = (String) status.getSelectedItem();
-
-        if (valname.isEmpty() || valprice.isEmpty() || valstocks.isEmpty() || selectedFile == null || !selectedFile.exists()) {
-            JOptionPane.showMessageDialog(null, "Please fill in all fields and select an image.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        fileName = selectedFile.getName();
-        imagePath = "src/ProductsImages/" + fileName;
-
-        try {
-            databaseConnector dbc = new databaseConnector();
-
-            String checkQuery = "SELECT COUNT(*) FROM products WHERE `Product Name` = ?";
-            PreparedStatement checkStmt = dbc.getConnection().prepareStatement(checkQuery);
-            checkStmt.setString(1, valname);
-            ResultSet rs = checkStmt.executeQuery();
-            rs.next();
-            int count = rs.getInt(1);
-            if (count > 0) {
-                JOptionPane.showMessageDialog(null, "Product already exist!");
-                return;
-            }
-
-            String insertQuery = "INSERT INTO `products`(`account_id`, `Product Name`, `Price`, `Stock`, `Description`, `Status`, `ImagePath`, `Date Created`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE())";
-            try (PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
-                insertStmt.setInt(1, adminID);
-                insertStmt.setString(2, valname);
-                insertStmt.setString(3, valprice);
-                insertStmt.setString(4, valstocks);
-                insertStmt.setString(5, valdes);
-                insertStmt.setString(6, valstats);
-                insertStmt.setString(7, imagePath);
-                insertStmt.executeUpdate();
-            }
-            JOptionPane.showMessageDialog(null, "Product added successfully!");
-            id.setText("");
-            name.setText("");
-            price.setText("");
-            stocks.setText("");
-            status.setSelectedIndex(0);
-            description.setText("");
-            displayPhoto.setIcon(null);
-            displayData();
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "error adding product!" + e.getMessage());
-            e.printStackTrace();
-        }
+        tabs.setSelectedIndex(6);
     }//GEN-LAST:event_addActionPerformed
 
     private void savebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savebtnActionPerformed
@@ -1400,10 +1303,6 @@ public class sellerDashboard extends javax.swing.JFrame {
         tabs.setSelectedIndex(2);
     }//GEN-LAST:event_archivebtnActionPerformed
 
-    private void archiveProdIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_archiveProdIconActionPerformed
-        tabs.setSelectedIndex(2);
-    }//GEN-LAST:event_archiveProdIconActionPerformed
-
     private void product_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_product_tableMouseClicked
         int rowIndex = product_table.getSelectedRow();
 
@@ -1435,6 +1334,64 @@ public class sellerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_product_tableMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        UserManager.setLoggedInUserId(accountId);
+        int adminID = accountId;
+        String valname = name.getText();
+        String valprice = price.getText();
+        String valstocks = stocks.getText();
+        String valdes = description.getText();
+        String valstats = (String) status.getSelectedItem();
+
+        if (valname.isEmpty() || valprice.isEmpty() || valstocks.isEmpty() || selectedFile == null || !selectedFile.exists()) {
+            JOptionPane.showMessageDialog(null, "Please fill in all fields and select an image.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        fileName = selectedFile.getName();
+        imagePath = "src/ProductsImages/" + fileName;
+
+        try {
+            databaseConnector dbc = new databaseConnector();
+
+            String checkQuery = "SELECT COUNT(*) FROM products WHERE `Product Name` = ?";
+            PreparedStatement checkStmt = dbc.getConnection().prepareStatement(checkQuery);
+            checkStmt.setString(1, valname);
+            ResultSet rs = checkStmt.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+            if (count > 0) {
+                JOptionPane.showMessageDialog(null, "Product already exist!");
+                return;
+            }
+
+            String insertQuery = "INSERT INTO `products`(`account_id`, `Product Name`, `Price`, `Stock`, `Description`, `Status`, `ImagePath`, `Date Created`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE())";
+            try (PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
+                insertStmt.setInt(1, adminID);
+                insertStmt.setString(2, valname);
+                insertStmt.setString(3, valprice);
+                insertStmt.setString(4, valstocks);
+                insertStmt.setString(5, valdes);
+                insertStmt.setString(6, valstats);
+                insertStmt.setString(7, imagePath);
+                insertStmt.executeUpdate();
+            }
+            JOptionPane.showMessageDialog(null, "Product added successfully!");
+            id.setText("");
+            name.setText("");
+            price.setText("");
+            stocks.setText("");
+            status.setSelectedIndex(0);
+            description.setText("");
+            displayPhoto.setIcon(null);
+            displayData();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error adding product!" + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -1453,7 +1410,6 @@ public class sellerDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ID;
-    private javax.swing.JButton accountIcon;
     private javax.swing.JButton accounts;
     private javax.swing.JTable accounts_table;
     private javax.swing.JButton add;
@@ -1461,20 +1417,14 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton archive;
     private javax.swing.JPanel archiveAccountTableContainer;
     private javax.swing.JScrollPane archiveAccountTableContainerScroll;
-    private javax.swing.JButton archiveProdIcon;
     private javax.swing.JTable archive_table;
     private javax.swing.JButton archivebtn;
-    private javax.swing.JPanel c1;
-    private javax.swing.JPanel c2;
-    private javax.swing.JPanel c3;
-    private javax.swing.JPanel c4;
-    private javax.swing.JPanel c5;
     private javax.swing.JPanel c6;
     private javax.swing.JPanel c7;
     private javax.swing.JPanel c8;
     private javax.swing.JPanel c9;
     private javax.swing.JButton dashboard;
-    private javax.swing.JButton dashboardIcon;
+    private javax.swing.JPanel dashboardContainer;
     private javax.swing.JTextField date;
     private javax.swing.JButton delete;
     private javax.swing.JEditorPane descript;
@@ -1488,14 +1438,16 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField id;
     private javax.swing.JTextField image_container;
     private javax.swing.JButton importt;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -1504,8 +1456,6 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -1515,7 +1465,6 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
@@ -1525,6 +1474,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane5;
@@ -1532,9 +1482,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTextField lname;
     private javax.swing.JButton logout;
@@ -1554,11 +1502,9 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel manage7;
     private javax.swing.JLabel manage8;
     private javax.swing.JLabel manage9;
-    private javax.swing.JButton manageIcon;
     private javax.swing.JLabel myprofile1;
     private javax.swing.JTextField name;
     private javax.swing.JButton orders;
-    private javax.swing.JButton ordersIcon;
     private javax.swing.JRadioButton other;
     private javax.swing.JTextField price;
     private javax.swing.JLabel productID;
