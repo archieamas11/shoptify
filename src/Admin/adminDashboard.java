@@ -34,6 +34,8 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 import org.mindrot.jbcrypt.BCrypt;
@@ -123,43 +125,17 @@ public final class adminDashboard extends javax.swing.JFrame {
                 String lastName = rs.getString("lname");
                 firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
                 lastName = Character.toUpperCase(lastName.charAt(0)) + lastName.substring(1);
-
-                //Profile
                 manageFullName.setText(firstName + " " + lastName);
+                name.setText("  " + firstName + "!");
                 manageStatus.setText("" + rs.getString("status"));
                 manageEmail.setText("" + rs.getString("email"));
                 managePhone.setText("" + rs.getString("phone number"));
                 manageAddress.setText("" + rs.getString("address"));
 
-                //Dashboard
-                name.setText(firstName);
-                id.setText("" + rs.getString("account_id"));
-                email.setText("" + rs.getString("email"));
-                number.setText("" + rs.getString("phone number"));
-                address.setText("" + rs.getString("address"));
-                role.setText("" + rs.getString("role"));
-                String statusValue = rs.getString("status");
-                status.setText(statusValue);
-
-                ImageIcon activeIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"));
-                ImageIcon inactiveIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-inavtiveon-24 (2).png"));
-                ImageIcon pendingIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-pendingon-24.png"));
-
-                if (statusValue.equals("Pending")) {
-                    statusIcon.setIcon(pendingIcon);
-                } else if (statusValue.equals("Active")) {
-                    statusIcon.setIcon(activeIcon);
-                } else if (statusValue.equals("Inactive")) {
-                    statusIcon.setIcon(inactiveIcon);
-                }
-
                 int height = 100;
                 int width = 100;
                 String profilePicture = rs.getString("profile_picture");
                 GetImage.displayImage(managePhoto, profilePicture, height, width);
-                int heights = 70;
-                int widths = 70;
-                GetImage.displayImage(photo, profilePicture, heights, widths);
             }
             rs.close();
             pst.close();
@@ -173,8 +149,19 @@ public final class adminDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
 
-            ResultSet rs = dbc.getData("SELECT `account_id` as `Account ID`, `fname` as `First Name`, `lname` as `Last Name`, `username` as `Username`, `address` as `Address`, `phone number` as `Phone Number`, `role` as `Role`, `date joined` as `Date Joined`, `status` as `Status` FROM accounts_table WHERE status = 'archived'");
+            ResultSet rs = dbc.getData("SELECT `account_id` as `ID`, `fname` as `First Name`, `lname` as `Last Name`, `username` as `Username`, `address` as `Address`, `phone number` as `Phone Number`, `role` as `Role`, `date joined` as `Date Joined`, `status` as `Status` FROM accounts_table WHERE status = 'archived'");
             archive_table.setModel(DbUtils.resultSetToTableModel(rs));
+
+            TableColumn column;
+            column = archive_table.getColumnModel().getColumn(0);
+            column.setPreferredWidth(50);
+            column = archive_table.getColumnModel().getColumn(4);
+            column.setPreferredWidth(200);
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+            archive_table.setDefaultRenderer(Object.class, centerRenderer);
+
             rs.close();
         } catch (Exception ex) {
             System.out.println("Errors: " + ex.getMessage());
@@ -184,11 +171,18 @@ public final class adminDashboard extends javax.swing.JFrame {
     public void displayAccounts() {
         try {
             databaseConnector dbc = new databaseConnector();
+
             String query = "SELECT `account_id` as `Account ID`, `fname` as `First Name`, `lname` as `Last Name`, `username` as `Username`, `address` as `Address`, `phone number` as `Phone Number`, `role` as `Role`, `date joined` as `Date Joined`, `status` as `Status` FROM accounts_table WHERE status IN ('Active', 'Inactive', 'Pending') AND account_id != ?";
+
             PreparedStatement statement = dbc.getConnection().prepareStatement(query);
             statement.setInt(1, accountID);
             ResultSet rs = statement.executeQuery();
             accounts_table.setModel(DbUtils.resultSetToTableModel(rs));
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+            accounts_table.setDefaultRenderer(Object.class, centerRenderer);
+
             rs.close();
         } catch (Exception ex) {
             System.out.println("Errors: " + ex.getMessage());
@@ -325,7 +319,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         fname1 = new javax.swing.JLabel();
         photo1 = new javax.swing.JLabel();
         jSeparator12 = new javax.swing.JSeparator();
-        statusIcon1 = new javax.swing.JLabel();
         status1 = new javax.swing.JLabel();
         c6 = new javax.swing.JPanel();
         manage18 = new javax.swing.JLabel();
@@ -345,6 +338,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         restore = new javax.swing.JButton();
         delete = new javax.swing.JButton();
+        statusIcon1 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         actionLogsTableContainer = new javax.swing.JPanel();
         actionLogsTableContainerScroll = new javax.swing.JScrollPane();
@@ -424,7 +418,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         name.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         name.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 50, 30));
+        jPanel5.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 60, 50, 30));
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -508,7 +502,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         fname.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         fname.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        fname.setText("FIRSTNAME");
+        fname.setText("FIRST NAME");
         accountTableContainer.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 70, 180, 40));
 
         photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -517,11 +511,14 @@ public final class adminDashboard extends javax.swing.JFrame {
         accountTableContainer.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 170, 270, 20));
 
         statusIcon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        statusIcon.setForeground(new java.awt.Color(102, 102, 102));
+        statusIcon.setForeground(new java.awt.Color(153, 255, 153));
         statusIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        accountTableContainer.add(statusIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 120, 30, 20));
+        statusIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"))); // NOI18N
+        statusIcon.setText(".");
+        accountTableContainer.add(statusIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 120, 30, 20));
 
         status.setForeground(new java.awt.Color(102, 102, 102));
+        status.setText("Status");
         accountTableContainer.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 120, -1, 20));
 
         add2archive.setBackground(new java.awt.Color(255, 102, 102));
@@ -559,6 +556,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         id.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         id.setForeground(new java.awt.Color(102, 102, 102));
+        id.setText("ID Number");
         c1.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
         accountTableContainer.add(c1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 180, 270, 30));
@@ -574,6 +572,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         email.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         email.setForeground(new java.awt.Color(102, 102, 102));
+        email.setText("Email");
         c2.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
         accountTableContainer.add(c2, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 220, 270, 30));
@@ -589,6 +588,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         number.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         number.setForeground(new java.awt.Color(102, 102, 102));
+        number.setText("Phone Number");
         c3.add(number, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
         accountTableContainer.add(c3, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 260, 270, 30));
@@ -604,6 +604,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         address.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         address.setForeground(new java.awt.Color(102, 102, 102));
+        address.setText("Location");
         c4.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
         accountTableContainer.add(c4, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 300, 270, 30));
@@ -619,6 +620,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         role.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
         role.setForeground(new java.awt.Color(102, 102, 102));
+        role.setText("Role");
         c5.add(role, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
         accountTableContainer.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 340, 270, 30));
@@ -1018,12 +1020,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         archiveAccountTableContainer.add(photo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 70, 70, 70));
         archiveAccountTableContainer.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 170, 270, 20));
 
-        statusIcon1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        statusIcon1.setForeground(new java.awt.Color(102, 102, 102));
-        statusIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        statusIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"))); // NOI18N
-        archiveAccountTableContainer.add(statusIcon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 120, 30, 20));
-
         status1.setForeground(new java.awt.Color(102, 102, 102));
         status1.setText("Status");
         archiveAccountTableContainer.add(status1, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 120, -1, 20));
@@ -1130,6 +1126,13 @@ public final class adminDashboard extends javax.swing.JFrame {
             }
         });
         archiveAccountTableContainer.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 490, 130, 50));
+
+        statusIcon1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        statusIcon1.setForeground(new java.awt.Color(153, 255, 153));
+        statusIcon1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        statusIcon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"))); // NOI18N
+        statusIcon1.setText(".");
+        archiveAccountTableContainer.add(statusIcon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 120, 30, 20));
 
         jPanel8.add(archiveAccountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
 
