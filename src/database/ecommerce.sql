@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2024 at 04:55 PM
+-- Generation Time: May 10, 2024 at 11:27 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,10 +47,10 @@ CREATE TABLE `accounts_table` (
 --
 
 INSERT INTO `accounts_table` (`account_id`, `email`, `fname`, `lname`, `address`, `phone number`, `username`, `password`, `role`, `profile_picture`, `date joined`, `status`) VALUES
-(1037, 'archieamas@gmail.com', 'archie', 'albarico', 'Sitio Tabay, Minglanilla, Cebu', '09231226477', '1', '$2a$10$PcpYRhrxFcMuokyYZMo2wuvo.v7RyaEdpJFzyaNLL0EPamDyI8tsm', 'Admin', 'src/sampleProfiles/5.png', '2024-04-24', 'Active'),
-(1040, '2', '2', '2', 'Ward III, Minglanilla, Cebu', '09491853866', '2', '$2a$10$88HZhTvIKqmk/Kr3dAaGcOx2Q7ZzeATeQSRm1E0ThP4XNgBWF6lBi', 'Buyer', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Active'),
-(1041, '3', '3', '3', 'Tuyan, Naga, Cebu', '09231226478', '3', '$2a$10$K2DfKxrsdwvbRj2RqxvMUODLGmDgYCNhBPEuTH00YUF8FovxfxxXW', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-25', 'Inactive'),
-(1043, '4', '4', '4', '4', '09491853866', '4', '$2a$10$zVjHhur/mSpPSEPNasJlJOcMStb1ec/Bo0Jr.fvGPW6d1Vxhy9GVm', 'Admin', 'src/sampleProfiles/default profile 100x100.png', '2024-04-26', 'Active');
+(1037, 'archieamas@gmail.com', 'archie', 'albarico', 'Sitio Tabay, Minglanilla, Cebu', '09231226477', '1', '$2a$10$PcpYRhrxFcMuokyYZMo2wuvo.v7RyaEdpJFzyaNLL0EPamDyI8tsm', 'Admin', 'src/sampleProfiles/chair.png', '2024-04-24', 'Active'),
+(1040, 'archiealbarico69@gmail.colm', 'archie', 'albarico', 'Ward III, Minglanilla, Cebu', '09491853866', '2', '$2a$10$88HZhTvIKqmk/Kr3dAaGcOx2Q7ZzeATeQSRm1E0ThP4XNgBWF6lBi', 'Buyer', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Active'),
+(1041, 'lebronjames69@gmail.com', 'lebron', 'james', 'Tuyan, Naga, Cebu', '09231226478', '3', '$2a$10$K2DfKxrsdwvbRj2RqxvMUODLGmDgYCNhBPEuTH00YUF8FovxfxxXW', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-25', 'Active'),
+(1043, 'test', 'test', 'test', '4', '09491853866', '4', '$2a$10$zVjHhur/mSpPSEPNasJlJOcMStb1ec/Bo0Jr.fvGPW6d1Vxhy9GVm', 'Admin', 'src/sampleProfiles/default profile 100x100.png', '2024-04-26', 'archived');
 
 -- --------------------------------------------------------
 
@@ -116,6 +116,58 @@ CREATE TABLE `tbl_adminlogs` (
   `adminlogs_details` varchar(600) NOT NULL,
   `adminlogs_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_adminlogs`
+--
+
+INSERT INTO `tbl_adminlogs` (`adminlogs_id`, `account_id`, `adminlogs_action`, `adminlogs_details`, `adminlogs_timestamp`) VALUES
+(73, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 08:31:01'),
+(74, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 08:53:28'),
+(75, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 08:53:59'),
+(76, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 08:54:20'),
+(77, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 08:57:16'),
+(78, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 08:58:17'),
+(79, 1037, 'Archive', 'User 1037 Successfully put account 1043 to archive!', '2024-05-09 08:58:27'),
+(80, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 08:58:47'),
+(81, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 08:59:17'),
+(82, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 08:59:32'),
+(83, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 08:59:48'),
+(84, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:00:28'),
+(85, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:02:34'),
+(86, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:03:56'),
+(87, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:04:13'),
+(88, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:04:33'),
+(89, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:05:43'),
+(90, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:06:52'),
+(91, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:09:03'),
+(92, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:09:16'),
+(93, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:09:52'),
+(94, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:12:18'),
+(95, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:12:45'),
+(96, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:13:03'),
+(97, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:13:14'),
+(98, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:13:26'),
+(99, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:16:47'),
+(100, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:17:15'),
+(101, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:18:56'),
+(102, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:19:11'),
+(103, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:20:45'),
+(104, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:21:10'),
+(105, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:21:24'),
+(106, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:21:39'),
+(107, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:22:47'),
+(108, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 09:24:26'),
+(109, 1037, 'Change Status', 'User 1037 Successfully changed the status of 1041 to Active', '2024-05-09 09:25:45'),
+(110, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-10 02:11:05'),
+(111, 1037, 'Archive', 'User 1037 Successfully put account 1041 to archive!', '2024-05-10 02:19:22'),
+(112, 1037, 'Logged out', 'User 1037 Successfully logged out!', '2024-05-10 02:24:50'),
+(113, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-10 02:24:55'),
+(114, 1037, 'Restore', 'User 1037 Successfully restored account 1041 from archive!', '2024-05-10 02:25:00'),
+(115, 1037, 'Change Status', 'User 1037 Successfully changed the status of 1041 to Active', '2024-05-10 02:25:05'),
+(116, 1037, 'Logged out', 'User 1037 Successfully logged out!', '2024-05-10 02:25:06'),
+(117, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-10 08:10:14'),
+(118, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-10 08:11:47');
 
 -- --------------------------------------------------------
 
@@ -210,7 +262,7 @@ ALTER TABLE `purchase`
 -- AUTO_INCREMENT for table `tbl_adminlogs`
 --
 ALTER TABLE `tbl_adminlogs`
-  MODIFY `adminlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `adminlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
