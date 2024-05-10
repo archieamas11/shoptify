@@ -53,7 +53,8 @@ public class sellerDashboard extends javax.swing.JFrame {
         //Containers
         UXmethods.RoundBorders.setArcStyle(dashboardContainer, 15);
         UXmethods.RoundBorders.setArcStyle(CONTAINER, 15);
-
+        UXmethods.RoundBorders.setArcStyle(CONTAINER2, 15);
+        UXmethods.RoundBorders.setArcStyle(CONTAINER3, 15);
     }
 
     private void displayProducts() {
@@ -142,6 +143,10 @@ public class sellerDashboard extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         totalSales = new javax.swing.JLabel();
         CONTAINER = new javax.swing.JPanel();
+        CONTAINER1 = new javax.swing.JPanel();
+        CONTAINER2 = new javax.swing.JPanel();
+        CONTAINER3 = new javax.swing.JPanel();
+        CONTAINER5 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -330,7 +335,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 50));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 40));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -341,38 +346,39 @@ public class sellerDashboard extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(51, 51, 51));
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel19.setText("Great job today! You've done exceptionally well.");
-        jPanel6.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 580, 20));
+        jPanel6.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 186, 580, -1));
 
         helloSeller.setFont(new java.awt.Font("Gloucester MT Extra Condensed", 1, 40)); // NOI18N
         helloSeller.setText("Hi, Seller!");
         jPanel6.add(helloSeller, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, -1, 50));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/try.png"))); // NOI18N
-        jPanel6.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, -10, 1120, 270));
+        jPanel6.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, -10, 1120, 270));
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(153, 153, 153));
         jLabel5.setText("Overview");
-        jPanel6.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, -1, -1));
+        jPanel6.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, -1, -1));
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel20.setFont(new java.awt.Font("Arial", 0, 28)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(0, 158, 226));
-        jLabel20.setText("Dashboard");
-        jPanel10.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 40));
+        jLabel20.setText("SHOPTIFY");
+        jPanel10.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 200, 30));
 
-        jLabel25.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel25.setText("Monday: 5/10/2024");
-        jPanel10.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 160, -1));
+        jLabel25.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel25.setText("Welcome to shoptify dashboard");
+        jPanel10.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 190, -1));
 
         jPanel6.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 200, 70));
 
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 35)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("₱  19,920");
-        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, -1, -1));
+        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 330, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -380,11 +386,29 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 370, -1, 20));
 
         totalSales.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/totalsales.png"))); // NOI18N
-        jPanel6.add(totalSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, 280, 80));
+        jPanel6.add(totalSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 280, 80));
 
         CONTAINER.setBackground(new java.awt.Color(241, 241, 241));
         CONTAINER.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel6.add(CONTAINER, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 1110, 250));
+
+        CONTAINER1.setBackground(new java.awt.Color(241, 241, 241));
+        CONTAINER1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        CONTAINER.add(CONTAINER1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 420, 250));
+
+        jPanel6.add(CONTAINER, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 420, 310, 250));
+
+        CONTAINER2.setBackground(new java.awt.Color(241, 241, 241));
+        CONTAINER2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel6.add(CONTAINER2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 380, 250));
+
+        CONTAINER3.setBackground(new java.awt.Color(241, 241, 241));
+        CONTAINER3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        CONTAINER5.setBackground(new java.awt.Color(241, 241, 241));
+        CONTAINER5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        CONTAINER3.add(CONTAINER5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 420, 250));
+
+        jPanel6.add(CONTAINER3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 420, 380, 250));
 
         tabs.addTab("tab1", jPanel6);
 
@@ -937,7 +961,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         tabs.addTab("tab8", jPanel3);
 
-        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 720));
+        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 700));
 
         jPanel5.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 1180, 720));
 
@@ -1416,6 +1440,10 @@ public class sellerDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel CONTAINER;
+    private javax.swing.JPanel CONTAINER1;
+    private javax.swing.JPanel CONTAINER2;
+    private javax.swing.JPanel CONTAINER3;
+    private javax.swing.JPanel CONTAINER5;
     private javax.swing.JTextField ID;
     private javax.swing.JButton accounts;
     private javax.swing.JTable accounts_table;
