@@ -6,6 +6,9 @@ import accounts.frontPage;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.databaseConnector;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,11 +21,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
-import org.mindrot.jbcrypt.BCrypt;
 
 public class buyerDashboard extends javax.swing.JFrame {
 
@@ -122,6 +125,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 removeLabel(nameLabels[i]);
                 removeLabel(priceLabels[i]);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -393,7 +397,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         });
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, -1, 40));
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 60));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 20));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 

@@ -56,6 +56,7 @@ public class frontPage extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setMinimumSize(new java.awt.Dimension(1280, 720));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
