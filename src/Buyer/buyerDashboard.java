@@ -6,9 +6,6 @@ import accounts.frontPage;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.databaseConnector;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Image;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,13 +18,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
 public class buyerDashboard extends javax.swing.JFrame {
+
+    int accountId = UserManager.getLoggedInUserId();
 
     public buyerDashboard() {
         initComponents();
@@ -76,10 +74,8 @@ public class buyerDashboard extends javax.swing.JFrame {
     public void displayPurchase() {
 
         try {
-            int accountId = UserManager.getLoggedInUserId();
-
             databaseConnector dbc = new databaseConnector();
-            String query = "SELECT transaction_id, account_id, product_id, product_name, product_price, total_quantity, total_price, date_purchase FROM purchase WHERE account_id = ?";
+            String query = "SELECT transaction_id, account_id, product_id, product_name, product_price, total_quantity, total_price,payment_method, order_status, address, date_purchase FROM tbl_sales WHERE account_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
             pst.setInt(1, accountId);
             ResultSet rs = pst.executeQuery();
@@ -397,7 +393,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         });
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, -1, 40));
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 60));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 20));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -1182,7 +1178,6 @@ public class buyerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_backMouseClicked
 
     private void cartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartActionPerformed
-        int accountId = UserManager.getLoggedInUserId();
         int id = productIDs.getProductID();
         String productName = labelname.getText();
         String cartPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
@@ -1253,8 +1248,6 @@ public class buyerDashboard extends javax.swing.JFrame {
 
     public void displayAccountName() {
         try {
-            int accountId = UserManager.getLoggedInUserId();
-
             databaseConnector dbc = new databaseConnector();
             String query = "SELECT username, fname, lname, email, address, profile_picture FROM accounts_table WHERE account_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
@@ -1366,7 +1359,6 @@ public class buyerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_savebtnActionPerformed
 
     private void buyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buyActionPerformed
-        int accountId = UserManager.getLoggedInUserId();
         int id = productIDs.getProductID();
         String productName = labelname.getText();
         String buyPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
@@ -1378,6 +1370,16 @@ public class buyerDashboard extends javax.swing.JFrame {
 
         try {
             databaseConnector dbc = new databaseConnector();
+
+            String address = null;
+
+            String query = "SELECT address FROM accounts_table WHERE account_id = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setInt(1, accountId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                address = rs.getString("address");
+            }
 
             // Fetch current stock and status of the product
             String fetchProductQuery = "SELECT stock, status FROM products WHERE product_id = ?";
@@ -1392,7 +1394,7 @@ public class buyerDashboard extends javax.swing.JFrame {
             String currentStatus = fetchRs.getString("status");
 
             // Check if the purchase already exists for the given cart ID and product name
-            String checkPurchaseQuery = "SELECT * FROM purchase WHERE account_id = ? AND product_id = ?";
+            String checkPurchaseQuery = "SELECT * FROM tbl_sales WHERE account_id = ? AND product_id = ?";
             PreparedStatement checkPurchaseStmt = dbc.getConnection().prepareStatement(checkPurchaseQuery);
             checkPurchaseStmt.setInt(1, accountId);
             checkPurchaseStmt.setInt(2, id);
@@ -1404,7 +1406,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 int newQuant = existingQuant + buyQuant;
                 int existingTotalPrice = checkRs.getInt("total_price");
                 int newTotalPrice = existingTotalPrice + totalPrice;
-                String updateQuery = "UPDATE purchase SET total_quantity = ?, total_price = ? WHERE account_id = ? AND product_id = ?";
+                String updateQuery = "UPDATE tbl_sales SET total_quantity = ?, total_price = ? WHERE account_id = ? AND product_id = ?";
                 PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
                 updateStmt.setInt(1, newQuant);
                 updateStmt.setInt(2, newTotalPrice);
@@ -1417,7 +1419,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 // Update stock and status if necessary
                 updateStockAndStatus(dbc, id, currentStock - buyQuant, currentStatus);
             } else {
-                String insertQuery = "INSERT INTO purchase (account_id, product_id, product_name, product_price, total_quantity, total_price, date_purchase) VALUES (?, ?, ?, ?, ?, ?, NOW())";
+                String insertQuery = "INSERT INTO tbl_sales (account_id, product_id, product_name, product_price, total_quantity, total_price, address, date_purchase) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
                 PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery);
                 insertStmt.setInt(1, accountId);
                 insertStmt.setInt(2, id);
@@ -1425,6 +1427,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 insertStmt.setInt(4, buyPrice);
                 insertStmt.setInt(5, buyQuant);
                 insertStmt.setInt(6, totalPrice);
+                insertStmt.setString(7, address);
 
                 insertStmt.executeUpdate();
 
@@ -1582,7 +1585,6 @@ public class buyerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutActionPerformed
-        int accountId = UserManager.getLoggedInUserId();
         int id = productIDs.getProductID();
         String productName = labelname.getText();
         String buyPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
@@ -1592,6 +1594,15 @@ public class buyerDashboard extends javax.swing.JFrame {
 
         try {
             databaseConnector dbc = new databaseConnector();
+            String address = null;
+
+            String query = "SELECT address FROM accounts_table WHERE account_id = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setInt(1, accountId);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                address = rs.getString("address");
+            }
 
             String fetchProductQuery = "SELECT stock, status FROM products WHERE product_id = ?";
             PreparedStatement fetchProductStmt = dbc.getConnection().prepareStatement(fetchProductQuery);
@@ -1605,7 +1616,7 @@ public class buyerDashboard extends javax.swing.JFrame {
             String currentStatus = fetchRs.getString("status");
 
             // Check if the purchase already exists for the given cart ID and product name
-            String checkPurchaseQuery = "SELECT * FROM purchase WHERE account_id = ? AND product_id = ?";
+            String checkPurchaseQuery = "SELECT * FROM tbl_sales WHERE account_id = ? AND product_id = ?";
             PreparedStatement checkPurchaseStmt = dbc.getConnection().prepareStatement(checkPurchaseQuery);
             checkPurchaseStmt.setInt(1, accountId);
             checkPurchaseStmt.setInt(2, id);
@@ -1613,7 +1624,6 @@ public class buyerDashboard extends javax.swing.JFrame {
 
             if (checkRs.next()) {
                 // If purchase exists, update total_quantity and total_price
-
                 int existingQuant = checkRs.getInt("total_quantity");
                 int newQuant = existingQuant + buyQuant;
                 int existingTotalPrice = checkRs.getInt("total_price");
@@ -1622,7 +1632,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 if (newQuant > stock) {
                     JOptionPane.showMessageDialog(null, "Insufficient stock. Available stock: " + stock);
                 } else {
-                    String updateQuery = "UPDATE purchase SET total_quantity = ?, total_price = ? WHERE account_id = ? AND product_id = ?";
+                    String updateQuery = "UPDATE tbl_sales SET total_quantity = ?, total_price = ? WHERE account_id = ? AND product_id = ?";
                     PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
                     updateStmt.setInt(1, newQuant);
                     updateStmt.setInt(2, newTotalPrice);
@@ -1633,7 +1643,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                     updateStockAndStatus(dbc, id, currentStock - buyQuant, currentStatus);
                 }
             } else {
-                String insertQuery = "INSERT INTO purchase (account_id, product_id, product_name, product_price, total_quantity, total_price, date_purchase) VALUES (?, ?, ?, ?, ?, ?, NOW())";
+                String insertQuery = "INSERT INTO tbl_sales (account_id, product_id, product_name, product_price, total_quantity, total_price, address, date_purchase) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
                 PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery);
                 insertStmt.setInt(1, accountId);
                 insertStmt.setInt(2, id);
@@ -1641,9 +1651,10 @@ public class buyerDashboard extends javax.swing.JFrame {
                 insertStmt.setInt(4, buyPrice);
                 insertStmt.setInt(5, buyQuant);
                 insertStmt.setInt(6, total);
+                insertStmt.setString(7, address);
 
                 if (buyQuant > stock) {
-                    JOptionPane.showMessageDialog(null, "nsufficient stock. Available stock: " + stock);
+                    JOptionPane.showMessageDialog(null, "Insufficient stock. Available stock: " + stock);
                 } else {
                     insertStmt.executeUpdate();
                 }
@@ -1661,7 +1672,6 @@ public class buyerDashboard extends javax.swing.JFrame {
             displayPurchase();
             displayUserProducts();
             tabs.setSelectedIndex(0);
-
             name.setText("");
             photo.setIcon(null);
         } catch (SQLException e) {
