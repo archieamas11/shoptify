@@ -79,8 +79,9 @@ public class sellerDashboard extends javax.swing.JFrame {
     public void displayPurchase() {
         try {
             databaseConnector dbc = new databaseConnector();
-            String query = "SELECT `transaction_id` as `Sales ID`, `account_id` as `Buyer ID`, `product_id` as `Product ID`, `order_status` as `Order Status`, `date_purchase` as `Date Purchase`  FROM tbl_sales";
+            String query = "SELECT `transaction_id` as `Sales ID`, `buyer_id` as `Buyer ID`, `seller_id` as `Seller ID`, `product_id` as `Product ID`, `order_status` as `Order Status`, `date_purchase` as `Date Purchase`  FROM tbl_sales WHERE seller_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setInt(1, sellerID);
             ResultSet rs = pst.executeQuery();
 
             purchase_table.setModel(DbUtils.resultSetToTableModel(rs));
@@ -90,8 +91,9 @@ public class sellerDashboard extends javax.swing.JFrame {
             purchase_table.setDefaultRenderer(Object.class, centerRenderer);
 
             rs.close();
+            pst.close();
+
         } catch (Exception ex) {
-            // Handle any exceptions
             System.out.println("Error: " + ex.getMessage());
             ex.printStackTrace();
         }
@@ -100,7 +102,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     public void displayData() {
         try {
             databaseConnector dbc = new databaseConnector();
-            PreparedStatement pstmt = dbc.getConnection().prepareStatement("SELECT `product_id` as `Product ID`, `account_id` as `Account ID`, `Product Name`, `Price`, `Stock`, `Status`, `Date Created` FROM products WHERE Status IN ('Available', 'Not Available') AND account_id = ?");
+            PreparedStatement pstmt = dbc.getConnection().prepareStatement("SELECT `product_id` as `Product ID`, `seller_id` as `Seller ID`, `product_name`, `price`, `stock`, `status`, `date_created` FROM tbl_products WHERE status IN ('Available', 'Not Available') AND seller_id = ?");
             pstmt.setInt(1, sellerID);
             ResultSet rs = pstmt.executeQuery();
 
@@ -136,7 +138,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     public void displayArchive() {
         try {
             databaseConnector dbc = new databaseConnector();
-            ResultSet rs = dbc.getData("SELECT * FROM products WHERE Status IN ('archived')");
+            ResultSet rs = dbc.getData("SELECT * FROM tbl_products WHERE status IN ('Archived')");
             archive_table.setModel(DbUtils.resultSetToTableModel(rs));
             rs.close();
         } catch (Exception ex) {
@@ -246,6 +248,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         salesPrice = new javax.swing.JLabel();
         salesQuantity = new javax.swing.JLabel();
         productPrice5 = new javax.swing.JLabel();
+        orderTotal = new javax.swing.JLabel();
         searchbtn1 = new javax.swing.JButton();
         searchBar1 = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
@@ -440,7 +443,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 40));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 10));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -920,7 +923,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel12.add(decline, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 520, 130, 50));
 
         salesPPhoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel12.add(salesPPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 100, 120, 90));
+        jPanel12.add(salesPPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 100, 120, 110));
 
         salesPN.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         salesPN.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -942,6 +945,9 @@ public class sellerDashboard extends javax.swing.JFrame {
         productPrice5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         productPrice5.setForeground(new java.awt.Color(102, 102, 102));
         jPanel12.add(productPrice5, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 170, -1, 20));
+
+        orderTotal.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jPanel12.add(orderTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 170, -1, 20));
 
         s.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 1110, 600));
 
@@ -1646,18 +1652,18 @@ public class sellerDashboard extends javax.swing.JFrame {
 
             try {
                 databaseConnector dbc = new databaseConnector();
-                ResultSet rs = dbc.getData("SELECT * FROM products WHERE product_id =" + model.getValueAt(rowIndex, 0));
+                ResultSet rs = dbc.getData("SELECT * FROM tbl_products WHERE product_id =" + model.getValueAt(rowIndex, 0));
 
                 if (rs.next()) {
                     productID.setText("" + rs.getString("product_id"));
-                    productName.setText("" + rs.getString("Product Name"));
-                    productQuantity.setText("" + rs.getString("Stock"));
-                    productStatus.setText("" + rs.getString("Status"));
-                    descript.setText("" + rs.getString("Description"));
+                    productName.setText("" + rs.getString("product_name"));
+                    productQuantity.setText("" + rs.getString("stock"));
+                    productStatus.setText("" + rs.getString("status"));
+                    descript.setText("" + rs.getString("description"));
 
                     int height = 70;
                     int width = 70;
-                    String getImageFromDatabase = rs.getString("ImagePath");
+                    String getImageFromDatabase = rs.getString("image_path");
                     GetImage.displayImage(productPhoto, getImageFromDatabase, height, width);
                 }
             } catch (Exception e) {
@@ -1671,7 +1677,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
             int p_id = Integer.parseInt(productID.getText());
-            String sql = "UPDATE products SET `Status`='Available' WHERE `product_id`=?";
+            String sql = "UPDATE tbl_products SET `status`='Available' WHERE `product_id`=?";
 
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                 pst.setInt(1, p_id);
@@ -1715,7 +1721,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private void archiveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_archiveActionPerformed
         try {
             databaseConnector dbc = new databaseConnector();
-            String sql = "UPDATE products SET `Status`='Archived' WHERE `product_id`=?";
+            String sql = "UPDATE tbl_products SET `Status`='Archived' WHERE `product_id`=?";
 
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                 pst.setInt(1, p_id);
@@ -1752,19 +1758,19 @@ public class sellerDashboard extends javax.swing.JFrame {
             TableModel model = product_table.getModel();
             try {
                 databaseConnector dbc = new databaseConnector();
-                ResultSet rs = dbc.getData("SELECT * FROM products WHERE product_id =" + model.getValueAt(rowIndex, 0));
+                ResultSet rs = dbc.getData("SELECT * FROM tbl_products WHERE product_id =" + model.getValueAt(rowIndex, 0));
 
                 if (rs.next()) {
                     p_id = rs.getInt("product_id");
-                    name.setText("" + rs.getString("Product Name"));
-                    price.setText("₱  " + rs.getString("Price"));
-                    stock.setText(rs.getString("Stock"));
-                    description.setText(rs.getString("Description"));
-                    status.setText(rs.getString("Status"));
+                    name.setText("" + rs.getString("product_name"));
+                    price.setText("₱  " + rs.getString("price"));
+                    stock.setText(rs.getString("stock"));
+                    description.setText(rs.getString("description"));
+                    status.setText(rs.getString("status"));
 
                     int height = 120;
                     int width = 110;
-                    String getImageFromDatabase = rs.getString("ImagePath");
+                    String getImageFromDatabase = rs.getString("image_path");
                     GetImage.displayImage(displayPhoto, getImageFromDatabase, height, width);
                 }
             } catch (Exception e) {
@@ -1792,7 +1798,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
 
-            String checkQuery = "SELECT COUNT(*) FROM products WHERE `Product Name` = ?";
+            String checkQuery = "SELECT COUNT(*) FROM tbl_products WHERE product_name = ?";
             PreparedStatement checkStmt = dbc.getConnection().prepareStatement(checkQuery);
             checkStmt.setString(1, valname);
             ResultSet rs = checkStmt.executeQuery();
@@ -1803,7 +1809,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                 return;
             }
 
-            String insertQuery = "INSERT INTO `products`(`account_id`, `Product Name`, `Price`, `Stock`, `Description`, `Status`, `ImagePath`, `Date Created`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE())";
+            String insertQuery = "INSERT INTO tbl_products (`seller_id`, `product_name`, `price`, `stock`, `description`, `status`, `image_path`, `date_created`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE())";
             try (PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
                 insertStmt.setInt(1, sellerID);
                 insertStmt.setString(2, valname);
@@ -1823,7 +1829,7 @@ public class sellerDashboard extends javax.swing.JFrame {
             ImageIcon setPhoto = new ImageIcon(getClass().getResource("/image/Your paragraph text.png"));
             addPhoto.setIcon(setPhoto);
             displayData();
-
+            tabs.setSelectedIndex(1);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "error adding product!" + e.getMessage());
             e.printStackTrace();
@@ -1899,12 +1905,12 @@ public class sellerDashboard extends javax.swing.JFrame {
 
             databaseConnector dbc = new databaseConnector();
 
-            String query = "SELECT Stock FROM products WHERE product_id = ?";
+            String query = "SELECT stock FROM tbl_products WHERE product_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
             pst.setInt(1, product_id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                product_stock = rs.getInt("Stock");
+                product_stock = rs.getInt("stock");
                 System.out.println(product_stock);
 
             }
@@ -1920,7 +1926,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
             databaseConnector dbc = new databaseConnector();
 
-            String updateQuery = "UPDATE products SET Stock = ? WHERE product_id = ?";
+            String updateQuery = "UPDATE tbl_products SET stock = ? WHERE product_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery);
             pst.setInt(1, newStock);
             pst.setInt(2, product_id);
@@ -1937,7 +1943,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
 
-            String updateQuery = "UPDATE products SET Status = ? WHERE product_id = ?";
+            String updateQuery = "UPDATE tbl_products SET status = ? WHERE product_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery);
             pst.setString(1, status);
             pst.setInt(2, product_id);
@@ -2005,14 +2011,14 @@ public class sellerDashboard extends javax.swing.JFrame {
 
             databaseConnector dbc = new databaseConnector();
 
-            String query = "SELECT ImagePath FROM products WHERE product_id = ?";
+            String query = "SELECT image_path FROM tbl_products WHERE product_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
             pst.setInt(1, product_id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                String getImageFromDatabase = rs.getString("ImagePath");
+                String getImageFromDatabase = rs.getString("image_path");
                 int height = 120;
-                int width = 90;
+                int width = 110;
                 GetImage.displayImage(photo, getImageFromDatabase, height, width);
             }
         } catch (SQLException e) {
@@ -2075,6 +2081,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                     salesPrice.setText("₱  " + rs.getString("product_price"));
                     salesQuantity.setText("x " + rs.getString("total_quantity"));
                     salesTotal.setText("₱  " + rs.getString("total_price"));
+                    orderTotal.setText("Order Total:");
                     displaySalesInfo(salesFN, salesProfile);
                     displayProductPhoto(salesPPhoto);
 
@@ -2112,17 +2119,17 @@ public class sellerDashboard extends javax.swing.JFrame {
             } else {
                 TableModel model = product_table.getModel();
                 databaseConnector dbc = new databaseConnector();
-                ResultSet rs = dbc.getData("SELECT * FROM products WHERE product_id = " + model.getValueAt(rowIndex, 0));
+                ResultSet rs = dbc.getData("SELECT * FROM tbl_products WHERE product_id = " + model.getValueAt(rowIndex, 0));
                 if (rs.next()) {
                     int height = 290;
                     int width = 270;
 
-                    getName.setText(rs.getString("Product Name"));
-                    getPrice.setText(rs.getString("Price"));
-                    getStock.setText(rs.getString("Stock"));
-                    getDescription.setText(rs.getString("Description"));
-                    getStatus.setSelectedItem(rs.getString("Status"));
-                    String getImageFromDatabase = rs.getString("ImagePath");
+                    getName.setText(rs.getString("product_name"));
+                    getPrice.setText(rs.getString("price"));
+                    getStock.setText(rs.getString("stock"));
+                    getDescription.setText(rs.getString("description"));
+                    getStatus.setSelectedItem(rs.getString("status"));
+                    String getImageFromDatabase = rs.getString("image_path");
                     GetImage.displayImage(getPhoto, getImageFromDatabase, height, width);
                     tabs.setSelectedIndex(7);
                 }
@@ -2148,7 +2155,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                 fileName = selectedFile.getName();
                 imagePath = "src/ProductsImages/" + fileName;
 
-                sql = "UPDATE products SET `Product Name`=?, Price=?, Stock=?, Description=?, ImagePath=?, Status=? WHERE product_id=?";
+                sql = "UPDATE tbl_products SET product_name=?, price=?, stock=?, description=?, image_path=?, status=? WHERE product_id=?";
                 try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                     pst.setString(1, productName);
                     pst.setString(2, productPrice);
@@ -2168,7 +2175,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                     }
                 }
             } else {
-                sql = "UPDATE products SET `Product Name`=?, Price=?, Stock=?, Description=?, Status=? WHERE product_id=?";
+                sql = "UPDATE tbl_products SET product_name=?, price=?, stock=?, description=?, status=? WHERE product_id=?";
                 try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                     pst.setString(1, productName);
                     pst.setString(2, productPrice);
@@ -2217,7 +2224,7 @@ public class sellerDashboard extends javax.swing.JFrame {
             try {
                 BufferedImage originalImage = ImageIO.read(selectedFile);
 
-                Image resizedImage = originalImage.getScaledInstance(120, 110, Image.SCALE_SMOOTH);
+                Image resizedImage = originalImage.getScaledInstance(290, 270, Image.SCALE_SMOOTH);
                 ImageIcon icon = new ImageIcon(resizedImage);
                 photo.setIcon(icon);
 
@@ -2407,6 +2414,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel manage9;
     private javax.swing.JLabel myprofile1;
     private javax.swing.JLabel name;
+    private javax.swing.JLabel orderTotal;
     private javax.swing.JButton orders;
     private javax.swing.JRadioButton other;
     private javax.swing.JLabel price;
