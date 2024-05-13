@@ -134,6 +134,8 @@ public class buyerDashboard extends javax.swing.JFrame {
             label.setVisible(false);
         }
     }
+    
+    //Quantity of the selected product
     private int quan = 1;
 
     private void panelMouseClicked(JPanel panel, JLabel nameLabel, JLabel priceLabel, JLabel imageLabel, int productID, int stocks) {
