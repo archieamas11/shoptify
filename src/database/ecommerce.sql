@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2024 at 05:51 PM
+-- Generation Time: May 13, 2024 at 09:17 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,7 +50,7 @@ INSERT INTO `accounts_table` (`account_id`, `email`, `fname`, `lname`, `address`
 (1037, 'archieamas@gmail.com', 'archie', 'albarico', 'Sitio Tabay, Minglanilla, Cebu', '09231226477', '1', '$2a$10$PcpYRhrxFcMuokyYZMo2wuvo.v7RyaEdpJFzyaNLL0EPamDyI8tsm', 'Admin', 'src/sampleProfiles/5.png', '2024-04-24', 'Active'),
 (1040, '2', '2', '2', 'Ward III, Minglanilla, Cebu', '09491853866', '2', '$2a$10$88HZhTvIKqmk/Kr3dAaGcOx2Q7ZzeATeQSRm1E0ThP4XNgBWF6lBi', 'Buyer', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Active'),
 (1041, '3', '3', '3', 'Tuyan, Naga, Cebu', '09231226478', '3', '$2a$10$W1StfWG4D8nifoWGrymFGutQvrlkD6oTPaKAtX3v1qn54UmqWwsyS', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-25', 'Active'),
-(1043, '4', '4', '4', '4', '09491853866', '4', '$2a$10$zVjHhur/mSpPSEPNasJlJOcMStb1ec/Bo0Jr.fvGPW6d1Vxhy9GVm', 'Admin', 'src/sampleProfiles/default profile 100x100.png', '2024-04-26', 'Active');
+(1043, '4', '4', '4', '4', '09491853866', '4', '$2a$10$zVjHhur/mSpPSEPNasJlJOcMStb1ec/Bo0Jr.fvGPW6d1Vxhy9GVm', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-26', 'Active');
 
 -- --------------------------------------------------------
 
@@ -71,31 +71,6 @@ CREATE TABLE `add2cart` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `products`
---
-
-CREATE TABLE `products` (
-  `product_id` int(11) NOT NULL,
-  `account_id` int(11) NOT NULL,
-  `Product Name` varchar(50) NOT NULL,
-  `Price` int(11) NOT NULL,
-  `Stock` int(11) NOT NULL,
-  `Description` varchar(300) NOT NULL,
-  `Status` varchar(20) NOT NULL,
-  `ImagePath` varchar(600) NOT NULL,
-  `Date Created` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `products`
---
-
-INSERT INTO `products` (`product_id`, `account_id`, `Product Name`, `Price`, `Stock`, `Description`, `Status`, `ImagePath`, `Date Created`) VALUES
-(1032, 1041, '2', 2, 0, '2', 'archived', 'src/ProductsImages/4.png', '2024-05-09');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `tbl_adminlogs`
 --
 
@@ -107,16 +82,32 @@ CREATE TABLE `tbl_adminlogs` (
   `adminlogs_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tbl_adminlogs`
+-- Table structure for table `tbl_products`
 --
 
-INSERT INTO `tbl_adminlogs` (`adminlogs_id`, `account_id`, `adminlogs_action`, `adminlogs_details`, `adminlogs_timestamp`) VALUES
-(73, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 01:58:06'),
-(74, 1037, 'Change Status', 'User 1037 Successfully changed the status of 1041 to Active', '2024-05-09 01:58:13'),
-(75, 1037, 'Logged out', 'User 1037 Successfully logged out!', '2024-05-09 01:58:15'),
-(76, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 02:34:39'),
-(77, 1037, 'Logged in', 'User 1037 successfully logged in!', '2024-05-09 02:35:52');
+CREATE TABLE `tbl_products` (
+  `product_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
+  `product_name` varchar(50) NOT NULL,
+  `price` int(11) NOT NULL,
+  `stock` int(11) NOT NULL,
+  `description` varchar(300) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `image_path` varchar(600) NOT NULL,
+  `date_created` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_products`
+--
+
+INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `price`, `stock`, `description`, `status`, `image_path`, `date_created`) VALUES
+(1035, 1041, '123', 123, 121, '123', 'Available', 'src/ProductsImages/camera.png', '2024-05-13'),
+(1036, 1043, '345', 345, 342, '345', 'Available', 'src/ProductsImages/2024 Yearly Calendar.png', '2024-05-13'),
+(1037, 1041, '2', 2, 2, '2', 'Not Available', 'src/ProductsImages/2024 Yearly Calendar.png', '2024-05-13');
 
 -- --------------------------------------------------------
 
@@ -126,7 +117,8 @@ INSERT INTO `tbl_adminlogs` (`adminlogs_id`, `account_id`, `adminlogs_action`, `
 
 CREATE TABLE `tbl_sales` (
   `transaction_id` int(11) NOT NULL,
-  `account_id` int(11) NOT NULL,
+  `buyer_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `product_name` varchar(100) NOT NULL,
   `product_price` int(11) NOT NULL,
@@ -142,8 +134,9 @@ CREATE TABLE `tbl_sales` (
 -- Dumping data for table `tbl_sales`
 --
 
-INSERT INTO `tbl_sales` (`transaction_id`, `account_id`, `product_id`, `product_name`, `product_price`, `total_quantity`, `total_price`, `payment_method`, `order_status`, `address`, `date_purchase`) VALUES
-(38, 1040, 1032, '2', 2, 2, 4, 'COD', 'Accepted', 'Ward III, Minglanilla, Cebu', '2024-05-11 15:49:01');
+INSERT INTO `tbl_sales` (`transaction_id`, `buyer_id`, `seller_id`, `product_id`, `product_name`, `product_price`, `total_quantity`, `total_price`, `payment_method`, `order_status`, `address`, `date_purchase`) VALUES
+(41, 1040, 1043, 1036, '345', 345, 3, 1035, 'COD', 'Pending', 'Ward III, Minglanilla, Cebu', '2024-05-13 07:14:57'),
+(42, 1040, 1041, 1035, '123', 123, 2, 246, 'COD', 'Pending', 'Ward III, Minglanilla, Cebu', '2024-05-13 07:15:23');
 
 -- --------------------------------------------------------
 
@@ -178,13 +171,6 @@ ALTER TABLE `add2cart`
   ADD KEY `product_id` (`product_id`);
 
 --
--- Indexes for table `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`product_id`),
-  ADD KEY `account_id` (`account_id`);
-
---
 -- Indexes for table `tbl_adminlogs`
 --
 ALTER TABLE `tbl_adminlogs`
@@ -192,12 +178,20 @@ ALTER TABLE `tbl_adminlogs`
   ADD KEY `account_id` (`account_id`);
 
 --
+-- Indexes for table `tbl_products`
+--
+ALTER TABLE `tbl_products`
+  ADD PRIMARY KEY (`product_id`),
+  ADD KEY `account_id` (`seller_id`);
+
+--
 -- Indexes for table `tbl_sales`
 --
 ALTER TABLE `tbl_sales`
   ADD PRIMARY KEY (`transaction_id`),
-  ADD KEY `account_id` (`account_id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `account_id` (`buyer_id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `seller_id` (`seller_id`);
 
 --
 -- Indexes for table `tbl_sellerlogs`
@@ -223,22 +217,22 @@ ALTER TABLE `add2cart`
   MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
--- AUTO_INCREMENT for table `products`
---
-ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1033;
-
---
 -- AUTO_INCREMENT for table `tbl_adminlogs`
 --
 ALTER TABLE `tbl_adminlogs`
-  MODIFY `adminlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `adminlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+
+--
+-- AUTO_INCREMENT for table `tbl_products`
+--
+ALTER TABLE `tbl_products`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1038;
 
 --
 -- AUTO_INCREMENT for table `tbl_sales`
 --
 ALTER TABLE `tbl_sales`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
@@ -254,14 +248,8 @@ ALTER TABLE `tbl_sellerlogs`
 -- Constraints for table `add2cart`
 --
 ALTER TABLE `add2cart`
-  ADD CONSTRAINT `add2cart_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `add2cart_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_account_id` FOREIGN KEY (`account_id`) REFERENCES `accounts_table` (`account_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `products`
---
-ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts_table` (`account_id`);
 
 --
 -- Constraints for table `tbl_adminlogs`
@@ -270,11 +258,18 @@ ALTER TABLE `tbl_adminlogs`
   ADD CONSTRAINT `tbl_adminlogs_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts_table` (`account_id`);
 
 --
+-- Constraints for table `tbl_products`
+--
+ALTER TABLE `tbl_products`
+  ADD CONSTRAINT `tbl_products_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `accounts_table` (`account_id`);
+
+--
 -- Constraints for table `tbl_sales`
 --
 ALTER TABLE `tbl_sales`
-  ADD CONSTRAINT `tbl_sales_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts_table` (`account_id`),
-  ADD CONSTRAINT `tbl_sales_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`);
+  ADD CONSTRAINT `tbl_sales_ibfk_1` FOREIGN KEY (`buyer_id`) REFERENCES `accounts_table` (`account_id`),
+  ADD CONSTRAINT `tbl_sales_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`),
+  ADD CONSTRAINT `tbl_sales_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `accounts_table` (`account_id`);
 
 --
 -- Constraints for table `tbl_sellerlogs`
