@@ -1878,7 +1878,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
                         //Clear
                         transaction_id = 0;
-                        account_id = 0;
+                        buyer_id = 0;
                         product_id = 0;
                         salesPN.setText("");
                         salesPrice.setText("");
@@ -1983,7 +1983,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
                         //Clear
                         transaction_id = 0;
-                        account_id = 0;
+                        buyer_id = 0;
                         product_id = 0;
                         salesPN.setText("");
                         salesPrice.setText("");
@@ -2001,7 +2001,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_declineActionPerformed
 
-    private static int account_id;
+    private static int buyer_id;
     private static int product_id;
     private static int transaction_id;
     private static String order_status;
@@ -2035,7 +2035,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
             String query = "SELECT fname, lname, profile_picture FROM accounts_table WHERE account_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
-            pst.setInt(1, account_id);
+            pst.setInt(1, buyer_id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
 
@@ -2074,7 +2074,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                 ResultSet rs = dbc.getData("SELECT * FROM tbl_sales WHERE transaction_id =" + model.getValueAt(rowIndex, 0));
                 if (rs.next()) {
                     transaction_id = rs.getInt("transaction_id");
-                    account_id = rs.getInt("account_id");
+                    buyer_id = rs.getInt("buyer_id");
                     product_id = rs.getInt("product_id");
                     salesPN.setText("" + rs.getString("product_name"));
                     salesAddress.setText("" + rs.getString("address"));

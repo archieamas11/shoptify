@@ -142,8 +142,7 @@ public class buyerDashboard extends javax.swing.JFrame {
     }
 
     //Quantity of the selected product
-    private int quan = 1;
-
+    int quan = 1;
     int product_id = 0;
     int seller_id = 0;
 
@@ -847,15 +846,15 @@ public class buyerDashboard extends javax.swing.JFrame {
         searchbtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
         searchbtn1.setBorder(null);
         searchbtn1.setBorderPainted(false);
-        cartTableContainer.add(searchbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 60, 40));
-        cartTableContainer.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 250, 40));
+        cartTableContainer.add(searchbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 60, 40));
+        cartTableContainer.add(search, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 250, 40));
 
         add.setBackground(new java.awt.Color(0, 158, 226));
         add.setForeground(new java.awt.Color(255, 255, 255));
         add.setText("Add new Items");
         add.setBorder(null);
         add.setBorderPainted(false);
-        cartTableContainer.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 30, 120, 40));
+        cartTableContainer.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 40, 120, 40));
 
         cart_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -883,7 +882,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 deleteCartActionPerformed(evt);
             }
         });
-        cartTableContainer.add(deleteCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 30, 50, 40));
+        cartTableContainer.add(deleteCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 40, 50, 40));
 
         jPanel4.add(cartTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 710, 570));
         jPanel4.add(jSeparator11, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 1100, 20));
@@ -1539,7 +1538,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 stock = rs.getInt("Stock");
                 int height = 240;
                 int width = 200;
-                String getImageFromDatabase = rs.getString("ImagePath");
+                String getImageFromDatabase = rs.getString("image_path");
                 GetImage.displayImage(photo, getImageFromDatabase, height, width);
             } else {
                 JOptionPane.showMessageDialog(null, "No stock found for product_id: " + product_id);
@@ -1613,7 +1612,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 address = rs.getString("address");
             }
 
-            String fetchProductQuery = "SELECT stock, status FROM products WHERE product_id = ?";
+            String fetchProductQuery = "SELECT stock, status FROM tbl_products WHERE product_id = ?";
             PreparedStatement fetchProductStmt = dbc.getConnection().prepareStatement(fetchProductQuery);
             fetchProductStmt.setInt(1, product_id);
             ResultSet fetchRs = fetchProductStmt.executeQuery();
@@ -1641,7 +1640,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 if (newQuant > stock) {
                     JOptionPane.showMessageDialog(null, "Insufficient stock. Available stock: " + stock);
                 } else {
-                    String updateQuery = "UPDATE tbl_sales SET total_quantity = ?, total_price = ? WHERE account_id = ? AND product_id = ?";
+                    String updateQuery = "UPDATE tbl_sales SET total_quantity = ?, total_price = ? WHERE buyer_id = ? AND product_id = ?";
                     PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
                     updateStmt.setInt(1, newQuant);
                     updateStmt.setInt(2, newTotalPrice);

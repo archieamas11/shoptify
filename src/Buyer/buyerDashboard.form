@@ -1336,14 +1336,14 @@
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="280" y="30" width="60" height="40"/>
+                          <AbsoluteConstraints x="280" y="40" width="60" height="40"/>
                         </Constraint>
                       </Constraints>
                     </Component>
                     <Component class="javax.swing.JTextField" name="search">
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="30" y="30" width="250" height="40"/>
+                          <AbsoluteConstraints x="30" y="40" width="250" height="40"/>
                         </Constraint>
                       </Constraints>
                     </Component>
@@ -1363,7 +1363,7 @@
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="560" y="30" width="120" height="40"/>
+                          <AbsoluteConstraints x="560" y="40" width="120" height="40"/>
                         </Constraint>
                       </Constraints>
                     </Component>
@@ -1415,7 +1415,7 @@
                       </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="500" y="30" width="50" height="40"/>
+                          <AbsoluteConstraints x="500" y="40" width="50" height="40"/>
                         </Constraint>
                       </Constraints>
                     </Component>
