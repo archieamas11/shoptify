@@ -15,7 +15,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.mindrot.jbcrypt.BCrypt;
 import Buyer.buyerDashboard;
-import config.adminlogs;
+import config.actionLogs;
 import config.isAccountExist;
 import javax.swing.JFrame;
 
@@ -351,7 +351,7 @@ public class Login extends javax.swing.JFrame {
         int adminID = UserManager.getLoggedInUserId();
         String action = "Logged in";
         String details = "User " + adminID + " successfully logged in!";
-        adminlogs.recordLogs(adminID, action, details);
+        actionLogs.recordAdminLogs(adminID, action, details);
     }
 
     private void create_accountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_create_accountMouseClicked

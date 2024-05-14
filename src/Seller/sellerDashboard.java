@@ -102,7 +102,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     public void displayData() {
         try {
             databaseConnector dbc = new databaseConnector();
-            PreparedStatement pstmt = dbc.getConnection().prepareStatement("SELECT `product_id` as `Product ID`, `seller_id` as `Seller ID`, `product_name`, `price`, `stock`, `status`, `date_created` FROM tbl_products WHERE status IN ('Available', 'Not Available') AND seller_id = ?");
+            PreparedStatement pstmt = dbc.getConnection().prepareStatement("SELECT `product_id` as `Product ID`, `seller_id` as `Seller ID`, `product_name`, `price`, `stock`, `category` as `Category`, `status`, `date_created` FROM tbl_products WHERE status IN ('Available', 'Not Available') AND seller_id = ?");
             pstmt.setInt(1, sellerID);
             ResultSet rs = pstmt.executeQuery();
 
@@ -138,8 +138,14 @@ public class sellerDashboard extends javax.swing.JFrame {
     public void displayArchive() {
         try {
             databaseConnector dbc = new databaseConnector();
-            ResultSet rs = dbc.getData("SELECT * FROM tbl_products WHERE status IN ('Archived')");
+            PreparedStatement pstmt = dbc.getConnection().prepareStatement("SELECT * FROM tbl_products WHERE status IN ('Archived') AND seller_id = ?");
+            pstmt.setInt(1, sellerID);
+            ResultSet rs = pstmt.executeQuery();
             archive_table.setModel(DbUtils.resultSetToTableModel(rs));
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+            archive_table.setDefaultRenderer(Object.class, centerRenderer);
             rs.close();
         } catch (Exception ex) {
             System.out.println("Errors: " + ex.getMessage());
@@ -160,6 +166,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         accounts = new javax.swing.JButton();
         archivebtn = new javax.swing.JButton();
         profile = new javax.swing.JLabel();
+        logsButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         tabs = new javax.swing.JTabbedPane();
@@ -205,6 +212,8 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel16 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         description = new javax.swing.JEditorPane();
+        jLabel36 = new javax.swing.JLabel();
+        category = new javax.swing.JLabel();
         searchbtn = new javax.swing.JButton();
         searchBar = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
@@ -313,7 +322,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel26 = new javax.swing.JPanel();
         addStatus = new javax.swing.JComboBox<>();
         jPanel27 = new javax.swing.JPanel();
-        jScrollPane7 = new javax.swing.JScrollPane();
+        jScrollPane8 = new javax.swing.JScrollPane();
         addDescription = new javax.swing.JEditorPane();
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
@@ -321,6 +330,9 @@ public class sellerDashboard extends javax.swing.JFrame {
         salesFN3 = new javax.swing.JLabel();
         jSeparator8 = new javax.swing.JSeparator();
         jLabel33 = new javax.swing.JLabel();
+        jPanel29 = new javax.swing.JPanel();
+        addCategory = new javax.swing.JComboBox<>();
+        jLabel34 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         getStatus = new javax.swing.JComboBox<>();
@@ -347,6 +359,10 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel15 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         getDescription = new javax.swing.JEditorPane();
+        jLabel35 = new javax.swing.JLabel();
+        getCategory = new javax.swing.JComboBox<>();
+        jPanel28 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -435,6 +451,17 @@ public class sellerDashboard extends javax.swing.JFrame {
             }
         });
         dashboardContainer.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 70, 50));
+
+        logsButton.setBackground(new java.awt.Color(153, 204, 255));
+        logsButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        logsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/activity_logs.png"))); // NOI18N
+        logsButton.setBorderPainted(false);
+        logsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logsButtonActionPerformed(evt);
+            }
+        });
+        dashboardContainer.add(logsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 430, 50, 50));
 
         jPanel5.add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 70, 680));
 
@@ -647,7 +674,7 @@ public class sellerDashboard extends javax.swing.JFrame {
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
-        productsContainer.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 200, -1, 20));
+        productsContainer.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 150, -1, 20));
 
         status.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         status.setForeground(new java.awt.Color(153, 153, 153));
@@ -658,7 +685,7 @@ public class sellerDashboard extends javax.swing.JFrame {
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
-        productsContainer.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 200, -1, 20));
+        productsContainer.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 150, -1, 20));
 
         jLabel26.setText("Description");
         jLabel26.addInputMethodListener(new java.awt.event.InputMethodListener() {
@@ -668,7 +695,7 @@ public class sellerDashboard extends javax.swing.JFrame {
             public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
             }
         });
-        productsContainer.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 250, -1, 30));
+        productsContainer.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 210, -1, 30));
 
         jPanel16.setBackground(new java.awt.Color(255, 255, 255));
         jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -678,9 +705,32 @@ public class sellerDashboard extends javax.swing.JFrame {
         description.setBorder(null);
         jScrollPane2.setViewportView(description);
 
-        jPanel16.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 250, 200));
+        jPanel16.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 250, 230));
 
-        productsContainer.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 280, 270, 220));
+        productsContainer.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 240, 270, 250));
+
+        jLabel36.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel36.setText("Category:");
+        jLabel36.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                jLabel36CaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        productsContainer.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 170, -1, 20));
+
+        category.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        category.setForeground(new java.awt.Color(153, 153, 153));
+        category.setText("Electronics");
+        category.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                categoryCaretPositionChanged(evt);
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+            }
+        });
+        productsContainer.add(category, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 170, -1, 20));
 
         jPanel8.add(productsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 1100, 600));
 
@@ -1233,7 +1283,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         jLabel23.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel23.setText("Description");
-        jPanel9.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 230, -1, -1));
+        jPanel9.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 300, -1, -1));
 
         jPanel18.setBackground(new java.awt.Color(241, 241, 241));
         jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1258,8 +1308,8 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel9.add(jPanel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 320, 280, 40));
 
         jLabel27.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel27.setText("Status");
-        jPanel9.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 440, -1, -1));
+        jLabel27.setText("Category");
+        jPanel9.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 230, -1, -1));
 
         jPanel25.setBackground(new java.awt.Color(241, 241, 241));
         jPanel25.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1284,30 +1334,17 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         jPanel9.add(jPanel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 460, 280, 40));
 
-        jScrollPane7.setBorder(null);
+        jPanel27.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane8.setBorder(null);
 
         addDescription.setBackground(new java.awt.Color(241, 241, 241));
         addDescription.setBorder(null);
-        jScrollPane7.setViewportView(addDescription);
+        jScrollPane8.setViewportView(addDescription);
 
-        javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
-        jPanel27.setLayout(jPanel27Layout);
-        jPanel27Layout.setHorizontalGroup(
-            jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel27Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-        jPanel27Layout.setVerticalGroup(
-            jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel27Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
-        );
+        jPanel27.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 10, 250, 90));
 
-        jPanel9.add(jPanel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 250, 270, 180));
+        jPanel9.add(jPanel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, 270, 110));
 
         jLabel31.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel31.setText("Add Product");
@@ -1330,6 +1367,19 @@ public class sellerDashboard extends javax.swing.JFrame {
         jLabel33.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel33.setText("Product Name");
         jPanel9.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 230, -1, -1));
+
+        jPanel29.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        addCategory.setBackground(new java.awt.Color(241, 241, 241));
+        addCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Electronics", "Fashion", "Grocery", "Pet Supplies ", " " }));
+        addCategory.setBorder(null);
+        jPanel29.add(addCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 40));
+
+        jPanel9.add(jPanel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 250, 270, 40));
+
+        jLabel34.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel34.setText("Status");
+        jPanel9.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 440, -1, -1));
 
         tabs.addTab("tab7", jPanel9);
 
@@ -1409,7 +1459,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel6.setText("Description");
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 230, -1, -1));
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 300, -1, -1));
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel11.setText("Price");
@@ -1441,32 +1491,36 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel3.add(salesFN2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 220, 20));
         jPanel3.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 190, 940, 10));
 
+        jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         jScrollPane4.setBorder(null);
 
         getDescription.setBackground(new java.awt.Color(241, 241, 241));
         getDescription.setBorder(null);
         jScrollPane4.setViewportView(getDescription);
 
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
-        );
+        jPanel15.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 10, 250, 90));
 
-        jPanel3.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 250, 270, 180));
+        jPanel3.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, 270, 110));
+
+        jLabel35.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel35.setText("Category");
+        jPanel3.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 230, -1, -1));
+
+        getCategory.setBackground(new java.awt.Color(241, 241, 241));
+        getCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Electronics", "Fashion", "Grocery", "Pet Supplies ", " " }));
+        getCategory.setBorder(null);
+        jPanel3.add(getCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 250, 270, 40));
 
         tabs.addTab("tab8", jPanel3);
+
+        jPanel28.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel28.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setText("activity logs");
+        jPanel28.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 80, -1, -1));
+
+        tabs.addTab("tab9", jPanel28);
 
         jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 700));
 
@@ -1767,6 +1821,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                     stock.setText(rs.getString("stock"));
                     description.setText(rs.getString("description"));
                     status.setText(rs.getString("status"));
+                    category.setText(rs.getString("category"));
 
                     int height = 120;
                     int width = 110;
@@ -1786,6 +1841,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         String valstocks = addStock.getText();
         String valdes = addDescription.getText();
         String valstats = (String) addStatus.getSelectedItem();
+        String valcategory = (String) addCategory.getSelectedItem();
 
         if (valname.isEmpty() || valprice.isEmpty() || valstocks.isEmpty() || selectedFile == null || !selectedFile.exists()) {
             JOptionPane.showMessageDialog(null, "Please fill in all fields and select an image.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -1809,7 +1865,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                 return;
             }
 
-            String insertQuery = "INSERT INTO tbl_products (`seller_id`, `product_name`, `price`, `stock`, `description`, `status`, `image_path`, `date_created`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE())";
+            String insertQuery = "INSERT INTO tbl_products (`seller_id`, `product_name`, `price`, `stock`, `description`, `status`, `image_path`, `category`, `date_created`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURDATE())";
             try (PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS)) {
                 insertStmt.setInt(1, sellerID);
                 insertStmt.setString(2, valname);
@@ -1818,6 +1874,8 @@ public class sellerDashboard extends javax.swing.JFrame {
                 insertStmt.setString(5, valdes);
                 insertStmt.setString(6, valstats);
                 insertStmt.setString(7, imagePath);
+                insertStmt.setString(7, valcategory);
+
                 insertStmt.executeUpdate();
             }
             JOptionPane.showMessageDialog(null, "Product added successfully!");
@@ -2100,7 +2158,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_purchase_tableMouseClicked
 
     private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
-
+        tabs.setSelectedIndex(5);
     }//GEN-LAST:event_profileMouseClicked
 
     private void haha1CaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_haha1CaretPositionChanged
@@ -2150,12 +2208,13 @@ public class sellerDashboard extends javax.swing.JFrame {
             String productStocks = getStock.getText();
             String productDescription = getDescription.getText();
             String productStatus = (String) getStatus.getSelectedItem();
+            String productCategory = (String) getCategory.getSelectedItem();
 
             if (selectedFile != null) {
                 fileName = selectedFile.getName();
                 imagePath = "src/ProductsImages/" + fileName;
 
-                sql = "UPDATE tbl_products SET product_name=?, price=?, stock=?, description=?, image_path=?, status=? WHERE product_id=?";
+                sql = "UPDATE tbl_products SET product_name=?, price=?, stock=?, description=?, image_path=?, status=?, category=? WHERE product_id=?";
                 try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                     pst.setString(1, productName);
                     pst.setString(2, productPrice);
@@ -2163,7 +2222,8 @@ public class sellerDashboard extends javax.swing.JFrame {
                     pst.setString(4, productDescription);
                     pst.setString(5, imagePath);
                     pst.setString(6, productStatus);
-                    pst.setInt(7, p_id);
+                    pst.setString(7, productCategory);
+                    pst.setInt(8, p_id);
 
                     int rowsUpdated = pst.executeUpdate();
 
@@ -2175,14 +2235,15 @@ public class sellerDashboard extends javax.swing.JFrame {
                     }
                 }
             } else {
-                sql = "UPDATE tbl_products SET product_name=?, price=?, stock=?, description=?, status=? WHERE product_id=?";
+                sql = "UPDATE tbl_products SET product_name=?, price=?, stock=?, description=?, status=?, category=? WHERE product_id=?";
                 try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                     pst.setString(1, productName);
                     pst.setString(2, productPrice);
                     pst.setString(3, productStocks);
                     pst.setString(4, productDescription);
                     pst.setString(5, productStatus);
-                    pst.setInt(6, p_id);
+                    pst.setString(6, productCategory);
+                    pst.setInt(7, p_id);
 
                     int rowsUpdated = pst.executeUpdate();
 
@@ -2251,6 +2312,18 @@ public class sellerDashboard extends javax.swing.JFrame {
         getPhoto(addPhoto);
     }//GEN-LAST:event_addPhotoMouseClicked
 
+    private void logsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logsButtonActionPerformed
+        tabs.setSelectedIndex(8);
+    }//GEN-LAST:event_logsButtonActionPerformed
+
+    private void jLabel36CaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jLabel36CaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel36CaretPositionChanged
+
+    private void categoryCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_categoryCaretPositionChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_categoryCaretPositionChanged
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -2278,6 +2351,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton accounts;
     private javax.swing.JTable accounts_table;
     private javax.swing.JButton add;
+    private javax.swing.JComboBox<String> addCategory;
     private javax.swing.JEditorPane addDescription;
     private javax.swing.JTextField addName;
     private javax.swing.JLabel addPhoto;
@@ -2295,6 +2369,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel c7;
     private javax.swing.JPanel c8;
     private javax.swing.JPanel c9;
+    private javax.swing.JLabel category;
     private javax.swing.JLabel containersds;
     private javax.swing.JButton dashboard;
     private javax.swing.JPanel dashboardContainer;
@@ -2311,6 +2386,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField email;
     private javax.swing.JRadioButton female;
     private javax.swing.JTextField fname;
+    private javax.swing.JComboBox<String> getCategory;
     private javax.swing.JEditorPane getDescription;
     private javax.swing.JTextField getName;
     private javax.swing.JLabel getPhoto;
@@ -2319,6 +2395,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField getStock;
     private javax.swing.JLabel haha1;
     private javax.swing.JLabel helloSeller;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -2345,6 +2422,9 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2371,6 +2451,8 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
+    private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -2384,7 +2466,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator2;
@@ -2396,6 +2478,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JTextField lname;
     private javax.swing.JButton logout;
+    private javax.swing.JButton logsButton;
     private javax.swing.JRadioButton male;
     private javax.swing.JButton manage;
     private javax.swing.JLabel manage1;
