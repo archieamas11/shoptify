@@ -41,9 +41,12 @@ public class sellerDashboard extends javax.swing.JFrame {
         initComponents();
         displayData();
         displayArchive();
-        displayProducts();
         displayAccounts();
         displayPurchase();
+        displayTotalSales(sellerID);
+        displayTotalProducts(sellerID);
+        displayTotalOrders(sellerID);
+        displayTotalPendingOrders(sellerID);
 
         //Buttons
         UXmethods.RoundBorders.setArcStyle(logout, 50);
@@ -53,6 +56,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(accounts, 50);
         UXmethods.RoundBorders.setArcStyle(orders, 50);
         UXmethods.RoundBorders.setArcStyle(archivebtn, 50);
+        UXmethods.RoundBorders.setArcStyle(logsButton, 50);
 
         //Containers
         UXmethods.RoundBorders.setArcStyle(dashboardContainer, 15);
@@ -61,7 +65,96 @@ public class sellerDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(CONTAINER3, 15);
     }
 
-    private void displayProducts() {
+    private void displayTotalOrders(int sellerID) {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            String query = "SELECT COUNT(*) as TotalOrders FROM tbl_sales WHERE order_status = 'Accepted' AND seller_id = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setInt(1, sellerID);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                int orders = rs.getInt("TotalOrders");
+                totalOrders.setText(String.format("%d", orders));
+            } else {
+                totalOrders.setText("0");
+            }
+
+            rs.close();
+            pst.close();
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    private void displayTotalPendingOrders(int sellerID) {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            String query = "SELECT COUNT(*) as TotalPending FROM tbl_sales WHERE order_status = 'Pending' AND seller_id = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setInt(1, sellerID);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                int pending_orders = rs.getInt("TotalPending");
+                pendingOrders.setText(String.format("%d", pending_orders));
+            } else {
+                pendingOrders.setText("0");
+            }
+
+            rs.close();
+            pst.close();
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    private void displayTotalProducts(int sellerID) {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            String query = "SELECT COUNT(*) as TotalProducts FROM tbl_products WHERE status = 'Available' AND seller_id = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setInt(1, sellerID);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                int total_products = rs.getInt("TotalProducts");
+                totalProducts.setText(String.format("%d", total_products));
+            } else {
+                totalProducts.setText("0");
+            }
+
+            rs.close();
+            pst.close();
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    public void displayTotalSales(int sellerID) {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            String query = "SELECT SUM(total_price) as TotalSales FROM tbl_sales WHERE order_status = 'Accepted' AND seller_id = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setInt(1, sellerID);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                int sales = rs.getInt("TotalSales");
+                totalSales.setText(String.format("₱ %d", sales));
+            } else {
+                totalSales.setText("₱ 0");
+            }
+
+            rs.close();
+            pst.close();
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
     }
 
     public void displayAccounts() {
@@ -186,12 +279,14 @@ public class sellerDashboard extends javax.swing.JFrame {
         CONTAINER2 = new javax.swing.JPanel();
         CONTAINER3 = new javax.swing.JPanel();
         CONTAINER5 = new javax.swing.JPanel();
-        totalProducts = new javax.swing.JLabel();
+        pendingOrders = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        totalOrders1 = new javax.swing.JLabel();
-        totalProducts1 = new javax.swing.JLabel();
+        totalOrders = new javax.swing.JLabel();
+        totalProducts = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        totalLoss = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         productsContainer = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -493,7 +588,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(153, 153, 153));
         jLabel5.setText("Overview");
-        jPanel6.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, -1, -1));
+        jPanel6.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, -1, -1));
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -545,26 +640,37 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         jPanel6.add(CONTAINER3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 420, 380, 250));
 
-        totalProducts.setFont(new java.awt.Font("Arial", 0, 35)); // NOI18N
-        totalProducts.setText("80");
-        jPanel6.add(totalProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 330, -1, -1));
+        pendingOrders.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
+        pendingOrders.setText("80");
+        jPanel6.add(pendingOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 330, -1, -1));
 
+        jLabel7.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel7.setText("Pending Orders");
-        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 380, -1, -1));
+        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 370, -1, 20));
 
-        jLabel9.setText("Total Orders");
-        jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 370, -1, -1));
+        jLabel9.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        jLabel9.setText("Total Loss");
+        jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 370, -1, 20));
 
-        totalOrders1.setFont(new java.awt.Font("Arial", 0, 35)); // NOI18N
-        totalOrders1.setText("80");
-        jPanel6.add(totalOrders1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, -1, -1));
+        totalOrders.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
+        totalOrders.setText("80");
+        jPanel6.add(totalOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 330, -1, -1));
 
-        totalProducts1.setFont(new java.awt.Font("Arial", 0, 35)); // NOI18N
-        totalProducts1.setText("80");
-        jPanel6.add(totalProducts1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 330, -1, -1));
+        totalProducts.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
+        totalProducts.setText("80");
+        jPanel6.add(totalProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, -1, -1));
 
+        jLabel10.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel10.setText("Total Products");
-        jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 380, -1, -1));
+        jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 370, -1, 20));
+
+        jLabel37.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        jLabel37.setText("Total Orders");
+        jPanel6.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 370, -1, 20));
+
+        totalLoss.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
+        totalLoss.setText("80");
+        jPanel6.add(totalLoss, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 330, -1, -1));
 
         tabs.addTab("tab1", jPanel6);
 
@@ -1786,6 +1892,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Product added to archive Successfully!");
                     displayData();
                     displayArchive();
+                    displayTotalProducts(sellerID);
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed to add the product to archive!");
                 }
@@ -1886,6 +1993,7 @@ public class sellerDashboard extends javax.swing.JFrame {
             addDescription.setText("");
             ImageIcon setPhoto = new ImageIcon(getClass().getResource("/image/Your paragraph text.png"));
             addPhoto.setIcon(setPhoto);
+            displayTotalProducts(sellerID);
             displayData();
             tabs.setSelectedIndex(1);
         } catch (Exception e) {
@@ -1912,8 +2020,9 @@ public class sellerDashboard extends javax.swing.JFrame {
 
     private void accept_orderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accept_orderActionPerformed
         newStock = product_stock - total_quantity;
+        int rowIndex = purchase_table.getSelectedRow();
+
         try {
-            int rowIndex = purchase_table.getSelectedRow();
             if (rowIndex < 0) {
                 JOptionPane.showMessageDialog(null, "Please select a product first");
             } else if (order_status.equals("Accepted")) {
@@ -1943,8 +2052,11 @@ public class sellerDashboard extends javax.swing.JFrame {
                         salesTotal.setText("");
                         salesQuantity.setText("");
                         salesPPhoto.setIcon(null);
-                        ImageIcon profilePicture = new ImageIcon(getClass().getResource("/image/defualt.png"));
+                        ImageIcon profilePicture = new ImageIcon(getClass().getResource("/sampleProfiles/defualt.png"));
                         salesProfile.setIcon(profilePicture);
+                        displayTotalSales(sellerID);
+                        displayTotalPendingOrders(sellerID);
+                        displayTotalOrders(sellerID);
                     }
                 }
             }
@@ -2016,9 +2128,10 @@ public class sellerDashboard extends javax.swing.JFrame {
 
 
     private void declineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineActionPerformed
+        int rowIndex = purchase_table.getSelectedRow();
+
         try {
             newStock = total_quantity + product_stock;
-            int rowIndex = purchase_table.getSelectedRow();
             if (rowIndex < 0) {
                 JOptionPane.showMessageDialog(null, "Please select a product first");
             } else if (order_status.equals("Declined")) {
@@ -2048,8 +2161,11 @@ public class sellerDashboard extends javax.swing.JFrame {
                         salesTotal.setText("");
                         salesQuantity.setText("");
                         salesPPhoto.setIcon(null);
-                        ImageIcon defaultProfile = new ImageIcon(getClass().getResource("/image/defualt.png"));
+                        ImageIcon defaultProfile = new ImageIcon(getClass().getResource("/sampleProfiles/defualt.png"));
                         salesProfile.setIcon(defaultProfile);
+                        displayTotalSales(sellerID);
+                        displayTotalPendingOrders(sellerID);
+                        displayTotalOrders(sellerID);
                     }
                 }
             }
@@ -2263,6 +2379,7 @@ public class sellerDashboard extends javax.swing.JFrame {
             ImageIcon setPhoto = new ImageIcon(getClass().getResource("/image/Your paragraph text.png"));
             getPhoto.setIcon(setPhoto);
             p_id = 0;
+            displayTotalProducts(sellerID);
             displayData();
             tabs.setSelectedIndex(1);
         } catch (Exception e) {
@@ -2425,6 +2542,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -2500,6 +2618,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel orderTotal;
     private javax.swing.JButton orders;
     private javax.swing.JRadioButton other;
+    private javax.swing.JLabel pendingOrders;
     private javax.swing.JLabel price;
     private javax.swing.JLabel productID;
     private javax.swing.JLabel productName;
@@ -2543,9 +2662,9 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel stock;
     private javax.swing.JButton submit;
     private javax.swing.JTabbedPane tabs;
-    private javax.swing.JLabel totalOrders1;
+    private javax.swing.JLabel totalLoss;
+    private javax.swing.JLabel totalOrders;
     private javax.swing.JLabel totalProducts;
-    private javax.swing.JLabel totalProducts1;
     private javax.swing.JLabel totalSales;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
