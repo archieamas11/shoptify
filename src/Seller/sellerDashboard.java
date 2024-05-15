@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -32,6 +33,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
+import java.time.format.DateTimeFormatter;
 
 public class sellerDashboard extends javax.swing.JFrame {
 
@@ -39,6 +41,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
     public sellerDashboard() {
         initComponents();
+        displayCurrentDate();
         displayData();
         displayArchive();
         displayAccounts();
@@ -63,6 +66,15 @@ public class sellerDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(CONTAINER, 15);
         UXmethods.RoundBorders.setArcStyle(CONTAINER2, 15);
         UXmethods.RoundBorders.setArcStyle(CONTAINER3, 15);
+    }
+
+    private void displayCurrentDate() {
+        LocalDate currentDate = LocalDate.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String formattedDate = currentDate.format(formatter);
+
+        todaysDate.setText(formattedDate);
     }
 
     private void displayTotalOrders(int sellerID) {
@@ -212,7 +224,7 @@ public class sellerDashboard extends javax.swing.JFrame {
             column.setPreferredWidth(20);
             column = product_table.getColumnModel().getColumn(4);
             column.setPreferredWidth(20);
-            column = product_table.getColumnModel().getColumn(5); //descriptionm
+            column = product_table.getColumnModel().getColumn(5); //description
             column.setPreferredWidth(20);
             column = product_table.getColumnModel().getColumn(6);
             column.setPreferredWidth(20);
@@ -287,6 +299,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
         totalLoss = new javax.swing.JLabel();
+        todaysDate = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         productsContainer = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -671,6 +684,13 @@ public class sellerDashboard extends javax.swing.JFrame {
         totalLoss.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
         totalLoss.setText("80");
         jPanel6.add(totalLoss, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 330, -1, -1));
+
+        todaysDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        todaysDate.setForeground(new java.awt.Color(102, 102, 102));
+        todaysDate.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        todaysDate.setText("Date");
+        todaysDate.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        jPanel6.add(todaysDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 30, 70, -1));
 
         tabs.addTab("tab1", jPanel6);
 
@@ -2039,11 +2059,12 @@ public class sellerDashboard extends javax.swing.JFrame {
                         if (newStock < 1) {
                             updateStatus("Not Available");
                         }
+                        updateProductSold(total_quantity, product_id, true); // Add quantity sold
                         JOptionPane.showMessageDialog(null, "Order has been accepted Successfully!");
                         displayPurchase();
                         newStock = 0;
 
-                        //Clear
+                        // Clear
                         transaction_id = 0;
                         buyer_id = 0;
                         product_id = 0;
@@ -2051,6 +2072,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                         salesPrice.setText("");
                         salesTotal.setText("");
                         salesQuantity.setText("");
+                        orderTotal.setText("");
                         salesPPhoto.setIcon(null);
                         ImageIcon profilePicture = new ImageIcon(getClass().getResource("/sampleProfiles/defualt.png"));
                         salesProfile.setIcon(profilePicture);
@@ -2065,6 +2087,19 @@ public class sellerDashboard extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_accept_orderActionPerformed
+
+    private void updateProductSold(int quantitySold, int productId, boolean isAccepted) {
+        databaseConnector dbc = new databaseConnector();
+        String sql = "UPDATE tbl_products SET `sold` = `sold` + ? WHERE `product_id` = ?";
+        try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
+            pst.setInt(1, isAccepted ? quantitySold : -quantitySold); // Add or subtract based on action
+            pst.setInt(2, productId);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "SQL Error updating product sold data: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     private static int product_stock;
     private static int total_quantity;
@@ -2081,8 +2116,6 @@ public class sellerDashboard extends javax.swing.JFrame {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 product_stock = rs.getInt("stock");
-                System.out.println(product_stock);
-
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error executing SQL query: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -2148,11 +2181,12 @@ public class sellerDashboard extends javax.swing.JFrame {
                         if (newStock > 0) {
                             updateStatus("Available");
                         }
+                        updateProductSold(total_quantity, product_id, false); // Subtract quantity sold
                         JOptionPane.showMessageDialog(null, "Order has been declined Successfully!");
                         displayPurchase();
                         newStock = 0;
 
-                        //Clear
+                        // Clear
                         transaction_id = 0;
                         buyer_id = 0;
                         product_id = 0;
@@ -2160,6 +2194,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                         salesPrice.setText("");
                         salesTotal.setText("");
                         salesQuantity.setText("");
+                        orderTotal.setText("");
                         salesPPhoto.setIcon(null);
                         ImageIcon defaultProfile = new ImageIcon(getClass().getResource("/sampleProfiles/defualt.png"));
                         salesProfile.setIcon(defaultProfile);
@@ -2662,6 +2697,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel stock;
     private javax.swing.JButton submit;
     private javax.swing.JTabbedPane tabs;
+    private javax.swing.JLabel todaysDate;
     private javax.swing.JLabel totalLoss;
     private javax.swing.JLabel totalOrders;
     private javax.swing.JLabel totalProducts;
