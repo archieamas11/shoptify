@@ -97,9 +97,6 @@ public class createAccount extends javax.swing.JFrame {
         lnamePanel = new javax.swing.JPanel();
         lname = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
         c3 = new javax.swing.JPanel();
         email = new javax.swing.JTextField();
         c4 = new javax.swing.JPanel();
@@ -125,10 +122,10 @@ public class createAccount extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 158, 226));
         jLabel2.setText("SHOPTIFY");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 30, -1, 20));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 20, -1, 20));
 
         shoptify_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buying-94.png"))); // NOI18N
-        jPanel1.add(shoptify_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 20, -1, -1));
+        jPanel1.add(shoptify_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, -1, -1));
 
         jLabel14.setFont(new java.awt.Font("Arial", 1, 30)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(51, 51, 51));
@@ -262,16 +259,6 @@ public class createAccount extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jToggleButton1.setText("jToggleButton1");
-        jPanel3.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 470, -1, -1));
-
-        jToggleButton2.setText("jToggleButton1");
-        jPanel3.add(jToggleButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 410, -1, -1));
-
-        jToggleButton3.setText("jToggleButton1");
-        jPanel3.add(jToggleButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 440, -1, -1));
-
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 0, 370, 720));
 
         c3.setBackground(new java.awt.Color(245, 245, 245));
@@ -570,9 +557,6 @@ public class createAccount extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JTextField lname;
     private javax.swing.JPanel lnamePanel;
     private javax.swing.JLabel login;
