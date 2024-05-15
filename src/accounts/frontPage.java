@@ -6,6 +6,7 @@
 package accounts;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.geom.RoundRectangle2D;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
@@ -22,6 +23,8 @@ public class frontPage extends javax.swing.JFrame {
      */
     public frontPage() {
         initComponents();
+        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
+
         UXmethods.RoundBorders.setArcStyle(frontPageContainer, 30);
         UXmethods.RoundBorders.setArcStyle(loginbtn, 15);
         UXmethods.RoundBorders.setArcStyle(signupbtn, 15);
@@ -54,6 +57,7 @@ public class frontPage extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         setResizable(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -157,7 +161,7 @@ public class frontPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void signupbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupbtnActionPerformed
-        createAccount reg = new createAccount();
+        chooseAccount reg = new chooseAccount();
         reg.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_signupbtnActionPerformed

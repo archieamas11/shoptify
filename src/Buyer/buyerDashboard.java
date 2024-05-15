@@ -248,6 +248,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         price12 = new javax.swing.JLabel();
         name12 = new javax.swing.JLabel();
         next = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel3 = new javax.swing.JPanel();
         back = new javax.swing.JLabel();
@@ -356,7 +357,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         jPanel5.setPreferredSize(new java.awt.Dimension(1280, 720));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBackground(new java.awt.Color(0, 255, 102));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -367,7 +368,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 jLabel1MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 10, -1, 40));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 20, -1, 40));
 
         myCart.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         myCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/cart.png"))); // NOI18N
@@ -377,7 +378,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 myCartMouseClicked(evt);
             }
         });
-        jPanel2.add(myCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 10, -1, 40));
+        jPanel2.add(myCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 20, -1, 40));
 
         jLabel3.setFont(getFont());
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/myProfile.png"))); // NOI18N
@@ -386,7 +387,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 jLabel3MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 10, 40, 40));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 20, 40, 40));
 
         home.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         home.setForeground(new java.awt.Color(0, 158, 226));
@@ -396,7 +397,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 homeMouseClicked(evt);
             }
         });
-        jPanel2.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, -1, 50));
+        jPanel2.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 50));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-home-16.png"))); // NOI18N
         jLabel2.setText(" HOME");
@@ -405,9 +406,9 @@ public class buyerDashboard extends javax.swing.JFrame {
                 jLabel2MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 10, -1, 40));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, -1, 40));
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 40));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 70));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -671,8 +672,19 @@ public class buyerDashboard extends javax.swing.JFrame {
         });
         jPanel1.add(next);
         next.setBounds(1106, 50, 100, 560);
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel11.setText("Show all products");
+        jPanel1.add(jLabel11);
+        jLabel11.setBounds(0, 620, 1280, 16);
+
+        jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator1.setForeground(new java.awt.Color(231, 231, 231));
+        jSeparator1.setAlignmentX(0.2F);
+        jSeparator1.setAlignmentY(0.2F);
         jPanel1.add(jSeparator1);
-        jSeparator1.setBounds(190, 20, 860, 20);
+        jSeparator1.setBounds(0, 40, 1280, 10);
 
         tabs.addTab("tab1", jPanel1);
 
@@ -1154,7 +1166,7 @@ public class buyerDashboard extends javax.swing.JFrame {
 
         tabs.addTab("tab8", profile2);
 
-        jPanel5.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1280, 700));
+        jPanel5.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1753,6 +1765,7 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;

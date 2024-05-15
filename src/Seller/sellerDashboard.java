@@ -1370,6 +1370,11 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel14.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 830, 20));
 
         selectFile.setText("Select Image");
+        selectFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectFileActionPerformed(evt);
+            }
+        });
         jPanel14.add(selectFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 340, 120, 30));
 
         jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -2577,6 +2582,10 @@ public class sellerDashboard extends javax.swing.JFrame {
     private void logsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logsBtnMouseClicked
         logsBtn.setSelected(true);
     }//GEN-LAST:event_logsBtnMouseClicked
+
+    private void selectFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectFileActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectFileActionPerformed
 
     public static void main(String args[]) {
         try {

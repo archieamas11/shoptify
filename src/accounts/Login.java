@@ -17,6 +17,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import Buyer.buyerDashboard;
 import config.actionLogs;
 import config.isAccountExist;
+import java.awt.geom.RoundRectangle2D;
 import javax.swing.JFrame;
 
 public class Login extends javax.swing.JFrame {
@@ -32,6 +33,7 @@ public class Login extends javax.swing.JFrame {
         password.setFocusable(false);
         login.setFocusable(false);
         remember.setFocusable(false);
+        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
 
         // Round Borders
         UXmethods.RoundBorders.setArcStyle(usernameContainer, 30);
@@ -101,6 +103,7 @@ public class Login extends javax.swing.JFrame {
         remember = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -355,8 +358,8 @@ public class Login extends javax.swing.JFrame {
     }
 
     private void create_accountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_create_accountMouseClicked
-        createAccount create = new createAccount();
-        create.setVisible(true);
+        chooseAccount reg = new chooseAccount();
+        reg.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_create_accountMouseClicked
 

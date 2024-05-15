@@ -122,22 +122,22 @@ public class createAccount extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 158, 226));
         jLabel2.setText("SHOPTIFY");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 20, -1, 20));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, 20));
 
         shoptify_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buying-94.png"))); // NOI18N
-        jPanel1.add(shoptify_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, -1, -1));
+        jPanel1.add(shoptify_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 0, -1, -1));
 
         jLabel14.setFont(new java.awt.Font("Arial", 1, 30)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(51, 51, 51));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel14.setText("Create new account");
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 60, 350, 30));
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 350, 30));
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(153, 153, 153));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("journey!");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 130, 350, 10));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 350, 10));
 
         login.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         login.setForeground(new java.awt.Color(102, 102, 102));
@@ -147,7 +147,7 @@ public class createAccount extends javax.swing.JFrame {
                 loginMouseClicked(evt);
             }
         });
-        jPanel1.add(login, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 690, 190, -1));
+        jPanel1.add(login, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 680, 190, -1));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel9.setText("Email");
@@ -183,20 +183,20 @@ public class createAccount extends javax.swing.JFrame {
                 submitActionPerformed(evt);
             }
         });
-        jPanel1.add(submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 620, 350, 40));
+        jPanel1.add(submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 610, 350, 40));
 
         jLabel15.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(153, 153, 153));
         jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel15.setText("Welcome to Shoptify, please enter your ");
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 100, 350, 10));
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 350, 10));
 
         jLabel16.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(153, 153, 153));
         jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel16.setText("information to start your amazing shopping");
-        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 110, 350, 20));
-        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 160, 350, 20));
+        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 350, 20));
+        jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 350, 20));
 
         fnamePanel.setBackground(new java.awt.Color(245, 245, 245));
         fnamePanel.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -238,7 +238,7 @@ public class createAccount extends javax.swing.JFrame {
         });
         fnamePanel.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 140, 40));
 
-        jPanel1.add(fnamePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 180, 180, 40));
+        jPanel1.add(fnamePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 180, 40));
 
         lnamePanel.setBackground(new java.awt.Color(245, 245, 245));
         lnamePanel.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -255,7 +255,7 @@ public class createAccount extends javax.swing.JFrame {
         lname.setBorder(null);
         lnamePanel.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 140, 40));
 
-        jPanel1.add(lnamePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 180, 180, 40));
+        jPanel1.add(lnamePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 170, 180, 40));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -276,7 +276,7 @@ public class createAccount extends javax.swing.JFrame {
         });
         c3.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 330, 40));
 
-        jPanel1.add(c3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 240, 350, 40));
+        jPanel1.add(c3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 350, 40));
 
         c4.setBackground(new java.awt.Color(245, 245, 245));
         c4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -293,7 +293,7 @@ public class createAccount extends javax.swing.JFrame {
         });
         c4.add(number, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 330, 40));
 
-        jPanel1.add(c4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 300, 350, 40));
+        jPanel1.add(c4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 350, 40));
 
         c5.setBackground(new java.awt.Color(245, 245, 245));
         c5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -310,7 +310,7 @@ public class createAccount extends javax.swing.JFrame {
         });
         c5.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 330, 40));
 
-        jPanel1.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 360, 350, 40));
+        jPanel1.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 350, 40));
 
         c6.setBackground(new java.awt.Color(245, 245, 245));
         c6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -322,7 +322,7 @@ public class createAccount extends javax.swing.JFrame {
         username.setBorder(null);
         c6.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 330, 40));
 
-        jPanel1.add(c6, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 420, 350, 40));
+        jPanel1.add(c6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 350, 40));
 
         c7.setBackground(new java.awt.Color(245, 245, 245));
         c7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -345,7 +345,7 @@ public class createAccount extends javax.swing.JFrame {
         password.setEchoChar('\u0000');
         c7.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 300, 40));
 
-        jPanel1.add(c7, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 480, 350, 40));
+        jPanel1.add(c7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 350, 40));
 
         jPanel4.setBackground(new java.awt.Color(245, 245, 245));
 
@@ -375,7 +375,7 @@ public class createAccount extends javax.swing.JFrame {
         role.setOpaque(true);
         c8.add(role, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 320, 40));
 
-        jPanel1.add(c8, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 540, 350, 40));
+        jPanel1.add(c8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 350, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

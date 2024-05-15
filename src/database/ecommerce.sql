@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2024 at 05:11 AM
+-- Generation Time: May 15, 2024 at 05:36 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,6 +34,7 @@ CREATE TABLE `accounts_table` (
   `lname` varchar(24) NOT NULL,
   `address` varchar(100) DEFAULT NULL,
   `phone number` varchar(11) DEFAULT NULL,
+  `shop_name` varchar(100) DEFAULT NULL,
   `username` varchar(24) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` varchar(24) NOT NULL,
@@ -46,11 +47,12 @@ CREATE TABLE `accounts_table` (
 -- Dumping data for table `accounts_table`
 --
 
-INSERT INTO `accounts_table` (`account_id`, `email`, `fname`, `lname`, `address`, `phone number`, `username`, `password`, `role`, `profile_picture`, `date joined`, `status`) VALUES
-(1037, 'archieamas@gmail.com', 'archie', 'albarico', 'Sitio Tabay, Minglanilla, Cebu', '09231226477', '1', '$2a$10$PcpYRhrxFcMuokyYZMo2wuvo.v7RyaEdpJFzyaNLL0EPamDyI8tsm', 'Admin', 'src/sampleProfiles/5.png', '2024-04-24', 'Active'),
-(1040, '2', '2', '2', 'Ward III, Minglanilla, Cebu', '09491853866', '2', '$2a$10$88HZhTvIKqmk/Kr3dAaGcOx2Q7ZzeATeQSRm1E0ThP4XNgBWF6lBi', 'Buyer', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Active'),
-(1041, '3', '3', '3', 'Tuyan, Naga, Cebu', '09231226478', '3', '$2a$10$W1StfWG4D8nifoWGrymFGutQvrlkD6oTPaKAtX3v1qn54UmqWwsyS', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-25', 'Active'),
-(1043, '4', '4', '4', '4', '09491853866', '4', '$2a$10$zVjHhur/mSpPSEPNasJlJOcMStb1ec/Bo0Jr.fvGPW6d1Vxhy9GVm', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-26', 'Active');
+INSERT INTO `accounts_table` (`account_id`, `email`, `fname`, `lname`, `address`, `phone number`, `shop_name`, `username`, `password`, `role`, `profile_picture`, `date joined`, `status`) VALUES
+(1037, 'archieamas@gmail.com', 'archie', 'albarico', 'Sitio Tabay, Minglanilla, Cebu', '09231226477', NULL, '1', '$2a$10$PcpYRhrxFcMuokyYZMo2wuvo.v7RyaEdpJFzyaNLL0EPamDyI8tsm', 'Admin', 'src/sampleProfiles/5.png', '2024-04-24', 'Active'),
+(1040, '2', '2', '2', 'Ward III, Minglanilla, Cebu', '09491853866', NULL, '2', '$2a$10$88HZhTvIKqmk/Kr3dAaGcOx2Q7ZzeATeQSRm1E0ThP4XNgBWF6lBi', 'Buyer', 'src/sampleProfiles/default profile 100x100.png', '2024-04-24', 'Active'),
+(1041, '3', '3', '3', 'Tuyan, Naga, Cebu', '09231226478', NULL, '3', '$2a$10$W1StfWG4D8nifoWGrymFGutQvrlkD6oTPaKAtX3v1qn54UmqWwsyS', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-25', 'Active'),
+(1043, '4', '4', '4', '4', '09491853866', NULL, '4', '$2a$10$zVjHhur/mSpPSEPNasJlJOcMStb1ec/Bo0Jr.fvGPW6d1Vxhy9GVm', 'Seller', 'src/sampleProfiles/default profile 100x100.png', '2024-04-26', 'Active'),
+(1044, '123', '5', '5', '123', '09231226478', 'Archie Shop', '5', '$2a$10$CLDlgGmHsm6AYOtwj88dEODEZxdOv407y7ZwHjuNLCXH5IalW.rBi', 'Seller', 'src/sampleProfiles/default_user_profile.png', '2024-05-15', 'Active');
 
 -- --------------------------------------------------------
 
@@ -193,7 +195,7 @@ ALTER TABLE `tbl_sellerlogs`
 -- AUTO_INCREMENT for table `accounts_table`
 --
 ALTER TABLE `accounts_table`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1044;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1045;
 
 --
 -- AUTO_INCREMENT for table `add2cart`
@@ -205,7 +207,7 @@ ALTER TABLE `add2cart`
 -- AUTO_INCREMENT for table `tbl_adminlogs`
 --
 ALTER TABLE `tbl_adminlogs`
-  MODIFY `adminlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `adminlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `tbl_products`
