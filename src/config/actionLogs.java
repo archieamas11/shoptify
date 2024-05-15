@@ -35,7 +35,7 @@ public class actionLogs {
 
     public static void recordSellerLogs(int seller_id, String action, String details) {
 
-        String sql = "INSERT INTO tbl_sellerlogs (account_id, sellerlogs_action, sellerlogs_details, sellerlogs_timestamp) VALUES (?, ?, ?, NOW())";
+        String sql = "INSERT INTO tbl_sellerlogs (seller_id, sellerlogs_action, sellerlogs_details, sellerlogs_timestamp) VALUES (?, ?, ?, NOW())";
         databaseConnector dbc = new databaseConnector();
 
         try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {

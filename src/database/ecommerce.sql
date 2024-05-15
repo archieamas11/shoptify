@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 13, 2024 at 09:17 AM
+-- Generation Time: May 15, 2024 at 05:11 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -76,7 +76,7 @@ CREATE TABLE `add2cart` (
 
 CREATE TABLE `tbl_adminlogs` (
   `adminlogs_id` int(11) NOT NULL,
-  `account_id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL,
   `adminlogs_action` varchar(100) NOT NULL,
   `adminlogs_details` varchar(600) NOT NULL,
   `adminlogs_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -95,19 +95,12 @@ CREATE TABLE `tbl_products` (
   `price` int(11) NOT NULL,
   `stock` int(11) NOT NULL,
   `description` varchar(300) NOT NULL,
+  `category` varchar(100) NOT NULL,
+  `sold` int(11) NOT NULL,
   `status` varchar(20) NOT NULL,
   `image_path` varchar(600) NOT NULL,
   `date_created` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_products`
---
-
-INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `price`, `stock`, `description`, `status`, `image_path`, `date_created`) VALUES
-(1035, 1041, '123', 123, 121, '123', 'Available', 'src/ProductsImages/camera.png', '2024-05-13'),
-(1036, 1043, '345', 345, 342, '345', 'Available', 'src/ProductsImages/2024 Yearly Calendar.png', '2024-05-13'),
-(1037, 1041, '2', 2, 2, '2', 'Not Available', 'src/ProductsImages/2024 Yearly Calendar.png', '2024-05-13');
 
 -- --------------------------------------------------------
 
@@ -130,14 +123,6 @@ CREATE TABLE `tbl_sales` (
   `date_purchase` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tbl_sales`
---
-
-INSERT INTO `tbl_sales` (`transaction_id`, `buyer_id`, `seller_id`, `product_id`, `product_name`, `product_price`, `total_quantity`, `total_price`, `payment_method`, `order_status`, `address`, `date_purchase`) VALUES
-(41, 1040, 1043, 1036, '345', 345, 3, 1035, 'COD', 'Pending', 'Ward III, Minglanilla, Cebu', '2024-05-13 07:14:57'),
-(42, 1040, 1041, 1035, '123', 123, 2, 246, 'COD', 'Pending', 'Ward III, Minglanilla, Cebu', '2024-05-13 07:15:23');
-
 -- --------------------------------------------------------
 
 --
@@ -145,11 +130,11 @@ INSERT INTO `tbl_sales` (`transaction_id`, `buyer_id`, `seller_id`, `product_id`
 --
 
 CREATE TABLE `tbl_sellerlogs` (
-  `s_id` int(11) NOT NULL,
-  `a_id` int(11) NOT NULL,
-  `s_action` varchar(100) NOT NULL,
-  `s_details` varchar(600) NOT NULL,
-  `s_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `sellerlogs_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
+  `sellerlogs_action` varchar(100) NOT NULL,
+  `sellerlogs_details` varchar(600) NOT NULL,
+  `sellerlogs_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -175,7 +160,7 @@ ALTER TABLE `add2cart`
 --
 ALTER TABLE `tbl_adminlogs`
   ADD PRIMARY KEY (`adminlogs_id`),
-  ADD KEY `account_id` (`account_id`);
+  ADD KEY `account_id` (`admin_id`);
 
 --
 -- Indexes for table `tbl_products`
@@ -197,8 +182,8 @@ ALTER TABLE `tbl_sales`
 -- Indexes for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  ADD PRIMARY KEY (`s_id`),
-  ADD KEY `a_id` (`a_id`);
+  ADD PRIMARY KEY (`sellerlogs_id`),
+  ADD KEY `a_id` (`seller_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -232,13 +217,13 @@ ALTER TABLE `tbl_products`
 -- AUTO_INCREMENT for table `tbl_sales`
 --
 ALTER TABLE `tbl_sales`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  MODIFY `s_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -255,7 +240,7 @@ ALTER TABLE `add2cart`
 -- Constraints for table `tbl_adminlogs`
 --
 ALTER TABLE `tbl_adminlogs`
-  ADD CONSTRAINT `tbl_adminlogs_ibfk_1` FOREIGN KEY (`account_id`) REFERENCES `accounts_table` (`account_id`);
+  ADD CONSTRAINT `tbl_adminlogs_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `accounts_table` (`account_id`);
 
 --
 -- Constraints for table `tbl_products`
@@ -275,7 +260,7 @@ ALTER TABLE `tbl_sales`
 -- Constraints for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  ADD CONSTRAINT `tbl_sellerlogs_ibfk_1` FOREIGN KEY (`a_id`) REFERENCES `accounts_table` (`account_id`);
+  ADD CONSTRAINT `tbl_sellerlogs_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `accounts_table` (`account_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
