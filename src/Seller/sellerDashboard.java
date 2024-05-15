@@ -41,6 +41,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
     public sellerDashboard() {
         initComponents();
+        dashboard.setSelected(true);
         displayCurrentDate();
         displayData();
         displayArchive();
@@ -58,8 +59,8 @@ public class sellerDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(manage, 50);
         UXmethods.RoundBorders.setArcStyle(accounts, 50);
         UXmethods.RoundBorders.setArcStyle(orders, 50);
-        UXmethods.RoundBorders.setArcStyle(archivebtn, 50);
-        UXmethods.RoundBorders.setArcStyle(logsButton, 50);
+        UXmethods.RoundBorders.setArcStyle(archiveBtn, 50);
+        UXmethods.RoundBorders.setArcStyle(logsBtn, 50);
 
         //Containers
         UXmethods.RoundBorders.setArcStyle(dashboardContainer, 15);
@@ -265,13 +266,13 @@ public class sellerDashboard extends javax.swing.JFrame {
         dashboardContainer = new javax.swing.JPanel();
         logout = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        dashboard = new javax.swing.JButton();
-        manage = new javax.swing.JButton();
-        orders = new javax.swing.JButton();
-        accounts = new javax.swing.JButton();
-        archivebtn = new javax.swing.JButton();
         profile = new javax.swing.JLabel();
-        logsButton = new javax.swing.JButton();
+        dashboard = new javax.swing.JToggleButton();
+        manage = new javax.swing.JToggleButton();
+        orders = new javax.swing.JToggleButton();
+        accounts = new javax.swing.JToggleButton();
+        archiveBtn = new javax.swing.JToggleButton();
+        logsBtn = new javax.swing.JToggleButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         tabs = new javax.swing.JTabbedPane();
@@ -285,7 +286,8 @@ public class sellerDashboard extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
         totalSales = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        containersds = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        totalLoss = new javax.swing.JLabel();
         CONTAINER = new javax.swing.JPanel();
         CONTAINER1 = new javax.swing.JPanel();
         CONTAINER2 = new javax.swing.JPanel();
@@ -293,13 +295,16 @@ public class sellerDashboard extends javax.swing.JFrame {
         CONTAINER5 = new javax.swing.JPanel();
         pendingOrders = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         totalOrders = new javax.swing.JLabel();
         totalProducts = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
-        totalLoss = new javax.swing.JLabel();
         todaysDate = new javax.swing.JLabel();
+        overviewTotalSales = new javax.swing.JLabel();
+        overviewTotalLoss1 = new javax.swing.JLabel();
+        overviewTotalLoss2 = new javax.swing.JLabel();
+        overviewTotalLoss3 = new javax.swing.JLabel();
+        overviewTotalLoss4 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         productsContainer = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
@@ -496,61 +501,6 @@ public class sellerDashboard extends javax.swing.JFrame {
         dashboardContainer.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, 50, 50));
         dashboardContainer.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 580, 50, 20));
 
-        dashboard.setBackground(new java.awt.Color(153, 204, 255));
-        dashboard.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        dashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-dashboard-24.png"))); // NOI18N
-        dashboard.setBorderPainted(false);
-        dashboard.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                dashboardActionPerformed(evt);
-            }
-        });
-        dashboardContainer.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 50, 50));
-
-        manage.setBackground(new java.awt.Color(153, 204, 255));
-        manage.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        manage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-edit-24_1.png"))); // NOI18N
-        manage.setBorderPainted(false);
-        manage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                manageActionPerformed(evt);
-            }
-        });
-        dashboardContainer.add(manage, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 50, 50));
-
-        orders.setBackground(new java.awt.Color(153, 204, 255));
-        orders.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        orders.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buy-24.png"))); // NOI18N
-        orders.setBorderPainted(false);
-        orders.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ordersActionPerformed(evt);
-            }
-        });
-        dashboardContainer.add(orders, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 50, 50));
-
-        accounts.setBackground(new java.awt.Color(153, 204, 255));
-        accounts.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        accounts.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-user-locked-24.png"))); // NOI18N
-        accounts.setBorderPainted(false);
-        accounts.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                accountsActionPerformed(evt);
-            }
-        });
-        dashboardContainer.add(accounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 50, 50));
-
-        archivebtn.setBackground(new java.awt.Color(153, 204, 255));
-        archivebtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        archivebtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-archive-24.png"))); // NOI18N
-        archivebtn.setBorderPainted(false);
-        archivebtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                archivebtnActionPerformed(evt);
-            }
-        });
-        dashboardContainer.add(archivebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 50, 50));
-
         profile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         profile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/2.png"))); // NOI18N
         profile.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -560,16 +510,95 @@ public class sellerDashboard extends javax.swing.JFrame {
         });
         dashboardContainer.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 70, 50));
 
-        logsButton.setBackground(new java.awt.Color(153, 204, 255));
-        logsButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        logsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/activity_logs.png"))); // NOI18N
-        logsButton.setBorderPainted(false);
-        logsButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logsButtonActionPerformed(evt);
+        dashboard.setBackground(new java.awt.Color(153, 204, 255));
+        dashboard.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-dashboard-24.png"))); // NOI18N
+        dashboard.setBorderPainted(false);
+        dashboard.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dashboardMouseClicked(evt);
             }
         });
-        dashboardContainer.add(logsButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 430, 50, 50));
+        dashboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dashboardActionPerformed(evt);
+            }
+        });
+        dashboardContainer.add(dashboard, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 50, 50));
+
+        manage.setBackground(new java.awt.Color(153, 204, 255));
+        manage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-edit-24.png"))); // NOI18N
+        manage.setBorderPainted(false);
+        manage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                manageMouseClicked(evt);
+            }
+        });
+        manage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageActionPerformed(evt);
+            }
+        });
+        dashboardContainer.add(manage, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 50, 50));
+
+        orders.setBackground(new java.awt.Color(153, 204, 255));
+        orders.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buy-24.png"))); // NOI18N
+        orders.setBorderPainted(false);
+        orders.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ordersMouseClicked(evt);
+            }
+        });
+        orders.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ordersActionPerformed(evt);
+            }
+        });
+        dashboardContainer.add(orders, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 50, 50));
+
+        accounts.setBackground(new java.awt.Color(153, 204, 255));
+        accounts.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-user-locked-24.png"))); // NOI18N
+        accounts.setBorderPainted(false);
+        accounts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                accountsMouseClicked(evt);
+            }
+        });
+        accounts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accountsActionPerformed(evt);
+            }
+        });
+        dashboardContainer.add(accounts, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 50, 50));
+
+        archiveBtn.setBackground(new java.awt.Color(153, 204, 255));
+        archiveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-archive-24.png"))); // NOI18N
+        archiveBtn.setBorderPainted(false);
+        archiveBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                archiveBtnMouseClicked(evt);
+            }
+        });
+        archiveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                archiveBtnActionPerformed(evt);
+            }
+        });
+        dashboardContainer.add(archiveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 50, 50));
+
+        logsBtn.setBackground(new java.awt.Color(153, 204, 255));
+        logsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/activity_logs.png"))); // NOI18N
+        logsBtn.setBorderPainted(false);
+        logsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logsBtnMouseClicked(evt);
+            }
+        });
+        logsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logsBtnActionPerformed(evt);
+            }
+        });
+        dashboardContainer.add(logsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 430, 50, 50));
 
         jPanel5.add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 70, 680));
 
@@ -620,7 +649,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         totalSales.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
         totalSales.setForeground(new java.awt.Color(255, 255, 255));
-        totalSales.setText("₱  19,920");
+        totalSales.setText("₱  0");
         jPanel6.add(totalSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 330, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
@@ -628,8 +657,15 @@ public class sellerDashboard extends javax.swing.JFrame {
         jLabel8.setText("Total Sales");
         jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 370, -1, 20));
 
-        containersds.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/totalsales.png"))); // NOI18N
-        jPanel6.add(containersds, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 280, 80));
+        jLabel9.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setText("Total Loss");
+        jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 370, -1, 20));
+
+        totalLoss.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
+        totalLoss.setForeground(new java.awt.Color(255, 255, 255));
+        totalLoss.setText("₱  0");
+        jPanel6.add(totalLoss, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, -1, -1));
 
         CONTAINER.setBackground(new java.awt.Color(241, 241, 241));
         CONTAINER.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -638,7 +674,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         CONTAINER1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         CONTAINER.add(CONTAINER1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 420, 250));
 
-        jPanel6.add(CONTAINER, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 420, 310, 250));
+        jPanel6.add(CONTAINER, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 420, 310, 260));
 
         CONTAINER2.setBackground(new java.awt.Color(241, 241, 241));
         CONTAINER2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -654,36 +690,34 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel6.add(CONTAINER3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 420, 380, 250));
 
         pendingOrders.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
-        pendingOrders.setText("80");
-        jPanel6.add(pendingOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 330, -1, -1));
+        pendingOrders.setForeground(new java.awt.Color(255, 255, 255));
+        pendingOrders.setText("0");
+        jPanel6.add(pendingOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 330, -1, -1));
 
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Pending Orders");
-        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 370, -1, 20));
-
-        jLabel9.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        jLabel9.setText("Total Loss");
-        jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 370, -1, 20));
+        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 370, -1, 20));
 
         totalOrders.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
-        totalOrders.setText("80");
-        jPanel6.add(totalOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 330, -1, -1));
+        totalOrders.setForeground(new java.awt.Color(255, 255, 255));
+        totalOrders.setText("0");
+        jPanel6.add(totalOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 330, -1, -1));
 
         totalProducts.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
-        totalProducts.setText("80");
-        jPanel6.add(totalProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, -1, -1));
+        totalProducts.setForeground(new java.awt.Color(255, 255, 255));
+        totalProducts.setText("0");
+        jPanel6.add(totalProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 330, -1, -1));
 
-        jLabel10.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Total Products");
-        jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 370, -1, 20));
+        jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 370, -1, 20));
 
-        jLabel37.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        jLabel37.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
+        jLabel37.setForeground(new java.awt.Color(255, 255, 255));
         jLabel37.setText("Total Orders");
-        jPanel6.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 370, -1, 20));
-
-        totalLoss.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
-        totalLoss.setText("80");
-        jPanel6.add(totalLoss, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 330, -1, -1));
+        jPanel6.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 370, -1, 20));
 
         todaysDate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         todaysDate.setForeground(new java.awt.Color(102, 102, 102));
@@ -691,6 +725,21 @@ public class sellerDashboard extends javax.swing.JFrame {
         todaysDate.setText("Date");
         todaysDate.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jPanel6.add(todaysDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 30, 70, -1));
+
+        overviewTotalSales.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/totalsales_1.png"))); // NOI18N
+        jPanel6.add(overviewTotalSales, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 280, 80));
+
+        overviewTotalLoss1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/totalLoss.png"))); // NOI18N
+        jPanel6.add(overviewTotalLoss1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 320, 280, 80));
+
+        overviewTotalLoss2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pendingOrders.png"))); // NOI18N
+        jPanel6.add(overviewTotalLoss2, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 320, 170, 80));
+
+        overviewTotalLoss3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/totalProducts.png"))); // NOI18N
+        jPanel6.add(overviewTotalLoss3, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 320, 170, 80));
+
+        overviewTotalLoss4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/totalOrders.png"))); // NOI18N
+        jPanel6.add(overviewTotalLoss4, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 320, 170, 80));
 
         tabs.addTab("tab1", jPanel6);
 
@@ -759,7 +808,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         productsContainer.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 80, 140, 30));
 
         price.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        price.setText("Price");
+        price.setText("Price:");
         price.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 priceCaretPositionChanged(evt);
@@ -848,7 +897,6 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         category.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         category.setForeground(new java.awt.Color(153, 153, 153));
-        category.setText("Electronics");
         category.addInputMethodListener(new java.awt.event.InputMethodListener() {
             public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
                 categoryCaretPositionChanged(evt);
@@ -1667,23 +1715,11 @@ public class sellerDashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardActionPerformed
-        tabs.setSelectedIndex(0);
-    }//GEN-LAST:event_dashboardActionPerformed
-
-    private void manageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageActionPerformed
-        tabs.setSelectedIndex(1);
-    }//GEN-LAST:event_manageActionPerformed
-
     private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
         Login out = new Login();
         out.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_logoutActionPerformed
-
-    private void ordersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordersActionPerformed
-        tabs.setSelectedIndex(3);
-    }//GEN-LAST:event_ordersActionPerformed
 
     private void statusCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_statusCaretPositionChanged
         // TODO add your handling code here:
@@ -1707,10 +1743,6 @@ public class sellerDashboard extends javax.swing.JFrame {
     private void priceCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_priceCaretPositionChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_priceCaretPositionChanged
-
-    private void accountsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountsActionPerformed
-        tabs.setSelectedIndex(4);
-    }//GEN-LAST:event_accountsActionPerformed
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         try {
@@ -1922,10 +1954,6 @@ public class sellerDashboard extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_archiveActionPerformed
-
-    private void archivebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_archivebtnActionPerformed
-        tabs.setSelectedIndex(2);
-    }//GEN-LAST:event_archivebtnActionPerformed
 
     private static int p_id;
 
@@ -2464,10 +2492,6 @@ public class sellerDashboard extends javax.swing.JFrame {
         getPhoto(addPhoto);
     }//GEN-LAST:event_addPhotoMouseClicked
 
-    private void logsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logsButtonActionPerformed
-        tabs.setSelectedIndex(8);
-    }//GEN-LAST:event_logsButtonActionPerformed
-
     private void jLabel36CaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jLabel36CaretPositionChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel36CaretPositionChanged
@@ -2475,6 +2499,84 @@ public class sellerDashboard extends javax.swing.JFrame {
     private void categoryCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_categoryCaretPositionChanged
         // TODO add your handling code here:
     }//GEN-LAST:event_categoryCaretPositionChanged
+
+    private void dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardActionPerformed
+        tabs.setSelectedIndex(0);
+        manage.setSelected(false);
+        orders.setSelected(false);
+        accounts.setSelected(false);
+        archiveBtn.setSelected(false);
+        logsBtn.setSelected(false);
+    }//GEN-LAST:event_dashboardActionPerformed
+
+    private void manageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageActionPerformed
+        tabs.setSelectedIndex(1);
+        dashboard.setSelected(false);
+        orders.setSelected(false);
+        accounts.setSelected(false);
+        archiveBtn.setSelected(false);
+        logsBtn.setSelected(false);
+    }//GEN-LAST:event_manageActionPerformed
+
+    private void ordersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordersActionPerformed
+        tabs.setSelectedIndex(3);
+        dashboard.setSelected(false);
+        manage.setSelected(false);
+        accounts.setSelected(false);
+        archiveBtn.setSelected(false);
+        logsBtn.setSelected(false);
+    }//GEN-LAST:event_ordersActionPerformed
+
+    private void accountsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accountsActionPerformed
+        tabs.setSelectedIndex(4);
+        dashboard.setSelected(false);
+        manage.setSelected(false);
+        orders.setSelected(false);
+        archiveBtn.setSelected(false);
+        logsBtn.setSelected(false);
+    }//GEN-LAST:event_accountsActionPerformed
+
+    private void archiveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_archiveBtnActionPerformed
+        tabs.setSelectedIndex(2);
+        dashboard.setSelected(false);
+        manage.setSelected(false);
+        orders.setSelected(false);
+        accounts.setSelected(false);
+        logsBtn.setSelected(false);
+    }//GEN-LAST:event_archiveBtnActionPerformed
+
+    private void logsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logsBtnActionPerformed
+        tabs.setSelectedIndex(8);
+        dashboard.setSelected(false);
+        manage.setSelected(false);
+        orders.setSelected(false);
+        archiveBtn.setSelected(false);
+        accounts.setSelected(false);
+    }//GEN-LAST:event_logsBtnActionPerformed
+
+    private void dashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboardMouseClicked
+        dashboard.setSelected(true);
+    }//GEN-LAST:event_dashboardMouseClicked
+
+    private void manageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_manageMouseClicked
+        manage.setSelected(true);
+    }//GEN-LAST:event_manageMouseClicked
+
+    private void ordersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ordersMouseClicked
+        orders.setSelected(true);
+    }//GEN-LAST:event_ordersMouseClicked
+
+    private void accountsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accountsMouseClicked
+        accounts.setSelected(true);
+    }//GEN-LAST:event_accountsMouseClicked
+
+    private void archiveBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_archiveBtnMouseClicked
+        archiveBtn.setSelected(true);
+    }//GEN-LAST:event_archiveBtnMouseClicked
+
+    private void logsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logsBtnMouseClicked
+        logsBtn.setSelected(true);
+    }//GEN-LAST:event_logsBtnMouseClicked
 
     public static void main(String args[]) {
         try {
@@ -2500,7 +2602,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel CONTAINER5;
     private javax.swing.JTextField ID;
     private javax.swing.JButton accept_order;
-    private javax.swing.JButton accounts;
+    private javax.swing.JToggleButton accounts;
     private javax.swing.JTable accounts_table;
     private javax.swing.JButton add;
     private javax.swing.JComboBox<String> addCategory;
@@ -2515,15 +2617,14 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton archive;
     private javax.swing.JPanel archiveAccountTableContainer;
     private javax.swing.JScrollPane archiveAccountTableContainerScroll;
+    private javax.swing.JToggleButton archiveBtn;
     private javax.swing.JTable archive_table;
-    private javax.swing.JButton archivebtn;
     private javax.swing.JPanel c6;
     private javax.swing.JPanel c7;
     private javax.swing.JPanel c8;
     private javax.swing.JPanel c9;
     private javax.swing.JLabel category;
-    private javax.swing.JLabel containersds;
-    private javax.swing.JButton dashboard;
+    private javax.swing.JToggleButton dashboard;
     private javax.swing.JPanel dashboardContainer;
     private javax.swing.JTextField date;
     private javax.swing.JButton decline;
@@ -2631,9 +2732,9 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JTextField lname;
     private javax.swing.JButton logout;
-    private javax.swing.JButton logsButton;
+    private javax.swing.JToggleButton logsBtn;
     private javax.swing.JRadioButton male;
-    private javax.swing.JButton manage;
+    private javax.swing.JToggleButton manage;
     private javax.swing.JLabel manage1;
     private javax.swing.JLabel manage10;
     private javax.swing.JLabel manage11;
@@ -2651,8 +2752,13 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel myprofile1;
     private javax.swing.JLabel name;
     private javax.swing.JLabel orderTotal;
-    private javax.swing.JButton orders;
+    private javax.swing.JToggleButton orders;
     private javax.swing.JRadioButton other;
+    private javax.swing.JLabel overviewTotalLoss1;
+    private javax.swing.JLabel overviewTotalLoss2;
+    private javax.swing.JLabel overviewTotalLoss3;
+    private javax.swing.JLabel overviewTotalLoss4;
+    private javax.swing.JLabel overviewTotalSales;
     private javax.swing.JLabel pendingOrders;
     private javax.swing.JLabel price;
     private javax.swing.JLabel productID;
