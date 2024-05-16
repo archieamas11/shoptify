@@ -207,12 +207,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         archiveBtn = new javax.swing.JButton();
         logsBtn = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jLabel18 = new javax.swing.JLabel();
-        name = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        add = new javax.swing.JButton();
-        searchIcon = new javax.swing.JButton();
-        searchBar = new javax.swing.JTextField();
         tabs = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -242,6 +236,12 @@ public final class adminDashboard extends javax.swing.JFrame {
         manage8 = new javax.swing.JLabel();
         role = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        name = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        searchIcon = new javax.swing.JButton();
+        searchBar = new javax.swing.JTextField();
+        add = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         editProfileContainer = new javax.swing.JPanel();
         manage3 = new javax.swing.JLabel();
@@ -409,65 +409,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel18.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(0, 158, 226));
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel18.setText("Dashboard");
-        jPanel5.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 130, 30));
-
-        name.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        name.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jPanel5.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 50, 30));
-
-        jLabel19.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel19.setText("Welcome, ");
-        jPanel5.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 60, 30));
-
-        add.setBackground(new java.awt.Color(122, 183, 147));
-        add.setForeground(new java.awt.Color(255, 255, 255));
-        add.setText("Add Account");
-        add.setBorder(null);
-        add.setBorderPainted(false);
-        add.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addActionPerformed(evt);
-            }
-        });
-        jPanel5.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 40, 240, 50));
-
-        searchIcon.setBackground(new java.awt.Color(0, 158, 226));
-        searchIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
-        searchIcon.setBorder(null);
-        searchIcon.setBorderPainted(false);
-        searchIcon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchIconActionPerformed(evt);
-            }
-        });
-        jPanel5.add(searchIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 40, 60, 50));
-
-        searchBar.setForeground(new java.awt.Color(140, 140, 140));
-        searchBar.setText("  Search");
-        searchBar.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                searchBarFocusLost(evt);
-            }
-        });
-        searchBar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                searchBarMouseClicked(evt);
-            }
-        });
-        searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                searchBarKeyReleased(evt);
-            }
-        });
-        jPanel5.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 40, 500, 50));
-
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 40));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 50));
 
         tabs.setBackground(new java.awt.Color(255, 255, 255));
         tabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -630,6 +572,63 @@ public final class adminDashboard extends javax.swing.JFrame {
         accountTableContainer.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 20));
 
         jPanel7.add(accountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
+
+        jLabel19.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel19.setText("Welcome, ");
+        jPanel7.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 60, 30));
+
+        name.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        name.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jPanel7.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 50, 30));
+
+        jLabel18.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(0, 158, 226));
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel18.setText("Dashboard");
+        jPanel7.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 130, 30));
+
+        searchIcon.setBackground(new java.awt.Color(0, 158, 226));
+        searchIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
+        searchIcon.setBorder(null);
+        searchIcon.setBorderPainted(false);
+        searchIcon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchIconActionPerformed(evt);
+            }
+        });
+        jPanel7.add(searchIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 20, 60, 50));
+
+        searchBar.setForeground(new java.awt.Color(140, 140, 140));
+        searchBar.setText("  Search");
+        searchBar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                searchBarFocusLost(evt);
+            }
+        });
+        searchBar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchBarMouseClicked(evt);
+            }
+        });
+        searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchBarKeyReleased(evt);
+            }
+        });
+        jPanel7.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, 500, 50));
+
+        add.setBackground(new java.awt.Color(122, 183, 147));
+        add.setForeground(new java.awt.Color(255, 255, 255));
+        add.setText("Add Account");
+        add.setBorder(null);
+        add.setBorderPainted(false);
+        add.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addActionPerformed(evt);
+            }
+        });
+        jPanel7.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 20, 240, 50));
 
         jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 690));
 
