@@ -318,6 +318,7 @@ public class Login extends javax.swing.JFrame {
                 switch (loginType) {
                     case "Seller":
                         openDashboard(new sellerDashboard());
+                        recordSellerLogin();
                         break;
                     case "Buyer":
                         openDashboard(new buyerDashboard());
@@ -350,11 +351,21 @@ public class Login extends javax.swing.JFrame {
         this.dispose();
     }
 
+    String action = "Declined Order";
+
     private void recordAdminLogin() {
         int adminID = UserManager.getLoggedInUserId();
         String action = "Logged in";
-        String details = "User " + adminID + " successfully logged in!";
+        String details = "Admin " + adminID + " successfully logged in!";
         actionLogs.recordAdminLogs(adminID, action, details);
+    }
+
+    private void recordSellerLogin() {
+        int sellerID = UserManager.getLoggedInUserId();
+        String action = "Logged in";
+        String details = "Seller " + sellerID + " successfully logged in!";
+        actionLogs.recordSellerLogs(sellerID, action, details);
+        System.out.println(sellerID);
     }
 
     private void create_accountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_create_accountMouseClicked

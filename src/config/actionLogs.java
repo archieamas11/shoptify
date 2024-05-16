@@ -48,11 +48,14 @@ public class actionLogs {
         }
     }
 
-    public static void displayAdminLogs(JTable table) {
+    public static void displayAdminLogs(JTable table, int adminID) {
         try {
             databaseConnector dbc = new databaseConnector();
-            String query = "SELECT `adminlogs_id` as `Logs ID`, `admin_id` as `Admin ID`, `adminlogs_action` as `Action`, `adminlogs_details` as `Details`, `adminlogs_timestamp` as `Timestamp` FROM tbl_adminlogs";
+
+            String query = "SELECT `adminlogs_id` as `Logs ID`, `admin_id` as `Admin ID`, `adminlogs_action` as `Action`, `adminlogs_details` as `Details`, `adminlogs_timestamp` as `Timestamp` FROM tbl_adminlogs WHERE admin_id = ?";
             PreparedStatement statement = dbc.getConnection().prepareStatement(query);
+            statement.setInt(1, adminID);
+
             ResultSet rs = statement.executeQuery();
             table.setModel(DbUtils.resultSetToTableModel(rs));
 
@@ -78,11 +81,12 @@ public class actionLogs {
         }
     }
 
-    public static void displaySellerLogs(JTable table) {
+    public static void displaySellerLogs(JTable table, int sellerID) {
         try {
             databaseConnector dbc = new databaseConnector();
-            String query = "SELECT `seller_id` as `Logs ID`, `seller_id` as `Seller ID`, `sellerlogs_action` as `Action`, `sellerlogs_details` as `Details`, `sellerlogs_timestamp` as `Timestamp` FROM tbl_sellerlogs";
+            String query = "SELECT `seller_id` as `Logs ID`, `seller_id` as `Seller ID`, `sellerlogs_action` as `Action`, `sellerlogs_details` as `Details`, `sellerlogs_timestamp` as `Timestamp` FROM tbl_sellerlogs WHERE seller_id= ?";
             PreparedStatement statement = dbc.getConnection().prepareStatement(query);
+            statement.setInt(1, sellerID);
             ResultSet rs = statement.executeQuery();
             table.setModel(DbUtils.resultSetToTableModel(rs));
 

@@ -156,7 +156,7 @@ public class chooseAccount extends javax.swing.JFrame {
         });
         jPanel4.add(login, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 20, -1, 40));
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 10));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 70));
 
         tabs.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -553,15 +553,6 @@ public class chooseAccount extends javax.swing.JFrame {
         role = null;
     }//GEN-LAST:event_login1ActionPerformed
 
-    private void setDefaultValues() {
-        fname.setText("Juan");
-        lname.setText("Delacruz");
-        email.setText("juandelacruz@gmail.com");
-        number.setText("09123456789");
-        address.setText("Purok 123, Home town, City");
-        username.setText("@username");
-        password.setText("Password");
-    }
 
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         String first_name = fname.getText();

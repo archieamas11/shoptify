@@ -6,6 +6,7 @@ package Admin;
 
 import accounts.Login;
 import accounts.UserManager;
+import accounts.rememberMe;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.actionLogs;
@@ -57,7 +58,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         displayAccounts();
         displayAccountName();
         displayArchiveAccounts();
-        actionLogs.displayAdminLogs(actionlogs_table);
+        actionLogs.displayAdminLogs(actionlogs_table, admin_id);
 
         //Informations Panel
         UXmethods.RoundBorders.setArcStyle(c1, 15);
@@ -1829,7 +1830,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
     private void logsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logsBtnActionPerformed
         tabs.setSelectedIndex(5);
-        actionLogs.displayAdminLogs(actionlogs_table);
+        actionLogs.displayAdminLogs(actionlogs_table, admin_id);
     }//GEN-LAST:event_logsBtnActionPerformed
 
     private void actionlogs_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actionlogs_tableMouseClicked

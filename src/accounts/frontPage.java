@@ -64,7 +64,7 @@ public class frontPage extends javax.swing.JFrame {
         jPanel2.setMinimumSize(new java.awt.Dimension(1280, 720));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        frontPageContainer.setBackground(new java.awt.Color(214, 214, 214));
+        frontPageContainer.setBackground(new java.awt.Color(245, 245, 245));
         frontPageContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
@@ -94,7 +94,7 @@ public class frontPage extends javax.swing.JFrame {
         });
         frontPageContainer.add(signupbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 330, 200, 50));
 
-        jLabel1.setBackground(new java.awt.Color(214, 214, 214));
+        jLabel1.setBackground(new java.awt.Color(245, 245, 245));
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buying-94.png"))); // NOI18N

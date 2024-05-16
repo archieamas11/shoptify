@@ -5,6 +5,7 @@ import static accounts.Login.accountId;
 import accounts.UserManager;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
+import config.actionLogs;
 import config.databaseConnector;
 import config.search;
 import java.awt.Color;
@@ -41,9 +42,15 @@ public class sellerDashboard extends javax.swing.JFrame {
 
     public sellerDashboard() {
         initComponents();
+        actionLogs.displaySellerLogs(actionlogs_table, sellerID);
+
         dashboard.setSelected(true);
         displayCurrentDate();
         displayData();
+        displayShopName(salesFN1);
+        displayShopName(salesFN2);
+        displayShopName(salesFN3);
+
         displayArchive();
         displayAccounts();
         displayPurchase();
@@ -67,6 +74,20 @@ public class sellerDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(CONTAINER, 15);
         UXmethods.RoundBorders.setArcStyle(CONTAINER2, 15);
         UXmethods.RoundBorders.setArcStyle(CONTAINER3, 15);
+
+        UXmethods.RoundBorders.setArcStyle(c1, 15);
+        UXmethods.RoundBorders.setArcStyle(c2, 15);
+        UXmethods.RoundBorders.setArcStyle(c3, 15);
+        UXmethods.RoundBorders.setArcStyle(addCategory, 15);
+        UXmethods.RoundBorders.setArcStyle(c5, 15);
+        UXmethods.RoundBorders.setArcStyle(c60, 15);
+        UXmethods.RoundBorders.setArcStyle(e1, 15);
+        UXmethods.RoundBorders.setArcStyle(e2, 15);
+        UXmethods.RoundBorders.setArcStyle(e3, 15);
+        UXmethods.RoundBorders.setArcStyle(e4, 15);
+        UXmethods.RoundBorders.setArcStyle(searchBar, 15);
+        UXmethods.RoundBorders.setArcStyle(add, 15);
+
     }
 
     private void displayCurrentDate() {
@@ -91,6 +112,26 @@ public class sellerDashboard extends javax.swing.JFrame {
                 totalOrders.setText(String.format("%d", orders));
             } else {
                 totalOrders.setText("0");
+            }
+
+            rs.close();
+            pst.close();
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    private void displayShopName(JLabel shopname) {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            String query = "SELECT shop_name FROM accounts_table WHERE account_id = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setInt(1, sellerID);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                shopname.setText(rs.getString("shop_name"));
             }
 
             rs.close();
@@ -327,7 +368,6 @@ public class sellerDashboard extends javax.swing.JFrame {
         description = new javax.swing.JEditorPane();
         jLabel36 = new javax.swing.JLabel();
         category = new javax.swing.JLabel();
-        searchbtn = new javax.swing.JButton();
         searchBar = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         add = new javax.swing.JButton();
@@ -423,37 +463,33 @@ public class sellerDashboard extends javax.swing.JFrame {
         addSave = new javax.swing.JButton();
         addPhoto = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        jPanel18 = new javax.swing.JPanel();
+        c1 = new javax.swing.JPanel();
         addName = new javax.swing.JTextField();
         jLabel24 = new javax.swing.JLabel();
-        jPanel24 = new javax.swing.JPanel();
+        c2 = new javax.swing.JPanel();
         addPrice = new javax.swing.JTextField();
         jLabel27 = new javax.swing.JLabel();
-        jPanel25 = new javax.swing.JPanel();
+        c3 = new javax.swing.JPanel();
         addStock = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
-        jPanel26 = new javax.swing.JPanel();
-        addStatus = new javax.swing.JComboBox<>();
-        jPanel27 = new javax.swing.JPanel();
-        jScrollPane8 = new javax.swing.JScrollPane();
+        c60 = new javax.swing.JPanel();
+        c61 = new javax.swing.JScrollPane();
         addDescription = new javax.swing.JEditorPane();
-        jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         salesProfile3 = new javax.swing.JLabel();
-        salesFN3 = new javax.swing.JLabel();
+        salesFN2 = new javax.swing.JLabel();
         jSeparator8 = new javax.swing.JSeparator();
         jLabel33 = new javax.swing.JLabel();
-        jPanel29 = new javax.swing.JPanel();
-        addCategory = new javax.swing.JComboBox<>();
         jLabel34 = new javax.swing.JLabel();
+        c5 = new javax.swing.JComboBox<>();
+        addCategory = new javax.swing.JComboBox<>();
+        jLabel38 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jPanel13 = new javax.swing.JPanel();
-        getStatus = new javax.swing.JComboBox<>();
-        jPanel17 = new javax.swing.JPanel();
+        e1 = new javax.swing.JPanel();
         getName = new javax.swing.JTextField();
-        jPanel21 = new javax.swing.JPanel();
+        e2 = new javax.swing.JPanel();
         getPrice = new javax.swing.JTextField();
-        jPanel22 = new javax.swing.JPanel();
+        e3 = new javax.swing.JPanel();
         getStock = new javax.swing.JTextField();
         editsave = new javax.swing.JButton();
         jPanel23 = new javax.swing.JPanel();
@@ -467,15 +503,20 @@ public class sellerDashboard extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         salesProfile2 = new javax.swing.JLabel();
-        salesFN2 = new javax.swing.JLabel();
+        salesFN3 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
-        jPanel15 = new javax.swing.JPanel();
+        e4 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         getDescription = new javax.swing.JEditorPane();
         jLabel35 = new javax.swing.JLabel();
         getCategory = new javax.swing.JComboBox<>();
+        getStatus = new javax.swing.JComboBox<>();
         jPanel28 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        actionlogs_table = new javax.swing.JTable();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        searchBar2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -908,16 +949,6 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         jPanel8.add(productsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 1100, 600));
 
-        searchbtn.setBackground(new java.awt.Color(0, 158, 226));
-        searchbtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
-        searchbtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 158, 226), 1, true));
-        searchbtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchbtnActionPerformed(evt);
-            }
-        });
-        jPanel8.add(searchbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 10, 60, 40));
-
         searchBar.setForeground(new java.awt.Color(140, 140, 140));
         searchBar.setText("  Search");
         searchBar.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -930,12 +961,17 @@ public class sellerDashboard extends javax.swing.JFrame {
                 searchBarMouseClicked(evt);
             }
         });
+        searchBar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBarActionPerformed(evt);
+            }
+        });
         searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 searchBarKeyReleased(evt);
             }
         });
-        jPanel8.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 10, 330, 40));
+        jPanel8.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 10, 330, 40));
 
         jLabel17.setBackground(new java.awt.Color(0, 158, 226));
         jLabel17.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -952,7 +988,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                 addActionPerformed(evt);
             }
         });
-        jPanel8.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 10, 110, 40));
+        jPanel8.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 10, 210, 40));
 
         tabs.addTab("tab2", jPanel8);
 
@@ -1464,70 +1500,84 @@ public class sellerDashboard extends javax.swing.JFrame {
         jLabel23.setText("Description");
         jPanel9.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 300, -1, -1));
 
-        jPanel18.setBackground(new java.awt.Color(241, 241, 241));
-        jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        c1.setBackground(new java.awt.Color(241, 241, 241));
+        c1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         addName.setBackground(new java.awt.Color(241, 241, 241));
+        addName.setForeground(new java.awt.Color(153, 153, 153));
+        addName.setText("e.g. Sony PlayStation 5");
         addName.setBorder(null);
-        jPanel18.add(addName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 270, 40));
+        addName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                addNameFocusGained(evt);
+            }
+        });
+        c1.add(addName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 270, 40));
 
-        jPanel9.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 250, 280, 40));
+        jPanel9.add(c1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 250, 280, 40));
 
         jLabel24.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel24.setText("Price");
         jPanel9.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 300, -1, -1));
 
-        jPanel24.setBackground(new java.awt.Color(241, 241, 241));
-        jPanel24.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        c2.setBackground(new java.awt.Color(241, 241, 241));
+        c2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         addPrice.setBackground(new java.awt.Color(241, 241, 241));
+        addPrice.setForeground(new java.awt.Color(153, 153, 153));
+        addPrice.setText("₱");
         addPrice.setBorder(null);
-        jPanel24.add(addPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 270, 40));
+        addPrice.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                addPriceFocusGained(evt);
+            }
+        });
+        c2.add(addPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 270, 40));
 
-        jPanel9.add(jPanel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 320, 280, 40));
+        jPanel9.add(c2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 320, 280, 40));
 
         jLabel27.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel27.setText("Category");
         jPanel9.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 230, -1, -1));
 
-        jPanel25.setBackground(new java.awt.Color(241, 241, 241));
-        jPanel25.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        c3.setBackground(new java.awt.Color(241, 241, 241));
+        c3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         addStock.setBackground(new java.awt.Color(241, 241, 241));
+        addStock.setForeground(new java.awt.Color(153, 153, 153));
+        addStock.setText("1");
         addStock.setBorder(null);
-        jPanel25.add(addStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 270, 40));
+        addStock.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                addStockFocusGained(evt);
+            }
+        });
+        c3.add(addStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 270, 40));
 
-        jPanel9.add(jPanel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 390, 280, 40));
+        jPanel9.add(c3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 390, 280, 40));
 
         jLabel30.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel30.setText("Stock");
         jPanel9.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 370, -1, -1));
 
-        jPanel26.setBackground(new java.awt.Color(241, 241, 241));
-        jPanel26.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        c60.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        addStatus.setBackground(new java.awt.Color(241, 241, 241));
-        addStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Not Available" }));
-        addStatus.setBorder(null);
-        jPanel26.add(addStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
-
-        jPanel9.add(jPanel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 460, 280, 40));
-
-        jPanel27.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jScrollPane8.setBorder(null);
+        c61.setBorder(null);
 
         addDescription.setBackground(new java.awt.Color(241, 241, 241));
         addDescription.setBorder(null);
-        jScrollPane8.setViewportView(addDescription);
+        addDescription.setForeground(new java.awt.Color(153, 153, 153));
+        addDescription.setText("Tell buyers about your product. Tell key details and its informations.");
+        addDescription.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                addDescriptionFocusGained(evt);
+            }
+        });
+        c61.setViewportView(addDescription);
 
-        jPanel27.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 10, 250, 90));
+        c60.add(c61, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 10, 250, 90));
 
-        jPanel9.add(jPanel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, 270, 110));
-
-        jLabel31.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
-        jLabel31.setText("Add Product");
-        jPanel9.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, -1, 30));
+        jPanel9.add(c60, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, 270, 110));
 
         jLabel32.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel32.setText("SHOPTIFY");
@@ -1537,70 +1587,75 @@ public class sellerDashboard extends javax.swing.JFrame {
         salesProfile3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-shop-24.png"))); // NOI18N
         jPanel9.add(salesProfile3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 40, 40));
 
-        salesFN3.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        salesFN3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        salesFN3.setText("Shop Name");
-        jPanel9.add(salesFN3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 220, 20));
+        salesFN2.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        salesFN2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        salesFN2.setText("Shop Name");
+        jPanel9.add(salesFN2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 220, 20));
         jPanel9.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 190, 940, 10));
 
         jLabel33.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel33.setText("Product Name");
         jPanel9.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 230, -1, -1));
 
-        jPanel29.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        addCategory.setBackground(new java.awt.Color(241, 241, 241));
-        addCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Electronics", "Fashion", "Grocery", "Pet Supplies ", " " }));
-        addCategory.setBorder(null);
-        jPanel29.add(addCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 40));
-
-        jPanel9.add(jPanel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 250, 270, 40));
-
         jLabel34.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel34.setText("Status");
         jPanel9.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 440, -1, -1));
+
+        c5.setBackground(new java.awt.Color(241, 241, 241));
+        c5.setForeground(new java.awt.Color(153, 153, 153));
+        c5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Not Available" }));
+        c5.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                c5FocusGained(evt);
+            }
+        });
+        jPanel9.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 460, 280, 40));
+
+        addCategory.setBackground(new java.awt.Color(241, 241, 241));
+        addCategory.setForeground(new java.awt.Color(153, 153, 153));
+        addCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Electronics", "Fashion", "Grocery", "Pet Supplies ", " " }));
+        addCategory.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                addCategoryFocusGained(evt);
+            }
+        });
+        jPanel9.add(addCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 250, 270, 40));
+
+        jLabel38.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        jLabel38.setText("Create a listing");
+        jPanel9.add(jLabel38, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 50, -1, 30));
 
         tabs.addTab("tab7", jPanel9);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel13.setBackground(new java.awt.Color(241, 241, 241));
-        jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        getStatus.setBackground(new java.awt.Color(241, 241, 241));
-        getStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Not Available" }));
-        getStatus.setBorder(null);
-        jPanel13.add(getStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
-
-        jPanel3.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 460, 280, 40));
-
-        jPanel17.setBackground(new java.awt.Color(241, 241, 241));
-        jPanel17.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        e1.setBackground(new java.awt.Color(241, 241, 241));
+        e1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         getName.setBackground(new java.awt.Color(241, 241, 241));
         getName.setBorder(null);
-        jPanel17.add(getName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 270, 40));
+        e1.add(getName, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 270, 40));
 
-        jPanel3.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 250, 280, 40));
+        jPanel3.add(e1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 250, 280, 40));
 
-        jPanel21.setBackground(new java.awt.Color(241, 241, 241));
-        jPanel21.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        e2.setBackground(new java.awt.Color(241, 241, 241));
+        e2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         getPrice.setBackground(new java.awt.Color(241, 241, 241));
         getPrice.setBorder(null);
-        jPanel21.add(getPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 270, 40));
+        e2.add(getPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 270, 40));
 
-        jPanel3.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 320, 280, 40));
+        jPanel3.add(e2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 320, 280, 40));
 
-        jPanel22.setBackground(new java.awt.Color(241, 241, 241));
-        jPanel22.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        e3.setBackground(new java.awt.Color(241, 241, 241));
+        e3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         getStock.setBackground(new java.awt.Color(241, 241, 241));
         getStock.setBorder(null);
-        jPanel22.add(getStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 270, 40));
+        e3.add(getStock, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 270, 40));
 
-        jPanel3.add(jPanel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 390, 280, 40));
+        jPanel3.add(e3, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 390, 280, 40));
 
         editsave.setBackground(new java.awt.Color(0, 158, 226));
         editsave.setForeground(new java.awt.Color(255, 255, 255));
@@ -1664,13 +1719,13 @@ public class sellerDashboard extends javax.swing.JFrame {
         salesProfile2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-shop-24.png"))); // NOI18N
         jPanel3.add(salesProfile2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 150, 40, 40));
 
-        salesFN2.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        salesFN2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        salesFN2.setText("Shop Name");
-        jPanel3.add(salesFN2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 220, 20));
+        salesFN3.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        salesFN3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        salesFN3.setText("Shop Name");
+        jPanel3.add(salesFN3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 220, 20));
         jPanel3.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 190, 940, 10));
 
-        jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        e4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jScrollPane4.setBorder(null);
 
@@ -1678,26 +1733,67 @@ public class sellerDashboard extends javax.swing.JFrame {
         getDescription.setBorder(null);
         jScrollPane4.setViewportView(getDescription);
 
-        jPanel15.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 10, 250, 90));
+        e4.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 10, 250, 90));
 
-        jPanel3.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, 270, 110));
+        jPanel3.add(e4, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, 270, 110));
 
         jLabel35.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel35.setText("Category");
         jPanel3.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 230, -1, -1));
 
         getCategory.setBackground(new java.awt.Color(241, 241, 241));
+        getCategory.setForeground(new java.awt.Color(0, 0, 0));
         getCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Electronics", "Fashion", "Grocery", "Pet Supplies ", " " }));
-        getCategory.setBorder(null);
         jPanel3.add(getCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 250, 270, 40));
+
+        getStatus.setBackground(new java.awt.Color(241, 241, 241));
+        getStatus.setForeground(new java.awt.Color(0, 0, 0));
+        getStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Not Available" }));
+        jPanel3.add(getStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 460, 280, 40));
 
         tabs.addTab("tab8", jPanel3);
 
         jPanel28.setBackground(new java.awt.Color(255, 255, 255));
         jPanel28.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("activity logs");
-        jPanel28.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 80, -1, -1));
+        actionlogs_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane7.setViewportView(actionlogs_table);
+
+        jPanel28.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 1090, 560));
+
+        jLabel39.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel39.setText("SHOPTIFY");
+        jPanel28.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+
+        jLabel40.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        jLabel40.setText("Activity logs");
+        jPanel28.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, 30));
+
+        searchBar2.setForeground(new java.awt.Color(140, 140, 140));
+        searchBar2.setText("  Search");
+        searchBar2.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                searchBar2FocusLost(evt);
+            }
+        });
+        searchBar2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchBar2MouseClicked(evt);
+            }
+        });
+        searchBar2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchBar2KeyReleased(evt);
+            }
+        });
+        jPanel28.add(searchBar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 20, 330, 50));
 
         tabs.addTab("tab9", jPanel28);
 
@@ -1724,6 +1820,10 @@ public class sellerDashboard extends javax.swing.JFrame {
         Login out = new Login();
         out.setVisible(true);
         this.dispose();
+
+        String action = "Logged out";
+        String details = "Seller " + sellerID + " Successfully logged out!";
+        actionLogs.recordSellerLogs(sellerID, action, details);
     }//GEN-LAST:event_logoutActionPerformed
 
     private void statusCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_statusCaretPositionChanged
@@ -1764,6 +1864,9 @@ public class sellerDashboard extends javax.swing.JFrame {
 
                 if (rowsUpdated > 0) {
                     JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
+                    String action = "Edit Profile";
+                    String details = "Seller " + sellerID + " Successfully edit its profile!";
+                    actionLogs.recordSellerLogs(sellerID, action, details);
                     tabs.setSelectedIndex(4);
                     displayAccounts();
                 } else {
@@ -1849,10 +1952,6 @@ public class sellerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_searchBarMouseClicked
 
-    private void searchbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchbtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchbtnActionPerformed
-
     private void searchBarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchBarFocusLost
         if (searchBar.getText().isEmpty()) {
             searchBar.setText("  Search");
@@ -1903,6 +2002,9 @@ public class sellerDashboard extends javax.swing.JFrame {
 
                 if (rowsUpdated > 0) {
                     JOptionPane.showMessageDialog(null, "Product has been retored Successfully!");
+                    String action = "Restore";
+                    String details = "Seller " + sellerID + " Successfully restore product " + p_id + "!";
+                    actionLogs.recordSellerLogs(sellerID, action, details);
                     displayData();
                     displayArchive();
                 } else {
@@ -1929,6 +2031,9 @@ public class sellerDashboard extends javax.swing.JFrame {
                 databaseConnector dbc = new databaseConnector();
                 dbc.deleteProduct(Integer.parseInt(id));
                 JOptionPane.showMessageDialog(null, "Product deleted successfully!");
+                String action = "Delete";
+                String details = "Seller " + sellerID + " Successfully deleted product " + id + "!";
+                actionLogs.recordSellerLogs(sellerID, action, details);
                 displayData();
                 displayArchive();
             }
@@ -1949,6 +2054,9 @@ public class sellerDashboard extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Product added to archive Successfully!");
                     displayData();
                     displayArchive();
+                    String action = "Archive";
+                    String details = "Seller " + sellerID + " Successfully put product " + p_id + " to archive!";
+                    actionLogs.recordSellerLogs(sellerID, action, details);
                     displayTotalProducts(sellerID);
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed to add the product to archive!");
@@ -1961,6 +2069,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_archiveActionPerformed
 
     private static int p_id;
+
 
     private void product_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_product_tableMouseClicked
 
@@ -2000,7 +2109,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         String valprice = addPrice.getText();
         String valstocks = addStock.getText();
         String valdes = addDescription.getText();
-        String valstats = (String) addStatus.getSelectedItem();
+        String valstats = (String) c5.getSelectedItem();
         String valcategory = (String) addCategory.getSelectedItem();
 
         if (valname.isEmpty() || valprice.isEmpty() || valstocks.isEmpty() || selectedFile == null || !selectedFile.exists()) {
@@ -2039,10 +2148,13 @@ public class sellerDashboard extends javax.swing.JFrame {
                 insertStmt.executeUpdate();
             }
             JOptionPane.showMessageDialog(null, "Product added successfully!");
+            String action = "Add Product";
+            String details = "Seller " + sellerID + " Successfully added a new product!";
+            actionLogs.recordSellerLogs(sellerID, action, details);
             addName.setText("");
             addPrice.setText("");
             addStock.setText("");
-            addStatus.setSelectedIndex(0);
+            c5.setSelectedIndex(0);
             addDescription.setText("");
             ImageIcon setPhoto = new ImageIcon(getClass().getResource("/image/Your paragraph text.png"));
             addPhoto.setIcon(setPhoto);
@@ -2094,6 +2206,9 @@ public class sellerDashboard extends javax.swing.JFrame {
                         }
                         updateProductSold(total_quantity, product_id, true); // Add quantity sold
                         JOptionPane.showMessageDialog(null, "Order has been accepted Successfully!");
+                        String action = "Accept Order";
+                        String details = "Seller " + sellerID + " Successfully accept order " + transaction_id + "!";
+                        actionLogs.recordSellerLogs(sellerID, action, details);
                         displayPurchase();
                         newStock = 0;
 
@@ -2216,6 +2331,9 @@ public class sellerDashboard extends javax.swing.JFrame {
                         }
                         updateProductSold(total_quantity, product_id, false); // Subtract quantity sold
                         JOptionPane.showMessageDialog(null, "Order has been declined Successfully!");
+                        String action = "Declined Order";
+                        String details = "Seller " + sellerID + " declined order " + transaction_id + "!";
+                        actionLogs.recordSellerLogs(sellerID, action, details);
                         displayPurchase();
                         newStock = 0;
 
@@ -2433,6 +2551,9 @@ public class sellerDashboard extends javax.swing.JFrame {
 
                     if (rowsUpdated > 0) {
                         JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
+                        String action = "Edit Product";
+                        String details = "Seller " + sellerID + " Successfully edit product " + p_id + "!";
+                        actionLogs.recordSellerLogs(sellerID, action, details);
                         displayData();
                     } else {
                         JOptionPane.showMessageDialog(null, "Failed to update data!");
@@ -2551,6 +2672,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_archiveBtnActionPerformed
 
     private void logsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logsBtnActionPerformed
+        actionLogs.displaySellerLogs(actionlogs_table, sellerID);
         tabs.setSelectedIndex(8);
         dashboard.setSelected(false);
         manage.setSelected(false);
@@ -2587,6 +2709,58 @@ public class sellerDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_selectFileActionPerformed
 
+    private void addNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_addNameFocusGained
+        if (addName.getText().equals("e.g. Sony PlayStation 5")) {
+            addName.setText("");
+            addName.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_addNameFocusGained
+
+    private void c5FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_c5FocusGained
+        c5.setForeground(Color.BLACK);
+    }//GEN-LAST:event_c5FocusGained
+
+    private void addCategoryFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_addCategoryFocusGained
+        addCategory.setForeground(Color.BLACK);
+    }//GEN-LAST:event_addCategoryFocusGained
+
+    private void addPriceFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_addPriceFocusGained
+        if (addPrice.getText().equals("₱")) {
+            addPrice.setText("");
+            addPrice.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_addPriceFocusGained
+
+    private void addStockFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_addStockFocusGained
+        if (addStock.getText().equals("1")) {
+            addStock.setText("");
+            addStock.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_addStockFocusGained
+
+    private void addDescriptionFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_addDescriptionFocusGained
+        if (addDescription.getText().equals("Tell buyers about your product. Tell key details and its informations.")) {
+            addDescription.setText("");
+            addDescription.setForeground(Color.BLACK);
+        }
+    }//GEN-LAST:event_addDescriptionFocusGained
+
+    private void searchBar2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchBar2FocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBar2FocusLost
+
+    private void searchBar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchBar2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBar2MouseClicked
+
+    private void searchBar2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBar2KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBar2KeyReleased
+
+    private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchBarActionPerformed
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -2613,6 +2787,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton accept_order;
     private javax.swing.JToggleButton accounts;
     private javax.swing.JTable accounts_table;
+    private javax.swing.JTable actionlogs_table;
     private javax.swing.JButton add;
     private javax.swing.JComboBox<String> addCategory;
     private javax.swing.JEditorPane addDescription;
@@ -2620,7 +2795,6 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel addPhoto;
     private javax.swing.JTextField addPrice;
     private javax.swing.JButton addSave;
-    private javax.swing.JComboBox<String> addStatus;
     private javax.swing.JTextField addStock;
     private javax.swing.JTextField address;
     private javax.swing.JButton archive;
@@ -2628,7 +2802,13 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane archiveAccountTableContainerScroll;
     private javax.swing.JToggleButton archiveBtn;
     private javax.swing.JTable archive_table;
+    private javax.swing.JPanel c1;
+    private javax.swing.JPanel c2;
+    private javax.swing.JPanel c3;
+    private javax.swing.JComboBox<String> c5;
     private javax.swing.JPanel c6;
+    private javax.swing.JPanel c60;
+    private javax.swing.JScrollPane c61;
     private javax.swing.JPanel c7;
     private javax.swing.JPanel c8;
     private javax.swing.JPanel c9;
@@ -2642,6 +2822,10 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JEditorPane description;
     private javax.swing.JLabel display;
     private javax.swing.JLabel displayPhoto;
+    private javax.swing.JPanel e1;
+    private javax.swing.JPanel e2;
+    private javax.swing.JPanel e3;
+    private javax.swing.JPanel e4;
     private javax.swing.JButton edit;
     private javax.swing.JButton editButton;
     private javax.swing.JButton editsave;
@@ -2657,7 +2841,6 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField getStock;
     private javax.swing.JLabel haha1;
     private javax.swing.JLabel helloSeller;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -2681,14 +2864,16 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel40;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -2698,24 +2883,13 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
-    private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel25;
-    private javax.swing.JPanel jPanel26;
-    private javax.swing.JPanel jPanel27;
     private javax.swing.JPanel jPanel28;
-    private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -2729,7 +2903,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator2;
@@ -2801,7 +2975,7 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField search3;
     private javax.swing.JTextField searchBar;
     private javax.swing.JTextField searchBar1;
-    private javax.swing.JButton searchbtn;
+    private javax.swing.JTextField searchBar2;
     private javax.swing.JButton searchbtn1;
     private javax.swing.JButton searchbtn11;
     private javax.swing.JButton searchbtn12;
