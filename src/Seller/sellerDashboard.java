@@ -10,6 +10,7 @@ import config.databaseConnector;
 import config.search;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +43,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
     public sellerDashboard() {
         initComponents();
+        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
         actionLogs.displaySellerLogs(actionlogs_table, sellerID);
 
         dashboard.setSelected(true);
@@ -519,6 +521,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         searchBar2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         setResizable(false);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
@@ -1742,12 +1745,10 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel3.add(jLabel35, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 230, -1, -1));
 
         getCategory.setBackground(new java.awt.Color(241, 241, 241));
-        getCategory.setForeground(new java.awt.Color(0, 0, 0));
         getCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Electronics", "Fashion", "Grocery", "Pet Supplies ", " " }));
         jPanel3.add(getCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 250, 270, 40));
 
         getStatus.setBackground(new java.awt.Color(241, 241, 241));
-        getStatus.setForeground(new java.awt.Color(0, 0, 0));
         getStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Not Available" }));
         jPanel3.add(getStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 460, 280, 40));
 

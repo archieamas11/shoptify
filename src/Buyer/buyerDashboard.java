@@ -7,6 +7,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.databaseConnector;
 import java.awt.Image;
+import java.awt.geom.RoundRectangle2D;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,6 +31,7 @@ public class buyerDashboard extends javax.swing.JFrame {
 
     public buyerDashboard() {
         initComponents();
+        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
         displayUserProducts();
         displayCart();
         displayPurchase();
@@ -352,12 +354,13 @@ public class buyerDashboard extends javax.swing.JFrame {
         myprofile8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setPreferredSize(new java.awt.Dimension(1280, 720));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(0, 255, 102));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N

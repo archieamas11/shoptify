@@ -23,7 +23,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -507,7 +506,7 @@ public class chooseAccount extends javax.swing.JFrame {
         });
         jPanel3.add(login1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, -1, 40));
 
-        displayPhoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default_user_profile.png"))); // NOI18N
+        displayPhoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default profile 170x170.png"))); // NOI18N
         jPanel3.add(displayPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 230, 170, 170));
 
         tabs.addTab("tab2", jPanel3);
@@ -551,6 +550,8 @@ public class chooseAccount extends javax.swing.JFrame {
         c8.setBackground(new Color(255, 255, 255));
         shop_name.setFocusable(false);
         role = null;
+        ImageIcon activeIcon = new ImageIcon(getClass().getResource("/sampleProfiles/default profile 170x170.png"));
+        displayPhoto.setIcon(activeIcon);
     }//GEN-LAST:event_login1ActionPerformed
 
 

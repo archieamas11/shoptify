@@ -6,7 +6,6 @@ package Admin;
 
 import accounts.Login;
 import accounts.UserManager;
-import accounts.rememberMe;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.actionLogs;
@@ -468,7 +467,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         });
         jPanel5.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 40, 500, 50));
 
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 20));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 40));
 
         tabs.setBackground(new java.awt.Color(255, 255, 255));
         tabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
