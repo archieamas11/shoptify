@@ -19,7 +19,7 @@ public class isAccountExist {
         databaseConnector dbc = new databaseConnector();
 
         try {
-            String query = "SELECT * FROM accounts_table WHERE email = ?";
+            String query = "SELECT * FROM tbl_accounts WHERE email = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
             pst.setString(1, email);
             ResultSet rs = pst.executeQuery();
@@ -33,7 +33,7 @@ public class isAccountExist {
         databaseConnector dbc = new databaseConnector();
 
         try {
-            String query = "SELECT * FROM accounts_table WHERE username = ?";
+            String query = "SELECT * FROM tbl_accounts WHERE username = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
             pst.setString(1, user);
             ResultSet rs = pst.executeQuery();
@@ -48,7 +48,7 @@ public class isAccountExist {
         databaseConnector dbc = new databaseConnector();
 
         try {
-            String query = "SELECT * FROM accounts_table WHERE account_id = ?";
+            String query = "SELECT * FROM tbl_accounts WHERE account_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
             pst.setInt(1, id);
             ResultSet rs = pst.executeQuery();

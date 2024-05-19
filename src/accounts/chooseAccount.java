@@ -139,13 +139,13 @@ public class chooseAccount extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        home.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        home.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         home.setForeground(new java.awt.Color(0, 158, 226));
         home.setText("SHOPTIFY");
         jPanel4.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 50));
 
         login.setBackground(new java.awt.Color(245, 245, 245));
-        login.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        login.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         login.setText("Sign in");
         login.setBorderPainted(false);
         login.addActionListener(new java.awt.event.ActionListener() {
@@ -250,7 +250,7 @@ public class chooseAccount extends javax.swing.JFrame {
                 fnameMouseClicked(evt);
             }
         });
-        c1.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 150, 40));
+        c1.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 140, 40));
 
         jPanel3.add(c1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 160, 40));
 
@@ -277,15 +277,15 @@ public class chooseAccount extends javax.swing.JFrame {
                 lnameMouseClicked(evt);
             }
         });
-        c2.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 160, 40));
+        c2.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 150, 40));
 
         jPanel3.add(c2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 240, 180, 40));
 
-        jLabel14.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Roboto", 1, 20)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(51, 51, 51));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel14.setText("Create an account");
-        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 350, 30));
+        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 150, 350, 30));
 
         c3.setBackground(new java.awt.Color(245, 245, 245));
         c3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -407,36 +407,36 @@ public class chooseAccount extends javax.swing.JFrame {
 
         jPanel3.add(c7, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 320, 350, 40));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel1.setText("Last name");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 220, -1, -1));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 220, 80, -1));
 
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel2.setText("Password");
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 300, -1, -1));
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 300, 70, -1));
 
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel3.setText("First name");
         jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel4.setText("Email");
         jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 300, -1, -1));
 
-        jLabel5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel5.setText("Phone number");
-        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, -1, -1));
+        jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 380, 120, -1));
 
-        jLabel6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel6.setText("Address");
         jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 460, -1, -1));
 
-        jLabel7.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel7.setText("Username");
-        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 220, -1, -1));
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 220, 70, -1));
 
         importImage.setBackground(new java.awt.Color(204, 204, 204));
-        importImage.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        importImage.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         importImage.setForeground(new java.awt.Color(51, 51, 51));
         importImage.setText("*Import Profile Picture");
         importImage.setBorder(null);
@@ -449,7 +449,7 @@ public class chooseAccount extends javax.swing.JFrame {
         jPanel3.add(importImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 430, 170, 40));
 
         submit.setBackground(new java.awt.Color(0, 158, 226));
-        submit.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        submit.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         submit.setForeground(new java.awt.Color(255, 255, 255));
         submit.setText("Create account");
         submit.setBorder(null);
@@ -465,7 +465,7 @@ public class chooseAccount extends javax.swing.JFrame {
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel3.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 140, 40, 450));
 
-        jLabel8.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(153, 153, 153));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("File extension: .JPEG, .PNG ");
@@ -491,11 +491,11 @@ public class chooseAccount extends javax.swing.JFrame {
 
         jPanel3.add(c8, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 400, 350, 40));
 
-        shopname.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        shopname.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jPanel3.add(shopname, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 380, -1, -1));
 
         login1.setBackground(new java.awt.Color(0, 158, 226));
-        login1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        login1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
         login1.setForeground(new java.awt.Color(255, 255, 255));
         login1.setText("Back");
         login1.setBorderPainted(false);
@@ -607,7 +607,7 @@ public class chooseAccount extends javax.swing.JFrame {
                 String defaultImage = "src/sampleProfiles/default_user_profile.png";
                 imagePath = defaultImage;
             }
-            sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `phone number`, `username`,`password`, `role`, `status`, `address`, `profile_picture`, `shop_name`, `date joined`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURDATE())";
+            sql = "INSERT INTO `tbl_accounts`(`email`, `first_name`, `last_name`, `phone_number`, `username`,`password`, `role`, `status`, `address`, `profile_picture`, `shop_name`, `date_joined`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURDATE())";
             pst = dbc.getConnection().prepareStatement(sql);
             pst.setString(1, em);
             pst.setString(2, first_name);

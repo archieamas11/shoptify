@@ -9,7 +9,7 @@ public class databaseConnector {
 
     public databaseConnector() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommerce", "root", "");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/shoptify", "root", "");
         } catch (SQLException e) {
             System.out.println("Cannot connect to database: " + e.getMessage());
         }
@@ -26,10 +26,10 @@ public class databaseConnector {
         return rst;
     }
 
-    public void deleteProduct(int id) {
+    public void deleteProduct(int product_id) {
         try {
-            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM products WHERE product_id = ?");
-            stmt.setInt(1, id);
+            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM tbl_products WHERE product_id = ?");
+            stmt.setInt(1, product_id);
 
             stmt.executeUpdate();
 
@@ -41,10 +41,10 @@ public class databaseConnector {
         }
     }
 
-    public void deleteAccount(int id) {
+    public void deleteAccount(int account_id) {
         try {
-            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM accounts_table WHERE account_id = ?");
-            stmt.setInt(1, id);
+            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM tbl_accounts WHERE account_id = ?");
+            stmt.setInt(1, account_id);
 
             stmt.executeUpdate();
 
@@ -56,10 +56,10 @@ public class databaseConnector {
         }
     }
 
-    public void deleteCart(int id) {
+    public void deleteCart(int cart_id) {
         try {
-            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM add2cart WHERE cart_id = ?");
-            stmt.setInt(1, id);
+            PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM tbl_cart WHERE cart_id = ?");
+            stmt.setInt(1, cart_id);
 
             stmt.executeUpdate();
 

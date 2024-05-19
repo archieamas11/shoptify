@@ -45,7 +45,7 @@ public class Login extends javax.swing.JFrame {
         databaseConnector connector = new databaseConnector();
 
         try {
-            String query = "SELECT account_id, password FROM accounts_table WHERE username = ? AND role = ? AND status = ?";
+            String query = "SELECT account_id, password FROM tbl_accounts WHERE username = ? AND role = ? AND status = ?";
             PreparedStatement statement = connector.getConnection().prepareStatement(query);
             statement.setString(1, user);
             statement.setString(2, role);
@@ -417,7 +417,7 @@ public class Login extends javax.swing.JFrame {
             }
 
             String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-            String updateQuery = "UPDATE accounts_table SET password = ? WHERE username = ? OR email = ?";
+            String updateQuery = "UPDATE tbl_accounts SET password = ? WHERE username = ? OR email = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery);
             pst.setString(1, hashedNewPassword);
             pst.setString(2, userInput);

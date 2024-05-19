@@ -6,6 +6,7 @@ package Admin;
 
 import accounts.Login;
 import accounts.UserManager;
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.actionLogs;
@@ -53,6 +54,33 @@ public final class adminDashboard extends javax.swing.JFrame {
 
     public adminDashboard() {
         initComponents();
+
+        actionLogsTableContainer.putClientProperty(FlatClientProperties.STYLE, ""
+                + "arc:25;"
+                + "background:$Table.background");
+
+        actionlogs_table.getTableHeader().putClientProperty(FlatClientProperties.STYLE, ""
+                + "height:30;"
+                + "hoverBackground:null;"
+                + "pressedBackground:null;"
+                + "separatorColor:$TableHeader.background;"
+                + "font:bold;"
+                + "background:#FFFFFF;"); //
+
+        actionlogs_table.putClientProperty(FlatClientProperties.STYLE, ""
+                + "rowHeight:30;"
+                + "showHorizontalLines:true;"
+                + "intercellSpacing:0,1;"
+                + "cellFocusColor:$TableHeader.hoverBackground;"
+                + "selectionBackground:$TableHeader.hoverBackground;"
+                + "selectionForeground:$Table.foreground;");
+
+        actionLogsTableContainerScroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""
+                + "trackArc:999;"
+                + "trackInsets:3,3,3,3;"
+                + "thumbInsets:3,3,3,3;"
+                + "background:$Table.background;");
+
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
         displayAccounts();
         displayAccountName();
@@ -116,20 +144,20 @@ public final class adminDashboard extends javax.swing.JFrame {
         try {
 
             databaseConnector dbc = new databaseConnector();
-            String query = "SELECT fname, lname, account_id, email, `phone number`, address, role, status, profile_picture FROM accounts_table WHERE account_id = ?";
+            String query = "SELECT first_name, last_name, account_id, email, `phone_number`, address, role, status, profile_picture FROM tbl_accounts WHERE account_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
             pst.setInt(1, admin_id);
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                String firstName = rs.getString("fname");
-                String lastName = rs.getString("lname");
+                String firstName = rs.getString("first_name");
+                String lastName = rs.getString("last_name");
                 firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
                 lastName = Character.toUpperCase(lastName.charAt(0)) + lastName.substring(1);
                 manageFullName.setText(firstName + " " + lastName);
                 name.setText("  " + firstName + "!");
                 manageStatus.setText("" + rs.getString("status"));
                 manageEmail.setText("" + rs.getString("email"));
-                managePhone.setText("" + rs.getString("phone number"));
+                managePhone.setText("" + rs.getString("phone_number"));
                 manageAddress.setText("" + rs.getString("address"));
 
                 int height = 100;
@@ -149,7 +177,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
 
-            ResultSet rs = dbc.getData("SELECT `account_id` as `ID`, `fname` as `First Name`, `lname` as `Last Name`, `username` as `Username`, `address` as `Address`, `phone number` as `Phone Number`, `role` as `Role`, `date joined` as `Date Joined`, `status` as `Status` FROM accounts_table WHERE status = 'archived'");
+            ResultSet rs = dbc.getData("SELECT `account_id` as `ID`, `first_name` as `First Name`, `last_name` as `Last Name`, `username` as `Username`, `address` as `Address`, `phone_number` as `Phone Number`, `role` as `Role`, `date_joined` as `Date Joined`, `status` as `Status` FROM tbl_accounts WHERE status = 'Archived'");
             archive_table.setModel(DbUtils.resultSetToTableModel(rs));
 
             TableColumn column;
@@ -172,7 +200,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
 
-            String query = "SELECT `account_id` as `Account ID`, `fname` as `First Name`, `lname` as `Last Name`, `username` as `Username`, `address` as `Address`, `phone number` as `Phone Number`, `role` as `Role`, `date joined` as `Date Joined`, `status` as `Status` FROM accounts_table WHERE status IN ('Active', 'Inactive', 'Pending') AND account_id != ?";
+            String query = "SELECT `account_id` as `Account ID`, `first_name` as `First Name`, `last_name` as `Last Name`, `username` as `Username`, `address` as `Address`, `phone_number` as `Phone Number`, `role` as `Role`, `date_joined` as `Date Joined`, `status` as `Status` FROM tbl_accounts WHERE status IN ('Active', 'Inactive', 'Pending') AND account_id != ?";
 
             PreparedStatement statement = dbc.getConnection().prepareStatement(query);
             statement.setInt(1, admin_id);
@@ -409,7 +437,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 50));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 10));
 
         tabs.setBackground(new java.awt.Color(255, 255, 255));
         tabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -1140,10 +1168,11 @@ public final class adminDashboard extends javax.swing.JFrame {
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        actionLogsTableContainer.setBackground(new java.awt.Color(241, 241, 241));
+        actionLogsTableContainer.setBackground(new java.awt.Color(255, 255, 255));
         actionLogsTableContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         actionLogsTableContainerScroll.setBackground(new java.awt.Color(0, 0, 0));
+        actionLogsTableContainerScroll.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         actionlogs_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1163,11 +1192,11 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         actionLogsTableContainer.add(actionLogsTableContainerScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 1090, 500));
 
+        jPanel9.add(actionLogsTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
+
         jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel17.setText("Action Logs");
-        actionLogsTableContainer.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 20));
-
-        jPanel9.add(actionLogsTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
+        jPanel9.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, -1));
 
         tabs.addTab("tab6", jPanel9);
 
@@ -1196,18 +1225,18 @@ public final class adminDashboard extends javax.swing.JFrame {
             } else {
                 TableModel model = accounts_table.getModel();
                 databaseConnector dbc = new databaseConnector();
-                ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE account_id = " + model.getValueAt(rowIndex, 0));
+                ResultSet rs = dbc.getData("SELECT * FROM tbl_accounts WHERE account_id = " + model.getValueAt(rowIndex, 0));
                 if (rs.next()) {
                     int height = 100;
                     int width = 100;
-                    String firstName = rs.getString("fname");
-                    String lastName = rs.getString("lname");
+                    String firstName = rs.getString("first_name");
+                    String lastName = rs.getString("last_name");
                     firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
                     lastName = Character.toUpperCase(lastName.charAt(0)) + lastName.substring(1);
 
                     fullname.setText(firstName + " " + lastName);
-                    displayStatus.setText(rs.getString("Status"));
-                    editStatus.setSelectedItem(rs.getString("Status"));
+                    displayStatus.setText(rs.getString("status"));
+                    editStatus.setSelectedItem(rs.getString("status"));
                     editRole.setSelectedItem(rs.getString("role"));
                     String getImageFromDatabase = rs.getString("profile_picture");
                     GetImage.displayImage(displayPhoto, getImageFromDatabase, height, width);
@@ -1235,7 +1264,7 @@ public final class adminDashboard extends javax.swing.JFrame {
             String stats = (String) editStatus.getSelectedItem();
             String rolee = (String) editRole.getSelectedItem();
 
-            sql = "UPDATE accounts_table SET status=?, role=? WHERE account_id=?";
+            sql = "UPDATE tbl_accounts SET status=?, role=? WHERE account_id=?";
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                 pst.setString(1, stats);
                 pst.setString(2, rolee);
@@ -1325,12 +1354,12 @@ public final class adminDashboard extends javax.swing.JFrame {
             if (selectedFile != null) {
                 fileName = selectedFile.getName();
                 imagePath = "src/sampleProfiles/" + fileName;
-                sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `phone number`, `username`, `password`, `role`, `date joined`, `status`, `address`, `profile_picture`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), ?, ?, ?)";
+                sql = "INSERT INTO `tbl_accounts`(`email`, `first_name`, `last_name`, `phone_number`, `username`, `password`, `role`, `date_joined`, `status`, `address`, `profile_picture`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), ?, ?, ?)";
                 pst = (PreparedStatement) dbc.getConnection().prepareStatement(sql);
                 pst.setString(10, imagePath);
             } else {
                 String defaultImage = "src/sampleProfiles/default profile 100x100.png";
-                sql = "INSERT INTO `accounts_table`(`email`, `fname`, `lname`, `phone number`, `username`, `password`, `role`, `date joined`, `status`, `address`, `profile_picture`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), ?, ?, ?)";
+                sql = "INSERT INTO `tbl_accounts`(`email`, `first_name`, `last_name`, `phone_number`, `username`, `password`, `role`, `date_joined`, `status`, `address`, `profile_picture`) VALUES (?, ?, ?, ?, ?, ?, ?, CURDATE(), ?, ?, ?)";
                 pst = (PreparedStatement) dbc.getConnection().prepareStatement(sql);
                 pst.setString(10, defaultImage);
             }
@@ -1420,18 +1449,18 @@ public final class adminDashboard extends javax.swing.JFrame {
 
             try {
                 databaseConnector dbc = new databaseConnector();
-                ResultSet rs = dbc.getData("SELECT * FROM accounts_table WHERE account_id =" + model.getValueAt(rowIndex, 0));
+                ResultSet rs = dbc.getData("SELECT * FROM tbl_accounts WHERE account_id =" + model.getValueAt(rowIndex, 0));
 
                 if (rs.next()) {
                     idField.setText("" + rs.getString("account_id"));
-                    String firstName = rs.getString("fname");
+                    String firstName = rs.getString("first_name");
                     firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
                     fnameField.setText(firstName);
                     emailField.setText("" + rs.getString("email"));
-                    numberField.setText("" + rs.getString("phone number"));
+                    numberField.setText("" + rs.getString("phone_number"));
                     addressField.setText("" + rs.getString("address"));
                     roleField.setText("" + rs.getString("role"));
-                    String statusValue = rs.getString("Status");
+                    String statusValue = rs.getString("status");
                     statusField.setText(statusValue);
 
                     ImageIcon activeIcon = new ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"));
@@ -1477,7 +1506,7 @@ public final class adminDashboard extends javax.swing.JFrame {
             String account_id = id.getText();
             String rolee = (String) manageRole.getSelectedItem();
 
-            sql = "UPDATE accounts_table SET role=? WHERE account_id=?";
+            sql = "UPDATE tbl_accounts SET role=? WHERE account_id=?";
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                 pst.setString(1, rolee);
                 pst.setString(2, account_id);
@@ -1530,7 +1559,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
             // Update the password in the database
             String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
-            String updateQuery = "UPDATE accounts_table SET password = ? WHERE account_id = ?";
+            String updateQuery = "UPDATE tbl_accounts SET password = ? WHERE account_id = ?";
             databaseConnector dbc = new databaseConnector();
             PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery);
             pst.setString(1, hashedNewPassword);
@@ -1562,7 +1591,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         try {
             // Update the address in the database
-            String updateQuery = "UPDATE accounts_table SET address = ? WHERE account_id = ?";
+            String updateQuery = "UPDATE tbl_accounts SET address = ? WHERE account_id = ?";
             databaseConnector dbc = new databaseConnector();
             PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery);
             pst.setString(1, newAddress);
@@ -1596,7 +1625,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         try {
             // Update the address in the database
-            String updateQuery = "UPDATE accounts_table SET email = ? WHERE account_id = ?";
+            String updateQuery = "UPDATE tbl_accounts SET email = ? WHERE account_id = ?";
             databaseConnector dbc = new databaseConnector();
             PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery);
             pst.setString(1, email);
@@ -1635,7 +1664,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         try {
             // Update the address in the database
-            String updateQuery = "UPDATE accounts_table SET `phone number` = ? WHERE account_id = ?";
+            String updateQuery = "UPDATE tbl_accounts SET `phone_number` = ? WHERE account_id = ?";
             databaseConnector dbc = new databaseConnector();
             PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery);
             pst.setString(1, phone);
@@ -1689,7 +1718,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
                     // Initialize database connection
                     databaseConnector dbc = new databaseConnector();
-                    String sql = "UPDATE accounts_table SET `profile_picture`=? WHERE account_id=?";
+                    String sql = "UPDATE tbl_accounts SET `profile_picture`=? WHERE account_id=?";
                     try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                         pst.setString(1, imagePath);
                         pst.setInt(2, admin_id);
@@ -1768,7 +1797,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
             int restoredAccountID = Integer.parseInt(id1.getText());
-            String sql = "UPDATE accounts_table SET `status`='Pending' WHERE `account_id`=?";
+            String sql = "UPDATE tbl_accounts SET `status`='Pending' WHERE `account_id`=?";
 
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                 pst.setInt(1, restoredAccountID);
@@ -1797,7 +1826,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
             int account_id = Integer.parseInt(id.getText());
-            String sql = "UPDATE accounts_table SET `Status`='archived' WHERE `account_id`=?";
+            String sql = "UPDATE tbl_accounts SET `status`='Archived' WHERE `account_id`=?";
 
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                 pst.setInt(1, account_id);
