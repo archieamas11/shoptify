@@ -3,7 +3,6 @@ package Seller;
 import accounts.Login;
 import static accounts.Login.accountId;
 import accounts.UserManager;
-import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.actionLogs;
@@ -45,12 +44,13 @@ public class sellerDashboard extends javax.swing.JFrame {
 
     public sellerDashboard() {
         initComponents();
-        //seller logs
-        flatlaftTable.design(productsContainer, product_table, jScrollPane5);
+        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30)); //jframe rounded border
 
+        flatlaftTable.design(productsContainer, product_table, jScrollPane5); //seller logs
+        flatlaftTable.design(productsContainer1, actionlogs_table, jScrollPane9); //profile
         flatlaftTable.design(productsContainer, product_table, jScrollPane5); // product table
+        flatlaftTable.design(messages_container, messages_table, jScrollPane10); // messages table
 
-        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
         actionLogs.displaySellerLogs(actionlogs_table, sellerID);
 
         dashboard.setSelected(true);
@@ -60,6 +60,7 @@ public class sellerDashboard extends javax.swing.JFrame {
         displayArchive();
         displayAccounts();
         displayPurchase();
+        messages();
         displayTotalSales(sellerID);
         displayTotalProducts(sellerID);
         displayTotalOrders(sellerID);
@@ -82,8 +83,22 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         UXmethods.RoundBorders.setArcStyle(addCategory, 15);
 
+        //profile tab
+        UXmethods.RoundBorders.setArcStyle(addContainer4, 20);
+        UXmethods.RoundBorders.setArcStyle(messages_container, 20);
+
+        UXmethods.RoundBorders.setArcStyle(activity_search_bar, 10);
+        UXmethods.RoundBorders.setArcStyle(filterContainer1, 10);
+        UXmethods.RoundBorders.setArcStyle(add1, 10);
+        UXmethods.RoundBorders.setArcStyle(add2, 10);
+        UXmethods.RoundBorders.setArcStyle(add3, 10);
+        UXmethods.RoundBorders.setArcStyle(add4, 10);
+        UXmethods.RoundBorders.setArcStyle(add5, 10);
+
+        UXmethods.RoundBorders.setArcStyle(submit, 10);
+
         //product table
-        UXmethods.RoundBorders.setArcStyle(searchBar, 15);
+        UXmethods.RoundBorders.setArcStyle(product_search_bar, 15);
         UXmethods.RoundBorders.setArcStyle(filterContainer, 15);
         UXmethods.RoundBorders.setArcStyle(sortContainer, 15);
         UXmethods.RoundBorders.setArcStyle(archive, 15);
@@ -277,6 +292,26 @@ public class sellerDashboard extends javax.swing.JFrame {
         }
     }
 
+    public void messages() {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            PreparedStatement pstmt = dbc.getConnection().prepareStatement("SELECT * FROM tbl_messages4seller WHERE seller_id = ?");
+            pstmt.setInt(1, sellerID);
+            ResultSet rs = pstmt.executeQuery();
+
+            messages_table.setModel(DbUtils.resultSetToTableModel(rs));
+
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+            messages_table.setDefaultRenderer(Object.class, centerRenderer);
+
+            rs.close();
+            pstmt.close();
+        } catch (Exception ex) {
+            System.out.println("Errors: " + ex.getMessage());
+        }
+    }
+
     public void displayData() {
         try {
             databaseConnector dbc = new databaseConnector();
@@ -381,7 +416,8 @@ public class sellerDashboard extends javax.swing.JFrame {
         productsContainer = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         product_table = new javax.swing.JTable();
-        searchBar = new javax.swing.JTextField();
+        product_table_search_icon = new javax.swing.JLabel();
+        product_search_bar = new javax.swing.JTextField();
         sortContainer = new javax.swing.JPanel();
         jLabel36 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
@@ -448,40 +484,45 @@ public class sellerDashboard extends javax.swing.JFrame {
         searchbtn12 = new javax.swing.JButton();
         search3 = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
-        jPanel14 = new javax.swing.JPanel();
-        manage5 = new javax.swing.JLabel();
-        fname = new javax.swing.JTextField();
-        lname = new javax.swing.JTextField();
-        address = new javax.swing.JTextField();
-        manage6 = new javax.swing.JLabel();
-        male = new javax.swing.JRadioButton();
-        female = new javax.swing.JRadioButton();
-        other = new javax.swing.JRadioButton();
-        manage7 = new javax.swing.JLabel();
-        myprofile1 = new javax.swing.JLabel();
-        manage1 = new javax.swing.JLabel();
-        manage8 = new javax.swing.JLabel();
-        stats = new javax.swing.JComboBox<>();
-        role = new javax.swing.JComboBox<>();
-        manage9 = new javax.swing.JLabel();
-        manage10 = new javax.swing.JLabel();
+        jLabel54 = new javax.swing.JLabel();
+        jLabel55 = new javax.swing.JLabel();
+        jLabel56 = new javax.swing.JLabel();
+        display_photo = new javax.swing.JLabel();
+        seller_full_name = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        seller_rating = new javax.swing.JLabel();
+        seperator = new javax.swing.JPanel();
         submit = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
-        selectFile = new javax.swing.JButton();
+        addContainer4 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        username = new javax.swing.JTextField();
-        manage11 = new javax.swing.JLabel();
-        manage12 = new javax.swing.JLabel();
-        date = new javax.swing.JTextField();
-        manage13 = new javax.swing.JLabel();
-        ID = new javax.swing.JTextField();
-        jSeparator7 = new javax.swing.JSeparator();
-        jSeparator4 = new javax.swing.JSeparator();
-        manage14 = new javax.swing.JLabel();
-        email = new javax.swing.JTextField();
-        jPanel20 = new javax.swing.JPanel();
-        display = new javax.swing.JLabel();
+        seller_address = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        username = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        seller_phone = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        seller_email = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        seller_store = new javax.swing.JLabel();
+        bacgkround = new javax.swing.JLabel();
+        productsContainer1 = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        actionlogs_table = new javax.swing.JTable();
+        activity_search_icon = new javax.swing.JLabel();
+        activity_search_bar = new javax.swing.JTextField();
+        jLabel33 = new javax.swing.JLabel();
+        filterContainer1 = new javax.swing.JPanel();
+        jLabel34 = new javax.swing.JLabel();
+        jComboBox4 = new javax.swing.JComboBox<>();
+        add2 = new javax.swing.JButton();
+        messages_container = new javax.swing.JPanel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        messages_table = new javax.swing.JTable();
+        jLabel40 = new javax.swing.JLabel();
+        add1 = new javax.swing.JButton();
+        add3 = new javax.swing.JButton();
+        add4 = new javax.swing.JButton();
+        add5 = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         jLabel45 = new javax.swing.JLabel();
         jLabel46 = new javax.swing.JLabel();
@@ -542,12 +583,8 @@ public class sellerDashboard extends javax.swing.JFrame {
         jLabel44 = new javax.swing.JLabel();
         jPanel28 = new javax.swing.JPanel();
         jLabel39 = new javax.swing.JLabel();
-        jLabel40 = new javax.swing.JLabel();
-        searchBar2 = new javax.swing.JTextField();
-        panel = new javax.swing.JPanel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        actionlogs_table = new javax.swing.JTable();
-        jSeparator9 = new javax.swing.JSeparator();
+        submit1 = new javax.swing.JButton();
+        selectFile = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -680,7 +717,7 @@ public class sellerDashboard extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 10));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 40));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -841,31 +878,34 @@ public class sellerDashboard extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(product_table);
 
-        productsContainer.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1140, 540));
+        productsContainer.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1150, 540));
 
-        searchBar.setForeground(new java.awt.Color(140, 140, 140));
-        searchBar.setText("  Search");
-        searchBar.addFocusListener(new java.awt.event.FocusAdapter() {
+        product_table_search_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/search_icon.png"))); // NOI18N
+        productsContainer.add(product_table_search_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 60, 40));
+
+        product_search_bar.setForeground(new java.awt.Color(140, 140, 140));
+        product_search_bar.setText("           Search");
+        product_search_bar.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
-                searchBarFocusLost(evt);
+                product_search_barFocusLost(evt);
             }
         });
-        searchBar.addMouseListener(new java.awt.event.MouseAdapter() {
+        product_search_bar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                searchBarMouseClicked(evt);
+                product_search_barMouseClicked(evt);
             }
         });
-        searchBar.addActionListener(new java.awt.event.ActionListener() {
+        product_search_bar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBarActionPerformed(evt);
+                product_search_barActionPerformed(evt);
             }
         });
-        searchBar.addKeyListener(new java.awt.event.KeyAdapter() {
+        product_search_bar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                searchBarKeyReleased(evt);
+                product_search_barKeyReleased(evt);
             }
         });
-        productsContainer.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, 40));
+        productsContainer.add(product_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, 40));
 
         sortContainer.setBackground(new java.awt.Color(255, 255, 255));
         sortContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -917,7 +957,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                 addActionPerformed(evt);
             }
         });
-        productsContainer.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 10, 130, 40));
+        productsContainer.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 10, 130, 40));
 
         editButton.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         editButton.setForeground(new java.awt.Color(51, 51, 51));
@@ -927,7 +967,7 @@ public class sellerDashboard extends javax.swing.JFrame {
                 editButtonActionPerformed(evt);
             }
         });
-        productsContainer.add(editButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 10, 130, 40));
+        productsContainer.add(editButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 10, 130, 40));
 
         archive.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         archive.setForeground(new java.awt.Color(51, 51, 51));
@@ -937,9 +977,9 @@ public class sellerDashboard extends javax.swing.JFrame {
                 archiveActionPerformed(evt);
             }
         });
-        productsContainer.add(archive, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 10, 130, 40));
+        productsContainer.add(archive, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 10, 130, 40));
 
-        jPanel8.add(productsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 1140, 620));
+        jPanel8.add(productsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 1150, 620));
 
         jLabel31.setBackground(new java.awt.Color(241, 241, 241));
         jLabel31.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
@@ -1273,165 +1313,269 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jLabel54.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel54.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel54.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel54.setText("My Profile  >");
+        jPanel11.add(jLabel54, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
 
-        manage5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage5.setForeground(new java.awt.Color(102, 102, 102));
-        manage5.setText("Address");
-        jPanel14.add(manage5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, -1, 30));
-        jPanel14.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 120, 40));
-        jPanel14.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 310, 120, 40));
-        jPanel14.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 450, 250, 40));
+        jLabel55.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel55.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        jLabel55.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel55.setText("Your activities");
+        jPanel11.add(jLabel55, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, -1, 30));
 
-        manage6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage6.setForeground(new java.awt.Color(102, 102, 102));
-        manage6.setText("Date joined");
-        jPanel14.add(manage6, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 350, -1, 30));
+        jLabel56.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel56.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel56.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel56.setText("View Profile");
+        jPanel11.add(jLabel56, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, -1, 30));
 
-        male.setText(" Male");
-        male.setEnabled(false);
-        male.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                maleMouseClicked(evt);
-            }
-        });
-        male.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                maleActionPerformed(evt);
-            }
-        });
-        jPanel14.add(male, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 180, -1, 20));
+        display_photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        display_photo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default_seller_profile.png"))); // NOI18N
+        jPanel11.add(display_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 130, 150));
 
-        female.setSelected(true);
-        female.setText(" Female");
-        female.setEnabled(false);
-        female.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                femaleMouseClicked(evt);
-            }
-        });
-        jPanel14.add(female, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 180, -1, 20));
+        seller_full_name.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        seller_full_name.setForeground(new java.awt.Color(51, 51, 51));
+        seller_full_name.setText("Archie Albarico");
+        jPanel11.add(seller_full_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 162, 140, 50));
 
-        other.setText(" Other");
-        other.setToolTipText("");
-        other.setEnabled(false);
-        other.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                otherMouseClicked(evt);
-            }
-        });
-        jPanel14.add(other, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 180, -1, 20));
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/star_rating.png"))); // NOI18N
+        jPanel11.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 190, 70, 40));
 
-        manage7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage7.setForeground(new java.awt.Color(102, 102, 102));
-        manage7.setText("Last Name");
-        jPanel14.add(manage7, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, -1, 30));
+        seller_rating.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        seller_rating.setForeground(new java.awt.Color(153, 153, 153));
+        seller_rating.setText("5.0 (12)");
+        jPanel11.add(seller_rating, new org.netbeans.lib.awtextra.AbsoluteConstraints(202, 190, 70, 40));
 
-        myprofile1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
-        myprofile1.setText("Buyer's Account");
-        jPanel14.add(myprofile1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 110, 30));
-
-        manage1.setForeground(new java.awt.Color(102, 102, 102));
-        manage1.setText("Manage buyer's account ");
-        jPanel14.add(manage1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
-
-        manage8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage8.setForeground(new java.awt.Color(102, 102, 102));
-        manage8.setText("First Name");
-        jPanel14.add(manage8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, -1, 30));
-
-        stats.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activated", "Inactive", "Pending" }));
-        jPanel14.add(stats, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 310, 240, 40));
-
-        role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
-        jPanel14.add(role, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 240, 40));
-
-        manage9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage9.setForeground(new java.awt.Color(102, 102, 102));
-        manage9.setText("Gender");
-        jPanel14.add(manage9, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, -1, 30));
-
-        manage10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage10.setForeground(new java.awt.Color(102, 102, 102));
-        manage10.setText("Role");
-        jPanel14.add(manage10, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 210, -1, 30));
+        seperator.setBackground(new java.awt.Color(241, 241, 241));
+        seperator.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         submit.setBackground(new java.awt.Color(0, 158, 226));
         submit.setForeground(new java.awt.Color(255, 255, 255));
-        submit.setText("Save");
+        submit.setText("Edit profile");
         submit.setBorderPainted(false);
         submit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submitActionPerformed(evt);
             }
         });
-        jPanel14.add(submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 450, 250, 40));
-        jPanel14.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 830, 20));
+        seperator.add(submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 110, 40));
 
-        selectFile.setText("Select Image");
-        selectFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectFileActionPerformed(evt);
+        jPanel11.add(seperator, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 490, 60));
+
+        addContainer4.setBackground(new java.awt.Color(241, 241, 241));
+        addContainer4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/location.png"))); // NOI18N
+        addContainer4.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 50, 30));
+
+        seller_address.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        seller_address.setForeground(new java.awt.Color(153, 153, 153));
+        addContainer4.add(seller_address, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 70, -1, 30));
+        addContainer4.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 490, 20));
+
+        username.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        username.setForeground(new java.awt.Color(153, 153, 153));
+        addContainer4.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 30));
+
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/phone.png"))); // NOI18N
+        addContainer4.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 50, 30));
+
+        seller_phone.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        seller_phone.setForeground(new java.awt.Color(153, 153, 153));
+        addContainer4.add(seller_phone, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 90, -1, 30));
+
+        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/email.png"))); // NOI18N
+        addContainer4.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 50, 30));
+
+        seller_email.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        seller_email.setForeground(new java.awt.Color(153, 153, 153));
+        addContainer4.add(seller_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, 30));
+
+        jLabel30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/store.png"))); // NOI18N
+        addContainer4.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 50, 30));
+
+        seller_store.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        seller_store.setForeground(new java.awt.Color(153, 153, 153));
+        addContainer4.add(seller_store, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, 30));
+
+        jPanel11.add(addContainer4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 490, 180));
+
+        bacgkround.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/background.png"))); // NOI18N
+        jPanel11.add(bacgkround, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+
+        productsContainer1.setBackground(new java.awt.Color(255, 51, 51));
+        productsContainer1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane9.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        actionlogs_table.setAutoCreateRowSorter(true);
+        actionlogs_table.setBackground(new java.awt.Color(241, 241, 241));
+        actionlogs_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        actionlogs_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                actionlogs_tableMouseClicked(evt);
             }
         });
-        jPanel14.add(selectFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 340, 120, 30));
+        jScrollPane9.setViewportView(actionlogs_table);
 
-        jLabel18.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel18.setText("File size: maximum 1 MB ");
-        jPanel14.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 380, -1, -1));
+        productsContainer1.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1150, 160));
 
-        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel14.setText("File extension: .JPEG, .PNG ");
-        jPanel14.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 400, -1, -1));
+        activity_search_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/search_icon.png"))); // NOI18N
+        productsContainer1.add(activity_search_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 60, 40));
 
-        username.setEditable(false);
-        jPanel14.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 250, 40));
+        activity_search_bar.setForeground(new java.awt.Color(140, 140, 140));
+        activity_search_bar.setText("          Search");
+        activity_search_bar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                activity_search_barFocusLost(evt);
+            }
+        });
+        activity_search_bar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                activity_search_barMouseClicked(evt);
+            }
+        });
+        activity_search_bar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                activity_search_barActionPerformed(evt);
+            }
+        });
+        activity_search_bar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                activity_search_barKeyReleased(evt);
+            }
+        });
+        productsContainer1.add(activity_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, 40));
 
-        manage11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage11.setForeground(new java.awt.Color(102, 102, 102));
-        manage11.setText("Username");
-        jPanel14.add(manage11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 210, -1, 30));
+        jLabel33.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel33.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel33.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel33.setText("Product Table");
+        productsContainer1.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 0));
 
-        manage12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage12.setForeground(new java.awt.Color(102, 102, 102));
-        manage12.setText("Email");
-        jPanel14.add(manage12, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, 30));
-        jPanel14.add(date, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 380, 250, 40));
+        filterContainer1.setBackground(new java.awt.Color(255, 255, 255));
+        filterContainer1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        manage13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage13.setForeground(new java.awt.Color(102, 102, 102));
-        manage13.setText("Buyer ID");
-        jPanel14.add(manage13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, -1, 30));
+        jLabel34.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel34.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel34.setText("Filter by:");
+        filterContainer1.add(jLabel34, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 40));
 
-        ID.setEditable(false);
-        jPanel14.add(ID, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 250, 40));
+        jComboBox4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jComboBox4.setForeground(new java.awt.Color(153, 153, 153));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category", "Status" }));
+        jComboBox4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        filterContainer1.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 110, 30));
 
-        jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
-        jPanel14.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 110, 30, 420));
-        jPanel14.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 830, 20));
+        productsContainer1.add(filterContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 180, 40));
 
-        manage14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        manage14.setForeground(new java.awt.Color(102, 102, 102));
-        manage14.setText("Status");
-        jPanel14.add(manage14, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 280, -1, 30));
-        jPanel14.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 380, 250, 40));
+        add2.setBackground(new java.awt.Color(0, 158, 226));
+        add2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        add2.setForeground(new java.awt.Color(255, 255, 255));
+        add2.setText("Print");
+        add2.setBorderPainted(false);
+        add2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add2ActionPerformed(evt);
+            }
+        });
+        productsContainer1.add(add2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 10, 130, 40));
 
-        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
-        jPanel20.setLayout(jPanel20Layout);
-        jPanel20Layout.setHorizontalGroup(
-            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(display, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-        );
-        jPanel20Layout.setVerticalGroup(
-            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(display, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-        );
+        jPanel11.add(productsContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 430, 1150, 230));
 
-        jPanel14.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 210, 120, 110));
+        messages_container.setBackground(new java.awt.Color(241, 241, 241));
+        messages_container.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel11.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 40, 920, 590));
+        jScrollPane10.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        messages_table.setAutoCreateRowSorter(true);
+        messages_table.setBackground(new java.awt.Color(241, 241, 241));
+        messages_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        messages_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                messages_tableMouseClicked(evt);
+            }
+        });
+        jScrollPane10.setViewportView(messages_table);
+
+        messages_container.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 640, 260));
+
+        jLabel40.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        jLabel40.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel40.setText("Messages");
+        messages_container.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 140, -1));
+
+        add1.setBackground(new java.awt.Color(0, 158, 226));
+        add1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        add1.setForeground(new java.awt.Color(255, 255, 255));
+        add1.setText("Mark as read");
+        add1.setBorderPainted(false);
+        add1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add1ActionPerformed(evt);
+            }
+        });
+        messages_container.add(add1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 120, 40));
+
+        add3.setBackground(new java.awt.Color(0, 158, 226));
+        add3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        add3.setForeground(new java.awt.Color(255, 255, 255));
+        add3.setText("Reply");
+        add3.setBorderPainted(false);
+        add3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add3ActionPerformed(evt);
+            }
+        });
+        messages_container.add(add3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 120, 40));
+
+        add4.setBackground(new java.awt.Color(0, 158, 226));
+        add4.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        add4.setForeground(new java.awt.Color(255, 255, 255));
+        add4.setText("Delete");
+        add4.setBorderPainted(false);
+        add4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add4ActionPerformed(evt);
+            }
+        });
+        messages_container.add(add4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 90, 40));
+
+        add5.setBackground(new java.awt.Color(0, 158, 226));
+        add5.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        add5.setForeground(new java.awt.Color(255, 255, 255));
+        add5.setText("Archive");
+        add5.setBorderPainted(false);
+        add5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add5ActionPerformed(evt);
+            }
+        });
+        messages_container.add(add5, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, 100, 40));
+
+        jPanel11.add(messages_container, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 640, 340));
 
         tabs.addTab("tab6", jPanel11);
 
@@ -1761,54 +1905,27 @@ public class sellerDashboard extends javax.swing.JFrame {
         jPanel28.setBackground(new java.awt.Color(255, 255, 255));
         jPanel28.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel39.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel39.setText("SHOPTIFY");
-        jPanel28.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+        jLabel39.setText("edit profile");
+        jPanel28.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 120, -1, -1));
 
-        jLabel40.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
-        jLabel40.setText("Activity logs");
-        jPanel28.add(jLabel40, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, 30));
-
-        searchBar2.setForeground(new java.awt.Color(140, 140, 140));
-        searchBar2.setText("  Search");
-        searchBar2.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                searchBar2FocusLost(evt);
+        submit1.setBackground(new java.awt.Color(0, 158, 226));
+        submit1.setForeground(new java.awt.Color(255, 255, 255));
+        submit1.setText("Save");
+        submit1.setBorderPainted(false);
+        submit1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submit1ActionPerformed(evt);
             }
         });
-        searchBar2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                searchBar2MouseClicked(evt);
+        jPanel28.add(submit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 380, 110, 40));
+
+        selectFile.setText("Select Image");
+        selectFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectFileActionPerformed(evt);
             }
         });
-        searchBar2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                searchBar2KeyReleased(evt);
-            }
-        });
-        jPanel28.add(searchBar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 10, 330, 40));
-
-        panel.setBackground(new java.awt.Color(241, 241, 241));
-        panel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jScrollPane7.setBackground(new java.awt.Color(0, 204, 102));
-        jScrollPane7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
-        actionlogs_table.setBackground(new java.awt.Color(241, 241, 241));
-        actionlogs_table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane7.setViewportView(actionlogs_table);
-
-        panel.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 1120, 560));
-        panel.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1120, 30));
-
-        jPanel28.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 1120, 600));
+        jPanel28.add(selectFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 320, 120, 30));
 
         tabs.addTab("tab9", jPanel28);
 
@@ -1851,13 +1968,13 @@ public class sellerDashboard extends javax.swing.JFrame {
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         try {
             databaseConnector dbc = new databaseConnector();
-            String accountStatus = (String) stats.getSelectedItem();
-            String accountRole = (String) role.getSelectedItem();
+            //String accountStatus = (String) stats.getSelectedItem();
+            //String accountRole = (String) role.getSelectedItem();
 
             String sql = "UPDATE tbl_accounts SET role=?, status=?";
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
-                pst.setString(1, accountRole);
-                pst.setString(2, accountStatus);
+                //pst.setString(1, accountRole);
+                //pst.setString(2, accountStatus);
 
                 int rowsUpdated = pst.executeUpdate();
 
@@ -1879,31 +1996,6 @@ public class sellerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_submitActionPerformed
 
-    private void otherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_otherMouseClicked
-        male.setSelected(false);
-        female.setSelected(false);
-        other.setSelected(true);
-        String gender = "Other";
-    }//GEN-LAST:event_otherMouseClicked
-
-    private void femaleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_femaleMouseClicked
-        male.setSelected(false);
-        female.setSelected(true);
-        other.setSelected(false);
-        String gender = "Female";
-    }//GEN-LAST:event_femaleMouseClicked
-
-    private void maleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_maleActionPerformed
-
-    private void maleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_maleMouseClicked
-        male.setSelected(true);
-        female.setSelected(false);
-        other.setSelected(false);
-        String gender = "Male";
-    }//GEN-LAST:event_maleMouseClicked
-
     private void editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editActionPerformed
         tabs.setSelectedIndex(5);
 
@@ -1917,19 +2009,18 @@ public class sellerDashboard extends javax.swing.JFrame {
                 databaseConnector dbc = new databaseConnector();
                 ResultSet rs = dbc.getData("SELECT * FROM tbl_accounts WHERE account_id =" + model.getValueAt(rowIndex, 0));
                 if (rs.next()) {
-                    ID.setText("" + rs.getString("account_id"));
-                    fname.setText("" + rs.getString("first_name"));
-                    lname.setText("" + rs.getString("last_name"));
-                    email.setText("" + rs.getString("email"));
-                    address.setText(rs.getString("address"));
-                    username.setText(rs.getString("username"));
-                    role.setSelectedItem(rs.getString("role"));
+                    // ID.setText("" + rs.getString("account_id"));
+                    // lname.setText("" + rs.getString("last_name"));
+                    // email.setText("" + rs.getString("email"));
+                    // address.setText(rs.getString("address"));
+                    //  username.setText(rs.getString("username"));
+                    //  role.setSelectedItem(rs.getString("role"));
                     int height = 120;
                     int width = 110;
                     String getImageFromDatabase = rs.getString("profile_picture");
-                    GetImage.displayImage(display, getImageFromDatabase, height, width);
-                    date.setText(rs.getString("date_joined"));
-                    stats.setSelectedItem(rs.getString("status"));
+                    // GetImage.displayImage(display, getImageFromDatabase, height, width);
+                    //  date.setText(rs.getString("date_joined"));
+                    //  stats.setSelectedItem(rs.getString("status"));
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
@@ -1938,25 +2029,25 @@ public class sellerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_editActionPerformed
 
-    private void searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBarKeyReleased
-        search.searchResult(product_table, searchBar);
-    }//GEN-LAST:event_searchBarKeyReleased
+    private void product_search_barKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_product_search_barKeyReleased
+        search.searchResult(product_table, product_search_bar);
+    }//GEN-LAST:event_product_search_barKeyReleased
 
-    private void searchBarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchBarMouseClicked
-        searchBar.setFocusable(true);
-        searchBar.requestFocusInWindow();
-        if (searchBar.getText().isEmpty() || searchBar.getText().equals("  Search")) {
-            searchBar.setText("");
-            searchBar.setForeground(Color.BLACK);
+    private void product_search_barMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_product_search_barMouseClicked
+        product_search_bar.setFocusable(true);
+        product_search_bar.requestFocusInWindow();
+        if (product_search_bar.getText().isEmpty() || product_search_bar.getText().equals("  Search")) {
+            product_search_bar.setText("");
+            product_search_bar.setForeground(Color.BLACK);
         }
-    }//GEN-LAST:event_searchBarMouseClicked
+    }//GEN-LAST:event_product_search_barMouseClicked
 
-    private void searchBarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchBarFocusLost
-        if (searchBar.getText().isEmpty()) {
-            searchBar.setText("  Search");
-            searchBar.setForeground(Color.decode("#8C8C8C"));
+    private void product_search_barFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_product_search_barFocusLost
+        if (product_search_bar.getText().isEmpty()) {
+            product_search_bar.setText("  Search");
+            product_search_bar.setForeground(Color.decode("#8C8C8C"));
         }
-    }//GEN-LAST:event_searchBarFocusLost
+    }//GEN-LAST:event_product_search_barFocusLost
 
     private void archive_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_archive_tableMouseClicked
         int rowIndex = archive_table.getSelectedRow();
@@ -2372,6 +2463,33 @@ public class sellerDashboard extends javax.swing.JFrame {
 
     private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
         tabs.setSelectedIndex(5);
+
+        try {
+            databaseConnector dbc = new databaseConnector();
+            ResultSet rs = dbc.getData("SELECT * FROM tbl_accounts WHERE account_id =" + sellerID);
+            if (rs.next()) {
+                String fname;
+                String lname;
+                fname = rs.getString("first_name");
+                lname = rs.getString("last_name");
+                fname = Character.toUpperCase(fname.charAt(0)) + fname.substring(1);
+                lname = Character.toUpperCase(lname.charAt(0)) + lname.substring(1);
+                seller_full_name.setText(fname + " " + lname);
+                username.setText("@" + rs.getString("username"));
+                seller_address.setText("" + rs.getString("address"));
+                seller_phone.setText("" + rs.getString("phone_number"));
+                seller_email.setText("" + rs.getString("email"));
+                seller_store.setText(rs.getString("shop_name"));
+                int height = 120;
+                int width = 120;
+                String getImageFromDatabase = rs.getString("profile_picture");
+                GetImage.displayImage(display_photo, getImageFromDatabase, height, width);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
+            System.out.println(e.getMessage());
+        }
+
     }//GEN-LAST:event_profileMouseClicked
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
@@ -2520,21 +2638,9 @@ public class sellerDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_selectFileActionPerformed
 
-    private void searchBar2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchBar2FocusLost
+    private void product_search_barActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_product_search_barActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_searchBar2FocusLost
-
-    private void searchBar2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchBar2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchBar2MouseClicked
-
-    private void searchBar2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBar2KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchBar2KeyReleased
-
-    private void searchBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchBarActionPerformed
+    }//GEN-LAST:event_product_search_barActionPerformed
 
     private void editbtn_manageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editbtn_manageActionPerformed
         try {
@@ -2715,6 +2821,54 @@ public class sellerDashboard extends javax.swing.JFrame {
         addStock.setForeground(Color.decode("#333333"));
     }//GEN-LAST:event_addStockMouseClicked
 
+    private void submit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submit1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_submit1ActionPerformed
+
+    private void actionlogs_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actionlogs_tableMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_actionlogs_tableMouseClicked
+
+    private void activity_search_barFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_activity_search_barFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_activity_search_barFocusLost
+
+    private void activity_search_barMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_activity_search_barMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_activity_search_barMouseClicked
+
+    private void activity_search_barActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_activity_search_barActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_activity_search_barActionPerformed
+
+    private void activity_search_barKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_activity_search_barKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_activity_search_barKeyReleased
+
+    private void add1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_add1ActionPerformed
+
+    private void messages_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_messages_tableMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_messages_tableMouseClicked
+
+    private void add2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_add2ActionPerformed
+
+    private void add3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_add3ActionPerformed
+
+    private void add4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_add4ActionPerformed
+
+    private void add5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_add5ActionPerformed
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -2737,15 +2891,22 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel CONTAINER2;
     private javax.swing.JPanel CONTAINER3;
     private javax.swing.JPanel CONTAINER5;
-    private javax.swing.JTextField ID;
     private javax.swing.JButton accept_order;
     private javax.swing.JToggleButton accounts;
     private javax.swing.JTable accounts_table;
     private javax.swing.JTable actionlogs_table;
+    private javax.swing.JTextField activity_search_bar;
+    private javax.swing.JLabel activity_search_icon;
     private javax.swing.JButton add;
+    private javax.swing.JButton add1;
+    private javax.swing.JButton add2;
+    private javax.swing.JButton add3;
+    private javax.swing.JButton add4;
+    private javax.swing.JButton add5;
     private javax.swing.JComboBox<String> addCategory;
     private javax.swing.JPanel addContainer;
     private javax.swing.JPanel addContainer1;
+    private javax.swing.JPanel addContainer4;
     private javax.swing.JEditorPane addDescription;
     private javax.swing.JTextField addName;
     private javax.swing.JLabel addPhoto;
@@ -2754,12 +2915,12 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton addReplace;
     private javax.swing.JTextField addStock;
     private javax.swing.JButton add_save;
-    private javax.swing.JTextField address;
     private javax.swing.JButton archive;
     private javax.swing.JPanel archiveAccountTableContainer;
     private javax.swing.JScrollPane archiveAccountTableContainerScroll;
     private javax.swing.JToggleButton archiveBtn;
     private javax.swing.JTable archive_table;
+    private javax.swing.JLabel bacgkround;
     private javax.swing.JComboBox<String> c5;
     private javax.swing.JPanel c6;
     private javax.swing.JPanel c7;
@@ -2767,18 +2928,15 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel c9;
     private javax.swing.JToggleButton dashboard;
     private javax.swing.JPanel dashboardContainer;
-    private javax.swing.JTextField date;
     private javax.swing.JButton decline;
     private javax.swing.JButton delete;
     private javax.swing.JEditorPane descript;
-    private javax.swing.JLabel display;
+    private javax.swing.JLabel display_photo;
     private javax.swing.JButton edit;
     private javax.swing.JButton editButton;
     private javax.swing.JButton editbtn_manage;
-    private javax.swing.JTextField email;
-    private javax.swing.JRadioButton female;
     private javax.swing.JPanel filterContainer;
-    private javax.swing.JTextField fname;
+    private javax.swing.JPanel filterContainer1;
     private javax.swing.JComboBox<String> getCategory;
     private javax.swing.JEditorPane getDescription;
     private javax.swing.JTextField getName;
@@ -2789,11 +2947,11 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel helloSeller;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -2803,13 +2961,19 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel37;
@@ -2831,6 +2995,9 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -2840,11 +3007,9 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel28;
@@ -2856,52 +3021,36 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
-    private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JTextField lname;
     private javax.swing.JButton logout;
     private javax.swing.JToggleButton logsBtn;
-    private javax.swing.JRadioButton male;
     private javax.swing.JToggleButton manage;
-    private javax.swing.JLabel manage1;
-    private javax.swing.JLabel manage10;
-    private javax.swing.JLabel manage11;
-    private javax.swing.JLabel manage12;
-    private javax.swing.JLabel manage13;
-    private javax.swing.JLabel manage14;
     private javax.swing.JLabel manage18;
     private javax.swing.JLabel manage24;
     private javax.swing.JLabel manage25;
-    private javax.swing.JLabel manage5;
-    private javax.swing.JLabel manage6;
-    private javax.swing.JLabel manage7;
-    private javax.swing.JLabel manage8;
-    private javax.swing.JLabel manage9;
-    private javax.swing.JLabel myprofile1;
+    private javax.swing.JPanel messages_container;
+    private javax.swing.JTable messages_table;
     private javax.swing.JLabel orderTotal;
     private javax.swing.JToggleButton orders;
-    private javax.swing.JRadioButton other;
     private javax.swing.JLabel overviewTotalLoss1;
     private javax.swing.JLabel overviewTotalLoss2;
     private javax.swing.JLabel overviewTotalLoss3;
     private javax.swing.JLabel overviewTotalLoss4;
     private javax.swing.JLabel overviewTotalSales;
-    private javax.swing.JPanel panel;
     private javax.swing.JLabel pendingOrders;
     private javax.swing.JLabel productID;
     private javax.swing.JLabel productName;
@@ -2910,14 +3059,16 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel productPrice5;
     private javax.swing.JLabel productQuantity;
     private javax.swing.JLabel productStatus;
+    private javax.swing.JTextField product_search_bar;
     private javax.swing.JTable product_table;
+    private javax.swing.JLabel product_table_search_icon;
     private javax.swing.JPanel productsContainer;
+    private javax.swing.JPanel productsContainer1;
     private javax.swing.JLabel profile;
     private javax.swing.JTable purchase_table;
     private javax.swing.JButton removetbn;
     private javax.swing.JButton replacebtn;
     private javax.swing.JButton restore;
-    private javax.swing.JComboBox<String> role;
     private javax.swing.JPanel s;
     private javax.swing.JLabel salesAddress;
     private javax.swing.JLabel salesFN;
@@ -2928,23 +3079,28 @@ public class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel salesQuantity;
     private javax.swing.JLabel salesTotal;
     private javax.swing.JTextField search3;
-    private javax.swing.JTextField searchBar;
     private javax.swing.JTextField searchBar1;
-    private javax.swing.JTextField searchBar2;
     private javax.swing.JButton searchbtn1;
     private javax.swing.JButton searchbtn11;
     private javax.swing.JButton searchbtn12;
     private javax.swing.JButton searchbtn9;
     private javax.swing.JButton selectFile;
+    private javax.swing.JLabel seller_address;
+    private javax.swing.JLabel seller_email;
+    private javax.swing.JLabel seller_full_name;
+    private javax.swing.JLabel seller_phone;
+    private javax.swing.JLabel seller_rating;
+    private javax.swing.JLabel seller_store;
+    private javax.swing.JPanel seperator;
     private javax.swing.JPanel sortContainer;
-    private javax.swing.JComboBox<String> stats;
     private javax.swing.JButton submit;
+    private javax.swing.JButton submit1;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JLabel todaysDate;
     private javax.swing.JLabel totalLoss;
     private javax.swing.JLabel totalOrders;
     private javax.swing.JLabel totalProducts;
     private javax.swing.JLabel totalSales;
-    private javax.swing.JTextField username;
+    private javax.swing.JLabel username;
     // End of variables declaration//GEN-END:variables
 }

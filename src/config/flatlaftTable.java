@@ -17,7 +17,7 @@ public class flatlaftTable {
 
     public static void design(JPanel panel, JTable table, JScrollPane scroll) {
         panel.putClientProperty(FlatClientProperties.STYLE, ""
-                + "arc:25;"
+                + "arc:20;"
                 + "background:#F1F1F1;"); //
 
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE, ""
