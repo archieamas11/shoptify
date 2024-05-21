@@ -892,6 +892,9 @@ public final class adminDashboard extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 managePhotoMouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                managePhotoMouseEntered(evt);
+            }
         });
         editProfileContainer1.add(managePhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 140, 100, 100));
 
@@ -1863,6 +1866,10 @@ public final class adminDashboard extends javax.swing.JFrame {
     private void actionlogs_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_actionlogs_tableMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_actionlogs_tableMouseClicked
+
+    private void managePhotoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_managePhotoMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_managePhotoMouseEntered
 
     /**
      * @param args the command line arguments

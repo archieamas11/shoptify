@@ -30,9 +30,7 @@ public class databaseConnector {
         try {
             PreparedStatement stmt = (PreparedStatement) connection.prepareStatement("DELETE FROM tbl_products WHERE product_id = ?");
             stmt.setInt(1, product_id);
-
             stmt.executeUpdate();
-
             stmt.close();
             connection.close();
 

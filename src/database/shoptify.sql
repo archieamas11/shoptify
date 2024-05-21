@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2024 at 04:03 AM
+-- Generation Time: May 21, 2024 at 02:35 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,8 +48,8 @@ CREATE TABLE `tbl_accounts` (
 --
 
 INSERT INTO `tbl_accounts` (`account_id`, `first_name`, `last_name`, `address`, `phone_number`, `email`, `username`, `password`, `role`, `shop_name`, `profile_picture`, `date_joined`, `status`) VALUES
-(1, '1', '1', '1', '12345678900', '1', '1', '$2a$10$WcnKFLLy7oWBzaKim/dtB.6o5LVbtRSylzysmnka1Y.cghiIfCXLC', 'Seller', 'Archie Shop', 'src/sampleProfiles/default_user_profile.png', '2024-05-17', 'Active'),
-(2, '2', '2', '2', '12345678900', '2', '2', '$2a$10$SC4i5tqUFzVXjRn41weoi.7rVRmkbwwIrCQQhRbRYD979cQoi7xQe', 'Buyer', '', 'src/sampleProfiles/default_user_profile.png', '2024-05-17', 'Active');
+(1, 'Archie', 'Albarico', 'Tunghaan, Minglanilla, Cebu', '12345678900', '1', '1', '$2a$10$WcnKFLLy7oWBzaKim/dtB.6o5LVbtRSylzysmnka1Y.cghiIfCXLC', 'Seller', 'Archie Shop', 'src/sampleProfiles/default_user_profile.png', '2024-05-17', 'Active'),
+(2, 'buyer', 'buyer', 'buyer, tuyan, cebu', '12345678900', '2', '2', '$2a$10$SC4i5tqUFzVXjRn41weoi.7rVRmkbwwIrCQQhRbRYD979cQoi7xQe', 'Buyer', '', 'src/sampleProfiles/default_user_profile.png', '2024-05-17', 'Active');
 
 -- --------------------------------------------------------
 
@@ -138,6 +138,20 @@ CREATE TABLE `tbl_invoice` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_message4admin`
+--
+
+CREATE TABLE `tbl_message4admin` (
+  `message_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
+  `message` int(11) NOT NULL,
+  `date_sent` date NOT NULL,
+  `message_status` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_messages4seller`
 --
 
@@ -146,7 +160,7 @@ CREATE TABLE `tbl_messages4seller` (
   `buyer_id` int(11) NOT NULL,
   `seller_id` int(11) NOT NULL,
   `message` varchar(600) NOT NULL,
-  `message_sent` date NOT NULL,
+  `date_sent` date NOT NULL,
   `message_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -169,13 +183,6 @@ CREATE TABLE `tbl_orders` (
   `order_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tbl_orders`
---
-
-INSERT INTO `tbl_orders` (`order_id`, `buyer_id`, `seller_id`, `product_id`, `total_quantity`, `total_price`, `payment_method`, `notes`, `date_purchase`, `order_status`) VALUES
-(1, 2, 1, 1, 2, 2, 'COD', 'asdasdsadqwreerwqr', '2024-05-20', 'Accepted');
-
 -- --------------------------------------------------------
 
 --
@@ -190,10 +197,9 @@ CREATE TABLE `tbl_products` (
   `product_stock` int(11) NOT NULL,
   `product_description` varchar(900) NOT NULL,
   `product_category` varchar(100) NOT NULL,
-  `total_sold` int(11) NOT NULL,
-  `product_rating` int(11) NOT NULL,
+  `total_sold` int(11) DEFAULT 0,
   `product_image` varchar(600) NOT NULL,
-  `date_created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `date_created` date NOT NULL,
   `product_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -201,8 +207,26 @@ CREATE TABLE `tbl_products` (
 -- Dumping data for table `tbl_products`
 --
 
-INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_rating`, `product_image`, `date_created`, `product_status`) VALUES
-(1, 1, '123', 123, 123, '123', 'Electronics', 0, 0, '', '2024-05-20 06:01:00', 'Available');
+INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_image`, `date_created`, `product_status`) VALUES
+(10, 1, '123', 123, 123, '123', 'Electronics', 0, 'src/ProductsImages/3.png', '2024-05-21', 'Archived'),
+(11, 1, 'qwe', 123, 123, '123', 'Electronics', 0, 'src/ProductsImages/4.png', '2024-05-21', 'Available'),
+(12, 1, 'sdf', 123, 0, '', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-21', 'Available'),
+(13, 1, 'cv', 123, 123, 'qwe', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-21', 'Available');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_rating4products`
+--
+
+CREATE TABLE `tbl_rating4products` (
+  `rate_id` int(11) NOT NULL,
+  `buyer_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `total_star` int(11) NOT NULL,
+  `date_rated` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -217,14 +241,6 @@ CREATE TABLE `tbl_rating4seller` (
   `total_star` int(11) NOT NULL,
   `date_rated` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_rating4seller`
---
-
-INSERT INTO `tbl_rating4seller` (`rate_id`, `buyer_id`, `seller_id`, `total_star`, `date_rated`) VALUES
-(1, 2, 1, 4, '2024-05-20'),
-(2, 2, 1, 2, '2024-05-20');
 
 -- --------------------------------------------------------
 
@@ -274,7 +290,72 @@ INSERT INTO `tbl_sellerlogs` (`sellerlogs_id`, `seller_id`, `sellerlogs_action`,
 (28, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:34:52'),
 (29, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:35:28'),
 (30, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:53:44'),
-(31, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:58:40');
+(31, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:58:40'),
+(32, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 09:34:55'),
+(33, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 09:36:13'),
+(34, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 09:44:19'),
+(35, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 09:45:18'),
+(36, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:46:55'),
+(37, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:48:09'),
+(38, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:48:39'),
+(39, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:50:20'),
+(40, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:52:55'),
+(41, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:54:28'),
+(42, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:55:44'),
+(43, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 10:56:05'),
+(44, 1, 'Delete product', 'User 1 Successfully deleted the product 1!', '2024-05-21 10:56:34'),
+(45, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:05:21'),
+(46, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:10:41'),
+(47, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:11:03'),
+(48, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:11:24'),
+(49, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:12:23'),
+(50, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:16:21'),
+(51, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:16:49'),
+(52, 1, 'Delete product', 'User 1 Successfully deleted the product 0!', '2024-05-21 11:17:14'),
+(53, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:19:41'),
+(54, 1, 'Delete product', 'User 1 Successfully deleted the product 4!', '2024-05-21 11:19:48'),
+(55, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:20:21'),
+(56, 1, 'Delete product', 'User 1 Successfully deleted the product 0!', '2024-05-21 11:20:24'),
+(57, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:21:45'),
+(58, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:24:45'),
+(59, 1, 'Delete product', 'User 1 Successfully deleted the product 4!', '2024-05-21 11:24:49'),
+(60, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:26:28'),
+(61, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:29:54'),
+(62, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:30:06'),
+(63, 1, 'Delete product', 'User 1 Successfully deleted the product 0!', '2024-05-21 11:30:10'),
+(64, 1, 'Delete product', 'User 1 Successfully deleted the product 5!', '2024-05-21 11:30:14'),
+(65, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:32:52'),
+(66, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:33:00'),
+(67, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:33:51'),
+(68, 1, 'Delete product', 'User 1 successfully deleted the product 6!', '2024-05-21 11:34:00'),
+(69, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:36:22'),
+(70, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:36:38'),
+(71, 1, 'Delete product', 'User 1 successfully deleted the product 7!', '2024-05-21 11:36:43'),
+(72, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:40:57'),
+(73, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:41:04'),
+(74, 1, 'Delete product', 'User 1 successfully deleted the product 8!', '2024-05-21 11:41:07'),
+(75, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:43:48'),
+(76, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:45:50'),
+(77, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:45:58'),
+(78, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:48:20'),
+(79, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:48:53'),
+(80, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:50:21'),
+(81, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:00:27'),
+(82, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:00:53'),
+(83, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:03:46'),
+(84, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:06:14'),
+(85, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 12:06:26'),
+(86, 1, 'Archive', 'Seller 1 Successfully put product 10 to archive!', '2024-05-21 12:06:44'),
+(87, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:08:17'),
+(88, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:13:01'),
+(89, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:13:27'),
+(90, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 12:13:39'),
+(91, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:24:52'),
+(92, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 12:25:11'),
+(93, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:28:38'),
+(94, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:33:06'),
+(95, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 12:33:50'),
+(96, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:34:10');
 
 -- --------------------------------------------------------
 
@@ -338,6 +419,13 @@ ALTER TABLE `tbl_invoice`
   ADD KEY `seller_id` (`seller_id`);
 
 --
+-- Indexes for table `tbl_message4admin`
+--
+ALTER TABLE `tbl_message4admin`
+  ADD PRIMARY KEY (`message_id`),
+  ADD KEY `seller_id` (`seller_id`);
+
+--
 -- Indexes for table `tbl_messages4seller`
 --
 ALTER TABLE `tbl_messages4seller`
@@ -360,6 +448,15 @@ ALTER TABLE `tbl_orders`
 ALTER TABLE `tbl_products`
   ADD PRIMARY KEY (`product_id`),
   ADD KEY `seller_id` (`seller_id`);
+
+--
+-- Indexes for table `tbl_rating4products`
+--
+ALTER TABLE `tbl_rating4products`
+  ADD PRIMARY KEY (`rate_id`),
+  ADD KEY `buyer_id` (`buyer_id`),
+  ADD KEY `seller_id` (`seller_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `tbl_rating4seller`
@@ -425,6 +522,12 @@ ALTER TABLE `tbl_invoice`
   MODIFY `invoice_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `tbl_message4admin`
+--
+ALTER TABLE `tbl_message4admin`
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `tbl_messages4seller`
 --
 ALTER TABLE `tbl_messages4seller`
@@ -440,7 +543,13 @@ ALTER TABLE `tbl_orders`
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT for table `tbl_rating4products`
+--
+ALTER TABLE `tbl_rating4products`
+  MODIFY `rate_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_rating4seller`
@@ -452,7 +561,7 @@ ALTER TABLE `tbl_rating4seller`
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `tbl_wishlist`
@@ -498,6 +607,12 @@ ALTER TABLE `tbl_invoice`
   ADD CONSTRAINT `tbl_invoice_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `tbl_accounts` (`account_id`);
 
 --
+-- Constraints for table `tbl_message4admin`
+--
+ALTER TABLE `tbl_message4admin`
+  ADD CONSTRAINT `tbl_message4admin_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `tbl_accounts` (`account_id`);
+
+--
 -- Constraints for table `tbl_messages4seller`
 --
 ALTER TABLE `tbl_messages4seller`
@@ -517,6 +632,14 @@ ALTER TABLE `tbl_orders`
 --
 ALTER TABLE `tbl_products`
   ADD CONSTRAINT `tbl_products_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `tbl_accounts` (`account_id`);
+
+--
+-- Constraints for table `tbl_rating4products`
+--
+ALTER TABLE `tbl_rating4products`
+  ADD CONSTRAINT `tbl_rating4products_ibfk_1` FOREIGN KEY (`buyer_id`) REFERENCES `tbl_accounts` (`account_id`),
+  ADD CONSTRAINT `tbl_rating4products_ibfk_2` FOREIGN KEY (`seller_id`) REFERENCES `tbl_accounts` (`account_id`),
+  ADD CONSTRAINT `tbl_rating4products_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`);
 
 --
 -- Constraints for table `tbl_rating4seller`
