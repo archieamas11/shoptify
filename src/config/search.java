@@ -16,21 +16,13 @@ import javax.swing.table.TableRowSorter;
  */
 public class search {
 
-    public static void searchResult(JTable a, JTextField b) {
-        DefaultTableModel model = (DefaultTableModel) a.getModel();
+    public static void searchResult(JTable table, JTextField searchField) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
-        a.setRowSorter(sorter);
+        table.setRowSorter(sorter);
 
-        switch (b.getText()) {
-            case "Search":
-                sorter.setRowFilter(null);
-                break;
-            case "":
-                sorter.setRowFilter(RowFilter.regexFilter(b.getText()));
-                break;
-            default:
-                sorter.setRowFilter(RowFilter.regexFilter(b.getText()));
-                break;
-        }
+        String searchText = searchField.getText();
+        RowFilter<DefaultTableModel, Object> rowFilter = RowFilter.regexFilter(searchText);
+        sorter.setRowFilter(rowFilter);
     }
 }

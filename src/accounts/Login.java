@@ -17,6 +17,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import Buyer.buyerDashboard;
 import config.actionLogs;
 import config.isAccountExist;
+import java.awt.HeadlessException;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JFrame;
 
@@ -351,8 +352,6 @@ public class Login extends javax.swing.JFrame {
         this.dispose();
     }
 
-    String action = "Declined Order";
-
     private void recordAdminLogin() {
         int adminID = UserManager.getLoggedInUserId();
         String action = "Logged in";
@@ -381,11 +380,7 @@ public class Login extends javax.swing.JFrame {
 
     private void rememberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rememberActionPerformed
         boolean isSelected;
-        if (remember.isSelected()) {
-            isSelected = true;
-        } else {
-            isSelected = false;
-        }
+        isSelected = remember.isSelected();
         rememberMe.setRememberAccountValue(isSelected);
         System.out.println(isSelected);
     }//GEN-LAST:event_rememberActionPerformed
@@ -415,6 +410,10 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please enter a new password.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if (newPassword.length() < 8) {
+                JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
             String updateQuery = "UPDATE tbl_accounts SET password = ? WHERE username = ? OR email = ?";
@@ -431,8 +430,7 @@ public class Login extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to update password.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (HeadlessException | SQLException e) {
         }
     }//GEN-LAST:event_forgotPasswordBtnMouseClicked
 

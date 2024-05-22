@@ -8,6 +8,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import config.databaseConnector;
 import config.isAccountExist;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -642,8 +644,7 @@ public class chooseAccount extends javax.swing.JFrame {
             Login back = new Login();
             back.setVisible(true);
             this.dispose();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (HeadlessException | SQLException e) {
         }
     }//GEN-LAST:event_submitActionPerformed
 
@@ -678,9 +679,28 @@ public class chooseAccount extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_importImageActionPerformed
+    private boolean passwordVisible = false;
+    private ImageIcon hideIcon;
+    private ImageIcon showIcon;
+
+    private void togglePasswordVisibility() {
+        passwordVisible = !passwordVisible;
+
+        hideIcon = new ImageIcon(getClass().getResource("/image/eye.png"));
+        showIcon = new ImageIcon(getClass().getResource("/image/eye_hide.png"));
+
+        if (passwordVisible) {
+            eye.setIcon(showIcon);
+            password.setEchoChar('\u0000');
+
+        } else {
+            eye.setIcon(hideIcon);
+            password.setEchoChar('\u25cf');
+        }
+    }
 
     private void eyeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_eyeMouseClicked
-
+        togglePasswordVisibility();
     }//GEN-LAST:event_eyeMouseClicked
 
     private void c2ComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_c2ComponentMoved
