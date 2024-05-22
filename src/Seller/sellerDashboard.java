@@ -68,6 +68,14 @@ public final class sellerDashboard extends javax.swing.JFrame {
         getCategory.setFocusable(false);
         getDescription.setFocusable(false);
         getName.setFocusable(false);
+        shop_username.setFocusable(false);
+        shop_password.setFocusable(false);
+        shop_name.setFocusable(false);
+        shop_location.setFocusable(false);
+        shop_fname.setFocusable(false);
+        shop_lname.setFocusable(false);
+        shop_number.setFocusable(false);
+        shop_email.setFocusable(false);
 
         display_profile_picture();
         dashboard.setSelected(true);
@@ -186,10 +194,10 @@ public final class sellerDashboard extends javax.swing.JFrame {
         c4.setFocusable(false);
         c5.setFocusable(false);
         c10.setFocusable(false);
+        c11.setFocusable(false);
         z6.setFocusable(false);
 
         UXmethods.RoundBorders.setArcStyle(edit_seller_upload_button, 10);
-        UXmethods.RoundBorders.setArcStyle(edit_seller_remove_button, 10);
         UXmethods.RoundBorders.setArcStyle(edit_seller_close_button, 5);
         UXmethods.RoundBorders.setArcStyle(edit_seller_save_button, 5);
         UXmethods.RoundBorders.setArcStyle(activity_search_bar, 10);
@@ -272,7 +280,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 + "focusWidth:0;"
                 + "innerFocusWidth:0;"
                 + "margin:5,20,5,20;"
-                + "background:$Panel.background");
+                + "background:#FFFFFF");
     }
 
     private void displayRatingSumAndCount() {
@@ -614,6 +622,34 @@ public final class sellerDashboard extends javax.swing.JFrame {
         }
     }
 
+    private void displayProfileInfo() {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            ResultSet rs = dbc.getData("SELECT * FROM tbl_accounts WHERE account_id =" + sellerID);
+            if (rs.next()) {
+                String fname;
+                String lname;
+                fname = rs.getString("first_name");
+                lname = rs.getString("last_name");
+                fname = Character.toUpperCase(fname.charAt(0)) + fname.substring(1);
+                lname = Character.toUpperCase(lname.charAt(0)) + lname.substring(1);
+                seller_full_name.setText(fname + " " + lname);
+                username.setText("@" + rs.getString("username"));
+                seller_address.setText("" + rs.getString("address"));
+                seller_phone.setText("" + rs.getString("phone_number"));
+                seller_email.setText("" + rs.getString("email"));
+                seller_store.setText(rs.getString("shop_name"));
+                int height = 120;
+                int width = 120;
+                String getImageFromDatabase = rs.getString("profile_picture");
+                GetImage.displayImage(display_photo, getImageFromDatabase, height, width);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
+            System.out.println(e.getMessage());
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -848,7 +884,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel102 = new javax.swing.JLabel();
         jLabel103 = new javax.swing.JLabel();
         jPanel28 = new javax.swing.JPanel();
-        jLabel57 = new javax.swing.JLabel();
         shop_photo = new javax.swing.JLabel();
         seperator1 = new javax.swing.JPanel();
         addContainer5 = new javax.swing.JPanel();
@@ -875,7 +910,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         c4 = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        c11 = new javax.swing.JTextField();
         jLabel39 = new javax.swing.JLabel();
         c5 = new javax.swing.JTextField();
         jLabel73 = new javax.swing.JLabel();
@@ -893,7 +928,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel61 = new javax.swing.JLabel();
         jLabel64 = new javax.swing.JLabel();
         jLabel62 = new javax.swing.JLabel();
-        edit_seller_remove_button = new javax.swing.JButton();
         edit_seller_upload_button = new javax.swing.JButton();
         addContainer7 = new javax.swing.JPanel();
         seller_address3 = new javax.swing.JLabel();
@@ -919,6 +953,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
         shop_lname = new javax.swing.JTextField();
         c10 = new javax.swing.JTextField();
         jLabel75 = new javax.swing.JLabel();
+        jLabel112 = new javax.swing.JLabel();
+        jLabel113 = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         vieworder_container2 = new javax.swing.JPanel();
@@ -2428,17 +2464,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jPanel28.setBackground(new java.awt.Color(255, 255, 255));
         jPanel28.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel57.setBackground(new java.awt.Color(241, 241, 241));
-        jLabel57.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
-        jLabel57.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel57.setText("View Profile  >");
-        jLabel57.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel57MouseClicked(evt);
-            }
-        });
-        jPanel28.add(jLabel57, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
-
         shop_photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         shop_photo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default_seller_profile.png"))); // NOI18N
         jPanel28.add(shop_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 130, 170));
@@ -2513,12 +2538,12 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel60.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel60.setForeground(new java.awt.Color(153, 153, 153));
         jLabel60.setText("Deactivating your account will remove all your access. This action cannot be undone.");
-        deactivate_jpanel.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 40));
+        deactivate_jpanel.add(jLabel60, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 40));
 
         jLabel72.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel72.setForeground(new java.awt.Color(51, 51, 51));
         jLabel72.setText("Deactivate your account?");
-        deactivate_jpanel.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 30));
+        deactivate_jpanel.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
 
         deactivate.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
         deactivate.setForeground(new java.awt.Color(255, 51, 51));
@@ -2530,7 +2555,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 deactivateActionPerformed(evt);
             }
         });
-        deactivate_jpanel.add(deactivate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 130, 40));
+        deactivate_jpanel.add(deactivate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 130, 40));
 
         edit_seller_close_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         edit_seller_close_button.setForeground(new java.awt.Color(51, 51, 51));
@@ -2540,7 +2565,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 edit_seller_close_buttonActionPerformed(evt);
             }
         });
-        deactivate_jpanel.add(edit_seller_close_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 260, 40));
+        deactivate_jpanel.add(edit_seller_close_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 260, 40));
 
         edit_seller_save_button.setBackground(new java.awt.Color(0, 158, 226));
         edit_seller_save_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -2552,9 +2577,9 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 edit_seller_save_buttonActionPerformed(evt);
             }
         });
-        deactivate_jpanel.add(edit_seller_save_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 110, 260, 40));
+        deactivate_jpanel.add(edit_seller_save_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 120, 260, 40));
 
-        addContainer5.add(deactivate_jpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 580, 160));
+        addContainer5.add(deactivate_jpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 580, 170));
 
         shop_username.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         shop_username.setForeground(new java.awt.Color(51, 51, 51));
@@ -2588,7 +2613,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/location_icon.png"))); // NOI18N
         addContainer5.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 50, -1));
-        addContainer5.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 580, 40));
+        addContainer5.add(c11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 180, 580, 40));
 
         jLabel39.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/username_icon.png"))); // NOI18N
         addContainer5.add(jLabel39, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 50, 40));
@@ -2616,7 +2641,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel63.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel63.setForeground(new java.awt.Color(51, 51, 51));
         jLabel63.setText("Edit Seller Profile");
-        jPanel28.add(jLabel63, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 0, -1, 30));
+        jPanel28.add(jLabel63, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 0, -1, 30));
 
         addContainer6.setBackground(new java.awt.Color(241, 241, 241));
         addContainer6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -2661,16 +2686,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel62.setText("File extension: .JPEG, .PNG and JPEG only");
         addContainer6.add(jLabel62, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 280, 30));
 
-        edit_seller_remove_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        edit_seller_remove_button.setForeground(new java.awt.Color(51, 51, 51));
-        edit_seller_remove_button.setText("Remove photo");
-        edit_seller_remove_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                edit_seller_remove_buttonActionPerformed(evt);
-            }
-        });
-        addContainer6.add(edit_seller_remove_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 130, 40));
-
         edit_seller_upload_button.setBackground(new java.awt.Color(0, 158, 226));
         edit_seller_upload_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         edit_seller_upload_button.setForeground(new java.awt.Color(255, 255, 255));
@@ -2681,7 +2696,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 edit_seller_upload_buttonActionPerformed(evt);
             }
         });
-        addContainer6.add(edit_seller_upload_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 110, 130, 40));
+        addContainer6.add(edit_seller_upload_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 130, 40));
 
         jPanel28.add(addContainer6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 490, 170));
 
@@ -2793,6 +2808,28 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         jPanel28.add(addContainer7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 380, 490, 280));
 
+        jLabel112.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel112.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel112.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel112.setText("My Profile  >");
+        jLabel112.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel112MouseClicked(evt);
+            }
+        });
+        jPanel28.add(jLabel112, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
+
+        jLabel113.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel113.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel113.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel113.setText("View Profile  >");
+        jLabel113.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel113MouseClicked(evt);
+            }
+        });
+        jPanel28.add(jLabel113, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, -1, 30));
+
         tabs.addTab("tab9", jPanel28);
 
         jPanel16.setBackground(new java.awt.Color(255, 255, 255));
@@ -2858,6 +2895,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         vieworder_total.setBackground(new java.awt.Color(241, 241, 241));
         vieworder_total.setFont(new java.awt.Font("Arial", 1, 25)); // NOI18N
         vieworder_total.setForeground(new java.awt.Color(51, 51, 51));
+        vieworder_total.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         vieworder_total.setText("3 x ₱ 2,300");
         vieworder_container.add(vieworder_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 70, -1, 30));
 
@@ -3194,6 +3232,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_product_table_add_buttonActionPerformed
 
     File selectedFile;
+    String getImage;
 
     private void edit_profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_profileActionPerformed
         try {
@@ -3210,8 +3249,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 shop_name.setText("" + rs.getString("shop_name"));
                 int height = 120;
                 int width = 120;
-                String getImageFromDatabase = rs.getString("profile_picture");
-                GetImage.displayImage(shop_photo, getImageFromDatabase, height, width);
+                getImage = rs.getString("profile_picture");
+                GetImage.displayImage(shop_photo, getImage, height, width);
                 tabs.setSelectedIndex(8);
             }
         } catch (SQLException e) {
@@ -3390,7 +3429,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         try {
             if (rowIndex < 0) {
                 JOptionPane.showMessageDialog(null, "Please select a product first");
-            } else if (order_status.equals("Accepted")) {
+            } else if (vieworder_status.equals("Accepted")) {
                 JOptionPane.showMessageDialog(null, "Product is already accepted!");
             } else {
                 databaseConnector dbc = new databaseConnector();
@@ -3410,8 +3449,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         String details = "Seller " + sellerID + " Successfully accept order " + transaction_id + "!";
                         actionLogs.recordSellerLogs(sellerID, action, details);
                         displayPurchase();
+                        displayProducts();
                         newStock = 0;
-
                         // Clear
                         transaction_id = 0;
                         buyer_id = 0;
@@ -3431,7 +3470,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
     private void updateProductSold(int quantitySold, int productId, boolean isAccepted) {
         databaseConnector dbc = new databaseConnector();
-        String sql = "UPDATE tbl_products SET `total_sold` = `sold` + ? WHERE `product_id` = ?";
+        String sql = "UPDATE tbl_products SET `total_sold` = `total_sold` + ? WHERE `product_id` = ?";
         try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
             pst.setInt(1, isAccepted ? quantitySold : -quantitySold); // Add or subtract based on action
             pst.setInt(2, productId);
@@ -3520,7 +3559,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
             newStock = total_quantity + product_stock;
             if (rowIndex < 0) {
                 JOptionPane.showMessageDialog(null, "Please select a product first");
-            } else if (order_status.equals("Declined")) {
+            } else if (vieworder_status.equals("Declined")) {
                 JOptionPane.showMessageDialog(null, "Product is already declined!");
             } else {
                 databaseConnector dbc = new databaseConnector();
@@ -3534,12 +3573,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         if (newStock > 0) {
                             updateStatus("Available");
                         }
-                        updateProductSold(total_quantity, product_id, false); // Subtract quantity sold
+                        updateProductSold(total_quantity, product_id, false);
                         JOptionPane.showMessageDialog(null, "Order has been declined Successfully!");
                         String action = "Declined Order";
                         String details = "Seller " + sellerID + " declined order " + transaction_id + "!";
                         actionLogs.recordSellerLogs(sellerID, action, details);
                         displayPurchase();
+                        displayProducts();
                         newStock = 0;
 
                         // Clear
@@ -3615,6 +3655,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }
 
     private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
+        displayProfileInfo();
         manage.setSelected(false);
         orders.setSelected(false);
         archiveBtn.setSelected(false);
@@ -3622,31 +3663,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         admin_support.setSelected(false);
         actionLogs.displaySellerLogs(actionlogs_table, sellerID); // display seller logs table
         tabs.setSelectedIndex(5);
-        try {
-            databaseConnector dbc = new databaseConnector();
-            ResultSet rs = dbc.getData("SELECT * FROM tbl_accounts WHERE account_id =" + sellerID);
-            if (rs.next()) {
-                String fname;
-                String lname;
-                fname = rs.getString("first_name");
-                lname = rs.getString("last_name");
-                fname = Character.toUpperCase(fname.charAt(0)) + fname.substring(1);
-                lname = Character.toUpperCase(lname.charAt(0)) + lname.substring(1);
-                seller_full_name.setText(fname + " " + lname);
-                username.setText("@" + rs.getString("username"));
-                seller_address.setText("" + rs.getString("address"));
-                seller_phone.setText("" + rs.getString("phone_number"));
-                seller_email.setText("" + rs.getString("email"));
-                seller_store.setText(rs.getString("shop_name"));
-                int height = 120;
-                int width = 120;
-                String getImageFromDatabase = rs.getString("profile_picture");
-                GetImage.displayImage(display_photo, getImageFromDatabase, height, width);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
-            System.out.println(e.getMessage());
-        }
     }//GEN-LAST:event_profileMouseClicked
 
     private void product_table_edit_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_product_table_edit_buttonActionPerformed
@@ -3719,6 +3735,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_dashboardActionPerformed
 
     private void manageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageActionPerformed
+        displayProducts();
         tabs.setSelectedIndex(1);
         dashboard.setSelected(false);
         orders.setSelected(false);
@@ -3727,6 +3744,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_manageActionPerformed
 
     private void ordersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ordersActionPerformed
+        displayPurchase();
         tabs.setSelectedIndex(3);
         dashboard.setSelected(false);
         manage.setSelected(false);
@@ -3735,6 +3753,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ordersActionPerformed
 
     private void archiveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_archiveBtnActionPerformed
+        displayArchive();
         tabs.setSelectedIndex(2);
         dashboard.setSelected(false);
         manage.setSelected(false);
@@ -3882,6 +3901,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
     private void removetbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removetbnActionPerformed
         getPhoto.setIcon(null);
+        selectedFile = null;
+        imagePath = null;
     }//GEN-LAST:event_removetbnActionPerformed
 
     private void addReplaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addReplaceActionPerformed
@@ -3890,6 +3911,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
     private void addRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRemoveActionPerformed
         addPhoto.setIcon(null);
+        selectedFile = null;
+        imagePath = null;
     }//GEN-LAST:event_addRemoveActionPerformed
 
     private void defaultValues() {
@@ -4022,11 +4045,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_add5ActionPerformed
 
-    private void edit_seller_remove_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_seller_remove_buttonActionPerformed
-        ImageIcon photo = new ImageIcon(getClass().getResource("/sampleProfiles/default_seller_profile.png"));
-        shop_photo.setIcon(photo);
-    }//GEN-LAST:event_edit_seller_remove_buttonActionPerformed
-
     private void edit_seller_upload_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_seller_upload_buttonActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "jpeg", "png", "gif");
@@ -4045,7 +4063,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 shop_photo.setIcon(icon);
 
                 String imageName = selectedFile.getName();
-                String imagePath = "src/ProductsImages/" + imageName;
+                imagePath = "src/sampleProfiles/" + imageName;
                 File destination = new File(imagePath);
                 Files.copy(selectedFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
@@ -4060,23 +4078,28 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_edit_seller_upload_buttonActionPerformed
 
     private void shop_locationMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shop_locationMouseClicked
-        // TODO add your handling code here:
+        shop_location.setFocusable(true);
+        shop_location.requestFocusInWindow();
     }//GEN-LAST:event_shop_locationMouseClicked
 
     private void shop_nameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shop_nameMouseClicked
-        // TODO add your handling code here:
+        shop_name.setFocusable(true);
+        shop_name.requestFocusInWindow();
     }//GEN-LAST:event_shop_nameMouseClicked
 
     private void shop_emailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shop_emailMouseClicked
-        // TODO add your handling code here:
+        shop_email.setFocusable(true);
+        shop_email.requestFocusInWindow();
     }//GEN-LAST:event_shop_emailMouseClicked
 
     private void shop_numberMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shop_numberMouseClicked
-        // TODO add your handling code here:
+        shop_number.setFocusable(true);
+        shop_number.requestFocusInWindow();
     }//GEN-LAST:event_shop_numberMouseClicked
 
     private void shop_fnameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shop_fnameMouseClicked
-        // TODO add your handling code here:
+        shop_fname.setFocusable(true);
+        shop_fname.requestFocusInWindow();
     }//GEN-LAST:event_shop_fnameMouseClicked
 
     private void shop_usernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shop_usernameMouseClicked
@@ -4128,16 +4151,74 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_deactivateActionPerformed
 
     private void edit_seller_close_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_seller_close_buttonActionPerformed
-        // TODO add your handling code here:
+        tabs.setSelectedIndex(5);
     }//GEN-LAST:event_edit_seller_close_buttonActionPerformed
 
     private void edit_seller_save_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_seller_save_buttonActionPerformed
+        String val_fame = shop_fname.getText();
+        String val_lame = shop_lname.getText();
+        String val_number = shop_number.getText();
+        String val_shop = shop_name.getText();
+        String val_location = shop_location.getText();
+        String val_email = shop_email.getText();
 
+        // Check if any field is empty and if selectedFile is not empty
+        if ((val_location.isEmpty() || val_fame.isEmpty() || val_lame.isEmpty() || val_number.isEmpty() || val_shop.isEmpty())) {
+            JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (val_number.length() < 11 || val_number.length() > 12 || !val_number.matches("\\d+")) {
+            JOptionPane.showMessageDialog(null, "Invalid number", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String sql;
+        PreparedStatement pst;
+
+        if (selectedFile != null && selectedFile.exists()) {
+            fileName = selectedFile.getName();
+            imagePath = "src/sampleProfiles/" + fileName;
+        } else {
+            imagePath = getImage;
+        }
+
+        try {
+            databaseConnector dbc = new databaseConnector();
+
+            sql = "UPDATE tbl_accounts SET first_name=?, last_name=?, address=?, phone_number=?, email=?, shop_name=?, profile_picture=? WHERE account_id=?";
+            pst = dbc.getConnection().prepareStatement(sql);
+            pst.setString(1, val_fame);
+            pst.setString(2, val_lame);
+            pst.setString(3, val_location);
+            pst.setString(4, val_number);
+            pst.setString(5, val_email);
+            pst.setString(6, val_shop);
+            pst.setString(7, imagePath);
+            pst.setInt(8, sellerID);
+
+            int rowsUpdated = pst.executeUpdate();
+            pst.close();
+
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(null, "Profile Updated Successfully!");
+                //logs
+                String details = "User " + sellerID + " Successfully change profile info!";
+                String action = "Change profile";
+
+                actionLogs.recordAdminLogs(sellerID, action, details);
+                actionLogs.displaySellerLogs(actionlogs_table, sellerID);
+                displayProfileInfo();
+                tabs.setSelectedIndex(5);
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to update Account!");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error adding product!" + e.getMessage());
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_edit_seller_save_buttonActionPerformed
-
-    private void jLabel57MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel57MouseClicked
-        tabs.setSelectedIndex(5);
-    }//GEN-LAST:event_jLabel57MouseClicked
 
     private String capitalize(String str) {
         if (str == null || str.isEmpty()) {
@@ -4203,6 +4284,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     vieworder_category.setText(rsProduct.getString("product_category"));
 
                     // Order information
+                    total_quantity = rsOrder.getInt("total_quantity");
                     vieworder_notes.setText(rsOrder.getString("notes"));
                     vieworder_date.setText(rsOrder.getString("date_purchase"));
                     String status;
@@ -4223,7 +4305,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                             break;
                     }
 
-                    vieworder_orderID.setText(rsOrder.getString("order_id"));
+                    vieworder_orderID.setText("#" + rsOrder.getString("order_id"));
                     buyer_id = rsOrder.getInt("buyer_id");
                     transaction_id = rsOrder.getInt("order_id");
                     product_id = rsOrder.getInt("product_id");
@@ -4336,7 +4418,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_archive_search_barKeyReleased
 
     private void shop_lnameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_shop_lnameMouseClicked
-        // TODO add your handling code here:
+        shop_lname.setFocusable(true);
+        shop_fname.requestFocusInWindow();
     }//GEN-LAST:event_shop_lnameMouseClicked
 
     String newPassword;
@@ -4546,6 +4629,14 @@ public final class sellerDashboard extends javax.swing.JFrame {
         getDescription.requestFocusInWindow();
     }//GEN-LAST:event_getDescriptionMouseClicked
 
+    private void jLabel112MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel112MouseClicked
+        tabs.setSelectedIndex(5);
+    }//GEN-LAST:event_jLabel112MouseClicked
+
+    private void jLabel113MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel113MouseClicked
+        tabs.setSelectedIndex(5);
+    }//GEN-LAST:event_jLabel113MouseClicked
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -4607,6 +4698,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel bacgkround1;
     private javax.swing.JTextField c1;
     private javax.swing.JTextField c10;
+    private javax.swing.JTextField c11;
     private javax.swing.JTextField c2;
     private javax.swing.JTextField c3;
     private javax.swing.JTextField c4;
@@ -4626,7 +4718,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton edit_product_save_button;
     private javax.swing.JButton edit_profile;
     private javax.swing.JButton edit_seller_close_button;
-    private javax.swing.JButton edit_seller_remove_button;
     private javax.swing.JButton edit_seller_save_button;
     private javax.swing.JButton edit_seller_upload_button;
     private javax.swing.JTextArea explain;
@@ -4664,6 +4755,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel110;
     private javax.swing.JLabel jLabel111;
+    private javax.swing.JLabel jLabel112;
+    private javax.swing.JLabel jLabel113;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -4712,7 +4805,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel55;
     private javax.swing.JLabel jLabel56;
-    private javax.swing.JLabel jLabel57;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
@@ -4808,7 +4900,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel l1;
     private javax.swing.JPanel l2;
     private javax.swing.JScrollPane l3;

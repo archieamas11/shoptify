@@ -754,7 +754,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 addAccountsaveBtnActionPerformed(evt);
             }
         });
-        addAccountContainer.add(addAccountsaveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 470, -1, 30));
+        addAccountContainer.add(addAccountsaveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 460, 140, 40));
 
         jSeparator8.setOrientation(javax.swing.SwingConstants.VERTICAL);
         addAccountContainer.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 120, 60, 380));
