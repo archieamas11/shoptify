@@ -24,13 +24,15 @@ public class flatlaftTable {
                 + "height:30;"
                 + "hoverBackground:null;"
                 + "pressedBackground:null;"
-                + "separatorColor:$TableHeader.background;"
+                + "separatorColor:#EBEBEB;"
                 + "font:bold;"
                 + "background:#F1F1F1;"); //
 
         table.putClientProperty(FlatClientProperties.STYLE, ""
                 + "rowHeight:30;"
                 + "showHorizontalLines:true;"
+                + "showVerticalLines:true;"
+                + "selectionBackground:#99CCFF;"
                 + "intercellSpacing:0,1;"
                 + "cellFocusColor:$TableHeader.hoverBackground;"
                 + "selectionBackground:$TableHeader.hoverBackground;"
