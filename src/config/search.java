@@ -21,7 +21,7 @@ public class search {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
         a.setRowSorter(sorter);
 
-        if (b.getText().equals("  Search")) {
+        if (b.getText().equals("Search")) {
             sorter.setRowFilter(null);
         } else if (b.getText().equals("")) {
             sorter.setRowFilter(RowFilter.regexFilter(b.getText()));

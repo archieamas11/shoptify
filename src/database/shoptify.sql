@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 21, 2024 at 02:35 PM
+-- Generation Time: May 22, 2024 at 03:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -208,10 +208,9 @@ CREATE TABLE `tbl_products` (
 --
 
 INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_image`, `date_created`, `product_status`) VALUES
-(10, 1, '123', 123, 123, '123', 'Electronics', 0, 'src/ProductsImages/3.png', '2024-05-21', 'Archived'),
 (11, 1, 'qwe', 123, 123, '123', 'Electronics', 0, 'src/ProductsImages/4.png', '2024-05-21', 'Available'),
-(12, 1, 'sdf', 123, 0, '', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-21', 'Available'),
-(13, 1, 'cv', 123, 123, 'qwe', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-21', 'Available');
+(12, 1, 'sdf', 123, 0, '', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-21', 'Archive'),
+(13, 1, 'cv', 123, 123, 'qwe', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-21', 'Archive');
 
 -- --------------------------------------------------------
 
@@ -355,7 +354,19 @@ INSERT INTO `tbl_sellerlogs` (`sellerlogs_id`, `seller_id`, `sellerlogs_action`,
 (93, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:28:38'),
 (94, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:33:06'),
 (95, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 12:33:50'),
-(96, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:34:10');
+(96, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:34:10'),
+(97, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 00:29:15'),
+(98, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 00:43:00'),
+(99, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 00:44:41'),
+(100, 1, 'Delete product', 'User 1 successfully deleted the product 10!', '2024-05-22 00:45:23'),
+(101, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 01:18:31'),
+(102, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 01:46:45'),
+(103, 1, 'Archive', 'Seller 1 Successfully put product 11 to archive!', '2024-05-22 01:47:10'),
+(104, 1, 'Archive', 'Seller 1 Successfully put product 11 to archive!', '2024-05-22 01:47:13'),
+(105, 1, 'Archive', 'Seller 1 Successfully put product 11 to archive!', '2024-05-22 01:47:16'),
+(106, 1, 'Archive', 'Seller 1 Successfully put product 13 to archive!', '2024-05-22 01:47:18'),
+(107, 1, 'Archive', 'Seller 1 Successfully put product 12 to archive!', '2024-05-22 01:47:22'),
+(108, 1, 'Restore', 'Seller 1 Successfully restore product 11!', '2024-05-22 01:48:11');
 
 -- --------------------------------------------------------
 
@@ -561,7 +572,7 @@ ALTER TABLE `tbl_rating4seller`
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
 
 --
 -- AUTO_INCREMENT for table `tbl_wishlist`
