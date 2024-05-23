@@ -141,7 +141,7 @@ public class chooseAccount extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        home.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
+        home.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         home.setForeground(new java.awt.Color(0, 158, 226));
         home.setText("SHOPTIFY");
         jPanel4.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 50));

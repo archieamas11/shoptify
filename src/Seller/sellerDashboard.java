@@ -387,9 +387,9 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 try (ResultSet rs = pst.executeQuery()) {
                     if (rs.next()) {
                         int total_products = rs.getInt("TotalProducts");
-                        totalProducts.setText(String.format("%d", total_products));
+                        seller_total_products.setText(String.format("%d", total_products));
                     } else {
-                        totalProducts.setText("0");
+                        seller_total_products.setText("0");
                     }
                 }
             }
@@ -914,7 +914,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         pendingOrders = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         totalOrders = new javax.swing.JLabel();
-        totalProducts = new javax.swing.JLabel();
+        seller_total_products = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel37 = new javax.swing.JLabel();
         todaysDate = new javax.swing.JLabel();
@@ -1367,7 +1367,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 40));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 20));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -1588,10 +1588,10 @@ public final class sellerDashboard extends javax.swing.JFrame {
         totalOrders.setText("0");
         jPanel6.add(totalOrders, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 330, -1, -1));
 
-        totalProducts.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
-        totalProducts.setForeground(new java.awt.Color(255, 255, 255));
-        totalProducts.setText("0");
-        jPanel6.add(totalProducts, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 330, -1, -1));
+        seller_total_products.setFont(new java.awt.Font("Arial", 1, 35)); // NOI18N
+        seller_total_products.setForeground(new java.awt.Color(255, 255, 255));
+        seller_total_products.setText("0");
+        jPanel6.add(seller_total_products, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 330, -1, -1));
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 11)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -5443,6 +5443,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel seller_store1;
     private javax.swing.JLabel seller_store2;
     private javax.swing.JLabel seller_store3;
+    private javax.swing.JLabel seller_total_products;
     private javax.swing.JPanel seperator;
     private javax.swing.JPanel seperator1;
     private javax.swing.JTextField shop_email;
@@ -5482,7 +5483,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel top2_product_sold;
     private javax.swing.JLabel totalLoss;
     private javax.swing.JLabel totalOrders;
-    private javax.swing.JLabel totalProducts;
     private javax.swing.JLabel totalSales;
     private javax.swing.JLabel total_amount;
     private javax.swing.JLabel username;

@@ -102,6 +102,7 @@ public class buyerDashboard extends javax.swing.JFrame {
             Connection connection = dbc.getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT product_image, product_name, product_price FROM tbl_products WHERE product_status = ? AND product_stock > 0");
             statement.setString(1, "Available");
+
             ResultSet rs = statement.executeQuery();
 
             JLabel[] nameLabels = {name1, name2, name3, name4, name5, name6, name7, name8, name9, name10, name11, name12};
@@ -114,13 +115,15 @@ public class buyerDashboard extends javax.swing.JFrame {
                 int height = 210;
                 int width = 120;
                 String getImageFromDatabase = rs.getString("product_image");
-
                 String productName = rs.getString("product_name");
                 int productPrice = rs.getInt("product_price");
                 GetImage.displayImage(imageLabels[productCounter], getImageFromDatabase, height, width);
                 nameLabels[productCounter].setText(productName);
                 priceLabels[productCounter].setText("₱   " + productPrice);
-
+                product_id = rs.getInt("product_id");
+                seller_id = rs.getInt("sller_id");
+                System.out.println(product_id);
+                System.out.println(seller_id);
                 productCounter++;
             }
 
@@ -131,7 +134,6 @@ public class buyerDashboard extends javax.swing.JFrame {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
@@ -155,25 +157,69 @@ public class buyerDashboard extends javax.swing.JFrame {
             Image image = icon.getImage();
             Image scaledImage = image.getScaledInstance(330, 330, Image.SCALE_SMOOTH);
             ImageIcon selectedImage = new ImageIcon(scaledImage);
-            bigPhoto.setIcon(selectedImage);
-
-            labelname.setText(nameLabel.getText());
-            labelprice.setText(priceLabel.getText());
+            product_photo.setIcon(selectedImage);
+            product_name.setText(nameLabel.getText());
+            product_price.setText(priceLabel.getText());
+            product_dashboard_name.setText(nameLabel.getText());
 
             try {
                 databaseConnector dbc = new databaseConnector();
-                String query = "SELECT product_id, product_description, product_stock, seller_id FROM tbl_products WHERE product_name = ?";
+
+                String query = "SELECT p.product_id, "
+                        + "p.product_description, "
+                        + "p.product_stock, "
+                        + "p.total_sold, "
+                        + "p.product_category, "
+                        + "p.COUNT(*) as total_products, "
+                        + "w.total_favorites, "
+                        + "pr.(SUM)total_star as total_star, "
+                        + "pr.COUNT(*) as total_rating, "
+                        + "sr.(SUM)total_star as seller_star, "
+                        + "sr.COUNT(*) as seller_rating, "
+                        + "a.profile_pciture as `seller_profile`, "
+                        + "FROM tbl_products p "
+                        + "JOIN tbl_products p ON p.product_id = o.product_id "
+                        + "WHERE p.product_status = 'Available' AND p.seller_id AND p.product_name = ?";
+                //String query = "SELECT product_id, product_description, product_stock, seller_id FROM tbl_products WHERE product_name = ?";
                 PreparedStatement statement = dbc.getConnection().prepareStatement(query);
                 statement.setString(1, nameLabel.getText());
 
                 ResultSet rs = statement.executeQuery();
                 if (rs.next()) {
+
+                    int total_products = rs.getInt("total_products");
+                    seller_products.setText(String.format("%d", total_products));
+
+                    int height = 80;
+                    int width = 80;
+                    String getImageFromDatabase = rs.getString("seller_profile");
+                    GetImage.displayImage(seller_profile, getImageFromDatabase, height, width);
+
+                    int sum_star = rs.getInt("total_star");
+                    int seller_sum_star = rs.getInt("seller_star");
+                    int seller_count = rs.getInt("total_rating");
+                    int seller_seller_count = rs.getInt("seller_rating");
+                    float seller_rating = (float) seller_sum_star / seller_seller_count;
+                    float rating = (float) sum_star / seller_count;
+                    if (sum_star < 1) {
+                        product_rating.setText("0 (0)");
+                    } else {
+                        product_rating.setText(String.format("%.1f (%d)", rating, seller_count));
+                    }
+                    if (seller_sum_star < 1) {
+                        seller__profile_rating.setText("0 (0)");
+                    } else {
+                        seller__profile_rating.setText(String.format("%.1f (%d)", seller_rating, seller_seller_count));
+
+                    }
+
                     product_id = rs.getInt("product_id");
                     String description = rs.getString("product_description");
-                    des.setText(description);
+                    product_description.setText(description);
                     stocks = rs.getInt("product_stock");
                     quan = stocks;
                     seller_id = rs.getInt("seller_id");
+
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -251,18 +297,43 @@ public class buyerDashboard extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         back = new javax.swing.JLabel();
         productInfo = new javax.swing.JPanel();
-        bigPhoto = new javax.swing.JLabel();
-        labelname = new javax.swing.JLabel();
-        labelprice = new javax.swing.JLabel();
+        product_name = new javax.swing.JLabel();
+        product_price = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        des = new javax.swing.JEditorPane();
-        cart = new javax.swing.JButton();
-        buy = new javax.swing.JButton();
+        product_description = new javax.swing.JEditorPane();
+        add_to_cart = new javax.swing.JButton();
+        buy_now = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         displayQuant = new javax.swing.JTextField();
+        jPanel6 = new javax.swing.JPanel();
+        product_photo = new javax.swing.JLabel();
+        jSeparator4 = new javax.swing.JSeparator();
+        jLabel23 = new javax.swing.JLabel();
+        product_sold = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        product_rating = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jSeparator10 = new javax.swing.JSeparator();
+        jLabel25 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        product_shop_name = new javax.swing.JLabel();
+        seller_rating2 = new javax.swing.JLabel();
+        seller_joined = new javax.swing.JLabel();
+        seller_rating5 = new javax.swing.JLabel();
+        seller_rating6 = new javax.swing.JLabel();
+        seller__profile_rating = new javax.swing.JLabel();
+        seller_products = new javax.swing.JLabel();
+        seller_profile = new javax.swing.JLabel();
+        add_to_wishlist = new javax.swing.JButton();
+        jLabel13 = new javax.swing.JLabel();
+        product_category = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        add_to_wishlist1 = new javax.swing.JButton();
+        product_dashboard_name = new javax.swing.JLabel();
+        product_favorites = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         cartViewContainer = new javax.swing.JPanel();
         quantity_decrease = new javax.swing.JButton();
@@ -407,7 +478,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         });
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, -1, 40));
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 20));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 70));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -701,58 +772,63 @@ public class buyerDashboard extends javax.swing.JFrame {
 
         productInfo.setBackground(new java.awt.Color(255, 255, 255));
         productInfo.setLayout(null);
-        productInfo.add(bigPhoto);
-        bigPhoto.setBounds(240, 150, 330, 330);
 
-        labelname.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        labelname.setText("label");
-        productInfo.add(labelname);
-        labelname.setBounds(620, 140, 240, 40);
+        product_name.setFont(new java.awt.Font("Roboto", 0, 50)); // NOI18N
+        product_name.setForeground(new java.awt.Color(51, 51, 51));
+        product_name.setText("Macbook Air");
+        productInfo.add(product_name);
+        product_name.setBounds(660, 120, 570, 40);
 
-        labelprice.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        labelprice.setText("jLabel4");
-        productInfo.add(labelprice);
-        labelprice.setBounds(620, 180, 190, 50);
+        product_price.setFont(new java.awt.Font("Arial", 1, 50)); // NOI18N
+        product_price.setText("₱ 85,999");
+        productInfo.add(product_price);
+        product_price.setBounds(660, 160, 560, 70);
 
-        des.setEditable(false);
-        des.setBorder(null);
-        des.setEditorKit(null);
-        des.setForeground(new java.awt.Color(102, 102, 102));
-        des.setFocusable(false);
-        des.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        des.setName(""); // NOI18N
-        des.setRequestFocusEnabled(false);
-        jScrollPane2.setViewportView(des);
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        product_description.setEditable(false);
+        product_description.setBackground(new java.awt.Color(255, 255, 255));
+        product_description.setBorder(null);
+        product_description.setEditorKit(null);
+        product_description.setForeground(new java.awt.Color(51, 51, 51));
+        product_description.setFocusable(false);
+        product_description.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        product_description.setName(""); // NOI18N
+        product_description.setRequestFocusEnabled(false);
+        jScrollPane2.setViewportView(product_description);
 
         productInfo.add(jScrollPane2);
-        jScrollPane2.setBounds(620, 380, 360, 100);
+        jScrollPane2.setBounds(670, 370, 540, 180);
 
-        cart.setText("Add to Cart");
-        cart.addActionListener(new java.awt.event.ActionListener() {
+        add_to_cart.setBackground(new java.awt.Color(241, 241, 241));
+        add_to_cart.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        add_to_cart.setText("Add to Cart");
+        add_to_cart.setBorderPainted(false);
+        add_to_cart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cartActionPerformed(evt);
+                add_to_cartActionPerformed(evt);
             }
         });
-        productInfo.add(cart);
-        cart.setBounds(620, 240, 170, 40);
+        productInfo.add(add_to_cart);
+        add_to_cart.setBounds(740, 570, 230, 50);
 
-        buy.setText("Buy it now");
-        buy.addActionListener(new java.awt.event.ActionListener() {
+        buy_now.setBackground(new java.awt.Color(0, 158, 226));
+        buy_now.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        buy_now.setForeground(new java.awt.Color(255, 255, 255));
+        buy_now.setText("Buy it now");
+        buy_now.setBorderPainted(false);
+        buy_now.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buyActionPerformed(evt);
+                buy_nowActionPerformed(evt);
             }
         });
-        productInfo.add(buy);
-        buy.setBounds(810, 240, 170, 40);
+        productInfo.add(buy_now);
+        buy_now.setBounds(980, 570, 230, 50);
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         jLabel4.setText("Description");
         productInfo.add(jLabel4);
-        jLabel4.setBounds(620, 360, 70, 16);
-
-        jLabel6.setText("Quantity");
-        productInfo.add(jLabel6);
-        jLabel6.setBounds(620, 280, 60, 30);
+        jLabel4.setBounds(670, 340, 110, 30);
 
         jButton2.setFont(new java.awt.Font("Times New Roman", 1, 15)); // NOI18N
         jButton2.setText("+");
@@ -762,7 +838,7 @@ public class buyerDashboard extends javax.swing.JFrame {
             }
         });
         productInfo.add(jButton2);
-        jButton2.setBounds(680, 310, 30, 30);
+        jButton2.setBounds(760, 280, 60, 50);
 
         jButton3.setFont(new java.awt.Font("Times New Roman", 0, 20)); // NOI18N
         jButton3.setText("-");
@@ -772,12 +848,163 @@ public class buyerDashboard extends javax.swing.JFrame {
             }
         });
         productInfo.add(jButton3);
-        jButton3.setBounds(620, 310, 30, 30);
+        jButton3.setBounds(660, 280, 50, 50);
 
         displayQuant.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         displayQuant.setText("1");
         productInfo.add(displayQuant);
-        displayQuant.setBounds(650, 310, 30, 30);
+        displayQuant.setBounds(710, 280, 50, 50);
+
+        jPanel6.setBackground(new java.awt.Color(241, 241, 241));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel6.add(product_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 250, 250));
+
+        productInfo.add(jPanel6);
+        jPanel6.setBounds(140, 120, 470, 370);
+
+        jSeparator4.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator4.setForeground(new java.awt.Color(231, 231, 231));
+        jSeparator4.setAlignmentX(0.2F);
+        jSeparator4.setAlignmentY(0.2F);
+        productInfo.add(jSeparator4);
+        jSeparator4.setBounds(0, 40, 1280, 20);
+
+        jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product_sold.png"))); // NOI18N
+        productInfo.add(jLabel23);
+        jLabel23.setBounds(940, 230, 40, 50);
+
+        product_sold.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        product_sold.setForeground(new java.awt.Color(153, 153, 153));
+        product_sold.setText("Sold (12)");
+        productInfo.add(product_sold);
+        product_sold.setBounds(990, 230, 110, 50);
+
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product_star.png"))); // NOI18N
+        productInfo.add(jLabel24);
+        jLabel24.setBounds(650, 230, 40, 50);
+
+        product_rating.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        product_rating.setForeground(new java.awt.Color(153, 153, 153));
+        product_rating.setText("5.0 (12)");
+        productInfo.add(product_rating);
+        product_rating.setBounds(700, 230, 70, 50);
+
+        jPanel10.setBackground(new java.awt.Color(241, 241, 241));
+        jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jSeparator10.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel10.add(jSeparator10, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 20, 20, 80));
+
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/shop_icon_1.png"))); // NOI18N
+        jPanel10.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 30, 40));
+
+        jButton4.setBackground(new java.awt.Color(0, 158, 226));
+        jButton4.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("View Shop");
+        jButton4.setBorderPainted(false);
+        jPanel10.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 60, 100, 40));
+
+        jButton5.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
+        jButton5.setText("Chat now");
+        jButton5.setBorderPainted(false);
+        jPanel10.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 60, 80, 40));
+
+        product_shop_name.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        product_shop_name.setForeground(new java.awt.Color(51, 51, 51));
+        product_shop_name.setText("Tindahan");
+        jPanel10.add(product_shop_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, 130, 20));
+
+        seller_rating2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        seller_rating2.setForeground(new java.awt.Color(153, 153, 153));
+        seller_rating2.setText("Joined");
+        jPanel10.add(seller_rating2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 80, 60, -1));
+
+        seller_joined.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        seller_joined.setForeground(new java.awt.Color(0, 158, 226));
+        seller_joined.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        seller_joined.setText("6-18-2024");
+        jPanel10.add(seller_joined, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 80, 60, -1));
+
+        seller_rating5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        seller_rating5.setForeground(new java.awt.Color(153, 153, 153));
+        seller_rating5.setText("Products");
+        jPanel10.add(seller_rating5, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, 60, -1));
+
+        seller_rating6.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        seller_rating6.setForeground(new java.awt.Color(153, 153, 153));
+        seller_rating6.setText("Ratings");
+        jPanel10.add(seller_rating6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 20, 60, -1));
+
+        seller__profile_rating.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        seller__profile_rating.setForeground(new java.awt.Color(0, 158, 226));
+        seller__profile_rating.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        seller__profile_rating.setText("5.0 (12)");
+        jPanel10.add(seller__profile_rating, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, 50, -1));
+
+        seller_products.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        seller_products.setForeground(new java.awt.Color(0, 158, 226));
+        seller_products.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        seller_products.setText("9");
+        jPanel10.add(seller_products, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 50, 40, -1));
+        jPanel10.add(seller_profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 80, 80));
+
+        productInfo.add(jPanel10);
+        jPanel10.setBounds(140, 500, 470, 120);
+
+        add_to_wishlist.setBackground(new java.awt.Color(241, 241, 241));
+        add_to_wishlist.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product_heart.png"))); // NOI18N
+        add_to_wishlist.setBorderPainted(false);
+        add_to_wishlist.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_to_wishlistActionPerformed(evt);
+            }
+        });
+        productInfo.add(add_to_wishlist);
+        add_to_wishlist.setBounds(660, 570, 70, 50);
+
+        jLabel13.setFont(new java.awt.Font("Roboto", 0, 20)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel13.setText("Home  >");
+        productInfo.add(jLabel13);
+        jLabel13.setBounds(140, 80, 80, 30);
+
+        product_category.setFont(new java.awt.Font("Roboto", 0, 20)); // NOI18N
+        product_category.setForeground(new java.awt.Color(153, 153, 153));
+        product_category.setText("Category  >");
+        productInfo.add(product_category);
+        product_category.setBounds(230, 80, 130, 30);
+
+        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product_heart.png"))); // NOI18N
+        productInfo.add(jLabel26);
+        jLabel26.setBounds(780, 230, 40, 50);
+
+        add_to_wishlist1.setBackground(new java.awt.Color(241, 241, 241));
+        add_to_wishlist1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product_heart.png"))); // NOI18N
+        add_to_wishlist1.setBorderPainted(false);
+        add_to_wishlist1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_to_wishlist1ActionPerformed(evt);
+            }
+        });
+        productInfo.add(add_to_wishlist1);
+        add_to_wishlist1.setBounds(660, 570, 70, 50);
+
+        product_dashboard_name.setFont(new java.awt.Font("Roboto", 0, 20)); // NOI18N
+        product_dashboard_name.setForeground(new java.awt.Color(51, 51, 51));
+        product_dashboard_name.setText("Product Name");
+        productInfo.add(product_dashboard_name);
+        product_dashboard_name.setBounds(350, 80, 130, 30);
+
+        product_favorites.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        product_favorites.setForeground(new java.awt.Color(153, 153, 153));
+        product_favorites.setText("Favorite (12)");
+        productInfo.add(product_favorites);
+        product_favorites.setBounds(830, 230, 110, 50);
 
         tabs.addTab("tab3", productInfo);
 
@@ -1202,9 +1429,9 @@ public class buyerDashboard extends javax.swing.JFrame {
         tabs.setSelectedIndex(0);
     }//GEN-LAST:event_backMouseClicked
 
-    private void cartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cartActionPerformed
-        String productName = labelname.getText();
-        String cartPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
+    private void add_to_cartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_to_cartActionPerformed
+        String productName = product_name.getText();
+        String cartPriceStr = product_price.getText().replaceAll("[^0-9]", "");
         int cartPrice = Integer.parseInt(cartPriceStr);
         String displayQuantStr = displayQuant.getText();
         int cartQuant = Integer.parseInt(displayQuantStr);
@@ -1258,7 +1485,7 @@ public class buyerDashboard extends javax.swing.JFrame {
             System.out.println("SQLException: " + e.getMessage());
             e.printStackTrace();
         }
-    }//GEN-LAST:event_cartActionPerformed
+    }//GEN-LAST:event_add_to_cartActionPerformed
 
     private void myCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myCartMouseClicked
         displayCart();
@@ -1378,9 +1605,9 @@ public class buyerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_savebtnActionPerformed
 
 
-    private void buyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buyActionPerformed
-        String productName = labelname.getText();
-        String buyPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
+    private void buy_nowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buy_nowActionPerformed
+        String productName = product_name.getText();
+        String buyPriceStr = product_price.getText().replaceAll("[^0-9]", "");
         int buyPrice = Integer.parseInt(buyPriceStr);
         String buyQuantStr = displayQuant.getText();
         int buyQuant = Integer.parseInt(buyQuantStr);
@@ -1465,7 +1692,7 @@ public class buyerDashboard extends javax.swing.JFrame {
             System.out.println("SQLException: " + e.getMessage());
             e.printStackTrace();
         }
-    }//GEN-LAST:event_buyActionPerformed
+    }//GEN-LAST:event_buy_nowActionPerformed
 
     private void updateStockAndStatus(databaseConnector dbc, int productId, int newStock, String currentStatus) throws SQLException {
         if (newStock < 1) {
@@ -1605,8 +1832,8 @@ public class buyerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutActionPerformed
-        String productName = labelname.getText();
-        String buyPriceStr = labelprice.getText().replaceAll("[^0-9]", "");
+        String productName = product_name.getText();
+        String buyPriceStr = product_price.getText().replaceAll("[^0-9]", "");
         int buyPrice = Integer.parseInt(buyPriceStr);
         String buyQuantStr = txtNumber.getText();
         int buyQuant = Integer.parseInt(buyQuantStr);
@@ -1705,6 +1932,14 @@ public class buyerDashboard extends javax.swing.JFrame {
         tabs.setSelectedIndex(0);
     }//GEN-LAST:event_jLabel2MouseClicked
 
+    private void add_to_wishlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_to_wishlistActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_add_to_wishlistActionPerformed
+
+    private void add_to_wishlist1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_to_wishlist1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_add_to_wishlist1ActionPerformed
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -1722,18 +1957,18 @@ public class buyerDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
+    private javax.swing.JButton add_to_cart;
+    private javax.swing.JButton add_to_wishlist;
+    private javax.swing.JButton add_to_wishlist1;
     private javax.swing.JTextField address;
     private javax.swing.JLabel back;
-    private javax.swing.JLabel bigPhoto;
-    private javax.swing.JButton buy;
-    private javax.swing.JButton cart;
+    private javax.swing.JButton buy_now;
     private javax.swing.JPanel cartTableContainer;
     private javax.swing.JPanel cartViewContainer;
     private javax.swing.JTable cart_table;
     private javax.swing.JButton checkout;
     private javax.swing.JPanel container;
     private javax.swing.JButton deleteCart;
-    private javax.swing.JEditorPane des;
     private javax.swing.JTextField displayQuant;
     private javax.swing.JLabel edit;
     private javax.swing.JLabel edit1;
@@ -1762,26 +1997,34 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
@@ -1789,15 +2032,15 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator9;
-    private javax.swing.JLabel labelname;
-    private javax.swing.JLabel labelprice;
     private javax.swing.JTextField lname;
     private javax.swing.JLabel logout;
     private javax.swing.JLabel logout1;
@@ -1867,6 +2110,16 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel price8;
     private javax.swing.JLabel price9;
     private javax.swing.JPanel productInfo;
+    private javax.swing.JLabel product_category;
+    private javax.swing.JLabel product_dashboard_name;
+    private javax.swing.JEditorPane product_description;
+    private javax.swing.JLabel product_favorites;
+    private javax.swing.JLabel product_name;
+    private javax.swing.JLabel product_photo;
+    private javax.swing.JLabel product_price;
+    private javax.swing.JLabel product_rating;
+    private javax.swing.JLabel product_shop_name;
+    private javax.swing.JLabel product_sold;
     private javax.swing.JLabel profile;
     private javax.swing.JLabel profile1;
     private javax.swing.JPanel profile2;
@@ -1878,6 +2131,13 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField search;
     private javax.swing.JButton searchbtn1;
     private javax.swing.JButton select;
+    private javax.swing.JLabel seller__profile_rating;
+    private javax.swing.JLabel seller_joined;
+    private javax.swing.JLabel seller_products;
+    private javax.swing.JLabel seller_profile;
+    private javax.swing.JLabel seller_rating2;
+    private javax.swing.JLabel seller_rating5;
+    private javax.swing.JLabel seller_rating6;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JLabel tamount;
     private javax.swing.JTextField txtNumber;
