@@ -36,7 +36,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
@@ -303,6 +302,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         searchIcon = new javax.swing.JButton();
         searchBar = new javax.swing.JTextField();
         add = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         editProfileContainer = new javax.swing.JPanel();
         manage3 = new javax.swing.JLabel();
@@ -470,7 +470,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 10));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 40));
 
         tabs.setBackground(new java.awt.Color(255, 255, 255));
         tabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -493,7 +493,6 @@ public final class adminDashboard extends javax.swing.JFrame {
 
             }
         ));
-        accounts_table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         accounts_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 accounts_tableMouseClicked(evt);
@@ -690,6 +689,9 @@ public final class adminDashboard extends javax.swing.JFrame {
             }
         });
         jPanel7.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 20, 240, 50));
+
+        jLabel1.setText("jLabel1");
+        jPanel7.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, 160, 40));
 
         jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 690));
 
@@ -1063,7 +1065,6 @@ public final class adminDashboard extends javax.swing.JFrame {
 
             }
         ));
-        archive_table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         archive_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 archive_tableMouseClicked(evt);
@@ -1218,7 +1219,6 @@ public final class adminDashboard extends javax.swing.JFrame {
 
             }
         ));
-        actionlogs_table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         actionlogs_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 actionlogs_tableMouseClicked(evt);
@@ -1973,6 +1973,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel fullname;
     private javax.swing.JLabel id;
     private javax.swing.JLabel id1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

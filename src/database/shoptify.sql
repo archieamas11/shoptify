@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2024 at 05:05 AM
+-- Generation Time: May 23, 2024 at 09:21 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -148,8 +148,15 @@ CREATE TABLE `tbl_message4admin` (
   `message_title` varchar(100) NOT NULL,
   `message_description` varchar(2000) NOT NULL,
   `date_sent` date NOT NULL,
-  `message_status` varchar(100) NOT NULL
+  `message_status` varchar(100) NOT NULL DEFAULT 'Under Review'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_message4admin`
+--
+
+INSERT INTO `tbl_message4admin` (`message_id`, `seller_id`, `message_category`, `message_title`, `message_description`, `date_sent`, `message_status`) VALUES
+(1, 1, 'Delete a product', 'wqeq', 'wqeqweqweqwe', '2024-05-23', 'Under Review');
 
 -- --------------------------------------------------------
 
@@ -185,6 +192,13 @@ CREATE TABLE `tbl_orders` (
   `order_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_orders`
+--
+
+INSERT INTO `tbl_orders` (`order_id`, `buyer_id`, `seller_id`, `product_id`, `total_quantity`, `total_price`, `payment_method`, `notes`, `date_purchase`, `order_status`) VALUES
+(2, 2, 1, 13, 12, 200, 'COD', 'asdasd', '2024-05-23', 'Pending');
+
 -- --------------------------------------------------------
 
 --
@@ -211,7 +225,7 @@ CREATE TABLE `tbl_products` (
 
 INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_image`, `date_created`, `product_status`) VALUES
 (12, 1, 'sdf', 123, 0, '', 'Electronics', 1, 'src/ProductsImages/5.png', '2024-05-21', 'Available'),
-(13, 1, 'cv', 123, 123, 'qwe', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-21', 'Available'),
+(13, 1, 'cv', 123, 123, 'qwe', 'Electronics', 0, 'src/ProductsImages/1.png', '2024-05-21', 'Available'),
 (14, 1, 'vb', 123, 123, '123', 'Electronics', 0, 'src/ProductsImages/7.png', '2024-05-23', 'Available');
 
 -- --------------------------------------------------------
@@ -433,7 +447,30 @@ INSERT INTO `tbl_sellerlogs` (`sellerlogs_id`, `seller_id`, `sellerlogs_action`,
 (170, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:50:46'),
 (171, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:58:13'),
 (172, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 03:00:31'),
-(173, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 03:01:39');
+(173, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 03:01:39'),
+(174, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 05:47:30'),
+(175, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 05:57:59'),
+(176, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 05:59:49'),
+(177, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:01:10'),
+(178, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:02:52'),
+(179, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:03:15'),
+(180, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:06:44'),
+(181, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:07:10'),
+(182, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:21:28'),
+(183, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:23:45'),
+(184, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:26:19'),
+(185, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:32:42'),
+(186, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:34:39'),
+(187, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:34:54'),
+(188, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:40:56'),
+(189, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:41:10'),
+(190, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:41:22'),
+(191, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:06:27'),
+(192, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:07:49'),
+(193, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:10:10'),
+(194, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:11:35'),
+(195, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:12:35'),
+(196, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:13:04');
 
 -- --------------------------------------------------------
 
@@ -613,7 +650,7 @@ ALTER TABLE `tbl_invoice`
 -- AUTO_INCREMENT for table `tbl_message4admin`
 --
 ALTER TABLE `tbl_message4admin`
-  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_messages4seller`
@@ -625,7 +662,7 @@ ALTER TABLE `tbl_messages4seller`
 -- AUTO_INCREMENT for table `tbl_orders`
 --
 ALTER TABLE `tbl_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_products`
@@ -649,7 +686,7 @@ ALTER TABLE `tbl_rating4seller`
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
+  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
 
 --
 -- AUTO_INCREMENT for table `tbl_wishlist`

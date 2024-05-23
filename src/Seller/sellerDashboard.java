@@ -127,6 +127,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
         displayOrdersTable(); // display orders table
         displayWishlistTable(); //display wishist table
         display_wishlist_dashboard(); //display top wishlist in dashboard
+        display_best_selling_dashboard(); //display best seeling
+        display_orders_dashboard(); //display order dashboard
 
         //display total sales for seller dashboard
         displayTotalSales(sellerID);
@@ -204,6 +206,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         c10.setFocusable(false);
         c11.setFocusable(false);
         z6.setFocusable(false);
+        descript.setFocusable(false);
         wishlist_search_bar.setFocusable(false);
 
         UXmethods.RoundBorders.setArcStyle(edit_seller_upload_button, 10);
@@ -696,7 +699,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
             databaseConnector dbc = new databaseConnector();
             try (PreparedStatement pstmt = dbc.getConnection().prepareStatement(
                     "SELECT p.product_name AS `Product Name`, "
-                    + "w.total_favorites AS `Favorite(s)` "
+                    + "w.total_favorites AS `Favorite(s)`, "
+                    + "p.product_image AS `image` "
                     + "FROM tbl_wishlist w "
                     + "JOIN tbl_products p ON p.product_id = w.product_id "
                     + "WHERE w.seller_id = ? "
@@ -706,17 +710,135 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 try (ResultSet rs = pstmt.executeQuery()) {
                     if (rs.next()) {
                         top1_name.setText(rs.getString("Product Name"));
-                        top1_favorites.setText(rs.getString("Favorite(s)"));
+                        String total_favorites = rs.getString("Favorite(s)");
+                        top1_favorites.setText(total_favorites + " Favorite(s)");
+                        int height = 80;
+                        int width = 80;
+                        String getImageFromDatabase = rs.getString("image");
+                        GetImage.displayImage(top1_photo, getImageFromDatabase, height, width);
                     } else {
-                        top1_name.setText("N/A");
-                        top1_favorites.setText("N/A");
+                        top1_name.setText("");
+                        top1_favorites.setText("");
                     }
                     if (rs.next()) {
                         top2_name.setText(rs.getString("Product Name"));
-                        top2_favorites.setText(rs.getString("Favorite(s)"));
+                        String total_favorites = rs.getString("Favorite(s)");
+                        top2_favorites.setText(total_favorites + " Favorite(s)");
+                        int height = 80;
+                        int width = 80;
+                        String getImageFromDatabase = rs.getString("image");
+                        GetImage.displayImage(top2_photo, getImageFromDatabase, height, width);
                     } else {
-                        top2_name.setText("N/A");
-                        top2_favorites.setText("N/A");
+                        top2_name.setText("");
+                        top2_favorites.setText("");
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Errors: " + ex.getMessage());
+        }
+    }
+
+    private void display_best_selling_dashboard() {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            try (PreparedStatement pstmt = dbc.getConnection().prepareStatement(
+                    "SELECT product_name, "
+                    + "product_price, "
+                    + "total_sold, "
+                    + "product_image "
+                    + "FROM tbl_products "
+                    + "WHERE seller_id = ? "
+                    + "ORDER BY total_sold DESC "
+                    + "LIMIT 2")) {
+                pstmt.setInt(1, sellerID);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        top1_product_name.setText(rs.getString("product_name"));
+                        top1_product_price.setText("₱  " + rs.getString("product_price"));
+                        String total_sold = rs.getString("total_sold");
+                        top1_product_sold.setText(total_sold + " sold");
+                        int height = 80;
+                        int width = 80;
+                        String getImageFromDatabase = rs.getString("product_image");
+                        GetImage.displayImage(top1_product_photo, getImageFromDatabase, height, width);
+                    } else {
+                        top1_product_name.setText("");
+                        top1_product_price.setText("");
+                        top1_product_sold.setText("");
+                        top1_product_photo.setIcon(null);
+                    }
+                    if (rs.next()) {
+                        top2_product_name.setText(rs.getString("product_name"));
+                        top2_product_price.setText("₱  " + rs.getString("product_price"));
+                        String total_sold = rs.getString("total_sold");
+                        top2_product_sold.setText(total_sold + " sold");
+                        int height = 80;
+                        int width = 80;
+                        String getImageFromDatabase = rs.getString("product_image");
+                        GetImage.displayImage(top2_product_photo, getImageFromDatabase, height, width);
+                    } else {
+                        top2_product_name.setText("");
+                        top2_product_price.setText("");
+                        top2_product_sold.setText("");
+                        top2_product_photo.setIcon(null);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Errors: " + ex.getMessage());
+        }
+    }
+
+    private void display_orders_dashboard() {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            try (PreparedStatement pstmt = dbc.getConnection().prepareStatement(
+                    "SELECT p.product_name AS `product_name`, "
+                    + "p.product_price AS `price`, "
+                    + "o.total_quantity AS `quantity`, "
+                    + "o.total_price AS `total_price`, "
+                    + "p.product_image AS `product_image` "
+                    + "FROM tbl_orders o "
+                    + "JOIN tbl_products p ON p.product_id = o.product_id "
+                    + "WHERE o.seller_id = ? "
+                    + "ORDER BY o.order_status = 'Pending' DESC "
+                    + "LIMIT 2")) {
+                pstmt.setInt(1, sellerID);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        top1_order_name.setText(rs.getString("product_name"));
+                        String price = rs.getString("price");
+                        String quantity = rs.getString("quantity");
+                        top1_order_price.setText("₱ " + price + " " + "x" + " " + quantity);
+                        top1_order_total.setText(rs.getString("total_price"));
+                        int height = 80;
+                        int width = 80;
+                        String getImageFromDatabase = rs.getString("product_image");
+                        GetImage.displayImage(top1_order_photo, getImageFromDatabase, height, width);
+                    } else {
+                        total_amount.setText("Total amount");
+                        top1_order_name.setText("");
+                        top1_order_price.setText("");
+                        top1_order_total.setText("");
+                        top1_order_photo.setIcon(null);
+                    }
+                    if (rs.next()) {
+                        top2_order_name.setText(rs.getString("product_name"));
+                        String price = rs.getString("price");
+                        String quantity = rs.getString("quantity");
+                        top2_order_price.setText("₱ " + price + " " + "x" + " " + quantity);
+                        top2_order_total.setText(rs.getString("total_price"));
+                        int height = 80;
+                        int width = 80;
+                        String getImageFromDatabase = rs.getString("product_image");
+                        GetImage.displayImage(top2_order_photo, getImageFromDatabase, height, width);
+                    } else {
+                        total_amount.setText("Total amount");
+                        top2_order_name.setText("");
+                        top2_order_price.setText("");
+                        top2_order_total.setText("");
+                        top2_order_photo.setIcon(null);
                     }
                 }
             }
@@ -760,37 +882,35 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         top1_favorites = new javax.swing.JLabel();
         top1_name = new javax.swing.JLabel();
-        jLabel135 = new javax.swing.JLabel();
-        jLabel133 = new javax.swing.JLabel();
+        top1_photo = new javax.swing.JLabel();
         top2_favorites = new javax.swing.JLabel();
         top2_name = new javax.swing.JLabel();
-        jLabel139 = new javax.swing.JLabel();
-        jLabel140 = new javax.swing.JLabel();
+        top2_photo = new javax.swing.JLabel();
         CONTAINER2 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jLabel115 = new javax.swing.JLabel();
-        jLabel116 = new javax.swing.JLabel();
-        jLabel117 = new javax.swing.JLabel();
-        jLabel118 = new javax.swing.JLabel();
-        jLabel119 = new javax.swing.JLabel();
+        top2_order_total = new javax.swing.JLabel();
+        top1_order_name = new javax.swing.JLabel();
+        top2_order_name = new javax.swing.JLabel();
+        top1_order_price = new javax.swing.JLabel();
+        top2_order_price = new javax.swing.JLabel();
         jLabel120 = new javax.swing.JLabel();
-        jLabel122 = new javax.swing.JLabel();
-        jLabel123 = new javax.swing.JLabel();
-        jLabel124 = new javax.swing.JLabel();
-        jLabel127 = new javax.swing.JLabel();
+        total_amount = new javax.swing.JLabel();
+        top1_order_photo = new javax.swing.JLabel();
+        top2_order_photo = new javax.swing.JLabel();
+        top1_order_total = new javax.swing.JLabel();
         CONTAINER3 = new javax.swing.JPanel();
         CONTAINER5 = new javax.swing.JPanel();
         jLabel57 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
-        jLabel125 = new javax.swing.JLabel();
-        jLabel126 = new javax.swing.JLabel();
-        jLabel128 = new javax.swing.JLabel();
-        jLabel129 = new javax.swing.JLabel();
-        jLabel130 = new javax.swing.JLabel();
-        jLabel131 = new javax.swing.JLabel();
-        jLabel121 = new javax.swing.JLabel();
-        jLabel132 = new javax.swing.JLabel();
+        top1_product_photo = new javax.swing.JLabel();
+        top1_product_name = new javax.swing.JLabel();
+        top2_product_price = new javax.swing.JLabel();
+        top2_product_photo = new javax.swing.JLabel();
+        top2_product_name = new javax.swing.JLabel();
+        top1_product_price = new javax.swing.JLabel();
+        top2_product_sold = new javax.swing.JLabel();
+        top1_product_sold = new javax.swing.JLabel();
         pendingOrders = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         totalOrders = new javax.swing.JLabel();
@@ -1247,7 +1367,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 10));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 40));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -1333,38 +1453,20 @@ public final class sellerDashboard extends javax.swing.JFrame {
         top1_favorites.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         top1_favorites.setForeground(new java.awt.Color(0, 158, 226));
         top1_favorites.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        top1_favorites.setText("22 Favorite(s)");
         CONTAINER.add(top1_favorites, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 90, 20));
 
         top1_name.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
-        top1_name.setText("Product name");
         CONTAINER.add(top1_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 160, -1));
-
-        jLabel135.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel135.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel135.setText("₱ 1,350 x 2");
-        CONTAINER.add(jLabel135, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 120, 20));
-
-        jLabel133.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        CONTAINER.add(jLabel133, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, 80));
+        CONTAINER.add(top1_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, 80));
 
         top2_favorites.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         top2_favorites.setForeground(new java.awt.Color(0, 158, 226));
         top2_favorites.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        top2_favorites.setText("22 Favorite(s)");
         CONTAINER.add(top2_favorites, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 90, 20));
 
         top2_name.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
-        top2_name.setText("Product name");
         CONTAINER.add(top2_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 160, -1));
-
-        jLabel139.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel139.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel139.setText("₱ 1,350 x 2");
-        CONTAINER.add(jLabel139, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 120, 20));
-
-        jLabel140.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        CONTAINER.add(jLabel140, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 80, 80));
+        CONTAINER.add(top2_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 80, 80));
 
         jPanel6.add(CONTAINER, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 420, 370, 240));
 
@@ -1387,53 +1489,41 @@ public final class sellerDashboard extends javax.swing.JFrame {
         });
         CONTAINER2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 130, 30));
 
-        jLabel115.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel115.setForeground(new java.awt.Color(0, 158, 226));
-        jLabel115.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel115.setText("₱  2,700");
-        CONTAINER2.add(jLabel115, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 160, 90, 20));
+        top2_order_total.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        top2_order_total.setForeground(new java.awt.Color(0, 158, 226));
+        top2_order_total.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        CONTAINER2.add(top2_order_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 160, 90, 20));
 
-        jLabel116.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
-        jLabel116.setText("Product name");
-        CONTAINER2.add(jLabel116, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 160, -1));
+        top1_order_name.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        CONTAINER2.add(top1_order_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 160, -1));
 
-        jLabel117.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
-        jLabel117.setText("Product name");
-        CONTAINER2.add(jLabel117, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 160, -1));
+        top2_order_name.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        CONTAINER2.add(top2_order_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 160, -1));
 
-        jLabel118.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel118.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel118.setText("₱ 1,350 x 2");
-        CONTAINER2.add(jLabel118, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 120, 20));
+        top1_order_price.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        top1_order_price.setForeground(new java.awt.Color(153, 153, 153));
+        CONTAINER2.add(top1_order_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 120, 20));
 
-        jLabel119.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel119.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel119.setText("₱ 1,350 x 2");
-        CONTAINER2.add(jLabel119, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 120, 20));
+        top2_order_price.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        top2_order_price.setForeground(new java.awt.Color(153, 153, 153));
+        CONTAINER2.add(top2_order_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 120, 20));
 
         jLabel120.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         jLabel120.setForeground(new java.awt.Color(153, 153, 153));
         jLabel120.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel120.setText("Total amount");
         CONTAINER2.add(jLabel120, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 140, 90, 20));
 
-        jLabel122.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        jLabel122.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel122.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel122.setText("Total amount");
-        CONTAINER2.add(jLabel122, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 90, 20));
+        total_amount.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
+        total_amount.setForeground(new java.awt.Color(153, 153, 153));
+        total_amount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        CONTAINER2.add(total_amount, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 50, 90, 20));
+        CONTAINER2.add(top1_order_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, 80));
+        CONTAINER2.add(top2_order_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 80, 80));
 
-        jLabel123.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        CONTAINER2.add(jLabel123, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, 80));
-
-        jLabel124.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        CONTAINER2.add(jLabel124, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 80, 80));
-
-        jLabel127.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel127.setForeground(new java.awt.Color(0, 158, 226));
-        jLabel127.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel127.setText("₱  2,700");
-        CONTAINER2.add(jLabel127, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 90, 20));
+        top1_order_total.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        top1_order_total.setForeground(new java.awt.Color(0, 158, 226));
+        top1_order_total.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        CONTAINER2.add(top1_order_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 90, 20));
 
         jPanel6.add(CONTAINER2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 360, 240));
 
@@ -1454,42 +1544,32 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jButton2.setText("View all");
         jButton2.setBorderPainted(false);
         CONTAINER3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 130, 30));
+        CONTAINER3.add(top1_product_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, 80));
 
-        jLabel125.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        CONTAINER3.add(jLabel125, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, 80));
+        top1_product_name.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        CONTAINER3.add(top1_product_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 160, -1));
 
-        jLabel126.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
-        jLabel126.setText("Product name");
-        CONTAINER3.add(jLabel126, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 160, -1));
+        top2_product_price.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        top2_product_price.setForeground(new java.awt.Color(153, 153, 153));
+        CONTAINER3.add(top2_product_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 120, 20));
+        CONTAINER3.add(top2_product_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 80, 80));
 
-        jLabel128.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel128.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel128.setText("₱ 1,350");
-        CONTAINER3.add(jLabel128, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, 120, 20));
+        top2_product_name.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        CONTAINER3.add(top2_product_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 160, -1));
 
-        jLabel129.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        CONTAINER3.add(jLabel129, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 80, 80));
+        top1_product_price.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        top1_product_price.setForeground(new java.awt.Color(153, 153, 153));
+        CONTAINER3.add(top1_product_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 120, 20));
 
-        jLabel130.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
-        jLabel130.setText("Product name");
-        CONTAINER3.add(jLabel130, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 160, -1));
+        top2_product_sold.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        top2_product_sold.setForeground(new java.awt.Color(0, 158, 226));
+        top2_product_sold.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        CONTAINER3.add(top2_product_sold, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 90, 20));
 
-        jLabel131.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel131.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel131.setText("₱ 1,350 x 2");
-        CONTAINER3.add(jLabel131, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 70, 120, 20));
-
-        jLabel121.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel121.setForeground(new java.awt.Color(0, 158, 226));
-        jLabel121.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel121.setText("22 sold");
-        CONTAINER3.add(jLabel121, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 90, 20));
-
-        jLabel132.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jLabel132.setForeground(new java.awt.Color(0, 158, 226));
-        jLabel132.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel132.setText("22 sold");
-        CONTAINER3.add(jLabel132, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 90, 20));
+        top1_product_sold.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        top1_product_sold.setForeground(new java.awt.Color(0, 158, 226));
+        top1_product_sold.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        CONTAINER3.add(top1_product_sold, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 90, 20));
 
         jPanel6.add(CONTAINER3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 420, 360, 240));
 
@@ -1572,7 +1652,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
             }
         ));
         product_table.setSelectionBackground(new java.awt.Color(204, 229, 255));
-        product_table.setShowGrid(false);
         product_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 product_tableMouseClicked(evt);
@@ -1702,7 +1781,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
             }
         ));
         archive_table.setSelectionBackground(new java.awt.Color(204, 229, 255));
-        archive_table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         archive_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 archive_tableMouseClicked(evt);
@@ -1799,8 +1877,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        descript.setEditable(false);
-        descript.setBackground(new java.awt.Color(255, 255, 255));
         descript.setBorder(null);
         descript.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jScrollPane1.setViewportView(descript);
@@ -3406,7 +3482,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
             }
         ));
         message4admin_table.setSelectionBackground(new java.awt.Color(204, 229, 255));
-        message4admin_table.setShowGrid(false);
         message4admin_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 message4admin_tableMouseClicked(evt);
@@ -3809,6 +3884,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         actionLogs.recordSellerLogs(sellerID, action, details);
                         displayPurchase();
                         displayProducts();
+                        display_orders_dashboard();
                         newStock = 0;
                         // Clear
                         transaction_id = 0;
@@ -3939,6 +4015,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         actionLogs.recordSellerLogs(sellerID, action, details);
                         displayPurchase();
                         displayProducts();
+                        display_orders_dashboard();
                         newStock = 0;
 
                         // Clear
@@ -4036,14 +4113,14 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 if (rs.next()) {
                     int height = 290;
                     int width = 270;
-
+                    String getImageFromDatabase = rs.getString("product_image");
+                    GetImage.displayImage(getPhoto, getImageFromDatabase, height, width);
                     getName.setText(rs.getString("product_name"));
                     getPrice.setText(rs.getString("product_price"));
                     getStock.setText(rs.getString("product_stock"));
                     getDescription.setText(rs.getString("product_description"));
                     getStatus.setSelectedItem(rs.getString("product_status"));
-                    String getImageFromDatabase = rs.getString("product_image");
-                    GetImage.displayImage(getPhoto, getImageFromDatabase, height, width);
+
                     tabs.setSelectedIndex(7);
                 }
             }
@@ -4697,6 +4774,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     dbc.deleteProduct(pid);
                     displayProducts();
                     displayArchive();
+                    display_best_selling_dashboard(); //display best seeling
                     JOptionPane.showMessageDialog(null, "Product deleted successfully!");
 
                     // logs
@@ -5146,31 +5224,10 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel112;
     private javax.swing.JLabel jLabel113;
     private javax.swing.JLabel jLabel114;
-    private javax.swing.JLabel jLabel115;
-    private javax.swing.JLabel jLabel116;
-    private javax.swing.JLabel jLabel117;
-    private javax.swing.JLabel jLabel118;
-    private javax.swing.JLabel jLabel119;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel120;
-    private javax.swing.JLabel jLabel121;
-    private javax.swing.JLabel jLabel122;
-    private javax.swing.JLabel jLabel123;
-    private javax.swing.JLabel jLabel124;
-    private javax.swing.JLabel jLabel125;
-    private javax.swing.JLabel jLabel126;
-    private javax.swing.JLabel jLabel127;
-    private javax.swing.JLabel jLabel128;
-    private javax.swing.JLabel jLabel129;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel130;
-    private javax.swing.JLabel jLabel131;
-    private javax.swing.JLabel jLabel132;
-    private javax.swing.JLabel jLabel133;
-    private javax.swing.JLabel jLabel135;
-    private javax.swing.JLabel jLabel139;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel140;
     private javax.swing.JLabel jLabel141;
     private javax.swing.JLabel jLabel142;
     private javax.swing.JLabel jLabel143;
@@ -5403,12 +5460,31 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel todaysDate;
     private javax.swing.JLabel top1_favorites;
     private javax.swing.JLabel top1_name;
+    private javax.swing.JLabel top1_order_name;
+    private javax.swing.JLabel top1_order_photo;
+    private javax.swing.JLabel top1_order_price;
+    private javax.swing.JLabel top1_order_total;
+    private javax.swing.JLabel top1_photo;
+    private javax.swing.JLabel top1_product_name;
+    private javax.swing.JLabel top1_product_photo;
+    private javax.swing.JLabel top1_product_price;
+    private javax.swing.JLabel top1_product_sold;
     private javax.swing.JLabel top2_favorites;
     private javax.swing.JLabel top2_name;
+    private javax.swing.JLabel top2_order_name;
+    private javax.swing.JLabel top2_order_photo;
+    private javax.swing.JLabel top2_order_price;
+    private javax.swing.JLabel top2_order_total;
+    private javax.swing.JLabel top2_photo;
+    private javax.swing.JLabel top2_product_name;
+    private javax.swing.JLabel top2_product_photo;
+    private javax.swing.JLabel top2_product_price;
+    private javax.swing.JLabel top2_product_sold;
     private javax.swing.JLabel totalLoss;
     private javax.swing.JLabel totalOrders;
     private javax.swing.JLabel totalProducts;
     private javax.swing.JLabel totalSales;
+    private javax.swing.JLabel total_amount;
     private javax.swing.JLabel username;
     private javax.swing.JLabel username1;
     private javax.swing.JLabel username2;
