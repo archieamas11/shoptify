@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2024 at 09:21 AM
+-- Generation Time: May 23, 2024 at 04:30 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -224,7 +224,7 @@ CREATE TABLE `tbl_products` (
 --
 
 INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_image`, `date_created`, `product_status`) VALUES
-(12, 1, 'sdf', 123, 0, '', 'Electronics', 1, 'src/ProductsImages/5.png', '2024-05-21', 'Available'),
+(12, 1, 'sdf', 123, 123, '', 'Electronics', 1, 'src/ProductsImages/5.png', '2024-05-21', 'Available'),
 (13, 1, 'cv', 123, 123, 'qwe', 'Electronics', 0, 'src/ProductsImages/1.png', '2024-05-21', 'Available'),
 (14, 1, 'vb', 123, 123, '123', 'Electronics', 0, 'src/ProductsImages/7.png', '2024-05-23', 'Available');
 
@@ -470,7 +470,21 @@ INSERT INTO `tbl_sellerlogs` (`sellerlogs_id`, `seller_id`, `sellerlogs_action`,
 (193, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:10:10'),
 (194, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:11:35'),
 (195, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:12:35'),
-(196, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:13:04');
+(196, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:13:04'),
+(197, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 10:52:44'),
+(198, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 10:53:19'),
+(199, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 12:32:58'),
+(200, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 12:33:00'),
+(201, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 13:01:53'),
+(202, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 13:01:55'),
+(203, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 13:11:59'),
+(204, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 13:12:02'),
+(205, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 13:38:01'),
+(206, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 13:38:03'),
+(207, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 13:43:59'),
+(208, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 13:44:00'),
+(209, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 14:17:39'),
+(210, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 14:17:40');
 
 -- --------------------------------------------------------
 
@@ -686,7 +700,7 @@ ALTER TABLE `tbl_rating4seller`
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
+  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=211;
 
 --
 -- AUTO_INCREMENT for table `tbl_wishlist`
