@@ -36,6 +36,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
@@ -138,6 +139,38 @@ public final class adminDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(editRole, 15);
 
         searchBar.setFocusable(false);
+    }
+
+    private void displayWishlistTable() {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            try (PreparedStatement pstmt = dbc.getConnection().prepareStatement(
+                    "SELECT w.wishlist_id AS `Wishlist ID`, "
+                    + "a_seller.first_name AS `Seller`, "
+                    + "p.product_name AS `Product Name`, "
+                    + "w.total_favorites AS `Favorite(s)`, "
+                    + "w.date_added AS `Date Added` "
+                    + "FROM tbl_wishlist w "
+                    + "JOIN tbl_products p ON p.product_id = w.product_id "
+                    + "JOIN tbl_accounts a_seller ON a_seller.account_id = w.seller_id "
+                    + "WHERE w.seller_id = ?")) {
+                // pstmt.setInt(1, sellerID);
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (!rs.isBeforeFirst()) {
+                        //  wishlist_is_empty.setText("WISHLIST TABLE IS EMPTY!");
+                        //   wishlist_table.setModel(new DefaultTableModel());
+                    } else {
+                        //  wishlist_is_empty.setText("");
+                        //  wishlist_table.setModel(DbUtils.resultSetToTableModel(rs));
+                        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+                        //  wishlist_table.setDefaultRenderer(Object.class, centerRenderer);
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Errors: " + ex.getMessage());
+        }
     }
 
     public void displayAccountName() {

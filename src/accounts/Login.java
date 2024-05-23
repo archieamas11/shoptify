@@ -115,17 +115,17 @@ public class Login extends javax.swing.JFrame {
         shoptify.setText("Shoptify");
         jPanel1.add(shoptify, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 240, -1, 30));
 
-        welcome.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        welcome.setFont(new java.awt.Font("Segoe UI", 0, 23)); // NOI18N
         welcome.setForeground(new java.awt.Color(153, 153, 153));
         welcome.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         welcome.setText("Welcome back to ");
-        jPanel1.add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 240, 210, 30));
+        jPanel1.add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 240, 200, 30));
 
         shoptify_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buying-94.png"))); // NOI18N
         jPanel1.add(shoptify_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 110, -1, -1));
 
         login.setBackground(new java.awt.Color(0, 158, 226));
-        login.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        login.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         login.setForeground(new java.awt.Color(255, 255, 255));
         login.setText("Login");
         login.setBorder(null);

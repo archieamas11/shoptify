@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2024 at 03:51 AM
+-- Generation Time: May 23, 2024 at 05:05 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -144,7 +144,9 @@ CREATE TABLE `tbl_invoice` (
 CREATE TABLE `tbl_message4admin` (
   `message_id` int(11) NOT NULL,
   `seller_id` int(11) NOT NULL,
-  `message` int(11) NOT NULL,
+  `message_category` varchar(100) NOT NULL,
+  `message_title` varchar(100) NOT NULL,
+  `message_description` varchar(2000) NOT NULL,
   `date_sent` date NOT NULL,
   `message_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -208,9 +210,9 @@ CREATE TABLE `tbl_products` (
 --
 
 INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_image`, `date_created`, `product_status`) VALUES
-(11, 1, 'qwe', 123, 123, '123', 'Electronics', 0, 'src/ProductsImages/4.png', '2024-05-21', 'Available'),
-(12, 1, 'sdf', 123, 0, '', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-21', 'Archive'),
-(13, 1, 'cv', 123, 123, 'qwe', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-21', 'Archive');
+(12, 1, 'sdf', 123, 0, '', 'Electronics', 1, 'src/ProductsImages/5.png', '2024-05-21', 'Available'),
+(13, 1, 'cv', 123, 123, 'qwe', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-21', 'Available'),
+(14, 1, 'vb', 123, 123, '123', 'Electronics', 0, 'src/ProductsImages/7.png', '2024-05-23', 'Available');
 
 -- --------------------------------------------------------
 
@@ -366,7 +368,72 @@ INSERT INTO `tbl_sellerlogs` (`sellerlogs_id`, `seller_id`, `sellerlogs_action`,
 (105, 1, 'Archive', 'Seller 1 Successfully put product 11 to archive!', '2024-05-22 01:47:16'),
 (106, 1, 'Archive', 'Seller 1 Successfully put product 13 to archive!', '2024-05-22 01:47:18'),
 (107, 1, 'Archive', 'Seller 1 Successfully put product 12 to archive!', '2024-05-22 01:47:22'),
-(108, 1, 'Restore', 'Seller 1 Successfully restore product 11!', '2024-05-22 01:48:11');
+(108, 1, 'Restore', 'Seller 1 Successfully restore product 11!', '2024-05-22 01:48:11'),
+(109, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:13:43'),
+(110, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:45:48'),
+(111, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:49:28'),
+(112, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:51:10'),
+(113, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:53:07'),
+(114, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:53:56'),
+(115, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:54:11'),
+(116, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:55:32'),
+(117, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:59:26'),
+(118, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:00:02'),
+(119, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:01:36'),
+(120, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:14:49'),
+(121, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:28:02'),
+(122, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:44:26'),
+(123, 1, 'Restore', 'Seller 1 Successfully restore product 13!', '2024-05-22 06:44:42'),
+(124, 1, 'Restore', 'Seller 1 Successfully restore product 12!', '2024-05-22 06:44:45'),
+(125, 1, 'Archive', 'Seller 1 Successfully put product 11 to archive!', '2024-05-22 06:44:59'),
+(126, 1, 'Restore', 'Seller 1 Successfully restore product 11!', '2024-05-22 06:45:05'),
+(127, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:45:58'),
+(128, 1, 'Archive', 'Seller 1 Successfully put product 11 to archive!', '2024-05-22 06:46:03'),
+(129, 1, 'Delete product', 'User 1 successfully deleted the product 11!', '2024-05-22 06:46:08'),
+(130, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:47:03'),
+(131, 1, 'Archive', 'Seller 1 Successfully put product 12 to archive!', '2024-05-22 06:47:07'),
+(132, 1, 'Restore', 'Seller 1 Successfully restore product 12!', '2024-05-22 06:47:25'),
+(133, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:50:52'),
+(134, 1, 'Archive', 'Seller 1 Successfully put product 12 to archive!', '2024-05-22 06:50:55'),
+(135, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 07:00:24'),
+(136, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 07:03:35'),
+(137, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 07:13:57'),
+(138, 1, 'Archive', 'Seller 1 Successfully put product 12 to archive!', '2024-05-22 07:14:04'),
+(139, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 07:17:32'),
+(140, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 07:29:09'),
+(141, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:36:26'),
+(142, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:38:26'),
+(143, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:39:49'),
+(144, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:48:54'),
+(145, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:50:54'),
+(146, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:51:55'),
+(147, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:57:03'),
+(148, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:58:54'),
+(149, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:59:29'),
+(150, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 00:36:43'),
+(151, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 00:44:51'),
+(152, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 00:46:35'),
+(153, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 00:48:54'),
+(154, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 00:50:07'),
+(155, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 00:55:42'),
+(156, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:03:02'),
+(157, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:03:51'),
+(158, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:18:37'),
+(159, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:19:22'),
+(160, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:22:39'),
+(161, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:23:37'),
+(162, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:26:07'),
+(163, 1, 'Restore', 'Seller 1 Successfully restore product 12!', '2024-05-23 02:26:17'),
+(164, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:38:12'),
+(165, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:38:32'),
+(166, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:40:19'),
+(167, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-23 02:40:37'),
+(168, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:47:59'),
+(169, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:49:55'),
+(170, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:50:46'),
+(171, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:58:13'),
+(172, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 03:00:31'),
+(173, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 03:01:39');
 
 -- --------------------------------------------------------
 
@@ -377,9 +444,18 @@ INSERT INTO `tbl_sellerlogs` (`sellerlogs_id`, `seller_id`, `sellerlogs_action`,
 CREATE TABLE `tbl_wishlist` (
   `wishlist_id` int(11) NOT NULL,
   `buyer_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
+  `total_favorites` int(11) NOT NULL,
   `date_added` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_wishlist`
+--
+
+INSERT INTO `tbl_wishlist` (`wishlist_id`, `buyer_id`, `seller_id`, `product_id`, `total_favorites`, `date_added`) VALUES
+(4, 2, 1, 13, 10, '2024-05-23');
 
 --
 -- Indexes for dumped tables
@@ -489,8 +565,9 @@ ALTER TABLE `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_wishlist`
   ADD PRIMARY KEY (`wishlist_id`),
-  ADD KEY `buyer_id` (`buyer_id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `seller_id` (`seller_id`),
+  ADD KEY `buyer_id` (`buyer_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -554,7 +631,7 @@ ALTER TABLE `tbl_orders`
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_rating4products`
@@ -572,13 +649,13 @@ ALTER TABLE `tbl_rating4seller`
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=174;
 
 --
 -- AUTO_INCREMENT for table `tbl_wishlist`
 --
 ALTER TABLE `tbl_wishlist`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -669,8 +746,9 @@ ALTER TABLE `tbl_sellerlogs`
 -- Constraints for table `tbl_wishlist`
 --
 ALTER TABLE `tbl_wishlist`
-  ADD CONSTRAINT `tbl_wishlist_ibfk_1` FOREIGN KEY (`buyer_id`) REFERENCES `tbl_accounts` (`account_id`),
-  ADD CONSTRAINT `tbl_wishlist_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`);
+  ADD CONSTRAINT `tbl_wishlist_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`),
+  ADD CONSTRAINT `tbl_wishlist_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `tbl_accounts` (`account_id`),
+  ADD CONSTRAINT `tbl_wishlist_ibfk_4` FOREIGN KEY (`buyer_id`) REFERENCES `tbl_accounts` (`account_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

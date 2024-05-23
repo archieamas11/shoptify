@@ -22,8 +22,6 @@ public class flatlaftTable {
 
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE, ""
                 + "height:30;"
-                + "hoverBackground:null;"
-                + "pressedBackground:null;"
                 + "separatorColor:#EBEBEB;"
                 + "font:bold;"
                 + "background:#F1F1F1;"); //
