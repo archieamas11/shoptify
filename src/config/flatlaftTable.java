@@ -32,8 +32,8 @@ public class flatlaftTable {
                 + "showVerticalLines:true;"
                 + "selectionBackground:#99CCFF;"
                 + "intercellSpacing:0,1;"
-                + "cellFocusColor:$TableHeader.hoverBackground;"
-                + "selectionBackground:$TableHeader.hoverBackground;"
+                //+ "cellFocusColor:$TableHeader.hoverBackground;"
+                //+ "selectionBackground:$TableHeader.hoverBackground;"
                 + "selectionForeground:$Table.foreground;");
 
         scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""

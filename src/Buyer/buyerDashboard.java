@@ -92,7 +92,15 @@ public class buyerDashboard extends javax.swing.JFrame {
     public void displayCart() {
         try {
             databaseConnector dbc = new databaseConnector();
-            String query = "SELECT `cart_id` AS `Cart ID`, `product_id` AS `Product ID`, `product_quantity` AS `Quantity` FROM tbl_cart WHERE buyer_id = ?";
+            String query = "SELECT "
+                    + "c.cart_id AS `Cart ID`, "
+                    + "c.product_id AS `Product ID`, "
+                    + "p.product_name AS `Product Name`, "
+                    + "p.product_price AS `Unit Price`, "
+                    + "c.product_quantity AS `Quantity` "
+                    + "FROM tbl_cart c "
+                    + "JOIN tbl_products p ON p.product_id = c.product_id "
+                    + "WHERE c.buyer_id = ?";
             PreparedStatement pst = dbc.getConnection().prepareStatement(query);
             pst.setInt(1, buyer_id);
 
@@ -1152,7 +1160,6 @@ public class buyerDashboard extends javax.swing.JFrame {
 
         name.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        name.setText("asssssssssssss");
         name.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         container.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 320, 30));
         container.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 160, 160));
@@ -1228,6 +1235,7 @@ public class buyerDashboard extends javax.swing.JFrame {
 
             }
         ));
+        cart_table.setSelectionBackground(new java.awt.Color(204, 229, 255));
         cart_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cart_tableMouseClicked(evt);
@@ -1607,8 +1615,14 @@ public class buyerDashboard extends javax.swing.JFrame {
         total_quantity.setText("12");
         s3.add(total_quantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 110, 50, 40));
 
+        jButton5.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jButton5.setText("Cancel");
         jButton5.setBorderPainted(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         s3.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 110, -1, 40));
 
         jLabel18.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
@@ -1992,7 +2006,7 @@ public class buyerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_quantity_increaseActionPerformed
 
     private void quantity_decreaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantity_decreaseActionPerformed
-        if (tblQuant > 0) {
+        if (tblQuant > 1) {
             tblQuant--;
             txtNumber.setText(String.valueOf(tblQuant));
             updateTotal();
@@ -2097,30 +2111,28 @@ public class buyerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutActionPerformed
-        String productName = product_name.getText();
-        String NOTESS = notess.getText();
+    int new_count;
+    int new_total_price;
 
-        String buyPriceStr = product_price.getText().replaceAll("[^0-9]", "");
-        int buyPrice = Integer.parseInt(buyPriceStr);
-        String buyQuantStr = txtNumber.getText();
-        int buyQuant = Integer.parseInt(buyQuantStr);
+    private void checkoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkoutActionPerformed
 
         try {
+            String NOTESS = notess.getText();
             databaseConnector dbc = new databaseConnector();
 
-            String fetchProductQuery = "SELECT product_stock, product_status FROM tbl_products WHERE product_id = ?";
+            // Retrieve product information
+            String fetchProductQuery = "SELECT product_stock FROM tbl_products WHERE product_id = ?";
             PreparedStatement fetchProductStmt = dbc.getConnection().prepareStatement(fetchProductQuery);
             fetchProductStmt.setInt(1, product_id);
             ResultSet fetchRs = fetchProductStmt.executeQuery();
+
             if (!fetchRs.next()) {
                 JOptionPane.showMessageDialog(null, "Product not found!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             int currentStock = fetchRs.getInt("product_stock");
-            String currentStatus = fetchRs.getString("product_status");
 
-            // Check if the purchase already exists for the given cart ID and product name
+            // Check if the purchase already exists
             String checkPurchaseQuery = "SELECT * FROM tbl_orders WHERE buyer_id = ? AND product_id = ?";
             PreparedStatement checkPurchaseStmt = dbc.getConnection().prepareStatement(checkPurchaseQuery);
             checkPurchaseStmt.setInt(1, buyer_id);
@@ -2128,44 +2140,68 @@ public class buyerDashboard extends javax.swing.JFrame {
             ResultSet checkRs = checkPurchaseStmt.executeQuery();
 
             if (checkRs.next()) {
-                // If purchase exists, update total_quantity and total_price
-                int existingQuant = checkRs.getInt("total_quantity");
-                int newQuant = existingQuant + buyQuant;
-                int existingTotalPrice = checkRs.getInt("total_price");
-                int newTotalPrice = existingTotalPrice + total;
+                // Purchase exists
+                String orderStatus = checkRs.getString("order_status");
+                if (orderStatus.equals("Pending")) {
+                    // If order status is "Pending", update total_quantity and total_price
+                    int existingQuant = checkRs.getInt("total_quantity");
+                    new_count = existingQuant + tblQuant;
+                    int existingTotalPrice = checkRs.getInt("total_price");
+                    new_total_price = existingTotalPrice + (tblQuant * tblPrice);
 
-                if (currentStock > stock) {
-                    JOptionPane.showMessageDialog(null, "Insufficient stock. Available stock: " + stock);
-                } else {
+                    if (tblQuant > currentStock) {
+                        JOptionPane.showMessageDialog(null, "Insufficient stock. Available stock: " + currentStock);
+                        return;
+                    }
+
+                    // Update purchase
                     String updateQuery = "UPDATE tbl_orders SET total_quantity = ?, total_price = ? WHERE buyer_id = ? AND product_id = ?";
                     PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
-                    updateStmt.setInt(1, newQuant);
-                    updateStmt.setInt(2, newTotalPrice);
+                    updateStmt.setInt(1, new_count);
+                    updateStmt.setInt(2, new_total_price);
                     updateStmt.setInt(3, buyer_id);
                     updateStmt.setInt(4, product_id);
                     updateStmt.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Purchase updated successfully!");
+                } else {
+                    if (tblQuant > currentStock) {
+                        JOptionPane.showMessageDialog(null, "Insufficient stock. Available stock: " + currentStock);
+                        return;
+                    }
+
+                    // If order status is not "Pending", insert a new record
+                    String insertQuery = "INSERT INTO tbl_orders (buyer_id, seller_id, product_id, total_quantity, total_price, notes, order_status, date_purchase) VALUES (?, ?, ?, ?, ?, ?, 'Pending', NOW())";
+                    PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery);
+                    insertStmt.setInt(1, buyer_id);
+                    insertStmt.setInt(2, seller_id);
+                    insertStmt.setInt(3, product_id);
+                    insertStmt.setInt(4, tblQuant);
+                    insertStmt.setInt(5, (tblQuant * tblPrice));
+                    insertStmt.setString(6, NOTESS);
+                    insertStmt.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "New purchase added successfully!");
                 }
             } else {
+                if (tblQuant > currentStock) {
+                    JOptionPane.showMessageDialog(null, "Insufficient stock. Available stock: " + currentStock);
+                    return;
+                }
+
+                // If the order status is 'Pending' and no matching order with the same product ID exists, insert a new record
                 String insertQuery = "INSERT INTO tbl_orders (buyer_id, seller_id, product_id, total_quantity, total_price, notes, order_status, date_purchase) VALUES (?, ?, ?, ?, ?, ?, 'Pending', NOW())";
                 PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery);
                 insertStmt.setInt(1, buyer_id);
                 insertStmt.setInt(2, seller_id);
                 insertStmt.setInt(3, product_id);
-                insertStmt.setInt(4, buyQuant);
-                insertStmt.setInt(5, totalPrice);
+                insertStmt.setInt(4, new_count);
+                insertStmt.setInt(5, (tblQuant * tblPrice));
                 insertStmt.setString(6, NOTESS);
-
-                if (buyQuant > stock) {
-                    JOptionPane.showMessageDialog(null, "Insufficient stock. Available stock: " + stock);
-                } else {
-                    insertStmt.executeUpdate();
-                }
-                JOptionPane.showMessageDialog(null, "Purchase added successfully!");
+                insertStmt.executeUpdate();
+                JOptionPane.showMessageDialog(null, "New purchase added successfully!");
             }
 
+            // Perform other UI updates
             dbc.deleteCart(cart_id);
-            System.out.println(cart_id);
             num = 1;
             displayQuant.setText(String.valueOf(num));
             total = 0;
@@ -2175,9 +2211,9 @@ public class buyerDashboard extends javax.swing.JFrame {
             tabs.setSelectedIndex(0);
             name.setText("");
             photo.setIcon(null);
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error executing SQL query: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            System.out.println("SQLException: " + e.getMessage());
+        } catch (SQLException | NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Error processing purchase: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Exception: " + e.getMessage());
             e.printStackTrace();
         }
     }//GEN-LAST:event_checkoutActionPerformed
@@ -2304,6 +2340,10 @@ public class buyerDashboard extends javax.swing.JFrame {
 
     private void orders_search_barKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_orders_search_barKeyReleased
     }//GEN-LAST:event_orders_search_barKeyReleased
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        tabs.setSelectedIndex(0);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     public static void main(String args[]) {
         try {

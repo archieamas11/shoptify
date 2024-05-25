@@ -1,6 +1,5 @@
 package Seller;
 
-import Admin.adminDashboard;
 import static Seller.sellerDashboard.getStock;
 import accounts.Login;
 import accounts.UserManager;
@@ -806,12 +805,17 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     + "p.product_image AS `product_image` "
                     + "FROM tbl_orders o "
                     + "JOIN tbl_products p ON p.product_id = o.product_id "
-                    + "WHERE o.seller_id = ? "
+                    + "WHERE o.seller_id = ? AND o.order_status = 'Pending' "
                     + "ORDER BY o.order_status = 'Pending' DESC "
                     + "LIMIT 2")) {
                 pstmt.setInt(1, sellerID);
                 try (ResultSet rs = pstmt.executeQuery()) {
+                    // Reset total amount text
+                    boolean foundPendingOrder = false;
+
+                    // Display top 1 order
                     if (rs.next()) {
+                        total_amount.setText("Total amount");
                         top1_order_name.setText(rs.getString("product_name"));
                         String price = rs.getString("price");
                         String quantity = rs.getString("quantity");
@@ -821,14 +825,17 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         int width = 80;
                         String getImageFromDatabase = rs.getString("product_image");
                         GetImage.displayImage(top1_order_photo, getImageFromDatabase, height, width);
+                        foundPendingOrder = true;
                     } else {
-                        total_amount.setText("Total amount");
+                        total_amount.setText("");
                         top1_order_name.setText("");
                         top1_order_price.setText("");
                         top1_order_total.setText("");
                         top1_order_photo.setIcon(null);
                     }
+                    // Display top 2 order
                     if (rs.next()) {
+                        total_amount.setText("Total amount");
                         top2_order_name.setText(rs.getString("product_name"));
                         String price = rs.getString("price");
                         String quantity = rs.getString("quantity");
@@ -838,12 +845,18 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         int width = 80;
                         String getImageFromDatabase = rs.getString("product_image");
                         GetImage.displayImage(top2_order_photo, getImageFromDatabase, height, width);
+                        foundPendingOrder = true;
                     } else {
-                        total_amount.setText("Total amount");
+                        total_amount.setText("");
                         top2_order_name.setText("");
                         top2_order_price.setText("");
                         top2_order_total.setText("");
                         top2_order_photo.setIcon(null);
+                    }
+
+                    // If no pending order found, reset total amount text
+                    if (!foundPendingOrder) {
+                        total_amount.setText("");
                     }
                 }
             }
