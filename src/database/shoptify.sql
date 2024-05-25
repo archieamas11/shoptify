@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2024 at 04:30 PM
+-- Generation Time: May 25, 2024 at 05:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -65,21 +65,6 @@ CREATE TABLE `tbl_adminlogs` (
   `adminlogs_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tbl_adminlogs`
---
-
-INSERT INTO `tbl_adminlogs` (`adminlogs_id`, `admin_id`, `adminlogs_action`, `adminlogs_details`, `adminlogs_timestamp`) VALUES
-(1, 1, 'Logged in', 'Admin 1 successfully logged in!', '2024-05-17 14:51:38'),
-(2, 1, 'Logged in', 'Admin 1 successfully logged in!', '2024-05-18 07:20:16'),
-(3, 1, 'Logged in', 'Admin 1 successfully logged in!', '2024-05-18 07:30:10'),
-(4, 1, 'Logged in', 'Admin 1 successfully logged in!', '2024-05-18 07:31:25'),
-(6, 1, 'Logged in', 'Admin 1 successfully logged in!', '2024-05-18 07:35:18'),
-(7, 1, 'Logged in', 'Admin 1 successfully logged in!', '2024-05-18 07:37:21'),
-(8, 1, 'Logged in', 'Admin 1 successfully logged in!', '2024-05-18 07:39:59'),
-(10, 1, 'Logged in', 'Admin 1 successfully logged in!', '2024-05-19 07:34:17'),
-(11, 1, 'Logged in', 'Admin 1 successfully logged in!', '2024-05-20 05:17:45');
-
 -- --------------------------------------------------------
 
 --
@@ -115,6 +100,7 @@ CREATE TABLE `tbl_buyerlogs` (
 CREATE TABLE `tbl_cart` (
   `cart_id` int(11) NOT NULL,
   `buyer_id` int(11) NOT NULL,
+  `seller_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `product_quantity` int(11) NOT NULL,
   `date_added` date NOT NULL
@@ -151,13 +137,6 @@ CREATE TABLE `tbl_message4admin` (
   `message_status` varchar(100) NOT NULL DEFAULT 'Under Review'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tbl_message4admin`
---
-
-INSERT INTO `tbl_message4admin` (`message_id`, `seller_id`, `message_category`, `message_title`, `message_description`, `date_sent`, `message_status`) VALUES
-(1, 1, 'Delete a product', 'wqeq', 'wqeqweqweqwe', '2024-05-23', 'Under Review');
-
 -- --------------------------------------------------------
 
 --
@@ -186,18 +165,11 @@ CREATE TABLE `tbl_orders` (
   `product_id` int(11) NOT NULL,
   `total_quantity` int(11) NOT NULL,
   `total_price` int(11) NOT NULL,
-  `payment_method` varchar(100) NOT NULL,
+  `payment_method` varchar(100) NOT NULL DEFAULT 'COD',
   `notes` varchar(100) NOT NULL,
   `date_purchase` date NOT NULL,
   `order_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_orders`
---
-
-INSERT INTO `tbl_orders` (`order_id`, `buyer_id`, `seller_id`, `product_id`, `total_quantity`, `total_price`, `payment_method`, `notes`, `date_purchase`, `order_status`) VALUES
-(2, 2, 1, 13, 12, 200, 'COD', 'asdasd', '2024-05-23', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -224,9 +196,9 @@ CREATE TABLE `tbl_products` (
 --
 
 INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_image`, `date_created`, `product_status`) VALUES
-(12, 1, 'sdf', 123, 123, '', 'Electronics', 1, 'src/ProductsImages/5.png', '2024-05-21', 'Available'),
-(13, 1, 'cv', 123, 123, 'qwe', 'Electronics', 0, 'src/ProductsImages/1.png', '2024-05-21', 'Available'),
-(14, 1, 'vb', 123, 123, '123', 'Electronics', 0, 'src/ProductsImages/7.png', '2024-05-23', 'Available');
+(12, 1, 'sdf', 123, 3, '', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-21', 'Available'),
+(13, 1, 'cv', 123, 3, 'qwe', 'Electronics', 0, 'src/ProductsImages/1.png', '2024-05-21', 'Available'),
+(14, 1, 'vb', 123, 3, '123', 'Electronics', 0, 'src/ProductsImages/7.png', '2024-05-23', 'Available');
 
 -- --------------------------------------------------------
 
@@ -271,221 +243,6 @@ CREATE TABLE `tbl_sellerlogs` (
   `sellerlogs_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tbl_sellerlogs`
---
-
-INSERT INTO `tbl_sellerlogs` (`sellerlogs_id`, `seller_id`, `sellerlogs_action`, `sellerlogs_details`, `sellerlogs_timestamp`) VALUES
-(1, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-20 06:20:13'),
-(2, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-20 06:31:56'),
-(3, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-20 06:32:33'),
-(4, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-20 06:34:32'),
-(5, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-20 06:37:57'),
-(6, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-20 06:39:17'),
-(7, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-20 06:43:02'),
-(8, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-20 07:19:53'),
-(9, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-20 07:21:18'),
-(10, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 00:55:16'),
-(12, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 00:57:59'),
-(13, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 00:58:36'),
-(14, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 00:59:19'),
-(15, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:08:57'),
-(16, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:12:04'),
-(17, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:13:00'),
-(18, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:13:50'),
-(19, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:14:30'),
-(20, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:16:57'),
-(21, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:17:27'),
-(22, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:28:10'),
-(23, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:30:03'),
-(24, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:30:37'),
-(25, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:31:04'),
-(26, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:32:00'),
-(27, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:33:55'),
-(28, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:34:52'),
-(29, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:35:28'),
-(30, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:53:44'),
-(31, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 01:58:40'),
-(32, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 09:34:55'),
-(33, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 09:36:13'),
-(34, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 09:44:19'),
-(35, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 09:45:18'),
-(36, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:46:55'),
-(37, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:48:09'),
-(38, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:48:39'),
-(39, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:50:20'),
-(40, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:52:55'),
-(41, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:54:28'),
-(42, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 10:55:44'),
-(43, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 10:56:05'),
-(44, 1, 'Delete product', 'User 1 Successfully deleted the product 1!', '2024-05-21 10:56:34'),
-(45, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:05:21'),
-(46, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:10:41'),
-(47, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:11:03'),
-(48, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:11:24'),
-(49, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:12:23'),
-(50, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:16:21'),
-(51, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:16:49'),
-(52, 1, 'Delete product', 'User 1 Successfully deleted the product 0!', '2024-05-21 11:17:14'),
-(53, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:19:41'),
-(54, 1, 'Delete product', 'User 1 Successfully deleted the product 4!', '2024-05-21 11:19:48'),
-(55, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:20:21'),
-(56, 1, 'Delete product', 'User 1 Successfully deleted the product 0!', '2024-05-21 11:20:24'),
-(57, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:21:45'),
-(58, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:24:45'),
-(59, 1, 'Delete product', 'User 1 Successfully deleted the product 4!', '2024-05-21 11:24:49'),
-(60, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:26:28'),
-(61, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:29:54'),
-(62, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:30:06'),
-(63, 1, 'Delete product', 'User 1 Successfully deleted the product 0!', '2024-05-21 11:30:10'),
-(64, 1, 'Delete product', 'User 1 Successfully deleted the product 5!', '2024-05-21 11:30:14'),
-(65, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:32:52'),
-(66, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:33:00'),
-(67, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:33:51'),
-(68, 1, 'Delete product', 'User 1 successfully deleted the product 6!', '2024-05-21 11:34:00'),
-(69, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:36:22'),
-(70, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:36:38'),
-(71, 1, 'Delete product', 'User 1 successfully deleted the product 7!', '2024-05-21 11:36:43'),
-(72, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:40:57'),
-(73, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:41:04'),
-(74, 1, 'Delete product', 'User 1 successfully deleted the product 8!', '2024-05-21 11:41:07'),
-(75, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:43:48'),
-(76, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:45:50'),
-(77, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 11:45:58'),
-(78, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:48:20'),
-(79, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:48:53'),
-(80, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 11:50:21'),
-(81, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:00:27'),
-(82, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:00:53'),
-(83, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:03:46'),
-(84, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:06:14'),
-(85, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 12:06:26'),
-(86, 1, 'Archive', 'Seller 1 Successfully put product 10 to archive!', '2024-05-21 12:06:44'),
-(87, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:08:17'),
-(88, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:13:01'),
-(89, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:13:27'),
-(90, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 12:13:39'),
-(91, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:24:52'),
-(92, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 12:25:11'),
-(93, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:28:38'),
-(94, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:33:06'),
-(95, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-21 12:33:50'),
-(96, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-21 12:34:10'),
-(97, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 00:29:15'),
-(98, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 00:43:00'),
-(99, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 00:44:41'),
-(100, 1, 'Delete product', 'User 1 successfully deleted the product 10!', '2024-05-22 00:45:23'),
-(101, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 01:18:31'),
-(102, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 01:46:45'),
-(103, 1, 'Archive', 'Seller 1 Successfully put product 11 to archive!', '2024-05-22 01:47:10'),
-(104, 1, 'Archive', 'Seller 1 Successfully put product 11 to archive!', '2024-05-22 01:47:13'),
-(105, 1, 'Archive', 'Seller 1 Successfully put product 11 to archive!', '2024-05-22 01:47:16'),
-(106, 1, 'Archive', 'Seller 1 Successfully put product 13 to archive!', '2024-05-22 01:47:18'),
-(107, 1, 'Archive', 'Seller 1 Successfully put product 12 to archive!', '2024-05-22 01:47:22'),
-(108, 1, 'Restore', 'Seller 1 Successfully restore product 11!', '2024-05-22 01:48:11'),
-(109, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:13:43'),
-(110, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:45:48'),
-(111, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:49:28'),
-(112, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:51:10'),
-(113, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:53:07'),
-(114, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:53:56'),
-(115, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:54:11'),
-(116, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:55:32'),
-(117, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 05:59:26'),
-(118, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:00:02'),
-(119, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:01:36'),
-(120, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:14:49'),
-(121, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:28:02'),
-(122, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:44:26'),
-(123, 1, 'Restore', 'Seller 1 Successfully restore product 13!', '2024-05-22 06:44:42'),
-(124, 1, 'Restore', 'Seller 1 Successfully restore product 12!', '2024-05-22 06:44:45'),
-(125, 1, 'Archive', 'Seller 1 Successfully put product 11 to archive!', '2024-05-22 06:44:59'),
-(126, 1, 'Restore', 'Seller 1 Successfully restore product 11!', '2024-05-22 06:45:05'),
-(127, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:45:58'),
-(128, 1, 'Archive', 'Seller 1 Successfully put product 11 to archive!', '2024-05-22 06:46:03'),
-(129, 1, 'Delete product', 'User 1 successfully deleted the product 11!', '2024-05-22 06:46:08'),
-(130, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:47:03'),
-(131, 1, 'Archive', 'Seller 1 Successfully put product 12 to archive!', '2024-05-22 06:47:07'),
-(132, 1, 'Restore', 'Seller 1 Successfully restore product 12!', '2024-05-22 06:47:25'),
-(133, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 06:50:52'),
-(134, 1, 'Archive', 'Seller 1 Successfully put product 12 to archive!', '2024-05-22 06:50:55'),
-(135, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 07:00:24'),
-(136, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 07:03:35'),
-(137, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 07:13:57'),
-(138, 1, 'Archive', 'Seller 1 Successfully put product 12 to archive!', '2024-05-22 07:14:04'),
-(139, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 07:17:32'),
-(140, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 07:29:09'),
-(141, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:36:26'),
-(142, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:38:26'),
-(143, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:39:49'),
-(144, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:48:54'),
-(145, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:50:54'),
-(146, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:51:55'),
-(147, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:57:03'),
-(148, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:58:54'),
-(149, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-22 08:59:29'),
-(150, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 00:36:43'),
-(151, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 00:44:51'),
-(152, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 00:46:35'),
-(153, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 00:48:54'),
-(154, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 00:50:07'),
-(155, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 00:55:42'),
-(156, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:03:02'),
-(157, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:03:51'),
-(158, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:18:37'),
-(159, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:19:22'),
-(160, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:22:39'),
-(161, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:23:37'),
-(162, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:26:07'),
-(163, 1, 'Restore', 'Seller 1 Successfully restore product 12!', '2024-05-23 02:26:17'),
-(164, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:38:12'),
-(165, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:38:32'),
-(166, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:40:19'),
-(167, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-23 02:40:37'),
-(168, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:47:59'),
-(169, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:49:55'),
-(170, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:50:46'),
-(171, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 02:58:13'),
-(172, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 03:00:31'),
-(173, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 03:01:39'),
-(174, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 05:47:30'),
-(175, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 05:57:59'),
-(176, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 05:59:49'),
-(177, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:01:10'),
-(178, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:02:52'),
-(179, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:03:15'),
-(180, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:06:44'),
-(181, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:07:10'),
-(182, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:21:28'),
-(183, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:23:45'),
-(184, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:26:19'),
-(185, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:32:42'),
-(186, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:34:39'),
-(187, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:34:54'),
-(188, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:40:56'),
-(189, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:41:10'),
-(190, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 06:41:22'),
-(191, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:06:27'),
-(192, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:07:49'),
-(193, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:10:10'),
-(194, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:11:35'),
-(195, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:12:35'),
-(196, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 07:13:04'),
-(197, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 10:52:44'),
-(198, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 10:53:19'),
-(199, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 12:32:58'),
-(200, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 12:33:00'),
-(201, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 13:01:53'),
-(202, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 13:01:55'),
-(203, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 13:11:59'),
-(204, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 13:12:02'),
-(205, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 13:38:01'),
-(206, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 13:38:03'),
-(207, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 13:43:59'),
-(208, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 13:44:00'),
-(209, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-23 14:17:39'),
-(210, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-23 14:17:40');
-
 -- --------------------------------------------------------
 
 --
@@ -500,13 +257,6 @@ CREATE TABLE `tbl_wishlist` (
   `total_favorites` int(11) NOT NULL,
   `date_added` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_wishlist`
---
-
-INSERT INTO `tbl_wishlist` (`wishlist_id`, `buyer_id`, `seller_id`, `product_id`, `total_favorites`, `date_added`) VALUES
-(4, 2, 1, 13, 10, '2024-05-23');
 
 --
 -- Indexes for dumped tables
@@ -545,7 +295,8 @@ ALTER TABLE `tbl_buyerlogs`
 ALTER TABLE `tbl_cart`
   ADD PRIMARY KEY (`cart_id`),
   ADD KEY `buyer_id` (`buyer_id`,`product_id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `seller_id` (`seller_id`);
 
 --
 -- Indexes for table `tbl_invoice`
@@ -652,7 +403,7 @@ ALTER TABLE `tbl_buyerlogs`
 -- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_invoice`
@@ -676,7 +427,7 @@ ALTER TABLE `tbl_messages4seller`
 -- AUTO_INCREMENT for table `tbl_orders`
 --
 ALTER TABLE `tbl_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `tbl_products`
@@ -700,7 +451,7 @@ ALTER TABLE `tbl_rating4seller`
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=211;
+  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
 
 --
 -- AUTO_INCREMENT for table `tbl_wishlist`
@@ -735,7 +486,8 @@ ALTER TABLE `tbl_buyerlogs`
 --
 ALTER TABLE `tbl_cart`
   ADD CONSTRAINT `tbl_cart_ibfk_1` FOREIGN KEY (`buyer_id`) REFERENCES `tbl_accounts` (`account_id`),
-  ADD CONSTRAINT `tbl_cart_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`);
+  ADD CONSTRAINT `tbl_cart_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`),
+  ADD CONSTRAINT `tbl_cart_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `tbl_accounts` (`account_id`);
 
 --
 -- Constraints for table `tbl_invoice`

@@ -124,7 +124,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         displayArchive(); // display archive table
         displayPurchase(); // display orders table
         messages(); // display messages for seller
-        displayOrdersTable(); // display orders table
         displayWishlistTable(); //display wishist table
         display_wishlist_dashboard(); //display top wishlist in dashboard
         display_best_selling_dashboard(); //display best seeling
@@ -421,9 +420,15 @@ public final class sellerDashboard extends javax.swing.JFrame {
     public void displayOrdersTable() {
         try {
             databaseConnector dbc = new databaseConnector();
-            String query = "SELECT p.product_name AS `Product Name`, o.total_quantity AS `Total Quantity`, o.total_price AS `Total Price`, o.payment_method AS `Payment Method` FROM tbl_orders o JOIN tbl_products p ON o.product_id = p.product_id WHERE o.seller_id = ?";
+            String query = "SELECT "
+                    + "p.product_name AS `Product Name`, "
+                    + "o.total_quantity AS `Total Quantity`, "
+                    + "o.total_price AS `Total Price`, "
+                    + "o.payment_method AS `Payment Method` "
+                    + "FROM tbl_orders o "
+                    + "JOIN tbl_products p ON o.product_id = p.product_id WHERE o.order_id = ?";
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(query)) {
-                pst.setInt(1, sellerID);
+                pst.setInt(1, transaction_id);
 
                 try (ResultSet rs = pst.executeQuery()) {
                     orders_table.setModel(DbUtils.resultSetToTableModel(rs));
@@ -436,8 +441,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
             System.out.println("Error: " + ex.getMessage());
         }
     }
-    //orders table
 
+    //orders table
     public void displayPurchase() {
         try {
             databaseConnector dbc = new databaseConnector();
@@ -3857,45 +3862,79 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_product_tableMouseClicked
 
     private void accept_orderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accept_orderActionPerformed
-        newStock = product_stock - total_quantity;
         int rowIndex = purchase_table.getSelectedRow();
+        newStock = product_stock - total_quantity;
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please select a product first");
+            return;
+        }
 
         try {
-            if (rowIndex < 0) {
-                JOptionPane.showMessageDialog(null, "Please select a product first");
-            } else if (vieworder_status.equals("Accepted")) {
-                JOptionPane.showMessageDialog(null, "Product is already accepted!");
-            } else {
-                databaseConnector dbc = new databaseConnector();
-                String sql = "UPDATE tbl_orders SET order_status='Accepted' WHERE order_id=?";
-                try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
-                    pst.setInt(1, transaction_id);
-                    int rowsUpdated = pst.executeUpdate();
+            databaseConnector dbc = new databaseConnector();
+            String orderStatusQuery = "SELECT order_status, total_quantity, product_id FROM tbl_orders WHERE order_id = ?";
+            try (PreparedStatement statusStmt = dbc.getConnection().prepareStatement(orderStatusQuery)) {
+                statusStmt.setInt(1, transaction_id);
+                ResultSet rs = statusStmt.executeQuery();
 
-                    if (rowsUpdated > 0) {
-                        updateStock(newStock, product_id);
-                        if (newStock < 1) {
-                            updateStatus("Sold out");
-                        }
-                        updateProductSold(total_quantity, product_id, true); // Add quantity sold
-                        JOptionPane.showMessageDialog(null, "Order has been accepted Successfully!");
-                        String action = "Accept Order";
-                        String details = "Seller " + sellerID + " Successfully accept order " + transaction_id + "!";
-                        actionLogs.recordSellerLogs(sellerID, action, details);
-                        displayPurchase();
-                        displayProducts();
-                        display_orders_dashboard();
-                        newStock = 0;
-                        // Clear
-                        transaction_id = 0;
-                        buyer_id = 0;
-                        product_id = 0;
-                        clear_order_table();
-                        displayTotalSales(sellerID);
-                        displayTotalPendingOrders(sellerID);
-                        displayTotalOrders(sellerID);
-                        tabs.setSelectedIndex(3);
+                if (rs.next()) {
+                    String orderStatus = rs.getString("order_status");
+                    int totalQuantity = rs.getInt("total_quantity");
+                    int productId = rs.getInt("product_id");
+
+                    if (!"Pending".equals(orderStatus)) {
+                        JOptionPane.showMessageDialog(null, "You cannot make changes in this order anymore.");
+                        return;
                     }
+                    String fetchProductQuery = "SELECT product_stock FROM tbl_products WHERE product_id = ?";
+                    PreparedStatement fetchProductStmt = dbc.getConnection().prepareStatement(fetchProductQuery);
+                    fetchProductStmt.setInt(1, productId);
+                    ResultSet fetchRs = fetchProductStmt.executeQuery();
+
+                    if (fetchRs.next()) {
+                        int currentStock = fetchRs.getInt("product_stock");
+                        if (currentStock < totalQuantity) {
+                            JOptionPane.showMessageDialog(null, "Not enough stock to accept this order.");
+                            return;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Product not found!");
+                        return;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Order not found!");
+                    return;
+                }
+            }
+
+            // Proceed to accept the order
+            String updateOrderQuery = "UPDATE tbl_orders SET order_status='Accepted' WHERE order_id=?";
+            try (PreparedStatement pst = dbc.getConnection().prepareStatement(updateOrderQuery)) {
+                pst.setInt(1, transaction_id);
+                int rowsUpdated = pst.executeUpdate();
+
+                if (rowsUpdated > 0) {
+                    updateStock(newStock, product_id);
+                    if (newStock < 1) {
+                        updateStatus("Sold out");
+                    }
+                    updateProductSold(total_quantity, product_id); // Add quantity sold
+                    JOptionPane.showMessageDialog(null, "Order has been accepted successfully!");
+                    String action = "Accept Order";
+                    String details = "Seller " + sellerID + " successfully accepted order " + transaction_id + "!";
+                    actionLogs.recordSellerLogs(sellerID, action, details);
+                    displayPurchase();
+                    displayProducts();
+                    display_orders_dashboard();
+                    newStock = 0;
+                    // Clear
+                    transaction_id = 0;
+                    buyer_id = 0;
+                    product_id = 0;
+                    clear_order_table();
+                    displayTotalSales(sellerID);
+                    displayTotalPendingOrders(sellerID);
+                    displayTotalOrders(sellerID);
+                    tabs.setSelectedIndex(3);
                 }
             }
         } catch (SQLException e) {
@@ -3903,11 +3942,12 @@ public final class sellerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_accept_orderActionPerformed
 
-    private void updateProductSold(int quantitySold, int productId, boolean isAccepted) {
+    private void updateProductSold(int quantitySold, int productId) {
         databaseConnector dbc = new databaseConnector();
-        String sql = "UPDATE tbl_products SET `total_sold` = `total_sold` + ? WHERE `product_id` = ?";
+        String sql;
+        sql = "UPDATE tbl_products SET total_sold = total_sold + ? WHERE product_id = ?";
         try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
-            pst.setInt(1, isAccepted ? quantitySold : -quantitySold); // Add or subtract based on action
+            pst.setInt(1, quantitySold);
             pst.setInt(2, productId);
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -3991,24 +4031,32 @@ public final class sellerDashboard extends javax.swing.JFrame {
         int rowIndex = purchase_table.getSelectedRow();
 
         try {
-            newStock = total_quantity + product_stock;
             if (rowIndex < 0) {
                 JOptionPane.showMessageDialog(null, "Please select a product first");
-            } else if (vieworder_status.equals("Declined")) {
-                JOptionPane.showMessageDialog(null, "Product is already declined!");
-            } else {
-                databaseConnector dbc = new databaseConnector();
+                return;
+            }
+            databaseConnector dbc = new databaseConnector();
+
+            String orderStatusQuery = "SELECT order_status FROM tbl_orders WHERE order_id = ?";
+            try (PreparedStatement statusStmt = dbc.getConnection().prepareStatement(orderStatusQuery)) {
+                statusStmt.setInt(1, transaction_id);
+                ResultSet rs = statusStmt.executeQuery();
+
+                if (rs.next()) {
+                    String orderStatus = rs.getString("order_status");
+
+                    if (!"Pending".equals(orderStatus)) {
+                        JOptionPane.showMessageDialog(null, "You cannot make changes in this order anymore.");
+                        return;
+                    }
+                }
+
                 String sql = "UPDATE tbl_orders SET `order_status`='Declined' WHERE `order_id`=?";
                 try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
                     pst.setInt(1, transaction_id);
                     int rowsUpdated = pst.executeUpdate();
 
                     if (rowsUpdated > 0) {
-                        updateStock(newStock, product_id);
-                        if (newStock > 0) {
-                            updateStatus("Available");
-                        }
-                        updateProductSold(total_quantity, product_id, false);
                         JOptionPane.showMessageDialog(null, "Order has been declined Successfully!");
                         String action = "Declined Order";
                         String details = "Seller " + sellerID + " declined order " + transaction_id + "!";
@@ -4017,7 +4065,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         displayProducts();
                         display_orders_dashboard();
                         newStock = 0;
-
                         // Clear
                         transaction_id = 0;
                         buyer_id = 0;
@@ -4029,6 +4076,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         tabs.setSelectedIndex(3);
                     }
                 }
+
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
@@ -4259,72 +4307,64 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 fileName = selectedFile.getName();
                 imagePath = "src/ProductsImages/" + fileName;
 
-                sql = "UPDATE tbl_products "
-                        + "SET product_name=?,"
-                        + "product_price=?,"
-                        + "product_stock=?,"
-                        + "product_description=?,"
-                        + "product_image=?,"
-                        + "product_status=?,"
-                        + "product_category=?"
+                sql = "UPDATE tbl_products SET "
+                        + "product_name=?, "
+                        + "product_price=?, "
+                        + "product_stock=?, "
+                        + "product_description=?, "
+                        + "product_image=?, "
+                        + "product_status=?, "
+                        + "product_category=? "
                         + "WHERE product_id=?";
+            } else {
+                sql = "UPDATE tbl_products SET "
+                        + "product_name=?, "
+                        + "product_price=?, "
+                        + "product_stock=?, "
+                        + "product_description=?, "
+                        + "product_status=?, "
+                        + "product_category=? "
+                        + "WHERE product_id=?";
+            }
 
-                try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
-                    pst.setString(1, productName);
-                    pst.setInt(2, price);
-                    pst.setInt(3, stocks);
-                    pst.setString(4, productDescription);
+            try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
+                pst.setString(1, productName);
+                pst.setInt(2, price);
+                pst.setInt(3, stocks);
+                pst.setString(4, productDescription);
+
+                if (selectedFile != null) {
                     pst.setString(5, imagePath);
                     pst.setString(6, productStatus);
                     pst.setString(7, productCategory);
                     pst.setInt(8, p_id);
-
-                    int rowsUpdated = pst.executeUpdate();
-
-                    if (rowsUpdated > 0) {
-                        JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
-                        displayProducts();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Failed to update data!");
-                    }
-                }
-            } else {
-                sql = "UPDATE tbl_products"
-                        + "SET product_name=?,"
-                        + "product_price=?,"
-                        + "product_stock=?,"
-                        + "product_description=?,"
-                        + "product_status=?,"
-                        + "product_category=?"
-                        + "WHERE product_id=?";
-                try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
-                    pst.setString(1, productName);
-                    pst.setInt(2, price);
-                    pst.setInt(3, stocks);
-                    pst.setString(4, productDescription);
+                } else {
                     pst.setString(5, productStatus);
                     pst.setString(6, productCategory);
                     pst.setInt(7, p_id);
+                }
 
-                    int rowsUpdated = pst.executeUpdate();
+                int rowsUpdated = pst.executeUpdate();
 
-                    if (rowsUpdated > 0) {
-                        JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
+                if (rowsUpdated > 0) {
+                    JOptionPane.showMessageDialog(null, "Data Updated Successfully!");
+                    if (selectedFile == null) {
                         String action = "Edit Product";
-                        String details = "Seller " + sellerID + " Successfully edit product " + p_id + "!";
+                        String details = "Seller " + sellerID + " successfully edited product " + p_id + "!";
                         actionLogs.recordSellerLogs(sellerID, action, details);
-                        displayProducts();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Failed to update data!");
                     }
+                    displayProducts();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failed to update data!");
                 }
             }
+
             emptyValues();
             p_id = 0;
             displayTotalProducts(sellerID);
             displayProducts();
             tabs.setSelectedIndex(1);
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -4676,12 +4716,12 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void view_orderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_view_orderActionPerformed
-        newStock = 0;
         int rowIndex = purchase_table.getSelectedRow();
         if (rowIndex < 0) {
-            JOptionPane.showMessageDialog(null, "Please Select an Item!");
+            JOptionPane.showMessageDialog(null, "Please select an item!");
             return;
         }
+
         TableModel model = purchase_table.getModel();
         transaction_id = (int) model.getValueAt(rowIndex, 0);
         buyer_id = (int) model.getValueAt(rowIndex, 1);
@@ -4690,7 +4730,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
             String orderQuery = "SELECT * FROM tbl_orders WHERE order_id = " + transaction_id;
-            String accountQuery = "SELECT first_name, last_name, address, email, `phone_number` FROM tbl_accounts WHERE account_id = " + buyer_id;
+            String accountQuery = "SELECT first_name, last_name, address, email, phone_number FROM tbl_accounts WHERE account_id = " + buyer_id;
             String productQuery = "SELECT product_name, product_price, product_category FROM tbl_products WHERE product_id = " + product_id;
 
             try (ResultSet rsOrder = dbc.getData(orderQuery); ResultSet rsAccount = dbc.getData(accountQuery); ResultSet rsProduct = dbc.getData(productQuery)) {
@@ -4723,9 +4763,9 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     total_quantity = rsOrder.getInt("total_quantity");
                     vieworder_notes.setText(rsOrder.getString("notes"));
                     vieworder_date.setText(rsOrder.getString("date_purchase"));
-                    String status;
-                    status = rsOrder.getString("order_status");
+                    String status = rsOrder.getString("order_status");
                     vieworder_status.setText(status);
+
                     switch (status) {
                         case "Pending":
                             status_background.setBackground(new Color(255, 255, 204));
@@ -4746,6 +4786,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     transaction_id = rsOrder.getInt("order_id");
                     product_id = rsOrder.getInt("product_id");
                     getStock();
+                    displayOrdersTable();
                     tabs.setSelectedIndex(9);
                 } else {
                     JOptionPane.showMessageDialog(null, "Order details not found!");
