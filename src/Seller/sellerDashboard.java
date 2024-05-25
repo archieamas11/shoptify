@@ -265,8 +265,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 + "borderWidth:0;"
                 + "focusWidth:0;"
                 + "innerFocusWidth:0;"
-                + "margin:5,20,5,20;"
-                + "background:#FFFFFF");
+                //+ "background:#FFFFFF;"
+                + "margin:5,20,5,20");
     }
 
     private void displayRatingSumAndCount() {
@@ -4237,8 +4237,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         orders.setSelected(false);
         archiveBtn.setSelected(false);
         admin_support.setSelected(false);
-        dashboard.setBackground(Color.BLACK); // Replace "dashboardPanel" with the actual name of your dashboard panel component
-
     }//GEN-LAST:event_dashboardActionPerformed
 
     private void manageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageActionPerformed
