@@ -7,11 +7,20 @@ import accounts.frontPage;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
+import config.actionLogs;
 import config.databaseConnector;
 import config.flatlaftTable;
+import config.isAccountExist;
+import config.search;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,17 +28,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class buyerDashboard extends javax.swing.JFrame {
 
@@ -87,6 +100,35 @@ public class buyerDashboard extends javax.swing.JFrame {
                 + "innerFocusWidth:0;"
                 + "margin:5,20,5,20;"
                 + "background:#FFFFFF");
+    }
+
+    String profilePicture;
+
+    public void displayAccountName() {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            String query = "SELECT * FROM tbl_accounts WHERE account_id = ?";
+            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
+            pst.setInt(1, buyer_id);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                jLabel12.setText("" + rs.getString("username"));
+                username.setText("" + rs.getString("username"));
+                fname.setText("" + rs.getString("first_name"));
+                lname.setText("" + rs.getString("last_name"));
+                email.setText("" + rs.getString("email"));
+                edit_phone_number.setText("" + rs.getString("phone_number"));
+                address.setText("" + rs.getString("address"));
+                int height = 60;
+                int width = 60;
+                profilePicture = rs.getString("profile_picture");
+                GetImage.displayImage(jLabel6, profilePicture, height, width);
+            }
+            rs.close();
+            pst.close();
+        } catch (SQLException ex) {
+            System.out.println("Errors: " + ex.getMessage());
+        }
     }
 
     public void displayCart() {
@@ -435,18 +477,16 @@ public class buyerDashboard extends javax.swing.JFrame {
         add = new javax.swing.JButton();
         jSeparator13 = new javax.swing.JSeparator();
         myprofile = new javax.swing.JPanel();
-        profile = new javax.swing.JLabel();
         edit = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jSeparator2 = new javax.swing.JSeparator();
-        select = new javax.swing.JButton();
+        select_image = new javax.swing.JButton();
         jSeparator6 = new javax.swing.JSeparator();
         manage1 = new javax.swing.JLabel();
         manage2 = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
         manage3 = new javax.swing.JLabel();
         manage4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         fname = new javax.swing.JTextField();
         manage6 = new javax.swing.JLabel();
@@ -455,20 +495,25 @@ public class buyerDashboard extends javax.swing.JFrame {
         manage5 = new javax.swing.JLabel();
         address = new javax.swing.JTextField();
         manage13 = new javax.swing.JLabel();
-        image_view = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        password1 = new javax.swing.JTextField();
+        edit_phone_number = new javax.swing.JTextField();
         manage14 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
-        jLabel15 = new javax.swing.JLabel();
+        edit_profile_save_button = new javax.swing.JButton();
+        jLabel71 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        buyer_photo_profile = new javax.swing.JLabel();
+        jLabel72 = new javax.swing.JLabel();
+        username = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
-        logout = new javax.swing.JLabel();
-        myprofile2 = new javax.swing.JLabel();
-        myprofile3 = new javax.swing.JLabel();
-        myprofile4 = new javax.swing.JLabel();
+        jSeparator14 = new javax.swing.JSeparator();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jToggleButton2 = new javax.swing.JToggleButton();
+        jToggleButton3 = new javax.swing.JToggleButton();
+        jSeparator15 = new javax.swing.JSeparator();
+        jToggleButton5 = new javax.swing.JToggleButton();
+        jToggleButton6 = new javax.swing.JToggleButton();
+        jLabel6 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         purchase_table = new javax.swing.JTable();
@@ -585,7 +630,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         });
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, -1, 40));
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 20));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 10));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -882,7 +927,7 @@ public class buyerDashboard extends javax.swing.JFrame {
 
         product_name.setFont(new java.awt.Font("Roboto", 0, 50)); // NOI18N
         product_name.setForeground(new java.awt.Color(51, 51, 51));
-        product_name.setText("Macbook Air");
+        product_name.setText("Macbook Airsssssssssss");
         productInfo.add(product_name);
         product_name.setBounds(660, 120, 570, 40);
 
@@ -1287,22 +1332,28 @@ public class buyerDashboard extends javax.swing.JFrame {
 
         tabs.addTab("tab4", jPanel4);
 
-        myprofile.setBackground(new java.awt.Color(245, 245, 245));
+        myprofile.setBackground(new java.awt.Color(255, 255, 255));
         myprofile.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        myprofile.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 40, 40));
 
-        edit.setText("Edit Profile");
-        myprofile.add(edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, -1, -1));
+        edit.setText("Profile");
+        myprofile.add(edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, 30));
 
-        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setBackground(new java.awt.Color(241, 241, 241));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jSeparator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
         jPanel9.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 150, 30, 380));
 
-        select.setText("Select Image");
-        jPanel9.add(select, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 360, 120, 30));
-        jPanel9.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 860, 20));
+        select_image.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        select_image.setText("Select Image");
+        select_image.setBorderPainted(false);
+        select_image.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                select_imageActionPerformed(evt);
+            }
+        });
+        jPanel9.add(select_image, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 350, 130, 40));
+        jPanel9.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 940, 20));
 
         manage1.setForeground(new java.awt.Color(102, 102, 102));
         manage1.setText("Manage your account ");
@@ -1311,39 +1362,29 @@ public class buyerDashboard extends javax.swing.JFrame {
         manage2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage2.setForeground(new java.awt.Color(102, 102, 102));
         manage2.setText("Username");
-        jPanel9.add(manage2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, -1, -1));
-        jPanel9.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 280, 270, 40));
+        jPanel9.add(manage2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, -1, -1));
+        jPanel9.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 250, 270, 40));
 
         manage3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage3.setForeground(new java.awt.Color(102, 102, 102));
         manage3.setText("First name");
-        jPanel9.add(manage3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, -1, -1));
+        jPanel9.add(manage3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, -1));
 
         manage4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage4.setForeground(new java.awt.Color(102, 102, 102));
         manage4.setText("Address");
-        jPanel9.add(manage4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 440, -1, -1));
-
-        jButton1.setBackground(new java.awt.Color(0, 158, 226));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Save");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel9.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 510, -1, 30));
+        jPanel9.add(manage4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 400, -1, 40));
 
         jLabel12.setForeground(new java.awt.Color(153, 153, 153));
         jLabel12.setText("chielbrc");
-        jPanel9.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 140, -1, 20));
-        jPanel9.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 180, 270, 40));
+        jPanel9.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 110, -1, 20));
+        jPanel9.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 270, 40));
 
         manage6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage6.setForeground(new java.awt.Color(102, 102, 102));
         manage6.setText("Last name");
-        jPanel9.add(manage6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 240, -1, -1));
-        jPanel9.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 270, 40));
+        jPanel9.add(manage6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 210, -1, -1));
+        jPanel9.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 270, 40));
 
         myprofile1.setFont(new java.awt.Font("Segoe UI Semibold", 1, 14)); // NOI18N
         myprofile1.setText("My Profile");
@@ -1352,67 +1393,129 @@ public class buyerDashboard extends javax.swing.JFrame {
         manage5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage5.setForeground(new java.awt.Color(102, 102, 102));
         manage5.setText("Phone Number");
-        jPanel9.add(manage5, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 340, -1, -1));
-        jPanel9.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 430, 270, 40));
+        jPanel9.add(manage5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, -1, -1));
+        jPanel9.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 400, 270, 40));
 
         manage13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage13.setForeground(new java.awt.Color(102, 102, 102));
         manage13.setText("Password");
-        jPanel9.add(manage13, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 390, -1, -1));
-        jPanel9.add(image_view, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 226, 120, 120));
-
-        jLabel5.setText("Change");
-        jPanel9.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 440, -1, -1));
-
-        jLabel8.setText("Change");
-        jPanel9.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 340, -1, -1));
-        jPanel9.add(password1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 330, 270, 40));
+        jPanel9.add(manage13, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 350, -1, 40));
+        jPanel9.add(edit_phone_number, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 300, 270, 40));
 
         manage14.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         manage14.setForeground(new java.awt.Color(102, 102, 102));
         manage14.setText("Email");
-        jPanel9.add(manage14, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, -1, -1));
+        jPanel9.add(manage14, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, -1, -1));
 
-        jLabel10.setText("Change");
-        jPanel9.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 390, -1, -1));
+        password.setText("         Password");
+        jPanel9.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 350, 270, 40));
 
-        password.setText("*******");
-        password.setBorder(null);
-        jPanel9.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 380, 270, 40));
+        edit_profile_save_button.setBackground(new java.awt.Color(0, 158, 226));
+        edit_profile_save_button.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        edit_profile_save_button.setForeground(new java.awt.Color(255, 255, 255));
+        edit_profile_save_button.setText("Save");
+        edit_profile_save_button.setBorderPainted(false);
+        edit_profile_save_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edit_profile_save_buttonActionPerformed(evt);
+            }
+        });
+        jPanel9.add(edit_profile_save_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 490, 270, 40));
 
-        myprofile.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, 1000, 600));
+        jLabel71.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel71.setForeground(new java.awt.Color(0, 158, 226));
+        jLabel71.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel71.setText("Change");
+        jLabel71.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel71MouseClicked(evt);
+            }
+        });
+        jPanel9.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 360, -1, -1));
 
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel15.setText("username");
-        myprofile.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, -1, -1));
-        myprofile.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 150, 20));
+        jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        buyer_photo_profile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        buyer_photo_profile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default profile 100x100.png"))); // NOI18N
+        jPanel12.add(buyer_photo_profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 130));
+
+        jPanel9.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 210, 130, 130));
+
+        jLabel72.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel72.setForeground(new java.awt.Color(0, 158, 226));
+        jLabel72.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel72.setText("Change");
+        jLabel72.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel72MouseClicked(evt);
+            }
+        });
+        jPanel9.add(jLabel72, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 260, -1, -1));
+
+        myprofile.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 70, 1000, 590));
+
+        username.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        username.setText("username");
+        myprofile.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, 120, 30));
+        myprofile.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 600, 200, 20));
         myprofile.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 170, 50, 160));
 
-        logout.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        logout.setText("Logout");
-        logout.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logoutMouseClicked(evt);
+        jSeparator14.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator14.setForeground(new java.awt.Color(231, 231, 231));
+        jSeparator14.setAlignmentX(0.2F);
+        jSeparator14.setAlignmentY(0.2F);
+        myprofile.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1280, 20));
+
+        jToggleButton1.setBackground(new java.awt.Color(241, 241, 241));
+        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/buyer_logout.png"))); // NOI18N
+        jToggleButton1.setText("   Logout");
+        jToggleButton1.setBorder(null);
+        jToggleButton1.setBorderPainted(false);
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
             }
         });
-        myprofile.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 80, 20));
+        myprofile.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 620, 200, 40));
 
-        myprofile2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        myprofile2.setText("My Account");
-        myprofile.add(myprofile2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 170, 80, 20));
+        jToggleButton2.setBackground(new java.awt.Color(241, 241, 241));
+        jToggleButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/buyer_buy.png"))); // NOI18N
+        jToggleButton2.setText("My purchases");
+        jToggleButton2.setBorder(null);
+        jToggleButton2.setBorderPainted(false);
+        jToggleButton2.setIconTextGap(10);
+        myprofile.add(jToggleButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 300, 200, 40));
 
-        myprofile3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        myprofile3.setText("Address");
-        myprofile3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                myprofile3MouseClicked(evt);
+        jToggleButton3.setBackground(new java.awt.Color(241, 241, 241));
+        jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/buyer_icon.png"))); // NOI18N
+        jToggleButton3.setText("  My Account");
+        jToggleButton3.setBorder(null);
+        jToggleButton3.setBorderPainted(false);
+        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton3ActionPerformed(evt);
             }
         });
-        myprofile.add(myprofile3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, 80, 20));
+        myprofile.add(jToggleButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 200, 40));
+        myprofile.add(jSeparator15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 200, 20));
 
-        myprofile4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        myprofile4.setText("Logout");
-        myprofile.add(myprofile4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 80, 20));
+        jToggleButton5.setBackground(new java.awt.Color(241, 241, 241));
+        jToggleButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/buyer_cart.png"))); // NOI18N
+        jToggleButton5.setText("My cart       ");
+        jToggleButton5.setBorder(null);
+        jToggleButton5.setBorderPainted(false);
+        jToggleButton5.setIconTextGap(10);
+        myprofile.add(jToggleButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 240, 200, 40));
+
+        jToggleButton6.setBackground(new java.awt.Color(241, 241, 241));
+        jToggleButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/buyer_call_admin.png"))); // NOI18N
+        jToggleButton6.setText("Contact admin");
+        jToggleButton6.setBorder(null);
+        jToggleButton6.setBorderPainted(false);
+        myprofile.add(jToggleButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 200, 40));
+
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        myprofile.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 70, 70));
 
         tabs.addTab("tab5", myprofile);
 
@@ -1846,35 +1949,6 @@ public class buyerDashboard extends javax.swing.JFrame {
         tabs.setSelectedIndex(3);
     }//GEN-LAST:event_myCartMouseClicked
 
-    public void displayAccountName() {
-        try {
-            databaseConnector dbc = new databaseConnector();
-            String query = "SELECT username, first_name, last_name, email, address, profile_picture FROM tbl_accounts WHERE account_id = ?";
-            PreparedStatement pst = dbc.getConnection().prepareStatement(query);
-            pst.setInt(1, buyer_id);
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                jLabel12.setText("" + rs.getString("username"));
-                jLabel15.setText("" + rs.getString("username"));
-                fname.setText("" + rs.getString("first_name"));
-                lname.setText("" + rs.getString("last_name"));
-                email.setText("" + rs.getString("email"));
-                address.setText("" + rs.getString("address"));
-                int heightSmall = 40;
-                int widthSmall = 40;
-                int height = 120;
-                int width = 120;
-                String profilePicture = rs.getString("profile_picture");
-                GetImage.displayImage(profile, profilePicture, heightSmall, widthSmall);
-                GetImage.displayImage(image_view, profilePicture, height, width);
-            }
-            rs.close();
-            pst.close();
-        } catch (SQLException ex) {
-            System.out.println("Errors: " + ex.getMessage());
-        }
-    }
-
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         tabs.setSelectedIndex(4);
@@ -1920,21 +1994,6 @@ public class buyerDashboard extends javax.swing.JFrame {
     private void p12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p12MouseClicked
         panelMouseClicked(p12, name12, price12, image12, quan);
     }//GEN-LAST:event_p12MouseClicked
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void logoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutMouseClicked
-        Login out = new Login();
-        out.setVisible(true);
-        this.dispose();
-        UserManager.logout();
-    }//GEN-LAST:event_logoutMouseClicked
-
-    private void myprofile3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myprofile3MouseClicked
-        tabs.setSelectedIndex(7);
-    }//GEN-LAST:event_myprofile3MouseClicked
 
     private void myprofile6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myprofile6MouseClicked
         // TODO add your handling code here:
@@ -2339,11 +2398,189 @@ public class buyerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_orders_search_barMouseClicked
 
     private void orders_search_barKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_orders_search_barKeyReleased
+        search.searchResult(cart_table, orders_search_bar);
     }//GEN-LAST:event_orders_search_barKeyReleased
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         tabs.setSelectedIndex(0);
     }//GEN-LAST:event_jButton5ActionPerformed
+    File selectedFile;
+    String imagePath;
+    private void select_imageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_select_imageActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Image Files", "jpg", "jpeg", "png", "gif");
+        fileChooser.setFileFilter(filter);
+
+        int result = fileChooser.showOpenDialog(this);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            selectedFile = fileChooser.getSelectedFile();
+
+            try {
+                BufferedImage originalImage = ImageIO.read(selectedFile);
+
+                Image resizedImage = originalImage.getScaledInstance(120, 110, Image.SCALE_SMOOTH);
+                ImageIcon icon = new ImageIcon(resizedImage);
+                buyer_photo_profile.setIcon(icon);
+
+                String imageName = selectedFile.getName();
+                imagePath = "src/buyer_profile_pictures/" + imageName;
+                File destination = new File(imagePath);
+                Files.copy(selectedFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                selectedFile = destination;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error reading image file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_select_imageActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        Login out = new Login();
+        out.setVisible(true);
+        this.dispose();
+        UserManager.logout();
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    String fileName;
+
+    private void edit_profile_save_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_profile_save_buttonActionPerformed
+        String first_name = fname.getText();
+        String last_name = lname.getText();
+        String phone = edit_phone_number.getText();
+        String addre = address.getText();
+
+        if (first_name.isEmpty() || last_name.isEmpty() || phone.isEmpty() || addre.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (phone.length() < 11 || phone.length() > 11 || !phone.matches("\\d+")) {
+            JOptionPane.showMessageDialog(null, "Invalid number", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (selectedFile != null) {
+            fileName = selectedFile.getName();
+            imagePath = "src/buyer_profile_pioctures/" + fileName;
+        } else {
+            imagePath = profilePicture;
+        }
+
+        String sql;
+        PreparedStatement pst;
+
+        try {
+            databaseConnector dbc = new databaseConnector();
+
+            sql = "UPDATE tbl_accounts SET first_name=?, last_name=?, address=?, phone_number=?, profile_picture=? WHERE account_id=?";
+            pst = dbc.getConnection().prepareStatement(sql);
+            pst.setString(1, first_name);
+            pst.setString(2, last_name);
+            pst.setString(3, addre);
+            pst.setString(4, phone);
+            pst.setString(5, imagePath);
+            pst.setInt(6, buyer_id);
+
+            int rowsUpdated = pst.executeUpdate();
+            pst.close();
+
+            if (rowsUpdated > 0) {
+                JOptionPane.showMessageDialog(null, "Profile Updated Successfully!");
+                displayAccountName();
+                tabs.setSelectedIndex(0);
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to update Account!");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "error adding product!" + e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_edit_profile_save_buttonActionPerformed
+
+    private void jLabel71MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel71MouseClicked
+        String oldPassword = JOptionPane.showInputDialog(null, "Enter your old password:");
+
+        if (oldPassword == null || oldPassword.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter your old password", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        boolean isExist = isAccountExist.checkPassword(oldPassword, buyer_id);
+
+        if (!isExist) {
+            JOptionPane.showMessageDialog(null, "Your old password is incorrect.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String newPassword = JOptionPane.showInputDialog(null, "Enter your new password:");
+        if (newPassword == null || newPassword.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter a new password.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        if (newPassword.length() < 8) {
+            JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        try {
+            // Update the password in the database
+            String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
+            String updateQuery = "UPDATE tbl_accounts SET password = ? WHERE account_id = ?";
+            databaseConnector dbc = new databaseConnector();
+            int rowsAffected;
+            try (PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery)) {
+                pst.setString(1, hashedNewPassword);
+                pst.setInt(2, buyer_id);
+                rowsAffected = pst.executeUpdate();
+            }
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Password updated successfully.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to update password.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (HeadlessException | SQLException e) {
+        }
+    }//GEN-LAST:event_jLabel71MouseClicked
+
+    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
+        displayAccountName();
+        tabs.setSelectedIndex(4);
+    }//GEN-LAST:event_jToggleButton3ActionPerformed
+
+    private void jLabel72MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel72MouseClicked
+        String eemail = JOptionPane.showInputDialog(null, "Enter your new email address:");
+
+        if (eemail == null || eemail.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please enter a email address.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (isAccountExist.checkEmail(eemail)) {
+            JOptionPane.showMessageDialog(null, "Email already registered.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        try {
+            // Update the address in the database
+            String updateQuery = "UPDATE tbl_accounts SET email = ? WHERE account_id = ?";
+            databaseConnector dbc = new databaseConnector();
+            PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery);
+            pst.setString(1, eemail);
+            pst.setInt(2, buyer_id);
+            int rowsAffected = pst.executeUpdate();
+            pst.close();
+
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(null, "Email address updated successfully.");
+                displayAccountName();
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to update email address.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Failed to update address.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jLabel72MouseClicked
 
     public static void main(String args[]) {
         try {
@@ -2368,6 +2605,7 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField address;
     private javax.swing.JLabel back;
     private javax.swing.JButton buy_now;
+    private javax.swing.JLabel buyer_photo_profile;
     private javax.swing.JPanel cartTableContainer;
     private javax.swing.JPanel cartViewContainer;
     private javax.swing.JLabel cart_is_empty;
@@ -2381,6 +2619,8 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField displayQuant;
     private javax.swing.JLabel edit;
     private javax.swing.JLabel edit1;
+    private javax.swing.JTextField edit_phone_number;
+    private javax.swing.JButton edit_profile_save_button;
     private javax.swing.JTextField email;
     private javax.swing.JTextField fname;
     private javax.swing.JTextField fname1;
@@ -2402,18 +2642,14 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel image7;
     private javax.swing.JLabel image8;
     private javax.swing.JLabel image9;
-    private javax.swing.JLabel image_view;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
@@ -2431,13 +2667,15 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -2456,6 +2694,8 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator13;
+    private javax.swing.JSeparator jSeparator14;
+    private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -2464,8 +2704,12 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JToggleButton jToggleButton5;
+    private javax.swing.JToggleButton jToggleButton6;
     private javax.swing.JTextField lname;
-    private javax.swing.JLabel logout;
     private javax.swing.JLabel logout1;
     private javax.swing.JLabel manage1;
     private javax.swing.JLabel manage10;
@@ -2484,9 +2728,6 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel myCart;
     private javax.swing.JPanel myprofile;
     private javax.swing.JLabel myprofile1;
-    private javax.swing.JLabel myprofile2;
-    private javax.swing.JLabel myprofile3;
-    private javax.swing.JLabel myprofile4;
     private javax.swing.JLabel myprofile5;
     private javax.swing.JLabel myprofile6;
     private javax.swing.JLabel myprofile7;
@@ -2521,7 +2762,6 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel p8;
     private javax.swing.JPanel p9;
     private javax.swing.JPasswordField password;
-    private javax.swing.JTextField password1;
     private javax.swing.JLabel photo;
     private javax.swing.JLabel price1;
     private javax.swing.JLabel price10;
@@ -2552,7 +2792,6 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel product_shop_name1;
     private javax.swing.JLabel product_shop_name2;
     private javax.swing.JLabel product_sold;
-    private javax.swing.JLabel profile;
     private javax.swing.JLabel profile1;
     private javax.swing.JPanel profile2;
     private javax.swing.JTable purchase_table;
@@ -2564,7 +2803,7 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel s4;
     private javax.swing.JButton savebtn;
     private javax.swing.JLabel sc2;
-    private javax.swing.JButton select;
+    private javax.swing.JButton select_image;
     private javax.swing.JLabel seller__profile_rating;
     private javax.swing.JLabel seller_joined;
     private javax.swing.JLabel seller_products;
@@ -2578,6 +2817,7 @@ public class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel total_quantity;
     private javax.swing.JTextField txtNumber;
     private javax.swing.JLabel unit_price;
+    private javax.swing.JLabel username;
     private javax.swing.JButton view_shop;
     private javax.swing.JPanel yawa;
     // End of variables declaration//GEN-END:variables

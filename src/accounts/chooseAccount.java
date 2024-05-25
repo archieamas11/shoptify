@@ -157,7 +157,7 @@ public class chooseAccount extends javax.swing.JFrame {
         });
         jPanel4.add(login, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 20, -1, 40));
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 60));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 20));
 
         tabs.setBackground(new java.awt.Color(255, 255, 255));
 
