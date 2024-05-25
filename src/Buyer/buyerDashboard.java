@@ -577,7 +577,7 @@ public class buyerDashboard extends javax.swing.JFrame {
         });
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, -1, 40));
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 70));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 20));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -2134,7 +2134,7 @@ public class buyerDashboard extends javax.swing.JFrame {
                 int existingTotalPrice = checkRs.getInt("total_price");
                 int newTotalPrice = existingTotalPrice + total;
 
-                if (newQuant > stock) {
+                if (currentStock > stock) {
                     JOptionPane.showMessageDialog(null, "Insufficient stock. Available stock: " + stock);
                 } else {
                     String updateQuery = "UPDATE tbl_orders SET total_quantity = ?, total_price = ? WHERE buyer_id = ? AND product_id = ?";
@@ -2242,18 +2242,6 @@ public class buyerDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
 
-            String fetchProductQuery = "SELECT product_stock, product_status FROM tbl_products WHERE product_id = ?";
-            PreparedStatement fetchProductStmt = dbc.getConnection().prepareStatement(fetchProductQuery);
-            fetchProductStmt.setInt(1, product_id);
-
-            ResultSet fetchRs = fetchProductStmt.executeQuery();
-            if (!fetchRs.next()) {
-                JOptionPane.showMessageDialog(null, "Product not found!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            int currentStock = fetchRs.getInt("product_stock");
-            String currentStatus = fetchRs.getString("product_status");
-
             // Check if the purchase already exists for the given cart ID and product name
             String checkPurchaseQuery = "SELECT * FROM tbl_orders WHERE buyer_id = ? AND product_id = ? AND order_status = 'Pending'";
             PreparedStatement checkPurchaseStmt = dbc.getConnection().prepareStatement(checkPurchaseQuery);
@@ -2292,7 +2280,6 @@ public class buyerDashboard extends javax.swing.JFrame {
                 insertStmt.executeUpdate();
 
                 JOptionPane.showMessageDialog(null, "Purchase added successfully!");
-                // Update stock and status if necessary
             }
             num = 1;
             displayQuant.setText(String.valueOf(num));
