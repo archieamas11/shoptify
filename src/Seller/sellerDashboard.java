@@ -11,6 +11,7 @@ import config.databaseConnector;
 import config.search;
 import config.flatlaftTable;
 import config.isAccountExist;
+import config.sorter;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -41,12 +42,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 import java.time.format.DateTimeFormatter;
+import javax.swing.BorderFactory;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import org.mindrot.jbcrypt.BCrypt;
+import raven.toast.Notifications;
 
 public final class sellerDashboard extends javax.swing.JFrame {
 
@@ -54,7 +58,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
     public sellerDashboard() {
         initComponents();
-
+        Notifications.getInstance().setJFrame(this);
         product_search_bar.setFocusable(false);
         activity_search_bar.setFocusable(false);
         message_search_bar.setFocusable(false);
@@ -121,7 +125,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         searchBar(message_search_bar);
         flatlaftTable.design(messageContainer, message4admin_table, jScrollPane12); //message table
         UXmethods.RoundBorders.setArcStyle(l1, 20);
-        UXmethods.RoundBorders.setArcStyle(l2, 20);
         UXmethods.RoundBorders.setArcStyle(l3, 5);
         UXmethods.RoundBorders.setArcStyle(a1, 5);
         UXmethods.RoundBorders.setArcStyle(a2, 5);
@@ -979,20 +982,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel81 = new javax.swing.JLabel();
         jLabel82 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        admin_support_container = new javax.swing.JPanel();
-        jLabel85 = new javax.swing.JLabel();
-        l2 = new javax.swing.JPanel();
-        jSeparator15 = new javax.swing.JSeparator();
-        admin_submit = new javax.swing.JButton();
-        jPanel19 = new javax.swing.JPanel();
-        jLabel107 = new javax.swing.JLabel();
-        l3 = new javax.swing.JScrollPane();
-        message = new javax.swing.JTextArea();
-        title = new javax.swing.JTextField();
-        jLabel109 = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        explain = new javax.swing.JTextArea();
-        header = new javax.swing.JLabel();
+        jLabel96 = new javax.swing.JLabel();
+        jLabel98 = new javax.swing.JLabel();
         l1 = new javax.swing.JPanel();
         jSeparator14 = new javax.swing.JSeparator();
         jSeparator16 = new javax.swing.JSeparator();
@@ -1003,8 +994,17 @@ public final class sellerDashboard extends javax.swing.JFrame {
         a3 = new javax.swing.JToggleButton();
         help_status = new javax.swing.JButton();
         jSeparator18 = new javax.swing.JSeparator();
-        jLabel96 = new javax.swing.JLabel();
-        jLabel98 = new javax.swing.JLabel();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel107 = new javax.swing.JLabel();
+        l3 = new javax.swing.JScrollPane();
+        message = new javax.swing.JTextArea();
+        title = new javax.swing.JTextField();
+        jLabel109 = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        explain = new javax.swing.JTextArea();
+        header = new javax.swing.JLabel();
+        jSeparator15 = new javax.swing.JSeparator();
+        admin_submit = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
         jLabel54 = new javax.swing.JLabel();
         jLabel55 = new javax.swing.JLabel();
@@ -1076,6 +1076,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         nameError = new javax.swing.JLabel();
         stockError = new javax.swing.JLabel();
         priceError = new javax.swing.JLabel();
+        desError = new javax.swing.JLabel();
         jLabel99 = new javax.swing.JLabel();
         jLabel100 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -1099,6 +1100,12 @@ public final class sellerDashboard extends javax.swing.JFrame {
         editNameError = new javax.swing.JLabel();
         editPriceError = new javax.swing.JLabel();
         editStockError = new javax.swing.JLabel();
+        desError1 = new javax.swing.JLabel();
+        desError2 = new javax.swing.JLabel();
+        desError3 = new javax.swing.JLabel();
+        desError4 = new javax.swing.JLabel();
+        desError5 = new javax.swing.JLabel();
+        desError6 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jSeparator6 = new javax.swing.JSeparator();
         jPanel23 = new javax.swing.JPanel();
@@ -1691,9 +1698,14 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         filter_product_table.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         filter_product_table.setForeground(new java.awt.Color(153, 153, 153));
-        filter_product_table.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Electronics", "Grocery", "Pet Supplies", "Fashion" }));
-        filter_product_table.setSelectedIndex(-1);
+        filter_product_table.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Categories", "Electronics", "Grocery", "Pet Supplies", "Fashion" }));
+        filter_product_table.setSelectedIndex(0);
         filter_product_table.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        filter_product_table.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filter_product_tableActionPerformed(evt);
+            }
+        });
         filterContainer.add(filter_product_table, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 110, 30));
 
         productsContainer.add(filterContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 180, 40));
@@ -1997,8 +2009,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         jComboBox5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jComboBox5.setForeground(new java.awt.Color(153, 153, 153));
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category" }));
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Status", "Pending", "Accepted", "Declined", "Cancelled" }));
         jComboBox5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox5ActionPerformed(evt);
+            }
+        });
         filterContainer2.add(jComboBox5, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 110, 30));
 
         productsContainer2.add(filterContainer2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 180, 40));
@@ -2034,72 +2051,19 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        admin_support_container.setBackground(new java.awt.Color(241, 241, 241));
-        admin_support_container.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jLabel96.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel96.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel96.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel96.setText("Contact Admin  >");
+        jPanel4.add(jLabel96, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
 
-        jLabel85.setBackground(new java.awt.Color(241, 241, 241));
-        jLabel85.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
-        jLabel85.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel85.setText("Product Table");
-        admin_support_container.add(jLabel85, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 0));
+        jLabel98.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel98.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel98.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel98.setText("Help Center");
+        jPanel4.add(jLabel98, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 30));
 
-        l2.setBackground(new java.awt.Color(255, 255, 255));
-        l2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        l2.add(jSeparator15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 770, 20));
-
-        admin_submit.setText("Submit");
-        admin_submit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                admin_submitActionPerformed(evt);
-            }
-        });
-        l2.add(admin_submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 520, 160, 40));
-
-        jPanel19.setBackground(new java.awt.Color(241, 241, 241));
-        jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel107.setBackground(new java.awt.Color(241, 241, 241));
-        jLabel107.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel107.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel107.setText("Description");
-        jPanel19.add(jLabel107, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 210, 20));
-
-        message.setColumns(20);
-        message.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        message.setRows(5);
-        l3.setViewportView(message);
-
-        jPanel19.add(l3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 660, 250));
-        jPanel19.add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 660, 40));
-
-        jLabel109.setBackground(new java.awt.Color(241, 241, 241));
-        jLabel109.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel109.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel109.setText("Title");
-        jPanel19.add(jLabel109, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 210, 20));
-
-        jScrollPane6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
-        explain.setBackground(new java.awt.Color(241, 241, 241));
-        explain.setColumns(20);
-        explain.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        explain.setForeground(new java.awt.Color(153, 153, 153));
-        explain.setRows(5);
-        explain.setText("\n");
-        jScrollPane6.setViewportView(explain);
-
-        jPanel19.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 660, 50));
-
-        l2.add(jPanel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 720, 440));
-
-        header.setBackground(new java.awt.Color(241, 241, 241));
-        header.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        header.setForeground(new java.awt.Color(51, 51, 51));
-        l2.add(header, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 210, 40));
-
-        admin_support_container.add(l2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 20, 770, 580));
-
-        l1.setBackground(new java.awt.Color(255, 255, 255));
+        l1.setBackground(new java.awt.Color(241, 241, 241));
         l1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         l1.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, -1, -1));
         l1.add(jSeparator16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 320, 20));
@@ -2159,21 +2123,63 @@ public final class sellerDashboard extends javax.swing.JFrame {
         l1.add(help_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, 290, 50));
         l1.add(jSeparator18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 280, 20));
 
-        admin_support_container.add(l1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 320, 430));
+        jPanel4.add(l1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, 430));
 
-        jPanel4.add(admin_support_container, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 1150, 620));
+        jPanel19.setBackground(new java.awt.Color(241, 241, 241));
+        jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel96.setBackground(new java.awt.Color(241, 241, 241));
-        jLabel96.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
-        jLabel96.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel96.setText("Contact Admin  >");
-        jPanel4.add(jLabel96, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
+        jLabel107.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel107.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel107.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel107.setText("Description");
+        jPanel19.add(jLabel107, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 210, 20));
 
-        jLabel98.setBackground(new java.awt.Color(241, 241, 241));
-        jLabel98.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
-        jLabel98.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel98.setText("Help Center");
-        jPanel4.add(jLabel98, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 30));
+        message.setColumns(20);
+        message.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        message.setRows(5);
+        l3.setViewportView(message);
+
+        jPanel19.add(l3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 710, 250));
+        jPanel19.add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 700, 40));
+
+        jLabel109.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel109.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel109.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel109.setText("Title");
+        jPanel19.add(jLabel109, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 600, 20));
+
+        jScrollPane6.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        explain.setBackground(new java.awt.Color(241, 241, 241));
+        explain.setColumns(20);
+        explain.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        explain.setForeground(new java.awt.Color(153, 153, 153));
+        explain.setRows(5);
+        explain.setText("\n");
+        jScrollPane6.setViewportView(explain);
+
+        jPanel19.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 700, 50));
+
+        header.setBackground(new java.awt.Color(241, 241, 241));
+        header.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        header.setForeground(new java.awt.Color(51, 51, 51));
+        header.setText("Category selected");
+        jPanel19.add(header, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 700, 40));
+        jPanel19.add(jSeparator15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 770, 20));
+
+        admin_submit.setBackground(new java.awt.Color(0, 158, 226));
+        admin_submit.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        admin_submit.setForeground(new java.awt.Color(255, 255, 255));
+        admin_submit.setText("Submit");
+        admin_submit.setBorderPainted(false);
+        admin_submit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                admin_submitActionPerformed(evt);
+            }
+        });
+        jPanel19.add(admin_submit, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 530, 160, 40));
+
+        jPanel4.add(jPanel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 780, 610));
 
         tabs.addTab("tab5", jPanel4);
 
@@ -2334,8 +2340,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         jComboBox4.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jComboBox4.setForeground(new java.awt.Color(153, 153, 153));
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Action", "Add", "Delete", "Edit", "Accept", "Decline", "Login", "Log out", " " }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Add", "Delete", "Edit", "Accept", "Decline", "Login", "Log out", " " }));
         jComboBox4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox4ActionPerformed(evt);
+            }
+        });
         filterContainer1.add(jComboBox4, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 110, 30));
 
         productsContainer1.add(filterContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 180, 40));
@@ -2447,13 +2458,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
         addContainer1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         addContainer1.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 400, 30));
 
-        jPanel24.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel24.setBackground(new java.awt.Color(204, 204, 204));
         jPanel24.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         addPhoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel24.add(addPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 290, 200));
+        jPanel24.add(addPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 270, 175));
 
-        addContainer1.add(jPanel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 390, 200));
+        addContainer1.add(jPanel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 390, 195));
 
         addReplace.setBackground(new java.awt.Color(0, 158, 226));
         addReplace.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -2465,7 +2476,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 addReplaceActionPerformed(evt);
             }
         });
-        addContainer1.add(addReplace, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 570, 190, 40));
+        addContainer1.add(addReplace, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 400, 190, 40));
 
         addRemove.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         addRemove.setForeground(new java.awt.Color(51, 51, 51));
@@ -2475,14 +2486,14 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 addRemoveActionPerformed(evt);
             }
         });
-        addContainer1.add(addRemove, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 190, 40));
+        addContainer1.add(addRemove, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 190, 40));
 
-        jLabel32.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jLabel32.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel32.setForeground(new java.awt.Color(51, 51, 51));
         jLabel32.setText("Product Image");
         addContainer1.add(jLabel32, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
-        jLabel47.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        jLabel47.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel47.setForeground(new java.awt.Color(51, 51, 51));
         jLabel47.setText("Add Product");
         addContainer1.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
@@ -2492,9 +2503,9 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel48.setForeground(new java.awt.Color(153, 153, 153));
         jLabel48.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel48.setText("Set the product thumbnail image. Only *.png, *.jpeg, *.jpg files are accepted.");
-        addContainer1.add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 390, 30));
+        addContainer1.add(jLabel48, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 390, 30));
 
-        jPanel9.add(addContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 410, 620));
+        jPanel9.add(addContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 410, 450));
 
         addContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -2504,23 +2515,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
         addContainer.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 180, -1, -1));
 
         add_category.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        add_category.setForeground(new java.awt.Color(153, 153, 153));
+        add_category.setForeground(new java.awt.Color(51, 51, 51));
         add_category.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Not Available", "Archive" }));
-        add_category.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                add_categoryFocusGained(evt);
-            }
-        });
         addContainer.add(add_category, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 310, 320, 50));
 
         addCategory.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        addCategory.setForeground(new java.awt.Color(153, 153, 153));
+        addCategory.setForeground(new java.awt.Color(51, 51, 51));
         addCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Electronics", "Fashion", "Grocery", "Pet Supplies" }));
-        addCategory.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                addCategoryFocusGained(evt);
-            }
-        });
         addContainer.add(addCategory, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 310, 320, 50));
 
         jLabel38.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -2560,7 +2561,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel52.setText("Product Name");
         addContainer.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
 
-        jLabel53.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        jLabel53.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel53.setForeground(new java.awt.Color(51, 51, 51));
         jLabel53.setText("General infromation");
         addContainer.add(jLabel53, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
@@ -2607,7 +2608,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         nameError.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         nameError.setForeground(new java.awt.Color(255, 51, 51));
         nameError.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        addContainer.add(nameError, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 80, 250, -1));
+        addContainer.add(nameError, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 80, 540, -1));
 
         stockError.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         stockError.setForeground(new java.awt.Color(255, 51, 51));
@@ -2618,6 +2619,11 @@ public final class sellerDashboard extends javax.swing.JFrame {
         priceError.setForeground(new java.awt.Color(255, 51, 51));
         priceError.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         addContainer.add(priceError, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, 250, -1));
+
+        desError.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        desError.setForeground(new java.awt.Color(255, 51, 51));
+        desError.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        addContainer.add(desError, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 380, 540, -1));
 
         jPanel9.add(addContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 40, 720, 620));
 
@@ -2712,7 +2718,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel22.setText("Product Name");
         jPanel13.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, -1, -1));
 
-        jLabel15.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        jLabel15.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(51, 51, 51));
         jLabel15.setText("General infromation");
         jPanel13.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
@@ -2770,18 +2776,54 @@ public final class sellerDashboard extends javax.swing.JFrame {
         editStockError.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jPanel13.add(editStockError, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, 250, -1));
 
+        desError1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        desError1.setForeground(new java.awt.Color(255, 51, 51));
+        desError1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        desError1.setText("* sssssssss");
+        jPanel13.add(desError1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 280, 250, -1));
+
+        desError2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        desError2.setForeground(new java.awt.Color(255, 51, 51));
+        desError2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        desError2.setText("* sssssssss");
+        jPanel13.add(desError2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, 260, -1));
+
+        desError3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        desError3.setForeground(new java.awt.Color(255, 51, 51));
+        desError3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        desError3.setText("* sssssssss");
+        jPanel13.add(desError3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 380, 560, -1));
+
+        desError4.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        desError4.setForeground(new java.awt.Color(255, 51, 51));
+        desError4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        desError4.setText("* sssssssss");
+        jPanel13.add(desError4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 280, 260, -1));
+
+        desError5.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        desError5.setForeground(new java.awt.Color(255, 51, 51));
+        desError5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        desError5.setText("* sssssssss");
+        jPanel13.add(desError5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 80, 550, -1));
+
+        desError6.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        desError6.setForeground(new java.awt.Color(255, 51, 51));
+        desError6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        desError6.setText("* sssssssss");
+        jPanel13.add(desError6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, 260, -1));
+
         jPanel3.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 40, 720, 620));
 
         jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel15.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 400, 30));
 
-        jPanel23.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel23.setBackground(new java.awt.Color(204, 204, 204));
         jPanel23.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         getPhoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel23.add(getPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 290, 200));
+        jPanel23.add(getPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 270, 175));
 
-        jPanel15.add(jPanel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 390, 200));
+        jPanel15.add(jPanel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 390, 195));
 
         replacebtn.setBackground(new java.awt.Color(0, 158, 226));
         replacebtn.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -2793,7 +2835,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 replacebtnActionPerformed(evt);
             }
         });
-        jPanel15.add(replacebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 570, 190, 40));
+        jPanel15.add(replacebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 400, 190, 40));
 
         removetbn.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         removetbn.setForeground(new java.awt.Color(51, 51, 51));
@@ -2803,14 +2845,14 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 removetbnActionPerformed(evt);
             }
         });
-        jPanel15.add(removetbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 190, 40));
+        jPanel15.add(removetbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 190, 40));
 
-        jLabel21.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        jLabel21.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(51, 51, 51));
         jLabel21.setText("Product Image");
         jPanel15.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
-        jLabel43.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        jLabel43.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel43.setForeground(new java.awt.Color(51, 51, 51));
         jLabel43.setText("Edit Product");
         jPanel15.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
@@ -2820,9 +2862,9 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel44.setForeground(new java.awt.Color(153, 153, 153));
         jLabel44.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel44.setText("Set the product thumbnail image. Only *.png, *.jpeg, *.jpg files are accepted.");
-        jPanel15.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 350, 390, 30));
+        jPanel15.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 390, 30));
 
-        jPanel3.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 410, 620));
+        jPanel3.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 410, 450));
 
         jLabel101.setBackground(new java.awt.Color(241, 241, 241));
         jLabel101.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
@@ -4212,7 +4254,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
             try {
                 BufferedImage originalImage = ImageIO.read(selectedFile);
 
-                Image resizedImage = originalImage.getScaledInstance(160, 160, Image.SCALE_SMOOTH);
+                Image resizedImage = originalImage.getScaledInstance(270, 175, Image.SCALE_SMOOTH);
                 ImageIcon icon = new ImageIcon(resizedImage);
                 photo.setIcon(icon);
 
@@ -4221,7 +4263,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 File destination = new File(imagePath);
                 Files.copy(selectedFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-                // Update the selectedFile to point to the new location
                 selectedFile = destination;
 
             } catch (IOException e) {
@@ -4450,6 +4491,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
         addPhoto.setIcon(null);
     }
 
+    private void removeErrorsMessage() {
+        priceError.setText("");
+        nameError.setText("");
+        stockError.setText("");
+        desError.setText("");
+    }
+
     private void add_product_save_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_product_save_buttonActionPerformed
         String valname = addName.getText();
         String valprice = addPrice.getText();
@@ -4458,41 +4506,60 @@ public final class sellerDashboard extends javax.swing.JFrame {
         String valstats = (String) add_category.getSelectedItem();
         String valcategory = (String) addCategory.getSelectedItem();
 
-        if ((valdes.isEmpty() || valname.isEmpty() || valprice.equals("₱") || valprice.isEmpty() || valstocks.isEmpty() || selectedFile == null || !selectedFile.exists())
+        if ((valdes.isEmpty() || valname.isEmpty() || valprice.equals("₱") || valprice.isEmpty() || valstocks.isEmpty())
                 || (addName.getForeground().equals(Color.decode("#999999")))) {
-            JOptionPane.showMessageDialog(null, "Please fill in all fields and select an image.", "Error", JOptionPane.ERROR_MESSAGE);
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in all fields!");
             return;
         }
 
-        int price;
-        int stocks;
-        try {
-            price = Integer.parseInt(valprice);
-            stocks = Integer.parseInt(valstocks);
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(null, "Price and Stocks must be numeric.");
+        if (selectedFile == null || !selectedFile.exists()) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Product select an image!");
             return;
         }
 
         if (valname.length() > 21) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Product name must not exceed 21 characters!");
             nameError.setText("* Product name must not exceed 21 characters.");
             addName.setText("");
             return;
         }
 
+        if (valdes.length() > 999) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Desccription exceed 900 characters!");
+            desError.setText("* Desccription must not exceed 900 characters!");
+            return;
+        }
+
+        int price;
+        int stocks;
+
+        try {
+            price = Integer.parseInt(valprice);
+        } catch (NumberFormatException ex) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Price must be numeric!");
+            return;
+        }
+
+        try {
+            stocks = Integer.parseInt(valstocks);
+        } catch (NumberFormatException ex) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Stocks must be numeric!");
+            return;
+        }
+
         if (price <= 0) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Price must be greater than zero!");
             priceError.setText("* Price must be greater than zero.");
             addPrice.setText("");
             return;
         }
         if (stocks <= 0) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Stocks must be greater than zero!");
             stockError.setText("* Stocks must be greater than zero.");
             addStock.setText("");
+            addStock.setBorder(new LineBorder(Color.RED));
             return;
         }
-
-        fileName = selectedFile.getName();
-        imagePath = "src/ProductsImages/" + fileName;
 
         try {
             databaseConnector dbc = new databaseConnector();
@@ -4531,11 +4598,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
                 insertStmt.executeUpdate();
             }
-            JOptionPane.showMessageDialog(null, "Product added successfully!");
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product added successfully!");
+
             String action = "Add Product";
             String details = "Seller " + sellerID + " Successfully added a new product!";
             actionLogs.recordSellerLogs(sellerID, action, details);
             defaultValues();
+            removeErrorsMessage();
             displayTotalProducts(sellerID);
             displayProducts();
             tabs.setSelectedIndex(1);
@@ -4876,7 +4945,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     dbc.deleteProduct(pid);
                     displayProducts();
                     displayArchive();
-                    display_best_selling_dashboard(); //display best seeling
+                    display_best_selling_dashboard(); //display best selling
                     JOptionPane.showMessageDialog(null, "Product deleted successfully!");
 
                     // logs
@@ -4910,14 +4979,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
             addStock.setForeground(Color.decode("#333333"));
         }
     }//GEN-LAST:event_addStockFocusGained
-
-    private void add_categoryFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_add_categoryFocusGained
-        add_category.setForeground(Color.decode("#333333"));
-    }//GEN-LAST:event_add_categoryFocusGained
-
-    private void addCategoryFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_addCategoryFocusGained
-        addCategory.setForeground(Color.decode("#333333"));
-    }//GEN-LAST:event_addCategoryFocusGained
 
     private void jLabel100MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel100MouseClicked
         tabs.setSelectedIndex(1);
@@ -5023,82 +5084,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         archiveBtn.setSelected(false);
     }//GEN-LAST:event_admin_supportActionPerformed
 
-    private void a4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a4ActionPerformed
-        a1.setSelected(false);
-        a2.setSelected(false);
-        a3.setSelected(false);
-        header.setText("");
-        explain.setText("");
-        header.setText("Report a issue");
-        explain.setText("Please briefly explain the issue and provide a detailed description.\n"
-                + "Include steps to reproduce the bug, expected result, and actual result.");
-    }//GEN-LAST:event_a4ActionPerformed
-
-    private void a3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a3ActionPerformed
-        a1.setSelected(false);
-        a2.setSelected(false);
-        a4.setSelected(false);
-        header.setText("");
-        explain.setText("");
-        header.setText("Request feature");
-        explain.setText("Please briefly describe the feature you are requesting and provide a detailed explanation.\n"
-                + "Include the use case and how this feature would benefit you or improve the system.");
-    }//GEN-LAST:event_a3ActionPerformed
-
-    private void a2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a2ActionPerformed
-        a1.setSelected(false);
-        a4.setSelected(false);
-        a3.setSelected(false);
-        header.setText("");
-        explain.setText("");
-        header.setText("Delete a product");
-        explain.setText("Please briefly describe the product you want to delete and provide a detailed explanation of the reason for deletion.\n"
-                + "Include any relevant product details or issues.");
-    }//GEN-LAST:event_a2ActionPerformed
-
-    private void a1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a1ActionPerformed
-        a4.setSelected(false);
-        a2.setSelected(false);
-        a3.setSelected(false);
-        header.setText("");
-        explain.setText("");
-        header.setText("Delete a product");
-        explain.setText("Please briefly explain why you want to deactivate your account and provide a detailed explanation.\n"
-                + "Include any feedback on your experience and suggestions for improvement.");
-    }//GEN-LAST:event_a1ActionPerformed
-
-    private void admin_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admin_submitActionPerformed
-        String var_title = title.getText();
-        String var_message = message.getText();
-        String var_category = header.getText();
-
-        if (var_title.isEmpty() || var_message.isEmpty() || var_category.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        databaseConnector dbc = new databaseConnector();
-        try {
-            PreparedStatement pst;
-            String sql = "INSERT INTO `tbl_message4admin` (`seller_id`, `message_category`, `message_title`, `message_description`, `date_sent`) VALUES (?, ?, ?, ?, NOW())";
-            pst = dbc.getConnection().prepareStatement(sql);
-            pst.setInt(1, sellerID);
-            pst.setString(2, var_category);
-            pst.setString(3, var_title);
-            pst.setString(4, var_message);
-            pst.executeUpdate();
-            pst.close();
-            JOptionPane.showMessageDialog(null, "Message sent successfully");
-            displayMessage4Admin();
-            title.setText("");
-            message.setText("");
-            header.setText("");
-            explain.setText("");
-            tabs.setSelectedIndex(10);
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "An error occurred while sending the message.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_admin_submitActionPerformed
-
     private void message4admin_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_message4admin_tableMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_message4admin_tableMouseClicked
@@ -5111,11 +5096,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private void message_search_barKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_message_search_barKeyReleased
         search.searchResult(message4admin_table, message_search_bar);
     }//GEN-LAST:event_message_search_barKeyReleased
-
-    private void help_statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_help_statusActionPerformed
-        displayMessage4Admin();
-        tabs.setSelectedIndex(10);
-    }//GEN-LAST:event_help_statusActionPerformed
 
     private void jLabel111MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel111MouseClicked
         tabs.setSelectedIndex(4);
@@ -5202,6 +5182,99 @@ public final class sellerDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_wishlist_search_barKeyReleased
 
+    private void help_statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_help_statusActionPerformed
+        displayMessage4Admin();
+        tabs.setSelectedIndex(10);
+    }//GEN-LAST:event_help_statusActionPerformed
+
+    private void a3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a3ActionPerformed
+        a1.setSelected(false);
+        a2.setSelected(false);
+        a4.setSelected(false);
+        header.setText("");
+        explain.setText("");
+        header.setText("Request feature");
+        explain.setText("Please briefly describe the feature you are requesting and provide a detailed explanation.\n"
+                + "Include the use case and how this feature would benefit you or improve the system.");
+    }//GEN-LAST:event_a3ActionPerformed
+
+    private void a2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a2ActionPerformed
+        a1.setSelected(false);
+        a4.setSelected(false);
+        a3.setSelected(false);
+        header.setText("");
+        explain.setText("");
+        header.setText("Delete a product");
+        explain.setText("Please briefly describe the product you want to delete and provide a detailed explanation of the reason for deletion.\n"
+                + "Include any relevant product details or issues.");
+    }//GEN-LAST:event_a2ActionPerformed
+
+    private void a1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a1ActionPerformed
+        a4.setSelected(false);
+        a2.setSelected(false);
+        a3.setSelected(false);
+        header.setText("");
+        explain.setText("");
+        header.setText("Delete a product");
+        explain.setText("Please briefly explain why you want to deactivate your account and provide a detailed explanation.\n"
+                + "Include any feedback on your experience and suggestions for improvement.");
+    }//GEN-LAST:event_a1ActionPerformed
+
+    private void a4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_a4ActionPerformed
+        a1.setSelected(false);
+        a2.setSelected(false);
+        a3.setSelected(false);
+        header.setText("");
+        explain.setText("");
+        header.setText("Report a issue");
+        explain.setText("Please briefly explain the issue and provide a detailed description.\n"
+                + "Include steps to reproduce the bug, expected result, and actual result.");
+    }//GEN-LAST:event_a4ActionPerformed
+
+    private void admin_submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admin_submitActionPerformed
+        String var_title = title.getText();
+        String var_message = message.getText();
+        String var_category = header.getText();
+
+        if (var_title.isEmpty() || var_message.isEmpty() || var_category.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        databaseConnector dbc = new databaseConnector();
+        try {
+            PreparedStatement pst;
+            String sql = "INSERT INTO `tbl_message4admin` (`seller_id`, `message_category`, `message_title`, `message_description`, `date_sent`) VALUES (?, ?, ?, ?, NOW())";
+            pst = dbc.getConnection().prepareStatement(sql);
+            pst.setInt(1, sellerID);
+            pst.setString(2, var_category);
+            pst.setString(3, var_title);
+            pst.setString(4, var_message);
+            pst.executeUpdate();
+            pst.close();
+            JOptionPane.showMessageDialog(null, "Message sent successfully");
+            displayMessage4Admin();
+            title.setText("");
+            message.setText("");
+            header.setText("");
+            explain.setText("");
+            tabs.setSelectedIndex(10);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "An error occurred while sending the message.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_admin_submitActionPerformed
+
+    private void filter_product_tableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filter_product_tableActionPerformed
+        sorter.searchResult(product_table, filter_product_table);
+    }//GEN-LAST:event_filter_product_tableActionPerformed
+
+    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
+        sorter.searchResult(purchase_table, jComboBox5);
+    }//GEN-LAST:event_jComboBox5ActionPerformed
+
+    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
+        sorter.searchResult(actionlogs_table, jComboBox4);
+    }//GEN-LAST:event_jComboBox4ActionPerformed
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -5252,7 +5325,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton add_product_save_button;
     private javax.swing.JButton admin_submit;
     private javax.swing.JToggleButton admin_support;
-    private javax.swing.JPanel admin_support_container;
     private javax.swing.JPanel archiveAccountTableContainer;
     private javax.swing.JScrollPane archiveAccountTableContainerScroll;
     private javax.swing.JToggleButton archiveBtn;
@@ -5279,6 +5351,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel deactivate_jpanel;
     private javax.swing.JButton decline;
     private javax.swing.JButton delete;
+    private javax.swing.JLabel desError;
+    private javax.swing.JLabel desError1;
+    private javax.swing.JLabel desError2;
+    private javax.swing.JLabel desError3;
+    private javax.swing.JLabel desError4;
+    private javax.swing.JLabel desError5;
+    private javax.swing.JLabel desError6;
     private javax.swing.JEditorPane descript;
     private javax.swing.JLabel display_photo;
     private javax.swing.JLabel editNameError;
@@ -5413,7 +5492,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel82;
     private javax.swing.JLabel jLabel83;
     private javax.swing.JLabel jLabel84;
-    private javax.swing.JLabel jLabel85;
     private javax.swing.JLabel jLabel86;
     private javax.swing.JLabel jLabel87;
     private javax.swing.JLabel jLabel88;
@@ -5482,7 +5560,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JPanel l1;
-    private javax.swing.JPanel l2;
     private javax.swing.JScrollPane l3;
     private javax.swing.JButton logout;
     private javax.swing.JToggleButton manage;

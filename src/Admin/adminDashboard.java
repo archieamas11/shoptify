@@ -302,7 +302,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         searchIcon = new javax.swing.JButton();
         searchBar = new javax.swing.JTextField();
         add = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         editProfileContainer = new javax.swing.JPanel();
         manage3 = new javax.swing.JLabel();
@@ -689,9 +688,6 @@ public final class adminDashboard extends javax.swing.JFrame {
             }
         });
         jPanel7.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 20, 240, 50));
-
-        jLabel1.setText("jLabel1");
-        jPanel7.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, 160, 40));
 
         jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 690));
 
@@ -1973,7 +1969,6 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel fullname;
     private javax.swing.JLabel id;
     private javax.swing.JLabel id1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

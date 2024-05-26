@@ -18,13 +18,15 @@ public class flatlaftTable {
     public static void design(JPanel panel, JTable table, JScrollPane scroll) {
         panel.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:20;"
-                + "background:#F1F1F1;"); //
+                + "background:#F1F1F1;");
 
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE, ""
                 + "height:30;"
-                + "separatorColor:#EBEBEB;"
+                + "hoverBackground:null;"
+                + "pressedBackground:null;"
+                + "separatorColor:#F1F1F1;"
                 + "font:bold;"
-                + "background:#F1F1F1;"); //
+                + "background:#F1F1F1;");
 
         table.putClientProperty(FlatClientProperties.STYLE, ""
                 + "rowHeight:30;"
@@ -32,8 +34,8 @@ public class flatlaftTable {
                 + "showVerticalLines:true;"
                 + "selectionBackground:#99CCFF;"
                 + "intercellSpacing:0,1;"
-                //+ "cellFocusColor:$TableHeader.hoverBackground;"
-                //+ "selectionBackground:$TableHeader.hoverBackground;"
+                + "cellFocusColor:$TableHeader.hoverBackground;"
+                + "selectionBackground:$TableHeader.hoverBackground;"
                 + "selectionForeground:$Table.foreground;");
 
         scroll.getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE, ""

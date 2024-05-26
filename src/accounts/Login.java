@@ -20,6 +20,7 @@ import config.isAccountExist;
 import java.awt.HeadlessException;
 import java.awt.geom.RoundRectangle2D;
 import javax.swing.JFrame;
+import raven.toast.Notifications;
 
 public class Login extends javax.swing.JFrame {
 
@@ -30,6 +31,7 @@ public class Login extends javax.swing.JFrame {
 
     public Login() {
         initComponents();
+        Notifications.getInstance().setJFrame(this);
         username.setFocusable(false);
         password.setFocusable(false);
         login.setFocusable(false);
@@ -113,16 +115,16 @@ public class Login extends javax.swing.JFrame {
         shoptify.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         shoptify.setForeground(new java.awt.Color(0, 158, 226));
         shoptify.setText("Shoptify");
-        jPanel1.add(shoptify, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 240, -1, 30));
+        jPanel1.add(shoptify, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 240, -1, 30));
 
         welcome.setFont(new java.awt.Font("Segoe UI", 0, 23)); // NOI18N
         welcome.setForeground(new java.awt.Color(153, 153, 153));
         welcome.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         welcome.setText("Welcome back to ");
-        jPanel1.add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 240, 200, 30));
+        jPanel1.add(welcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 240, 200, 30));
 
         shoptify_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-buying-94.png"))); // NOI18N
-        jPanel1.add(shoptify_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 110, -1, -1));
+        jPanel1.add(shoptify_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 110, -1, -1));
 
         login.setBackground(new java.awt.Color(0, 158, 226));
         login.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -136,7 +138,7 @@ public class Login extends javax.swing.JFrame {
                 loginActionPerformed(evt);
             }
         });
-        jPanel1.add(login, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 490, 290, 40));
+        jPanel1.add(login, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 490, 290, 40));
 
         create_account.setForeground(new java.awt.Color(102, 102, 102));
         create_account.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -146,7 +148,7 @@ public class Login extends javax.swing.JFrame {
                 create_accountMouseClicked(evt);
             }
         });
-        jPanel1.add(create_account, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 540, 290, 20));
+        jPanel1.add(create_account, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 540, 1280, 20));
 
         usernameContainer.setBackground(new java.awt.Color(245, 245, 245));
         usernameContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -174,7 +176,7 @@ public class Login extends javax.swing.JFrame {
         username_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-male-user-24.png"))); // NOI18N
         usernameContainer.add(username_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 40));
 
-        jPanel1.add(usernameContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 320, 290, 40));
+        jPanel1.add(usernameContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 320, 290, 40));
 
         passwordContainer.setBackground(new java.awt.Color(245, 245, 245));
         passwordContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -216,7 +218,7 @@ public class Login extends javax.swing.JFrame {
         });
         passwordContainer.add(eye, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 0, 20, 40));
 
-        jPanel1.add(passwordContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 290, 40));
+        jPanel1.add(passwordContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 380, 290, 40));
 
         forgotPasswordBtn.setForeground(new java.awt.Color(153, 153, 153));
         forgotPasswordBtn.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -226,7 +228,7 @@ public class Login extends javax.swing.JFrame {
                 forgotPasswordBtnMouseClicked(evt);
             }
         });
-        jPanel1.add(forgotPasswordBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 420, 100, 40));
+        jPanel1.add(forgotPasswordBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 420, 100, 40));
 
         remember.setForeground(new java.awt.Color(153, 153, 153));
         remember.setText(" Remember me");
@@ -242,13 +244,13 @@ public class Login extends javax.swing.JFrame {
                 rememberActionPerformed(evt);
             }
         });
-        jPanel1.add(remember, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 420, -1, 40));
+        jPanel1.add(remember, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 420, -1, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1280, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,13 +309,13 @@ public class Login extends javax.swing.JFrame {
         String user = username.getText();
         String pass = password.getText();
 
-        if (user.isEmpty() || pass.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please enter both username and password!");
+        if (user.isEmpty() || pass.isEmpty() || user.equals("Username") || pass.equals("Password")) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Login Failed: Please enter both a username and a password.");
         } else {
             String loginType = checkLogin(user, pass);
 
             if (loginType != null) {
-                JOptionPane.showMessageDialog(null, "Login Successful!");
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Welcome back, " + user + "! You have logged in successfully.");
                 UserManager.setLoggedInUserId(accountId);
 
                 switch (loginType) {
@@ -330,7 +332,7 @@ public class Login extends javax.swing.JFrame {
                         break;
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Login Failed: Account not found or incorrect password!");
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Login Failed: The entered username or password is incorrect. Please double-check your credentials and try again.");
                 password.setText("");
             }
         }
@@ -395,40 +397,41 @@ public class Login extends javax.swing.JFrame {
             }
 
             if (userInput.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Please enter a username or email.", "Error", JOptionPane.ERROR_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Please enter a username or email.");
                 return;
             }
             boolean isExist = isAccountExist.checkUsername(userInput) || isAccountExist.checkEmail(userInput);
 
             if (!isExist) {
-                JOptionPane.showMessageDialog(null, "Username or email does not exist.", "Error", JOptionPane.ERROR_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Username or email does not exist.");
                 return;
             }
 
             String newPassword = JOptionPane.showInputDialog(null, "Enter your new password:");
             if (newPassword == null || newPassword.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Please enter a new password.", "Error", JOptionPane.ERROR_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Please enter a new password.");
                 return;
             }
             if (newPassword.length() < 8) {
-                JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long.", "Error", JOptionPane.ERROR_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Password must be at least 8 characters long.");
                 return;
             }
 
             String hashedNewPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
             String updateQuery = "UPDATE tbl_accounts SET password = ? WHERE username = ? OR email = ?";
-            PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery);
-            pst.setString(1, hashedNewPassword);
-            pst.setString(2, userInput);
-            pst.setString(3, userInput);
-
-            int rowsAffected = pst.executeUpdate();
-            pst.close();
+            int rowsAffected;
+            try (PreparedStatement pst = dbc.getConnection().prepareStatement(updateQuery)) {
+                pst.setString(1, hashedNewPassword);
+                pst.setString(2, userInput);
+                pst.setString(3, userInput);
+                rowsAffected = pst.executeUpdate();
+            }
 
             if (rowsAffected > 0) {
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Password updated successfully.");
                 JOptionPane.showMessageDialog(null, "Password updated successfully.");
             } else {
-                JOptionPane.showMessageDialog(null, "Failed to update password.", "Error", JOptionPane.ERROR_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Failed to update password.");
             }
         } catch (HeadlessException | SQLException e) {
         }
