@@ -55,12 +55,16 @@ public final class buyerDashboard extends javax.swing.JFrame {
         displayCart();
         displayPurchase();
         display_wishlist();
+        displayProducts();
 
         flatlaftTable.design(cartTableContainer, cart_table, jScrollPane1); // display cart table
         searchBar(orders_search_bar);
 
-        flatlaftTable.design(cartTableContainer1, purchase_table, jScrollPane6); // display cart table
+        flatlaftTable.design(cartTableContainer1, purchase_table, jScrollPane6); // display orders table
         searchBar(purchase_search_bar);
+
+        flatlaftTable.design(productsContainer, product_table, jScrollPane7); // display product table
+        searchBar(product_search_bar);
 
         //Panels
         UXmethods.RoundBorders.setArcStyle(container, 30);
@@ -205,6 +209,42 @@ public final class buyerDashboard extends javax.swing.JFrame {
         }
     }
 
+    public void displayProducts() {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            try (Connection conn = dbc.getConnection(); PreparedStatement pstmt = conn.prepareStatement(
+                    "SELECT "
+                    + "a.shop_name AS `Seller`, "
+                    + "p.product_id AS `Product ID`, "
+                    + "p.product_name AS `Product Name`, "
+                    + "p.product_price AS `Price`, "
+                    + "p.product_stock AS `Stock(s)`, "
+                    + "p.product_category AS `Category` "
+                    + "FROM tbl_products p "
+                    + "JOIN tbl_accounts a ON a.account_id = p.seller_id "
+                    + "WHERE product_status IN ('Available') AND product_stock > 0")) {
+
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (!rs.isBeforeFirst()) {
+                        product_is_empty.setText("PRODUCT TABLE IS EMPTY!");
+                        product_table.setModel(new DefaultTableModel());
+                    } else {
+                        product_is_empty.setText("");
+                        product_table.setModel(DbUtils.resultSetToTableModel(rs));
+
+                        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+                        for (int i = 0; i < product_table.getColumnCount(); i++) {
+                            product_table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Errors: " + ex.getMessage());
+        }
+    }
+
     private void display_wishlist() {
 
     }
@@ -218,15 +258,15 @@ public final class buyerDashboard extends javax.swing.JFrame {
             statement.setString(1, "Available");
 
             ResultSet rs = statement.executeQuery();
-            JLabel[] nameLabels = {name1, name2, name3, name4, name5, name6, name7, name8, name9, name10, name11, name12};
-            JLabel[] priceLabels = {price1, price2, price3, price4, price5, price6, price7, price8, price9, price10, price11, price12};
-            JLabel[] imageLabels = {image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12};
+            JLabel[] nameLabels = {name1, name2, name3, name4, name5, name6, name7, name8, name9, name10, name11, name12, name13, name14, name15};
+            JLabel[] priceLabels = {price1, price2, price3, price4, price5, price6, price7, price8, price9, price10, price11, price12, price13, price14, price15};
+            JLabel[] imageLabels = {image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15};
 
             int productCounter = 0;
             while (rs.next() && productCounter < imageLabels.length) {
 
-                int height = 210;
-                int width = 120;
+                int height = 180;
+                int width = 130;
                 String getImageFromDatabase = rs.getString("product_image");
                 String productName = rs.getString("product_name");
                 int productPrice = rs.getInt("product_price");
@@ -261,14 +301,10 @@ public final class buyerDashboard extends javax.swing.JFrame {
     String shop;
     String product_image;
 
-    private void panelMouseClicked(JPanel panel, JLabel nameLabel, JLabel priceLabel, JLabel imageLabel, int stocks) {
+    private void panelMouseClicked(JPanel panel, JLabel nameLabel, JLabel priceLabel, JLabel imageLabel) {
         if (panel != null && imageLabel.getIcon() != null && nameLabel.getText() != null && !nameLabel.getText().isEmpty() && priceLabel.getText() != null && !priceLabel.getText().isEmpty()) {
 
-            ImageIcon icon = (ImageIcon) imageLabel.getIcon();
-            Image image = icon.getImage();
-            Image scaledImage = image.getScaledInstance(330, 330, Image.SCALE_SMOOTH);
-            ImageIcon selectedImage = new ImageIcon(scaledImage);
-            product_photo.setIcon(selectedImage);
+            //product_photo.setIcon(selectedImage);
             product_name.setText(nameLabel.getText());
             product_price.setText(priceLabel.getText());
 
@@ -337,6 +373,11 @@ public final class buyerDashboard extends javax.swing.JFrame {
                             String getImageFromDatabase = rs.getString("seller_profile");
                             GetImage.displayImage(seller_profile, getImageFromDatabase, height, width);
 
+                            int sheight = 360;
+                            int swidth = 260;
+                            String sgetImageFromDatabase = rs.getString("product_image");
+                            GetImage.displayImage(product_photo, sgetImageFromDatabase, sheight, swidth);
+
                             int sum_star = rs.getInt("total_star");
                             int seller_sum_star = rs.getInt("seller_star");
                             int seller_count = rs.getInt("total_rating");
@@ -355,8 +396,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
                             }
 
                             product_description.setText(rs.getString("product_description"));
-                            stocks = rs.getInt("product_stock");
-                            quan = stocks;
+                            quan = rs.getInt("product_stock");
                         }
                         rs.close();
                     }
@@ -387,55 +427,76 @@ public final class buyerDashboard extends javax.swing.JFrame {
         name1 = new javax.swing.JLabel();
         price1 = new javax.swing.JLabel();
         image1 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
         p2 = new javax.swing.JPanel();
         name2 = new javax.swing.JLabel();
         price2 = new javax.swing.JLabel();
         image2 = new javax.swing.JLabel();
         p3 = new javax.swing.JPanel();
-        price3 = new javax.swing.JLabel();
         name3 = new javax.swing.JLabel();
+        price3 = new javax.swing.JLabel();
         image3 = new javax.swing.JLabel();
         p4 = new javax.swing.JPanel();
-        image4 = new javax.swing.JLabel();
         name4 = new javax.swing.JLabel();
         price4 = new javax.swing.JLabel();
+        image4 = new javax.swing.JLabel();
         p5 = new javax.swing.JPanel();
+        name5 = new javax.swing.JLabel();
         price5 = new javax.swing.JLabel();
         image5 = new javax.swing.JLabel();
-        name5 = new javax.swing.JLabel();
         p6 = new javax.swing.JPanel();
-        image6 = new javax.swing.JLabel();
-        price6 = new javax.swing.JLabel();
         name6 = new javax.swing.JLabel();
+        price6 = new javax.swing.JLabel();
+        image6 = new javax.swing.JLabel();
         p7 = new javax.swing.JPanel();
         name7 = new javax.swing.JLabel();
-        image7 = new javax.swing.JLabel();
         price7 = new javax.swing.JLabel();
+        image7 = new javax.swing.JLabel();
         p8 = new javax.swing.JPanel();
-        image8 = new javax.swing.JLabel();
         name8 = new javax.swing.JLabel();
         price8 = new javax.swing.JLabel();
+        image8 = new javax.swing.JLabel();
         p9 = new javax.swing.JPanel();
-        image9 = new javax.swing.JLabel();
         name9 = new javax.swing.JLabel();
         price9 = new javax.swing.JLabel();
+        image9 = new javax.swing.JLabel();
         p10 = new javax.swing.JPanel();
+        name10 = new javax.swing.JLabel();
         price10 = new javax.swing.JLabel();
         image10 = new javax.swing.JLabel();
-        name10 = new javax.swing.JLabel();
         p11 = new javax.swing.JPanel();
         name11 = new javax.swing.JLabel();
-        image11 = new javax.swing.JLabel();
         price11 = new javax.swing.JLabel();
+        image11 = new javax.swing.JLabel();
         p12 = new javax.swing.JPanel();
-        image12 = new javax.swing.JLabel();
-        price12 = new javax.swing.JLabel();
         name12 = new javax.swing.JLabel();
-        next = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
+        price12 = new javax.swing.JLabel();
+        image12 = new javax.swing.JLabel();
+        p13 = new javax.swing.JPanel();
+        name13 = new javax.swing.JLabel();
+        price13 = new javax.swing.JLabel();
+        image13 = new javax.swing.JLabel();
+        p14 = new javax.swing.JPanel();
+        name14 = new javax.swing.JLabel();
+        price14 = new javax.swing.JLabel();
+        image14 = new javax.swing.JLabel();
+        p15 = new javax.swing.JPanel();
+        name15 = new javax.swing.JLabel();
+        price15 = new javax.swing.JLabel();
+        image15 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        back = new javax.swing.JLabel();
+        productsContainer = new javax.swing.JPanel();
+        product_is_empty = new javax.swing.JLabel();
+        jSeparator19 = new javax.swing.JSeparator();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        product_table = new javax.swing.JTable();
+        product_search_bar = new javax.swing.JTextField();
+        jLabel30 = new javax.swing.JLabel();
+        filterContainer1 = new javax.swing.JPanel();
+        jLabel31 = new javax.swing.JLabel();
+        filter_product_table1 = new javax.swing.JComboBox<>();
+        product_table_add_button1 = new javax.swing.JButton();
         productInfo = new javax.swing.JPanel();
         product_name = new javax.swing.JLabel();
         product_price = new javax.swing.JLabel();
@@ -707,261 +768,28 @@ public final class buyerDashboard extends javax.swing.JFrame {
         });
         p1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        name1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        name1.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         name1.setForeground(new java.awt.Color(51, 51, 51));
-        p1.add(name1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 210, 25));
+        p1.add(name1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
 
-        price1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        price1.setForeground(new java.awt.Color(51, 51, 51));
-        p1.add(price1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 210, 22));
-        p1.add(image1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 120));
+        price1.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price1.setForeground(new java.awt.Color(153, 153, 153));
+        p1.add(price1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p1.add(image1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
 
         jPanel1.add(p1);
-        p1.setBounds(190, 50, 210, 180);
+        p1.setBounds(150, 60, 180, 180);
 
-        p2.setBackground(new java.awt.Color(255, 255, 255));
-        p2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel11.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel11.setText("Show more");
+        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p2MouseClicked(evt);
+                jLabel11MouseClicked(evt);
             }
         });
-        p2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        name2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        name2.setForeground(new java.awt.Color(51, 51, 51));
-        p2.add(name2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 210, 25));
-
-        price2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        price2.setForeground(new java.awt.Color(51, 51, 51));
-        p2.add(price2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 210, 22));
-        p2.add(image2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 120));
-
-        jPanel1.add(p2);
-        p2.setBounds(410, 50, 210, 180);
-
-        p3.setBackground(new java.awt.Color(255, 255, 255));
-        p3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p3MouseClicked(evt);
-            }
-        });
-        p3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        price3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        price3.setForeground(new java.awt.Color(51, 51, 51));
-        p3.add(price3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 210, 22));
-
-        name3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        name3.setForeground(new java.awt.Color(51, 51, 51));
-        p3.add(name3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 210, 25));
-        p3.add(image3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 120));
-
-        jPanel1.add(p3);
-        p3.setBounds(630, 50, 210, 180);
-
-        p4.setBackground(new java.awt.Color(255, 255, 255));
-        p4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p4MouseClicked(evt);
-            }
-        });
-        p4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        p4.add(image4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 123));
-
-        name4.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        name4.setForeground(new java.awt.Color(51, 51, 51));
-        p4.add(name4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 210, 25));
-
-        price4.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        price4.setForeground(new java.awt.Color(51, 51, 51));
-        p4.add(price4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 210, 22));
-
-        jPanel1.add(p4);
-        p4.setBounds(850, 50, 210, 180);
-
-        p5.setBackground(new java.awt.Color(255, 255, 255));
-        p5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p5MouseClicked(evt);
-            }
-        });
-        p5.setLayout(null);
-
-        price5.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        price5.setForeground(new java.awt.Color(51, 51, 51));
-        p5.add(price5);
-        price5.setBounds(0, 150, 210, 22);
-        p5.add(image5);
-        image5.setBounds(0, 0, 210, 123);
-
-        name5.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        name5.setForeground(new java.awt.Color(51, 51, 51));
-        p5.add(name5);
-        name5.setBounds(0, 120, 210, 25);
-
-        jPanel1.add(p5);
-        p5.setBounds(190, 240, 210, 180);
-
-        p6.setBackground(new java.awt.Color(255, 255, 255));
-        p6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p6MouseClicked(evt);
-            }
-        });
-        p6.setLayout(null);
-        p6.add(image6);
-        image6.setBounds(0, 0, 210, 123);
-
-        price6.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        price6.setForeground(new java.awt.Color(51, 51, 51));
-        p6.add(price6);
-        price6.setBounds(0, 150, 210, 22);
-
-        name6.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        name6.setForeground(new java.awt.Color(51, 51, 51));
-        p6.add(name6);
-        name6.setBounds(0, 120, 210, 25);
-
-        jPanel1.add(p6);
-        p6.setBounds(410, 240, 210, 180);
-
-        p7.setBackground(new java.awt.Color(255, 255, 255));
-        p7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p7MouseClicked(evt);
-            }
-        });
-        p7.setLayout(null);
-
-        name7.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        name7.setForeground(new java.awt.Color(51, 51, 51));
-        p7.add(name7);
-        name7.setBounds(0, 120, 210, 25);
-        p7.add(image7);
-        image7.setBounds(0, 0, 210, 123);
-
-        price7.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        price7.setForeground(new java.awt.Color(51, 51, 51));
-        p7.add(price7);
-        price7.setBounds(0, 150, 210, 22);
-
-        jPanel1.add(p7);
-        p7.setBounds(629, 238, 210, 180);
-
-        p8.setBackground(new java.awt.Color(255, 255, 255));
-        p8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p8MouseClicked(evt);
-            }
-        });
-        p8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        p8.add(image8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 123));
-
-        name8.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        name8.setForeground(new java.awt.Color(51, 51, 51));
-        p8.add(name8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 210, 25));
-
-        price8.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        price8.setForeground(new java.awt.Color(51, 51, 51));
-        p8.add(price8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 210, 22));
-
-        jPanel1.add(p8);
-        p8.setBounds(850, 240, 210, 180);
-
-        p9.setBackground(new java.awt.Color(255, 255, 255));
-        p9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p9MouseClicked(evt);
-            }
-        });
-        p9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        p9.add(image9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 123));
-
-        name9.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        name9.setForeground(new java.awt.Color(51, 51, 51));
-        p9.add(name9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 210, 25));
-
-        price9.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        price9.setForeground(new java.awt.Color(51, 51, 51));
-        p9.add(price9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 210, 22));
-
-        jPanel1.add(p9);
-        p9.setBounds(190, 430, 210, 180);
-
-        p10.setBackground(new java.awt.Color(255, 255, 255));
-        p10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p10MouseClicked(evt);
-            }
-        });
-        p10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        price10.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        price10.setForeground(new java.awt.Color(51, 51, 51));
-        p10.add(price10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 210, 22));
-        p10.add(image10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 123));
-
-        name10.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        name10.setForeground(new java.awt.Color(51, 51, 51));
-        p10.add(name10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 210, 25));
-
-        jPanel1.add(p10);
-        p10.setBounds(410, 430, 210, 180);
-
-        p11.setBackground(new java.awt.Color(255, 255, 255));
-        p11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p11MouseClicked(evt);
-            }
-        });
-        p11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        name11.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        name11.setForeground(new java.awt.Color(51, 51, 51));
-        p11.add(name11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 210, 25));
-        p11.add(image11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 123));
-
-        price11.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        price11.setForeground(new java.awt.Color(51, 51, 51));
-        p11.add(price11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 210, 22));
-
-        jPanel1.add(p11);
-        p11.setBounds(630, 430, 210, 180);
-
-        p12.setBackground(new java.awt.Color(255, 255, 255));
-        p12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p12MouseClicked(evt);
-            }
-        });
-        p12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        p12.add(image12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 123));
-
-        price12.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        price12.setForeground(new java.awt.Color(51, 51, 51));
-        p12.add(price12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 210, 22));
-
-        name12.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
-        name12.setForeground(new java.awt.Color(51, 51, 51));
-        p12.add(name12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 210, 25));
-
-        jPanel1.add(p12);
-        p12.setBounds(850, 430, 210, 180);
-
-        next.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/next_right.png"))); // NOI18N
-        next.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nextMouseClicked(evt);
-            }
-        });
-        jPanel1.add(next);
-        next.setBounds(1106, 50, 100, 560);
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setText("Show all products");
         jPanel1.add(jLabel11);
-        jLabel11.setBounds(0, 620, 1280, 16);
+        jLabel11.setBounds(950, 650, 180, 20);
 
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator1.setForeground(new java.awt.Color(231, 231, 231));
@@ -970,17 +798,401 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(jSeparator1);
         jSeparator1.setBounds(0, 40, 1280, 10);
 
-        tabs.addTab("tab1", jPanel1);
-
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/back.png"))); // NOI18N
-        back.addMouseListener(new java.awt.event.MouseAdapter() {
+        p2.setBackground(new java.awt.Color(204, 204, 204));
+        p2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                backMouseClicked(evt);
+                p2MouseClicked(evt);
             }
         });
-        jPanel3.add(back, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 90, 580));
+        p2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name2.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name2.setForeground(new java.awt.Color(51, 51, 51));
+        name2.setText("Macbook Airsssssssssss");
+        p2.add(name2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price2.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price2.setForeground(new java.awt.Color(153, 153, 153));
+        price2.setText("₱  1,350");
+        p2.add(price2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p2.add(image2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p2);
+        p2.setBounds(350, 60, 180, 180);
+
+        p3.setBackground(new java.awt.Color(204, 204, 204));
+        p3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p3MouseClicked(evt);
+            }
+        });
+        p3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name3.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name3.setForeground(new java.awt.Color(51, 51, 51));
+        name3.setText("Macbook Airsssssssssss");
+        p3.add(name3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price3.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price3.setForeground(new java.awt.Color(153, 153, 153));
+        price3.setText("₱  1,350");
+        p3.add(price3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p3.add(image3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p3);
+        p3.setBounds(550, 60, 180, 180);
+
+        p4.setBackground(new java.awt.Color(204, 204, 204));
+        p4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p4MouseClicked(evt);
+            }
+        });
+        p4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name4.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name4.setForeground(new java.awt.Color(51, 51, 51));
+        name4.setText("Macbook Airsssssssssss");
+        p4.add(name4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price4.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price4.setForeground(new java.awt.Color(153, 153, 153));
+        price4.setText("₱  1,350");
+        p4.add(price4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p4.add(image4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p4);
+        p4.setBounds(750, 60, 180, 180);
+
+        p5.setBackground(new java.awt.Color(204, 204, 204));
+        p5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p5MouseClicked(evt);
+            }
+        });
+        p5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name5.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name5.setForeground(new java.awt.Color(51, 51, 51));
+        name5.setText("Macbook Airsssssssssss");
+        p5.add(name5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price5.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price5.setForeground(new java.awt.Color(153, 153, 153));
+        price5.setText("₱  1,350");
+        p5.add(price5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p5.add(image5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p5);
+        p5.setBounds(950, 60, 180, 180);
+
+        p6.setBackground(new java.awt.Color(204, 204, 204));
+        p6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p6MouseClicked(evt);
+            }
+        });
+        p6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name6.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name6.setForeground(new java.awt.Color(51, 51, 51));
+        name6.setText("Macbook Airsssssssssss");
+        p6.add(name6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price6.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price6.setForeground(new java.awt.Color(153, 153, 153));
+        price6.setText("₱  1,350");
+        p6.add(price6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p6.add(image6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p6);
+        p6.setBounds(150, 260, 180, 180);
+
+        p7.setBackground(new java.awt.Color(204, 204, 204));
+        p7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p7MouseClicked(evt);
+            }
+        });
+        p7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name7.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name7.setForeground(new java.awt.Color(51, 51, 51));
+        name7.setText("Macbook Airsssssssssss");
+        p7.add(name7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price7.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price7.setForeground(new java.awt.Color(153, 153, 153));
+        price7.setText("₱  1,350");
+        p7.add(price7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p7.add(image7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p7);
+        p7.setBounds(350, 260, 180, 180);
+
+        p8.setBackground(new java.awt.Color(204, 204, 204));
+        p8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p8MouseClicked(evt);
+            }
+        });
+        p8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name8.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name8.setForeground(new java.awt.Color(51, 51, 51));
+        name8.setText("Macbook Airsssssssssss");
+        p8.add(name8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price8.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price8.setForeground(new java.awt.Color(153, 153, 153));
+        price8.setText("₱  1,350");
+        p8.add(price8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p8.add(image8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p8);
+        p8.setBounds(550, 260, 180, 180);
+
+        p9.setBackground(new java.awt.Color(204, 204, 204));
+        p9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p9MouseClicked(evt);
+            }
+        });
+        p9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name9.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name9.setForeground(new java.awt.Color(51, 51, 51));
+        name9.setText("Macbook Airsssssssssss");
+        p9.add(name9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price9.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price9.setForeground(new java.awt.Color(153, 153, 153));
+        price9.setText("₱  1,350");
+        p9.add(price9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p9.add(image9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p9);
+        p9.setBounds(750, 260, 180, 180);
+
+        p10.setBackground(new java.awt.Color(204, 204, 204));
+        p10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p10MouseClicked(evt);
+            }
+        });
+        p10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name10.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name10.setForeground(new java.awt.Color(51, 51, 51));
+        name10.setText("Macbook Airsssssssssss");
+        p10.add(name10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price10.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price10.setForeground(new java.awt.Color(153, 153, 153));
+        price10.setText("₱  1,350");
+        p10.add(price10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p10.add(image10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p10);
+        p10.setBounds(950, 260, 180, 180);
+
+        p11.setBackground(new java.awt.Color(204, 204, 204));
+        p11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p11MouseClicked(evt);
+            }
+        });
+        p11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name11.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name11.setForeground(new java.awt.Color(51, 51, 51));
+        name11.setText("Macbook Airsssssssssss");
+        p11.add(name11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price11.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price11.setForeground(new java.awt.Color(153, 153, 153));
+        price11.setText("₱  1,350");
+        p11.add(price11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p11.add(image11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p11);
+        p11.setBounds(150, 460, 180, 180);
+
+        p12.setBackground(new java.awt.Color(204, 204, 204));
+        p12.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p12MouseClicked(evt);
+            }
+        });
+        p12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name12.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name12.setForeground(new java.awt.Color(51, 51, 51));
+        name12.setText("Macbook Airsssssssssss");
+        p12.add(name12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price12.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price12.setForeground(new java.awt.Color(153, 153, 153));
+        price12.setText("₱  1,350");
+        p12.add(price12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p12.add(image12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p12);
+        p12.setBounds(350, 460, 180, 180);
+
+        p13.setBackground(new java.awt.Color(204, 204, 204));
+        p13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p13MouseClicked(evt);
+            }
+        });
+        p13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name13.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name13.setForeground(new java.awt.Color(51, 51, 51));
+        name13.setText("Macbook Airsssssssssss");
+        p13.add(name13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price13.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price13.setForeground(new java.awt.Color(153, 153, 153));
+        price13.setText("₱  1,350");
+        p13.add(price13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p13.add(image13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p13);
+        p13.setBounds(550, 460, 180, 180);
+
+        p14.setBackground(new java.awt.Color(204, 204, 204));
+        p14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p14MouseClicked(evt);
+            }
+        });
+        p14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name14.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name14.setForeground(new java.awt.Color(51, 51, 51));
+        name14.setText("Macbook Airsssssssssss");
+        p14.add(name14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price14.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price14.setForeground(new java.awt.Color(153, 153, 153));
+        price14.setText("₱  1,350");
+        p14.add(price14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p14.add(image14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p14);
+        p14.setBounds(750, 460, 180, 180);
+
+        p15.setBackground(new java.awt.Color(204, 204, 204));
+        p15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                p15MouseClicked(evt);
+            }
+        });
+        p15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        name15.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        name15.setForeground(new java.awt.Color(51, 51, 51));
+        name15.setText("Macbook Airsssssssssss");
+        p15.add(name15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
+
+        price15.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
+        price15.setForeground(new java.awt.Color(153, 153, 153));
+        price15.setText("₱  1,350");
+        p15.add(price15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
+        p15.add(image15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
+
+        jPanel1.add(p15);
+        p15.setBounds(950, 460, 180, 180);
+
+        tabs.addTab("tab1", jPanel1);
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        productsContainer.setBackground(new java.awt.Color(241, 241, 241));
+        productsContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        product_is_empty.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        product_is_empty.setForeground(new java.awt.Color(51, 51, 51));
+        product_is_empty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        productsContainer.add(product_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 1150, 60));
+        productsContainer.add(jSeparator19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1240, 10));
+
+        jScrollPane7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        product_table.setAutoCreateRowSorter(true);
+        product_table.setBackground(new java.awt.Color(241, 241, 241));
+        product_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        product_table.setSelectionBackground(new java.awt.Color(204, 229, 255));
+        product_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                product_tableMouseClicked(evt);
+            }
+        });
+        jScrollPane7.setViewportView(product_table);
+
+        productsContainer.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1240, 540));
+
+        product_search_bar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        product_search_bar.setForeground(new java.awt.Color(140, 140, 140));
+        product_search_bar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                product_search_barMouseClicked(evt);
+            }
+        });
+        product_search_bar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                product_search_barKeyReleased(evt);
+            }
+        });
+        productsContainer.add(product_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, 40));
+
+        jLabel30.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel30.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel30.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel30.setText("Product Table");
+        productsContainer.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 0));
+
+        filterContainer1.setBackground(new java.awt.Color(255, 255, 255));
+        filterContainer1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel31.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel31.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel31.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel31.setText("Filter by:");
+        filterContainer1.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 40));
+
+        filter_product_table1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        filter_product_table1.setForeground(new java.awt.Color(153, 153, 153));
+        filter_product_table1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Electronics", "Grocery", "Pet Supplies", "Fashion" }));
+        filter_product_table1.setSelectedIndex(-1);
+        filter_product_table1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        filterContainer1.add(filter_product_table1, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 110, 30));
+
+        productsContainer.add(filterContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 180, 40));
+
+        product_table_add_button1.setBackground(new java.awt.Color(0, 158, 226));
+        product_table_add_button1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        product_table_add_button1.setForeground(new java.awt.Color(255, 255, 255));
+        product_table_add_button1.setText("View product");
+        product_table_add_button1.setBorderPainted(false);
+        product_table_add_button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                product_table_add_button1ActionPerformed(evt);
+            }
+        });
+        productsContainer.add(product_table_add_button1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 10, 130, 40));
+
+        jPanel3.add(productsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 1240, 620));
 
         tabs.addTab("tab2", jPanel3);
 
@@ -1076,10 +1288,10 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
         s1.setBackground(new java.awt.Color(241, 241, 241));
         s1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        s1.add(product_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 250, 250));
+        s1.add(product_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 360, 260));
 
         productInfo.add(s1);
-        s1.setBounds(140, 120, 470, 370);
+        s1.setBounds(140, 120, 470, 360);
 
         jSeparator4.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator4.setForeground(new java.awt.Color(231, 231, 231));
@@ -1172,7 +1384,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         s2.add(seller_profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 80, 80));
 
         productInfo.add(s2);
-        s2.setBounds(140, 500, 470, 120);
+        s2.setBounds(140, 490, 470, 130);
 
         add_to_wishlist.setBackground(new java.awt.Color(241, 241, 241));
         add_to_wishlist.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product_heart.png"))); // NOI18N
@@ -2126,26 +2338,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void nextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextMouseClicked
-        tabs.setSelectedIndex(1);
-    }//GEN-LAST:event_nextMouseClicked
-
     private void p1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p1MouseClicked
-        panelMouseClicked(p1, name1, price1, image1, quan);
-        System.out.println(product_id);
+        panelMouseClicked(p1, name1, price1, image1);
     }//GEN-LAST:event_p1MouseClicked
-
-    private void p3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p3MouseClicked
-        panelMouseClicked(p3, name3, price3, image3, quan);
-     }//GEN-LAST:event_p3MouseClicked
-
-    private void p2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p2MouseClicked
-        panelMouseClicked(p2, name2, price2, image2, quan);
-    }//GEN-LAST:event_p2MouseClicked
-
-    private void backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_backMouseClicked
-        tabs.setSelectedIndex(0);
-    }//GEN-LAST:event_backMouseClicked
 
     private void add_to_cartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_to_cartActionPerformed
         String productName = product_name.getText();
@@ -2159,41 +2354,41 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
             // Check if the product already exists in the cart for the logged-in user
             String checkProductQuery = "SELECT * FROM tbl_cart WHERE buyer_id = ? AND product_id = ?";
-            PreparedStatement checkProductStmt = dbc.getConnection().prepareStatement(checkProductQuery);
-            checkProductStmt.setInt(1, buyer_id);
-            checkProductStmt.setInt(2, product_id);
-            ResultSet checkRs = checkProductStmt.executeQuery();
+            try (PreparedStatement checkProductStmt = dbc.getConnection().prepareStatement(checkProductQuery)) {
+                checkProductStmt.setInt(1, buyer_id);
+                checkProductStmt.setInt(2, product_id);
+                ResultSet checkRs = checkProductStmt.executeQuery();
 
-            if (checkRs.next()) {
-                // If the product exists, update the product_quantity
-                int existingQuant = checkRs.getInt("product_quantity");
-                int newQuant = existingQuant + cartQuant;
+                if (checkRs.next()) {
+                    // If the product exists, update the product_quantity
+                    int existingQuant = checkRs.getInt("product_quantity");
+                    int newQuant = existingQuant + cartQuant;
 
-                String updateQuery = "UPDATE tbl_cart SET product_quantity = ? WHERE buyer_id = ? AND product_id = ?";
-                PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
-                updateStmt.setInt(1, newQuant);
-                updateStmt.setInt(2, buyer_id);
-                updateStmt.setInt(3, product_id);
-                updateStmt.executeUpdate();
+                    String updateQuery = "UPDATE tbl_cart SET product_quantity = ? WHERE buyer_id = ? AND product_id = ?";
+                    PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
+                    updateStmt.setInt(1, newQuant);
+                    updateStmt.setInt(2, buyer_id);
+                    updateStmt.setInt(3, product_id);
+                    updateStmt.executeUpdate();
 
-                JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
-                displayCart();
-                tabs.setSelectedIndex(0);
-            } else {
-                // If the product doesn't exist, insert a new record
-                String insertQuery = "INSERT INTO tbl_cart (buyer_id, product_id, product_quantity, seller_id, date_added) VALUES (?, ?, ?, ?, NOW())";
-                PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
-                insertStmt.setInt(1, buyer_id);
-                insertStmt.setInt(2, product_id);
-                insertStmt.setInt(3, cartQuant);
-                insertStmt.setInt(4, seller_id);
+                    JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
+                    displayCart();
+                    tabs.setSelectedIndex(0);
+                } else {
+                    // If the product doesn't exist, insert a new record
+                    String insertQuery = "INSERT INTO tbl_cart (buyer_id, product_id, product_quantity, seller_id, date_added) VALUES (?, ?, ?, ?, NOW())";
+                    PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
+                    insertStmt.setInt(1, buyer_id);
+                    insertStmt.setInt(2, product_id);
+                    insertStmt.setInt(3, cartQuant);
+                    insertStmt.setInt(4, seller_id);
 
-                insertStmt.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
+                    insertStmt.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
+                }
+
+                checkRs.close();
             }
-
-            checkRs.close();
-            checkProductStmt.close();
             num = 1;
             displayQuant.setText(String.valueOf(num));
             displayCart();
@@ -2220,42 +2415,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         tabs.setSelectedIndex(5);
     }//GEN-LAST:event_jLabel1MouseClicked
-
-    private void p4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p4MouseClicked
-        panelMouseClicked(p4, name4, price4, image4, quan);
-    }//GEN-LAST:event_p4MouseClicked
-
-    private void p5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p5MouseClicked
-        panelMouseClicked(p5, name5, price5, image5, stock);
-    }//GEN-LAST:event_p5MouseClicked
-
-    private void p6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p6MouseClicked
-        panelMouseClicked(p6, name6, price6, image6, quan);
-    }//GEN-LAST:event_p6MouseClicked
-
-    private void p7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p7MouseClicked
-        panelMouseClicked(p7, name7, price7, image7, quan);
-    }//GEN-LAST:event_p7MouseClicked
-
-    private void p8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p8MouseClicked
-        panelMouseClicked(p8, name8, price8, image8, quan);
-    }//GEN-LAST:event_p8MouseClicked
-
-    private void p9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p9MouseClicked
-        panelMouseClicked(p9, name9, price9, image9, quan);
-    }//GEN-LAST:event_p9MouseClicked
-
-    private void p10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p10MouseClicked
-        panelMouseClicked(p10, name10, price10, image10, quan);
-    }//GEN-LAST:event_p10MouseClicked
-
-    private void p11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p11MouseClicked
-        panelMouseClicked(p11, name11, price11, image11, quan);
-    }//GEN-LAST:event_p11MouseClicked
-
-    private void p12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p12MouseClicked
-        panelMouseClicked(p12, name12, price12, image12, quan);
-    }//GEN-LAST:event_p12MouseClicked
 
     private void myprofile6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myprofile6MouseClicked
         // TODO add your handling code here:
@@ -2953,6 +3112,173 @@ public final class buyerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_product_table_archive_buttonActionPerformed
 
+    private void p2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p2MouseClicked
+        panelMouseClicked(p2, name2, price2, image2);
+    }//GEN-LAST:event_p2MouseClicked
+
+    private void p3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p3MouseClicked
+        panelMouseClicked(p3, name3, price3, image3);
+    }//GEN-LAST:event_p3MouseClicked
+
+    private void p4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p4MouseClicked
+        panelMouseClicked(p4, name4, price4, image4);
+    }//GEN-LAST:event_p4MouseClicked
+
+    private void p5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p5MouseClicked
+        panelMouseClicked(p5, name5, price5, image5);
+    }//GEN-LAST:event_p5MouseClicked
+
+    private void p6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p6MouseClicked
+        panelMouseClicked(p6, name6, price6, image6);
+    }//GEN-LAST:event_p6MouseClicked
+
+    private void p7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p7MouseClicked
+        panelMouseClicked(p7, name7, price7, image7);
+    }//GEN-LAST:event_p7MouseClicked
+
+    private void p8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p8MouseClicked
+        panelMouseClicked(p8, name8, price8, image8);
+    }//GEN-LAST:event_p8MouseClicked
+
+    private void p9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p9MouseClicked
+        panelMouseClicked(p9, name9, price9, image9);
+    }//GEN-LAST:event_p9MouseClicked
+
+    private void p10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p10MouseClicked
+        panelMouseClicked(p10, name10, price10, image10);
+    }//GEN-LAST:event_p10MouseClicked
+
+    private void p11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p11MouseClicked
+        panelMouseClicked(p11, name11, price11, image11);
+
+    }//GEN-LAST:event_p11MouseClicked
+
+    private void p12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p12MouseClicked
+        panelMouseClicked(p12, name12, price12, image12);
+    }//GEN-LAST:event_p12MouseClicked
+
+    private void p13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p13MouseClicked
+        panelMouseClicked(p13, name13, price13, image13);
+    }//GEN-LAST:event_p13MouseClicked
+
+    private void p14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p14MouseClicked
+        panelMouseClicked(p14, name14, price14, image14);
+    }//GEN-LAST:event_p14MouseClicked
+
+    private void p15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p15MouseClicked
+        panelMouseClicked(p15, name15, price15, image15);
+    }//GEN-LAST:event_p15MouseClicked
+
+    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+        tabs.setSelectedIndex(1);
+    }//GEN-LAST:event_jLabel11MouseClicked
+
+    private void product_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_product_tableMouseClicked
+
+    }//GEN-LAST:event_product_tableMouseClicked
+
+    private void product_search_barMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_product_search_barMouseClicked
+        product_search_bar.setFocusable(true);
+        product_search_bar.requestFocusInWindow();
+    }//GEN-LAST:event_product_search_barMouseClicked
+
+    private void product_search_barKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_product_search_barKeyReleased
+        search.searchResult(product_table, product_search_bar);
+    }//GEN-LAST:event_product_search_barKeyReleased
+
+    private void product_table_add_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_product_table_add_button1ActionPerformed
+        int rowIndex = product_table.getSelectedRow();
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please Select an Item!");
+            return;
+        }
+        TableModel model = product_table.getModel();
+
+        try {
+            databaseConnector dbc = new databaseConnector();
+
+            ResultSet rs = dbc.getData("SELECT "
+                    + "p.product_description AS product_description, "
+                    + "p.product_stock AS product_stock, "
+                    + "p.product_image AS product_image, "
+                    + "p.total_sold AS total_sold, "
+                    + "p.product_name AS product_name, "
+                    + "p.product_category AS product_category, "
+                    + "COUNT(p.product_id) AS total_products, "
+                    + "w.total_favorites AS total_favorites, "
+                    + "SUM(pr.total_star) AS total_star, "
+                    + "COUNT(pr.product_id) AS total_rating, "
+                    + "SUM(sr.total_star) AS seller_star, "
+                    + "COUNT(sr.seller_id) AS seller_rating, "
+                    + "a.profile_picture AS seller_profile, "
+                    + "a.shop_name AS shop_name, "
+                    + "a.date_joined AS date_joined "
+                    + "FROM tbl_products p "
+                    + "LEFT JOIN tbl_wishlist w ON w.product_id = p.product_id "
+                    + "LEFT JOIN tbl_rating4products pr ON pr.product_id = p.product_id "
+                    + "LEFT JOIN tbl_rating4seller sr ON sr.seller_id = p.seller_id "
+                    + "LEFT JOIN tbl_accounts a ON a.account_id = p.seller_id "
+                    + "WHERE p.product_status = 'Available' AND p.product_id = " + model.getValueAt(rowIndex, 1)
+                    + " GROUP BY p.product_id, w.total_favorites, a.profile_picture");
+            if (rs.next()) {
+                shop = rs.getString("product_category");
+                String pname = rs.getString("product_name");
+
+                product_name.setText(pname);
+                String coloredText = "<html><span style='color: rgb(153, 153, 153);'>" + shop + "</span>  > <span style='color: rgb(38, 38, 38);'>  " + pname + "</span></html>";
+                product_category.setText(coloredText);
+                product_shop_name.setText(rs.getString("shop_name"));
+                seller_joined.setText(rs.getString("date_joined"));
+                int favorites = rs.getInt("total_favorites");
+                if (favorites < 1) {
+                    product_favorites.setText("Favorites (0)");
+                } else {
+                    product_favorites.setText("Favorites (" + favorites + ")");
+                }
+                product_sold.setText(rs.getString("total_sold"));
+                int total_products = rs.getInt("total_products");
+                seller_products.setText(String.format("%d", total_products));
+
+                int height = 80;
+                int width = 80;
+                String getImageFromDatabase = rs.getString("seller_profile");
+                GetImage.displayImage(seller_profile, getImageFromDatabase, height, width);
+
+                int sheight = 360;
+                int swidth = 260;
+                String sgetImageFromDatabase = rs.getString("product_image");
+                GetImage.displayImage(product_photo, sgetImageFromDatabase, sheight, swidth);
+
+                int sum_star = rs.getInt("total_star");
+                int seller_sum_star = rs.getInt("seller_star");
+                int seller_count = rs.getInt("total_rating");
+                int seller_seller_count = rs.getInt("seller_rating");
+                float seller_rating = seller_seller_count > 0 ? (float) seller_sum_star / seller_seller_count : 0;
+                float rating = seller_count > 0 ? (float) sum_star / seller_count : 0;
+                if (sum_star < 1) {
+                    product_rating.setText("0 (0)");
+                } else {
+                    product_rating.setText(String.format("%.1f (%d)", rating, seller_count));
+                }
+                if (seller_sum_star < 1) {
+                    seller__profile_rating.setText("0 (0)");
+                } else {
+                    seller__profile_rating.setText(String.format("%.1f (%d)", seller_rating, seller_seller_count));
+                }
+
+                product_description.setText(rs.getString("product_description"));
+                quan = rs.getInt("product_stock");
+                tabs.setSelectedIndex(2);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Product details not found!");
+            }
+
+        } catch (HeadlessException | SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
+        }
+    }//GEN-LAST:event_product_table_add_button1ActionPerformed
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -2974,7 +3300,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton add_to_wishlist;
     private javax.swing.JButton add_to_wishlist1;
     private javax.swing.JTextField address;
-    private javax.swing.JLabel back;
     private javax.swing.JButton buy_now;
     private javax.swing.JLabel buyer_photo_profile;
     private javax.swing.JPanel cartTableContainer;
@@ -2996,7 +3321,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton edit_profile_save_button;
     private javax.swing.JTextField email;
     private javax.swing.JPanel filterContainer;
+    private javax.swing.JPanel filterContainer1;
     private javax.swing.JComboBox<String> filter_product_table;
+    private javax.swing.JComboBox<String> filter_product_table1;
     private javax.swing.JTextField fname;
     private javax.swing.JTextField fname1;
     private javax.swing.JTextField fname2;
@@ -3009,6 +3336,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel image10;
     private javax.swing.JLabel image11;
     private javax.swing.JLabel image12;
+    private javax.swing.JLabel image13;
+    private javax.swing.JLabel image14;
+    private javax.swing.JLabel image15;
     private javax.swing.JLabel image2;
     private javax.swing.JLabel image3;
     private javax.swing.JLabel image4;
@@ -3044,6 +3374,8 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel34;
@@ -3083,6 +3415,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
@@ -3093,6 +3426,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator16;
     private javax.swing.JSeparator jSeparator17;
     private javax.swing.JSeparator jSeparator18;
+    private javax.swing.JSeparator jSeparator19;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -3135,6 +3469,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel name10;
     private javax.swing.JLabel name11;
     private javax.swing.JLabel name12;
+    private javax.swing.JLabel name13;
+    private javax.swing.JLabel name14;
+    private javax.swing.JLabel name15;
     private javax.swing.JLabel name2;
     private javax.swing.JLabel name3;
     private javax.swing.JLabel name4;
@@ -3143,7 +3480,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel name7;
     private javax.swing.JLabel name8;
     private javax.swing.JLabel name9;
-    private javax.swing.JLabel next;
     private javax.swing.JEditorPane notes;
     private javax.swing.JEditorPane notess;
     private javax.swing.JLabel order_status;
@@ -3152,6 +3488,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel p10;
     private javax.swing.JPanel p11;
     private javax.swing.JPanel p12;
+    private javax.swing.JPanel p13;
+    private javax.swing.JPanel p14;
+    private javax.swing.JPanel p15;
     private javax.swing.JPanel p2;
     private javax.swing.JPanel p3;
     private javax.swing.JPanel p4;
@@ -3167,6 +3506,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel price10;
     private javax.swing.JLabel price11;
     private javax.swing.JLabel price12;
+    private javax.swing.JLabel price13;
+    private javax.swing.JLabel price14;
+    private javax.swing.JLabel price15;
     private javax.swing.JLabel price2;
     private javax.swing.JLabel price3;
     private javax.swing.JLabel price4;
@@ -3180,6 +3522,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel product_category1;
     private javax.swing.JEditorPane product_description;
     private javax.swing.JLabel product_favorites;
+    private javax.swing.JLabel product_is_empty;
     private javax.swing.JLabel product_name;
     private javax.swing.JLabel product_name2;
     private javax.swing.JLabel product_photo;
@@ -3188,12 +3531,16 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel product_price2;
     private javax.swing.JLabel product_price3;
     private javax.swing.JLabel product_rating;
+    private javax.swing.JTextField product_search_bar;
     private javax.swing.JLabel product_shop_name;
     private javax.swing.JLabel product_shop_name1;
     private javax.swing.JLabel product_shop_name2;
     private javax.swing.JLabel product_sold;
+    private javax.swing.JTable product_table;
     private javax.swing.JButton product_table_add_button;
+    private javax.swing.JButton product_table_add_button1;
     private javax.swing.JButton product_table_archive_button;
+    private javax.swing.JPanel productsContainer;
     private javax.swing.JLabel profile1;
     private javax.swing.JPanel profile2;
     private javax.swing.JLabel purchase_is_empty;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2024 at 05:01 AM
+-- Generation Time: May 26, 2024 at 07:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -49,7 +49,7 @@ CREATE TABLE `tbl_accounts` (
 
 INSERT INTO `tbl_accounts` (`account_id`, `first_name`, `last_name`, `address`, `phone_number`, `email`, `username`, `password`, `role`, `shop_name`, `profile_picture`, `date_joined`, `status`) VALUES
 (1, 'Archie', 'Albarico', 'Tunghaan, Minglanilla, Cebu', '12345678900', '1', '1', '$2a$10$WcnKFLLy7oWBzaKim/dtB.6o5LVbtRSylzysmnka1Y.cghiIfCXLC', 'Seller', 'Archie Shop', 'src/sampleProfiles/default_user_profile.png', '2024-05-17', 'Active'),
-(2, 'buyer', 'buyer', 'buyer, tuyan, cebu', '12345678900', '2', '2', '$2a$10$SC4i5tqUFzVXjRn41weoi.7rVRmkbwwIrCQQhRbRYD979cQoi7xQe', 'Buyer', '', 'src/sampleProfiles/default_user_profile.png', '2024-05-17', 'Active');
+(2, 'buyer', 'buyer', 'buyer, tuyan, cebu2', '12345678900', '2', '2', '$2a$10$SC4i5tqUFzVXjRn41weoi.7rVRmkbwwIrCQQhRbRYD979cQoi7xQe', 'Buyer', '', 'src/sampleProfiles/default_user_profile.png', '2024-05-17', 'Active');
 
 -- --------------------------------------------------------
 
@@ -63,18 +63,6 @@ CREATE TABLE `tbl_adminlogs` (
   `adminlogs_action` varchar(100) NOT NULL,
   `adminlogs_details` varchar(600) NOT NULL,
   `adminlogs_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_bestproducts`
---
-
-CREATE TABLE `tbl_bestproducts` (
-  `bestproducts_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `total_sold` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -149,7 +137,7 @@ CREATE TABLE `tbl_messages4seller` (
   `seller_id` int(11) NOT NULL,
   `message` varchar(600) NOT NULL,
   `date_sent` date NOT NULL,
-  `message_status` varchar(100) NOT NULL
+  `message_status` varchar(100) NOT NULL DEFAULT 'Under Review'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -165,11 +153,20 @@ CREATE TABLE `tbl_orders` (
   `product_id` int(11) NOT NULL,
   `total_quantity` int(11) NOT NULL,
   `total_price` int(11) NOT NULL,
-  `payment_method` varchar(100) NOT NULL DEFAULT 'COD',
+  `payment_method` varchar(100) NOT NULL,
   `notes` varchar(100) NOT NULL,
   `date_purchase` date NOT NULL,
   `order_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_orders`
+--
+
+INSERT INTO `tbl_orders` (`order_id`, `buyer_id`, `seller_id`, `product_id`, `total_quantity`, `total_price`, `payment_method`, `notes`, `date_purchase`, `order_status`) VALUES
+(21, 2, 1, 14, 3, 615, 'COD', '', '2024-05-25', 'Accepted'),
+(22, 2, 1, 12, 7, 1230, 'COD', '', '2024-05-25', 'Pending'),
+(24, 2, 1, 13, 1, 369, 'COD', '', '2024-05-25', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -185,7 +182,7 @@ CREATE TABLE `tbl_products` (
   `product_stock` int(11) NOT NULL,
   `product_description` varchar(900) NOT NULL,
   `product_category` varchar(100) NOT NULL,
-  `total_sold` int(11) DEFAULT 0,
+  `total_sold` int(11) NOT NULL DEFAULT 0,
   `product_image` varchar(600) NOT NULL,
   `date_created` date NOT NULL,
   `product_status` varchar(100) NOT NULL
@@ -196,9 +193,7 @@ CREATE TABLE `tbl_products` (
 --
 
 INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_image`, `date_created`, `product_status`) VALUES
-(12, 1, 'sdf', 123, 3, '', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-21', 'Available'),
-(13, 1, 'cv', 123, 3, 'qwe', 'Electronics', 0, 'src/ProductsImages/1.png', '2024-05-21', 'Available'),
-(14, 1, 'vb', 123, 3, '123', 'Electronics', 0, 'src/ProductsImages/7.png', '2024-05-23', 'Available');
+(17, 1, '123', 123, 3, '12311', 'Electronics', 100, 'src/ProductsImages/p_mouse.png', '2024-05-26', 'Available');
 
 -- --------------------------------------------------------
 
@@ -243,6 +238,40 @@ CREATE TABLE `tbl_sellerlogs` (
   `sellerlogs_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_sellerlogs`
+--
+
+INSERT INTO `tbl_sellerlogs` (`sellerlogs_id`, `seller_id`, `sellerlogs_action`, `sellerlogs_details`, `sellerlogs_timestamp`) VALUES
+(254, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 05:56:03'),
+(255, 1, 'Accept Order', 'Seller 1 successfully accepted order 17!', '2024-05-25 05:56:36'),
+(256, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 05:58:23'),
+(257, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 05:59:51'),
+(258, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 06:00:29'),
+(259, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 06:01:35'),
+(260, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 06:01:54'),
+(261, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 06:04:09'),
+(262, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 07:22:58'),
+(263, 1, 'Accept Order', 'Seller 1 successfully accepted order 21!', '2024-05-25 07:23:50'),
+(264, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 07:32:29'),
+(265, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 07:43:37'),
+(266, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-25 07:44:22'),
+(267, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 17:03:36'),
+(268, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-25 17:03:54'),
+(269, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 04:27:40'),
+(270, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 04:28:51'),
+(271, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-26 04:30:22'),
+(272, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 04:30:30'),
+(273, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 04:34:52'),
+(274, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-26 04:35:16'),
+(275, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 04:35:18'),
+(276, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 04:35:21'),
+(277, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 04:35:23'),
+(278, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 05:31:45'),
+(279, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 05:31:47'),
+(280, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 05:31:50'),
+(281, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 05:31:51');
+
 -- --------------------------------------------------------
 
 --
@@ -257,6 +286,15 @@ CREATE TABLE `tbl_wishlist` (
   `total_favorites` int(11) NOT NULL,
   `date_added` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_wishlist`
+--
+
+INSERT INTO `tbl_wishlist` (`wishlist_id`, `buyer_id`, `seller_id`, `product_id`, `total_favorites`, `date_added`) VALUES
+(5, 2, 1, 17, 2, '2024-05-25'),
+(6, 2, 1, 12, 1, '2024-05-25'),
+(7, 2, 1, 15, 1, '2024-05-25');
 
 --
 -- Indexes for dumped tables
@@ -274,13 +312,6 @@ ALTER TABLE `tbl_accounts`
 ALTER TABLE `tbl_adminlogs`
   ADD PRIMARY KEY (`adminlogs_id`),
   ADD KEY `admin_id` (`admin_id`);
-
---
--- Indexes for table `tbl_bestproducts`
---
-ALTER TABLE `tbl_bestproducts`
-  ADD PRIMARY KEY (`bestproducts_id`),
-  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indexes for table `tbl_buyerlogs`
@@ -388,12 +419,6 @@ ALTER TABLE `tbl_adminlogs`
   MODIFY `adminlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `tbl_bestproducts`
---
-ALTER TABLE `tbl_bestproducts`
-  MODIFY `bestproducts_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `tbl_buyerlogs`
 --
 ALTER TABLE `tbl_buyerlogs`
@@ -403,7 +428,7 @@ ALTER TABLE `tbl_buyerlogs`
 -- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tbl_invoice`
@@ -427,13 +452,13 @@ ALTER TABLE `tbl_messages4seller`
 -- AUTO_INCREMENT for table `tbl_orders`
 --
 ALTER TABLE `tbl_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `tbl_rating4products`
@@ -451,13 +476,13 @@ ALTER TABLE `tbl_rating4seller`
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=254;
+  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=282;
 
 --
 -- AUTO_INCREMENT for table `tbl_wishlist`
 --
 ALTER TABLE `tbl_wishlist`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
@@ -468,12 +493,6 @@ ALTER TABLE `tbl_wishlist`
 --
 ALTER TABLE `tbl_adminlogs`
   ADD CONSTRAINT `tbl_adminlogs_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `tbl_accounts` (`account_id`);
-
---
--- Constraints for table `tbl_bestproducts`
---
-ALTER TABLE `tbl_bestproducts`
-  ADD CONSTRAINT `tbl_bestproducts_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`);
 
 --
 -- Constraints for table `tbl_buyerlogs`
