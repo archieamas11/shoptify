@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2024 at 07:48 AM
+-- Generation Time: May 26, 2024 at 08:11 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -94,6 +94,13 @@ CREATE TABLE `tbl_cart` (
   `date_added` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_cart`
+--
+
+INSERT INTO `tbl_cart` (`cart_id`, `buyer_id`, `seller_id`, `product_id`, `product_quantity`, `date_added`) VALUES
+(24, 2, 1, 17, 1, '2024-05-26');
+
 -- --------------------------------------------------------
 
 --
@@ -154,7 +161,7 @@ CREATE TABLE `tbl_orders` (
   `total_quantity` int(11) NOT NULL,
   `total_price` int(11) NOT NULL,
   `payment_method` varchar(100) NOT NULL,
-  `notes` varchar(100) NOT NULL,
+  `notes` varchar(500) NOT NULL,
   `date_purchase` date NOT NULL,
   `order_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -166,7 +173,8 @@ CREATE TABLE `tbl_orders` (
 INSERT INTO `tbl_orders` (`order_id`, `buyer_id`, `seller_id`, `product_id`, `total_quantity`, `total_price`, `payment_method`, `notes`, `date_purchase`, `order_status`) VALUES
 (21, 2, 1, 14, 3, 615, 'COD', '', '2024-05-25', 'Accepted'),
 (22, 2, 1, 12, 7, 1230, 'COD', '', '2024-05-25', 'Pending'),
-(24, 2, 1, 13, 1, 369, 'COD', '', '2024-05-25', 'Pending');
+(24, 2, 1, 13, 1, 369, 'COD', '', '2024-05-25', 'Pending'),
+(25, 2, 1, 17, 3, 369, 'Cash on delivery', '22222222222222222', '2024-05-26', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -180,7 +188,7 @@ CREATE TABLE `tbl_products` (
   `product_name` varchar(100) NOT NULL,
   `product_price` int(11) NOT NULL,
   `product_stock` int(11) NOT NULL,
-  `product_description` varchar(900) NOT NULL,
+  `product_description` varchar(1000) NOT NULL,
   `product_category` varchar(100) NOT NULL,
   `total_sold` int(11) NOT NULL DEFAULT 0,
   `product_image` varchar(600) NOT NULL,
@@ -193,7 +201,9 @@ CREATE TABLE `tbl_products` (
 --
 
 INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_image`, `date_created`, `product_status`) VALUES
-(17, 1, '123', 123, 3, '12311', 'Electronics', 100, 'src/ProductsImages/p_mouse.png', '2024-05-26', 'Available');
+(17, 1, '123', 123, 3, '12311', 'Electronics', 100, 'src/ProductsImages/p_mouse.png', '2024-05-26', 'Available'),
+(18, 1, '123', 123, 3, '12311', 'Grocery', 100, 'src/ProductsImages/p_mouse.png', '2024-05-26', 'Available'),
+(19, 1, 'xcv', 123, 2, 'xcv', 'Electronics', 0, 'src/ProductsImages/1.png', '2024-05-27', 'Available');
 
 -- --------------------------------------------------------
 
@@ -270,7 +280,37 @@ INSERT INTO `tbl_sellerlogs` (`sellerlogs_id`, `seller_id`, `sellerlogs_action`,
 (278, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 05:31:45'),
 (279, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 05:31:47'),
 (280, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 05:31:50'),
-(281, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 05:31:51');
+(281, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 05:31:51'),
+(282, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:07:07'),
+(283, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:08:58'),
+(284, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:11:29'),
+(285, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:12:18'),
+(286, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:14:09'),
+(287, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:15:04'),
+(288, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:16:37'),
+(289, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 16:37:56'),
+(290, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 16:44:10'),
+(291, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 16:45:43'),
+(292, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:00:54'),
+(293, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:10:00'),
+(294, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:21:40'),
+(295, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-26 17:22:13'),
+(296, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:24:41'),
+(297, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:30:53'),
+(298, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:31:13'),
+(299, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:32:35'),
+(300, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:37:07'),
+(301, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:40:31'),
+(302, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:40:48'),
+(303, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 17:40:54'),
+(304, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:40:57'),
+(305, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 17:41:00'),
+(306, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:41:02'),
+(307, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:41:52'),
+(308, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 17:41:57'),
+(309, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:57:53'),
+(310, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:59:30'),
+(311, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 18:01:14');
 
 -- --------------------------------------------------------
 
@@ -428,7 +468,7 @@ ALTER TABLE `tbl_buyerlogs`
 -- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `tbl_invoice`
@@ -452,13 +492,13 @@ ALTER TABLE `tbl_messages4seller`
 -- AUTO_INCREMENT for table `tbl_orders`
 --
 ALTER TABLE `tbl_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `tbl_rating4products`
@@ -476,7 +516,7 @@ ALTER TABLE `tbl_rating4seller`
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=282;
+  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=312;
 
 --
 -- AUTO_INCREMENT for table `tbl_wishlist`
