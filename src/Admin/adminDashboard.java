@@ -13,6 +13,7 @@ import config.actionLogs;
 import config.databaseConnector;
 import config.isAccountExist;
 import config.search;
+import config.sorter;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.geom.RoundRectangle2D;
@@ -108,7 +109,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(edit, 15);
         UXmethods.RoundBorders.setArcStyle(add2archive, 15);
         UXmethods.RoundBorders.setArcStyle(add, 15);
-        UXmethods.RoundBorders.setArcStyle(searchIcon, 15);
         UXmethods.RoundBorders.setArcStyle(editAccountSaveBtn, 15);
         UXmethods.RoundBorders.setArcStyle(addAccountsaveBtn, 15);
         UXmethods.RoundBorders.setArcStyle(add2archive, 15);
@@ -186,7 +186,6 @@ public final class adminDashboard extends javax.swing.JFrame {
                 firstName = Character.toUpperCase(firstName.charAt(0)) + firstName.substring(1);
                 lastName = Character.toUpperCase(lastName.charAt(0)) + lastName.substring(1);
                 manageFullName.setText(firstName + " " + lastName);
-                name.setText("  " + firstName + "!");
                 manageStatus.setText("" + rs.getString("status"));
                 manageEmail.setText("" + rs.getString("email"));
                 managePhone.setText("" + rs.getString("phone_number"));
@@ -271,8 +270,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         accountTableContainer = new javax.swing.JPanel();
-        scrollBar = new javax.swing.JScrollPane();
-        accounts_table = new javax.swing.JTable();
         fname = new javax.swing.JLabel();
         photo = new javax.swing.JLabel();
         jSeparator9 = new javax.swing.JSeparator();
@@ -295,13 +292,15 @@ public final class adminDashboard extends javax.swing.JFrame {
         c5 = new javax.swing.JPanel();
         manage8 = new javax.swing.JLabel();
         role = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        name = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        searchIcon = new javax.swing.JButton();
+        jPanel10 = new javax.swing.JPanel();
+        jSeparator2 = new javax.swing.JSeparator();
+        scrollBar = new javax.swing.JScrollPane();
+        accounts_table = new javax.swing.JTable();
         searchBar = new javax.swing.JTextField();
         add = new javax.swing.JButton();
+        filterContainer4 = new javax.swing.JPanel();
+        jLabel45 = new javax.swing.JLabel();
+        filter_product_table2 = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         editProfileContainer = new javax.swing.JPanel();
         manage3 = new javax.swing.JLabel();
@@ -415,7 +414,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         dashboardContainer.setBackground(new java.awt.Color(241, 241, 241));
         dashboardContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        dashboardBtn.setBackground(new java.awt.Color(153, 204, 255));
+        dashboardBtn.setBackground(new java.awt.Color(204, 204, 204));
         dashboardBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-dashboard-24.png"))); // NOI18N
         dashboardBtn.setBorderPainted(false);
         dashboardBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -423,7 +422,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 dashboardBtnActionPerformed(evt);
             }
         });
-        dashboardContainer.add(dashboardBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 50, 50));
+        dashboardContainer.add(dashboardBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 50, 50));
 
         profile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         profile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/2.png"))); // NOI18N
@@ -432,7 +431,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 profileMouseClicked(evt);
             }
         });
-        dashboardContainer.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 70, 50));
+        dashboardContainer.add(profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 90, 50));
 
         logoutBtn.setBackground(new java.awt.Color(255, 102, 102));
         logoutBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-logout-24.png"))); // NOI18N
@@ -442,10 +441,10 @@ public final class adminDashboard extends javax.swing.JFrame {
                 logoutBtnActionPerformed(evt);
             }
         });
-        dashboardContainer.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 600, 50, 50));
-        dashboardContainer.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 50, 10));
+        dashboardContainer.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, 50, 50));
+        dashboardContainer.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 570, 50, 10));
 
-        archiveBtn.setBackground(new java.awt.Color(153, 204, 255));
+        archiveBtn.setBackground(new java.awt.Color(204, 204, 204));
         archiveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-archive-24.png"))); // NOI18N
         archiveBtn.setBorderPainted(false);
         archiveBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -453,9 +452,9 @@ public final class adminDashboard extends javax.swing.JFrame {
                 archiveBtnActionPerformed(evt);
             }
         });
-        dashboardContainer.add(archiveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 50, 50));
+        dashboardContainer.add(archiveBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 50, 50));
 
-        logsBtn.setBackground(new java.awt.Color(153, 204, 255));
+        logsBtn.setBackground(new java.awt.Color(204, 204, 204));
         logsBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/activity_logs.png"))); // NOI18N
         logsBtn.setBorderPainted(false);
         logsBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -463,17 +462,18 @@ public final class adminDashboard extends javax.swing.JFrame {
                 logsBtnActionPerformed(evt);
             }
         });
-        dashboardContainer.add(logsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 50, 50));
+        dashboardContainer.add(logsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 50, 50));
 
-        jPanel1.add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 70, 670));
+        jPanel1.add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 90, 720));
 
-        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setBackground(new java.awt.Color(204, 255, 204));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 10));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 0, 890, 20));
 
         tabs.setBackground(new java.awt.Color(255, 255, 255));
         tabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
@@ -482,33 +482,14 @@ public final class adminDashboard extends javax.swing.JFrame {
         accountTableContainer.setBackground(new java.awt.Color(241, 241, 241));
         accountTableContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        scrollBar.setBackground(new java.awt.Color(0, 0, 0));
-
-        accounts_table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        accounts_table.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                accounts_tableMouseClicked(evt);
-            }
-        });
-        scrollBar.setViewportView(accounts_table);
-
-        accountTableContainer.add(scrollBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 810, 500));
-
         fname.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         fname.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         fname.setText("FIRST NAME");
-        accountTableContainer.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 70, 180, 40));
+        accountTableContainer.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 180, 40));
 
         photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         photo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default profile 70x70.png"))); // NOI18N
-        accountTableContainer.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 70, 70, 70));
+        accountTableContainer.add(photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 70, 70));
         accountTableContainer.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 170, 270, 20));
 
         statusIcon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -516,11 +497,11 @@ public final class adminDashboard extends javax.swing.JFrame {
         statusIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         statusIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-connection-activeon-24 (1).png"))); // NOI18N
         statusIcon.setText(".");
-        accountTableContainer.add(statusIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 120, 30, 20));
+        accountTableContainer.add(statusIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 30, 20));
 
         status.setForeground(new java.awt.Color(102, 102, 102));
         status.setText("Status");
-        accountTableContainer.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 120, -1, 20));
+        accountTableContainer.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, -1, 20));
 
         add2archive.setBackground(new java.awt.Color(255, 102, 102));
         add2archive.setForeground(new java.awt.Color(255, 255, 255));
@@ -532,7 +513,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 add2archiveActionPerformed(evt);
             }
         });
-        accountTableContainer.add(add2archive, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 490, 130, 50));
+        accountTableContainer.add(add2archive, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 470, 130, 50));
 
         edit.setBackground(new java.awt.Color(102, 102, 102));
         edit.setForeground(new java.awt.Color(255, 255, 255));
@@ -544,7 +525,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 editActionPerformed(evt);
             }
         });
-        accountTableContainer.add(edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 490, 130, 50));
+        accountTableContainer.add(edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 470, 130, 50));
 
         c1.setBackground(new java.awt.Color(255, 255, 255));
         c1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -560,7 +541,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         id.setText("ID Number");
         c1.add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
-        accountTableContainer.add(c1, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 180, 270, 30));
+        accountTableContainer.add(c1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 270, 30));
 
         c2.setBackground(new java.awt.Color(255, 255, 255));
         c2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -576,7 +557,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         email.setText("Email");
         c2.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
-        accountTableContainer.add(c2, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 220, 270, 30));
+        accountTableContainer.add(c2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 270, 30));
 
         c3.setBackground(new java.awt.Color(255, 255, 255));
         c3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -592,7 +573,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         number.setText("Phone Number");
         c3.add(number, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
-        accountTableContainer.add(c3, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 260, 270, 30));
+        accountTableContainer.add(c3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, 270, 30));
 
         c4.setBackground(new java.awt.Color(255, 255, 255));
         c4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -608,7 +589,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         address.setText("Location");
         c4.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
-        accountTableContainer.add(c4, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 300, 270, 30));
+        accountTableContainer.add(c4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 270, 30));
 
         c5.setBackground(new java.awt.Color(255, 255, 255));
         c5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -624,39 +605,34 @@ public final class adminDashboard extends javax.swing.JFrame {
         role.setText("Role");
         c5.add(role, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 0, 200, 30));
 
-        accountTableContainer.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 340, 270, 30));
+        accountTableContainer.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, 270, 30));
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Accounts Table");
-        accountTableContainer.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 20));
+        jPanel7.add(accountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(850, 20, 340, 650));
 
-        jPanel7.add(accountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
+        jPanel10.setBackground(new java.awt.Color(241, 241, 241));
+        jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel10.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 830, 40));
 
-        jLabel19.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel19.setText("Welcome, ");
-        jPanel7.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 60, 30));
+        scrollBar.setBackground(new java.awt.Color(0, 0, 0));
+        scrollBar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        name.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
-        name.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jPanel7.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 50, 30));
+        accounts_table.setBackground(new java.awt.Color(241, 241, 241));
+        accounts_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
 
-        jLabel18.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(0, 158, 226));
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel18.setText("Dashboard");
-        jPanel7.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 130, 30));
+            },
+            new String [] {
 
-        searchIcon.setBackground(new java.awt.Color(0, 158, 226));
-        searchIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-search-24.png"))); // NOI18N
-        searchIcon.setBorder(null);
-        searchIcon.setBorderPainted(false);
-        searchIcon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchIconActionPerformed(evt);
+            }
+        ));
+        accounts_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                accounts_tableMouseClicked(evt);
             }
         });
-        jPanel7.add(searchIcon, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 20, 60, 50));
+        scrollBar.setViewportView(accounts_table);
+
+        jPanel10.add(scrollBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 830, 570));
 
         searchBar.setForeground(new java.awt.Color(140, 140, 140));
         searchBar.setText("  Search");
@@ -675,7 +651,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 searchBarKeyReleased(evt);
             }
         });
-        jPanel7.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 20, 500, 50));
+        jPanel10.add(searchBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, 40));
 
         add.setBackground(new java.awt.Color(122, 183, 147));
         add.setForeground(new java.awt.Color(255, 255, 255));
@@ -687,9 +663,33 @@ public final class adminDashboard extends javax.swing.JFrame {
                 addActionPerformed(evt);
             }
         });
-        jPanel7.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 20, 240, 50));
+        jPanel10.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 10, 160, 40));
 
-        jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1210, 690));
+        filterContainer4.setBackground(new java.awt.Color(255, 255, 255));
+        filterContainer4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel45.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel45.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel45.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel45.setText("Filter by:");
+        filterContainer4.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 40));
+
+        filter_product_table2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        filter_product_table2.setForeground(new java.awt.Color(153, 153, 153));
+        filter_product_table2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Categories", "Electronics", "Grocery", "Pet Supplies", "Fashion" }));
+        filter_product_table2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        filter_product_table2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filter_product_table2ActionPerformed(evt);
+            }
+        });
+        filterContainer4.add(filter_product_table2, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 110, 30));
+
+        jPanel10.add(filterContainer4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 180, 40));
+
+        jPanel7.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 830, 650));
+
+        jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1210, 670));
 
         tabs.addTab("tab1", jPanel3);
 
@@ -1232,7 +1232,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         tabs.addTab("tab6", jPanel9);
 
-        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 0, 1210, 720));
+        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, -20, 1210, 740));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1773,10 +1773,6 @@ public final class adminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_managePhotoMouseClicked
 
 
-    private void searchIconActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchIconActionPerformed
-        search.searchResult(accounts_table, searchBar);
-    }//GEN-LAST:event_searchIconActionPerformed
-
     private void searchBarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBarKeyReleased
         search.searchResult(accounts_table, searchBar);
         search.searchResult(actionlogs_table, searchBar);
@@ -1900,6 +1896,10 @@ public final class adminDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_managePhotoMouseEntered
 
+    private void filter_product_table2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filter_product_table2ActionPerformed
+        sorter.searchResult(accounts_table, filter_product_table2);
+    }//GEN-LAST:event_filter_product_table2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1963,6 +1963,8 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField em;
     private javax.swing.JLabel email;
     private javax.swing.JLabel email1;
+    private javax.swing.JPanel filterContainer4;
+    private javax.swing.JComboBox<String> filter_product_table2;
     private javax.swing.JTextField first;
     private javax.swing.JLabel fname;
     private javax.swing.JLabel fname1;
@@ -1977,19 +1979,18 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -2002,6 +2003,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
@@ -2039,7 +2041,6 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel myprofile4;
     private javax.swing.JLabel myprofile5;
     private javax.swing.JLabel myprofile6;
-    private javax.swing.JLabel name;
     private javax.swing.JLabel number;
     private javax.swing.JLabel number1;
     private javax.swing.JLabel optional;
@@ -2054,7 +2055,6 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> roles;
     private javax.swing.JScrollPane scrollBar;
     private javax.swing.JTextField searchBar;
-    private javax.swing.JButton searchIcon;
     private javax.swing.JButton select;
     private javax.swing.JLabel status;
     private javax.swing.JLabel status1;

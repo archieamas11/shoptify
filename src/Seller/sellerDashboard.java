@@ -95,6 +95,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
         searchBar(orders_search_bar);
         flatlaftTable.design(productsContainer3, orders_table, jScrollPane11); // display archive table
         actionLogs.displaySellerLogs(actionlogs_table, sellerID); // display seller logs table
+        flatlaftTable.design(productsContainer1, wishlist_table, jScrollPane8); // display wishlist table
+        searchBar(wishlist_search_bar);
 
         displayCurrentDate(); // display current date in dashboard
         displayProducts(); //display Products
@@ -649,9 +651,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
             try (PreparedStatement pstmt = dbc.getConnection().prepareStatement(
-                    "SELECT a_buyer.first_name AS `Buyer`, "
+                    "SELECT a_buyer.first_name AS `Buyer Name`, "
                     + "p.product_name AS `Product Name`, "
-                    + "a_buyer.first_name AS `Buyer`, "
                     + "w.total_favorites AS `Favorite(s)`, "
                     + "w.date_added AS `Date Added` "
                     + "FROM tbl_wishlist w "
@@ -732,6 +733,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     + "product_image "
                     + "FROM tbl_products "
                     + "WHERE seller_id = ? "
+                    + "AND total_sold > 1 "
                     + "ORDER BY total_sold DESC "
                     + "LIMIT 2")) {
                 pstmt.setInt(1, sellerID);
@@ -922,8 +924,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
         overviewTotalLoss4 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         productsContainer = new javax.swing.JPanel();
-        product_is_empty = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
+        product_is_empty = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         product_table = new javax.swing.JTable();
         product_search_bar = new javax.swing.JTextField();
@@ -1248,6 +1250,9 @@ public final class sellerDashboard extends javax.swing.JFrame {
         wishlist_table = new javax.swing.JTable();
         wishlist_search_bar = new javax.swing.JTextField();
         jLabel141 = new javax.swing.JLabel();
+        filterContainer4 = new javax.swing.JPanel();
+        jLabel45 = new javax.swing.JLabel();
+        filter_product_table2 = new javax.swing.JComboBox<>();
         jLabel142 = new javax.swing.JLabel();
         jLabel143 = new javax.swing.JLabel();
 
@@ -1367,7 +1372,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 10));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 0, 600, 20));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -1632,12 +1637,12 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         productsContainer.setBackground(new java.awt.Color(241, 241, 241));
         productsContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        productsContainer.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1150, 10));
 
         product_is_empty.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         product_is_empty.setForeground(new java.awt.Color(51, 51, 51));
         product_is_empty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         productsContainer.add(product_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(-2, 290, 1150, 60));
-        productsContainer.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1150, 10));
 
         jScrollPane5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
@@ -1652,6 +1657,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
             }
         ));
         product_table.setSelectionBackground(new java.awt.Color(204, 229, 255));
+        product_table.setShowHorizontalLines(true);
         product_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 product_tableMouseClicked(evt);
@@ -1659,7 +1665,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(product_table);
 
-        productsContainer.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1150, 540));
+        productsContainer.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1140, 550));
 
         product_search_bar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         product_search_bar.setForeground(new java.awt.Color(140, 140, 140));
@@ -1673,7 +1679,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 product_search_barKeyReleased(evt);
             }
         });
-        productsContainer.add(product_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, 40));
+        productsContainer.add(product_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 180, 40));
 
         jLabel17.setBackground(new java.awt.Color(241, 241, 241));
         jLabel17.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
@@ -1702,7 +1708,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         });
         filterContainer.add(filter_product_table, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 110, 30));
 
-        productsContainer.add(filterContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 180, 40));
+        productsContainer.add(filterContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 180, 40));
 
         product_table_add_button.setBackground(new java.awt.Color(0, 158, 226));
         product_table_add_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -1714,7 +1720,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 product_table_add_buttonActionPerformed(evt);
             }
         });
-        productsContainer.add(product_table_add_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 10, 130, 40));
+        productsContainer.add(product_table_add_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 50, 130, 40));
 
         product_table_edit_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         product_table_edit_button.setForeground(new java.awt.Color(51, 51, 51));
@@ -1724,7 +1730,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 product_table_edit_buttonActionPerformed(evt);
             }
         });
-        productsContainer.add(product_table_edit_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 10, 130, 40));
+        productsContainer.add(product_table_edit_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 50, 130, 40));
 
         product_table_archive_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         product_table_archive_button.setForeground(new java.awt.Color(51, 51, 51));
@@ -1734,7 +1740,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 product_table_archive_buttonActionPerformed(evt);
             }
         });
-        productsContainer.add(product_table_archive_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 10, 130, 40));
+        productsContainer.add(product_table_archive_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 50, 130, 40));
 
         product_table_delete_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         product_table_delete_button.setText("Delete");
@@ -1743,21 +1749,21 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 product_table_delete_buttonActionPerformed(evt);
             }
         });
-        productsContainer.add(product_table_delete_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 10, 130, 40));
-
-        jPanel8.add(productsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 1150, 620));
+        productsContainer.add(product_table_delete_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 50, 130, 40));
 
         jLabel31.setBackground(new java.awt.Color(241, 241, 241));
         jLabel31.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel31.setForeground(new java.awt.Color(204, 204, 204));
         jLabel31.setText("Manage Product  >");
-        jPanel8.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
+        productsContainer.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
 
         jLabel26.setBackground(new java.awt.Color(241, 241, 241));
         jLabel26.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(51, 51, 51));
         jLabel26.setText("Product Table");
-        jPanel8.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, 30));
+        productsContainer.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, -1, 30));
+
+        jPanel8.add(productsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 1140, 670));
 
         tabs.addTab("tab2", jPanel8);
 
@@ -1770,8 +1776,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
         archive_is_empty.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         archive_is_empty.setForeground(new java.awt.Color(51, 51, 51));
         archive_is_empty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        archiveAccountTableContainer.add(archive_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(-2, 290, 840, 60));
-        archiveAccountTableContainer.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 840, 20));
+        archiveAccountTableContainer.add(archive_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 820, 60));
+        archiveAccountTableContainer.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 840, 20));
 
         archiveAccountTableContainerScroll.setBackground(new java.awt.Color(0, 0, 0));
         archiveAccountTableContainerScroll.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -1793,7 +1799,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         });
         archiveAccountTableContainerScroll.setViewportView(archive_table);
 
-        archiveAccountTableContainer.add(archiveAccountTableContainerScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 840, 550));
+        archiveAccountTableContainer.add(archiveAccountTableContainerScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 820, 550));
 
         archive_search_bar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         archive_search_bar.setForeground(new java.awt.Color(140, 140, 140));
@@ -1807,9 +1813,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 archive_search_barKeyReleased(evt);
             }
         });
-        archiveAccountTableContainer.add(archive_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, 40));
-
-        jPanel2.add(archiveAccountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 840, 620));
+        archiveAccountTableContainer.add(archive_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 180, 40));
 
         jLabel41.setBackground(new java.awt.Color(241, 241, 241));
         jLabel41.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
@@ -1820,13 +1824,15 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 jLabel41MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
+        archiveAccountTableContainer.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
 
         jLabel42.setBackground(new java.awt.Color(241, 241, 241));
         jLabel42.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel42.setForeground(new java.awt.Color(51, 51, 51));
         jLabel42.setText("Archive Products Table");
-        jPanel2.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, -1, 30));
+        archiveAccountTableContainer.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, -1, 30));
+
+        jPanel2.add(archiveAccountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 820, 670));
 
         jPanel14.setBackground(new java.awt.Color(241, 241, 241));
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1844,7 +1850,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         productID.setForeground(new java.awt.Color(102, 102, 102));
         c6.add(productID, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 210, 30));
 
-        jPanel14.add(c6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, -1, -1));
+        jPanel14.add(c6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
 
         c7.setBackground(new java.awt.Color(255, 255, 255));
         c7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1859,7 +1865,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         productQuantity.setForeground(new java.awt.Color(102, 102, 102));
         c7.add(productQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 210, 30));
 
-        jPanel14.add(c7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, -1, -1));
+        jPanel14.add(c7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, -1, -1));
 
         c8.setBackground(new java.awt.Color(255, 255, 255));
         c8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1874,7 +1880,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         productStatus.setForeground(new java.awt.Color(102, 102, 102));
         c8.add(productStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 0, 210, 30));
 
-        jPanel14.add(c8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, -1, -1));
+        jPanel14.add(c8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, -1, -1));
 
         c9.setBackground(new java.awt.Color(255, 255, 255));
         c9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1885,25 +1891,25 @@ public final class sellerDashboard extends javax.swing.JFrame {
         descript.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jScrollPane1.setViewportView(descript);
 
-        c9.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 250, 100));
+        c9.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 250, 290));
 
-        jPanel14.add(c9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 270, 120));
+        jPanel14.add(c9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 270, 310));
 
         productPhoto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         productPhoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default profile 70x70.png"))); // NOI18N
-        jPanel14.add(productPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, -1, -1));
+        jPanel14.add(productPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         productName.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         productName.setForeground(new java.awt.Color(51, 51, 51));
         productName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         productName.setText("PRODUCT NAME");
-        jPanel14.add(productName, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 180, 40));
-        jPanel14.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 300, 20));
+        jPanel14.add(productName, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 190, 40));
+        jPanel14.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 300, 20));
 
         productPrice.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         productPrice.setForeground(new java.awt.Color(102, 102, 102));
         productPrice.setText("Status");
-        jPanel14.add(productPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, -1, 20));
+        jPanel14.add(productPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, -1, 20));
 
         restore.setBackground(new java.awt.Color(122, 183, 147));
         restore.setForeground(new java.awt.Color(255, 255, 255));
@@ -1915,7 +1921,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 restoreActionPerformed(evt);
             }
         });
-        jPanel14.add(restore, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 560, 130, 40));
+        jPanel14.add(restore, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 620, 130, 40));
 
         delete.setBackground(new java.awt.Color(255, 102, 102));
         delete.setForeground(new java.awt.Color(255, 255, 255));
@@ -1927,13 +1933,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 deleteActionPerformed(evt);
             }
         });
-        jPanel14.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 560, 130, 40));
+        jPanel14.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 620, 130, 40));
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel3.setText("Description");
-        jPanel14.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 280, -1, -1));
+        jPanel14.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
 
-        jPanel2.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 40, 290, 620));
+        jPanel2.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 10, 310, 670));
 
         tabs.addTab("tab3", jPanel2);
 
@@ -3024,7 +3030,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         shop_password.setText("jPasswordField1");
         shop_password.setBorder(null);
-        addContainer5.add(shop_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 370, 490, 20));
+        addContainer5.add(shop_password, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 370, 520, 20));
         addContainer5.add(z6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 580, 40));
 
         jLabel106.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -3620,6 +3626,28 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel141.setText("Product Table");
         wishlist_container.add(jLabel141, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 0));
 
+        filterContainer4.setBackground(new java.awt.Color(255, 255, 255));
+        filterContainer4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel45.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel45.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel45.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel45.setText("Filter by:");
+        filterContainer4.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 40));
+
+        filter_product_table2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        filter_product_table2.setForeground(new java.awt.Color(153, 153, 153));
+        filter_product_table2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Categories", "Electronics", "Grocery", "Pet Supplies", "Fashion" }));
+        filter_product_table2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        filter_product_table2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filter_product_table2ActionPerformed(evt);
+            }
+        });
+        filterContainer4.add(filter_product_table2, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 110, 30));
+
+        wishlist_container.add(filterContainer4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 180, 40));
+
         jPanel17.add(wishlist_container, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 1150, 620));
 
         jLabel142.setBackground(new java.awt.Color(241, 241, 241));
@@ -3636,7 +3664,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         tabs.addTab("tab12", jPanel17);
 
-        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1180, 700));
+        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -20, 1190, 740));
 
         jPanel5.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 1180, 700));
 
@@ -5122,7 +5150,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_wishlist_search_barMouseClicked
 
     private void wishlist_search_barKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_wishlist_search_barKeyReleased
-        // TODO add your handling code here:
+        search.searchResult(wishlist_table, wishlist_search_bar);
     }//GEN-LAST:event_wishlist_search_barKeyReleased
 
     private void help_statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_help_statusActionPerformed
@@ -5227,8 +5255,12 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_filter_product_table1ActionPerformed
 
     private void jLabel41MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel41MouseClicked
-       tabs.setSelectedIndex(1);
+        tabs.setSelectedIndex(1);
     }//GEN-LAST:event_jLabel41MouseClicked
+
+    private void filter_product_table2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filter_product_table2ActionPerformed
+        sorter.searchResult(wishlist_table, filter_product_table2);
+    }//GEN-LAST:event_filter_product_table2ActionPerformed
 
     public static void main(String args[]) {
         try {
@@ -5328,8 +5360,10 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel filterContainer1;
     private javax.swing.JPanel filterContainer2;
     private javax.swing.JPanel filterContainer3;
+    private javax.swing.JPanel filterContainer4;
     private javax.swing.JComboBox<String> filter_product_table;
     private javax.swing.JComboBox<String> filter_product_table1;
+    private javax.swing.JComboBox<String> filter_product_table2;
     private javax.swing.JComboBox<String> getCategory;
     private javax.swing.JEditorPane getDescription;
     private javax.swing.JTextField getName;
@@ -5399,6 +5433,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;

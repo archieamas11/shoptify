@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 27, 2024 at 02:24 AM
+-- Generation Time: May 27, 2024 at 06:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -49,7 +49,8 @@ CREATE TABLE `tbl_accounts` (
 
 INSERT INTO `tbl_accounts` (`account_id`, `first_name`, `last_name`, `address`, `phone_number`, `email`, `username`, `password`, `role`, `shop_name`, `profile_picture`, `date_joined`, `status`) VALUES
 (1, 'Archie', 'Albarico', 'Tunghaan, Minglanilla, Cebu', '12345678900', '1', '1', '$2a$10$WcnKFLLy7oWBzaKim/dtB.6o5LVbtRSylzysmnka1Y.cghiIfCXLC', 'Seller', 'Archie Shop', 'src/sampleProfiles/default_user_profile.png', '2024-05-17', 'Active'),
-(2, 'buyer', 'buyer', 'buyer, tuyan, cebu2', '12345678900', '2', '2', '$2a$10$SC4i5tqUFzVXjRn41weoi.7rVRmkbwwIrCQQhRbRYD979cQoi7xQe', 'Buyer', '', 'src/sampleProfiles/default_user_profile.png', '2024-05-17', 'Active');
+(2, 'buyer', 'buyer', 'buyer, tuyan, cebu2', '12345678900', '2', '2', '$2a$10$SC4i5tqUFzVXjRn41weoi.7rVRmkbwwIrCQQhRbRYD979cQoi7xQe', 'Buyer', '', 'src/sampleProfiles/default_user_profile.png', '2024-05-17', 'Active'),
+(3, 'Archie', 'Albarico', 'Tunghaan, Minglanilla, Cebu', '12345678900', '1', 'seller', '$2a$10$zPZ6fC4O1b9/WrfjtChF.eXm8dLCvMKTPrsFgJ4MwGliJVJ5ublei', 'Seller', 'Xtronics', 'src/sampleProfiles/default_user_profile.png', '2015-05-01', 'Active');
 
 -- --------------------------------------------------------
 
@@ -93,13 +94,6 @@ CREATE TABLE `tbl_cart` (
   `product_quantity` int(11) NOT NULL,
   `date_added` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_cart`
---
-
-INSERT INTO `tbl_cart` (`cart_id`, `buyer_id`, `seller_id`, `product_id`, `product_quantity`, `date_added`) VALUES
-(24, 2, 1, 17, 1, '2024-05-26');
 
 -- --------------------------------------------------------
 
@@ -187,6 +181,14 @@ CREATE TABLE `tbl_products` (
   `product_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_products`
+--
+
+INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_image`, `date_created`, `product_status`) VALUES
+(20, 1, 'GTX 1650 Super OC', 15000, 10, 'Unleash your gaming potential with the UltraBoost GTX 1650 Super OC Graphics Card. Equipped with 6GB of VRAM, this overclocked powerhouse ensures smooth and immersive gameplay. The GTX 1650 Super offers exceptional performance and efficiency, making it perfect for both casual and competitive gamers. Experience high frame rates and stunning visuals with advanced Turing architecture, delivering real-time ray tracing and AI-enhanced graphics. With robust cooling technology, your system stays cool even during intense gaming sessions. Elevate your gaming setup with the UltraBoost GTX 1650 Super and enjoy superior performance at an unbeatable value.', 'Electronics', 0, 'src/ProductsImages/6.png', '2024-05-27', 'Available'),
+(21, 3, 'SwiftGlide Pro Mouse', 2500, 3, 'Experience precision and speed with the SwiftGlide Pro Mouse. Designed for gamers who demand the best, this ultra-lightweight mouse weighs only 49 grams and features a high-performance PAW 3395 sensor for pinpoint accuracy. With a 1000Hz polling rate, enjoy seamless and responsive gameplay that keeps you ahead of the competition. Ergonomically designed for comfort during extended gaming sessions, the SwiftGlide Pro Mouse ensures you can play longer without fatigue. Upgrade your gaming setup with a mouse that combines cutting-edge technology and superior design. Dominate every game with SwiftGlide Pro!', 'Electronics', 0, 'src/ProductsImages/p_mouse.png', '2024-05-27', 'Available');
+
 -- --------------------------------------------------------
 
 --
@@ -235,64 +237,27 @@ CREATE TABLE `tbl_sellerlogs` (
 --
 
 INSERT INTO `tbl_sellerlogs` (`sellerlogs_id`, `seller_id`, `sellerlogs_action`, `sellerlogs_details`, `sellerlogs_timestamp`) VALUES
-(254, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 05:56:03'),
-(255, 1, 'Accept Order', 'Seller 1 successfully accepted order 17!', '2024-05-25 05:56:36'),
-(256, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 05:58:23'),
-(257, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 05:59:51'),
-(258, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 06:00:29'),
-(259, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 06:01:35'),
-(260, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 06:01:54'),
-(261, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 06:04:09'),
-(262, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 07:22:58'),
-(263, 1, 'Accept Order', 'Seller 1 successfully accepted order 21!', '2024-05-25 07:23:50'),
-(264, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 07:32:29'),
-(265, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 07:43:37'),
-(266, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-25 07:44:22'),
-(267, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-25 17:03:36'),
-(268, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-25 17:03:54'),
-(269, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 04:27:40'),
-(270, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 04:28:51'),
-(271, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-26 04:30:22'),
-(272, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 04:30:30'),
-(273, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 04:34:52'),
-(274, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-26 04:35:16'),
-(275, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 04:35:18'),
-(276, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 04:35:21'),
-(277, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 04:35:23'),
-(278, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 05:31:45'),
-(279, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 05:31:47'),
-(280, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 05:31:50'),
-(281, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 05:31:51'),
-(282, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:07:07'),
-(283, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:08:58'),
-(284, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:11:29'),
-(285, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:12:18'),
-(286, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:14:09'),
-(287, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:15:04'),
-(288, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 11:16:37'),
-(289, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 16:37:56'),
-(290, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 16:44:10'),
-(291, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 16:45:43'),
-(292, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:00:54'),
-(293, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:10:00'),
-(294, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:21:40'),
-(295, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-26 17:22:13'),
-(296, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:24:41'),
-(297, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:30:53'),
-(298, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:31:13'),
-(299, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:32:35'),
-(300, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:37:07'),
-(301, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:40:31'),
-(302, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:40:48'),
-(303, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 17:40:54'),
-(304, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:40:57'),
-(305, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 17:41:00'),
-(306, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:41:02'),
-(307, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:41:52'),
-(308, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-26 17:41:57'),
-(309, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:57:53'),
-(310, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 17:59:30'),
-(311, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-26 18:01:14');
+(1, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 15:03:51'),
+(2, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-05-27 15:05:21'),
+(3, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-27 15:05:28'),
+(4, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 15:36:50'),
+(5, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-27 15:37:09'),
+(6, 3, 'Logged in', 'Seller 3 successfully logged in!', '2024-05-27 15:38:52'),
+(7, 3, 'Add Product', 'Seller 3 Successfully added a new product!', '2024-05-27 15:39:38'),
+(8, 3, 'Logged out', 'Seller 3 Successfully logged out!', '2024-05-27 15:39:51'),
+(9, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 15:50:02'),
+(10, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 15:55:59'),
+(11, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 16:23:51'),
+(12, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-05-27 16:24:00'),
+(13, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 16:25:07'),
+(14, 3, 'Logged in', 'Seller 3 successfully logged in!', '2024-05-27 16:26:35'),
+(15, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 16:39:40'),
+(16, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 16:43:28'),
+(17, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 16:44:32'),
+(18, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 16:45:30'),
+(19, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 16:46:26'),
+(20, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 16:49:26'),
+(21, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-05-27 16:52:16');
 
 -- --------------------------------------------------------
 
@@ -308,6 +273,14 @@ CREATE TABLE `tbl_wishlist` (
   `total_favorites` int(11) NOT NULL,
   `date_added` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_wishlist`
+--
+
+INSERT INTO `tbl_wishlist` (`wishlist_id`, `buyer_id`, `seller_id`, `product_id`, `total_favorites`, `date_added`) VALUES
+(8, 2, 1, 20, 1, '2024-05-27'),
+(9, 2, 3, 21, 1, '2024-05-27');
 
 --
 -- Indexes for dumped tables
@@ -424,7 +397,7 @@ ALTER TABLE `tbl_wishlist`
 -- AUTO_INCREMENT for table `tbl_accounts`
 --
 ALTER TABLE `tbl_accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tbl_adminlogs`
@@ -472,7 +445,7 @@ ALTER TABLE `tbl_orders`
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tbl_rating4products`
@@ -490,13 +463,13 @@ ALTER TABLE `tbl_rating4seller`
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=312;
+  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tbl_wishlist`
 --
 ALTER TABLE `tbl_wishlist`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables

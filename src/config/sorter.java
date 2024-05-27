@@ -22,7 +22,7 @@ public class sorter {
 
         table.setRowSorter(sorter);
         String selectedCategory = (String) filter.getSelectedItem();
-        if (selectedCategory.equals("All Categories") || selectedCategory.equals("All Status")) {
+        if (selectedCategory.equals("All Categories") || selectedCategory.equals("All Status") || selectedCategory.equals("All")) {
             sorter.setRowFilter(null);
         } else {
             sorter.setRowFilter(RowFilter.regexFilter(selectedCategory));

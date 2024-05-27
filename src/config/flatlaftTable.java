@@ -22,7 +22,7 @@ public class flatlaftTable {
                 + "background:#F1F1F1;");
 
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE, ""
-                + "height:30;"
+                + "height:40;"
                 + "hoverBackground:null;"
                 + "pressedBackground:null;"
                 + "separatorColor:#F1F1F1;"
