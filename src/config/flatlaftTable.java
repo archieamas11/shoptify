@@ -15,6 +15,7 @@ import javax.swing.JTable;
  */
 public class flatlaftTable {
 
+    //  SUCCESS, INFO, WARNING, ERROR;
     public static void design(JPanel panel, JTable table, JScrollPane scroll) {
         panel.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:20;"

@@ -15,6 +15,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.mindrot.jbcrypt.BCrypt;
 import Buyer.buyerDashboard;
+import com.formdev.flatlaf.FlatClientProperties;
 import config.actionLogs;
 import config.isAccountExist;
 import java.awt.HeadlessException;
@@ -154,24 +155,24 @@ public class Login extends javax.swing.JFrame {
         usernameContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         username.setBackground(new java.awt.Color(245, 245, 245));
-        username.setForeground(new java.awt.Color(153, 153, 153));
-        username.setText("Username");
+        username.setForeground(new java.awt.Color(51, 51, 51));
         username.setToolTipText("");
         username.setBorder(null);
         username.setDisabledTextColor(new java.awt.Color(153, 153, 153));
         username.setName(""); // NOI18N
         username.setSelectedTextColor(new java.awt.Color(0, 0, 255));
-        username.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                usernameFocusGained(evt);
-            }
-        });
         username.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 usernameMouseClicked(evt);
             }
         });
+        username.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                usernameKeyPressed(evt);
+            }
+        });
         usernameContainer.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 210, 40));
+        username.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Username");
 
         username_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-male-user-24.png"))); // NOI18N
         usernameContainer.add(username_icon, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 40));
@@ -182,16 +183,11 @@ public class Login extends javax.swing.JFrame {
         passwordContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         password.setBackground(new java.awt.Color(245, 245, 245));
-        password.setForeground(new java.awt.Color(153, 153, 153));
-        password.setText("Password");
+        password.setForeground(new java.awt.Color(51, 51, 51));
         password.setToolTipText("");
         password.setBorder(null);
-        password.setEchoChar('\0');
-        password.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                passwordFocusGained(evt);
-            }
-        });
+        password.setEchoChar('\u25cf');
+        password.setFocusAccelerator('\u25cf');
         password.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 passwordMouseClicked(evt);
@@ -203,6 +199,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
         passwordContainer.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 210, 40));
+        password.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Password");
 
         password_icon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         password_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-lock-24.png"))); // NOI18N
@@ -265,45 +262,15 @@ public class Login extends javax.swing.JFrame {
         togglePasswordVisibility();
     }//GEN-LAST:event_eyeMouseClicked
 
-    private void passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyPressed
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            loginActionPerformed(null);
-        }
-    }//GEN-LAST:event_passwordKeyPressed
-
     private void passwordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_passwordMouseClicked
         password.setFocusable(true);
         password.requestFocusInWindow();
-        password.setEchoChar('\u25cf');
-        if (username.getText().isEmpty()) {
-            username.setText("Username");
-            username.setForeground(Color.decode("#999999"));
-        }
     }//GEN-LAST:event_passwordMouseClicked
-
-    private void passwordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFocusGained
-        if (password.getText().equals("Password")) {
-            password.setText("");
-            password.setForeground(Color.BLACK);
-        }
-    }//GEN-LAST:event_passwordFocusGained
 
     private void usernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usernameMouseClicked
         username.setFocusable(true);
         username.requestFocusInWindow();
-        if (password.getText().isEmpty()) {
-            password.setEchoChar('\0');
-            password.setText("Password");
-            password.setForeground(Color.decode("#999999"));
-        }
     }//GEN-LAST:event_usernameMouseClicked
-
-    private void usernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFocusGained
-        if (username.getText().equals("Username")) {
-            username.setText("");
-            username.setForeground(Color.BLACK);
-        }
-    }//GEN-LAST:event_usernameFocusGained
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
         String user = username.getText();
@@ -429,13 +396,29 @@ public class Login extends javax.swing.JFrame {
 
             if (rowsAffected > 0) {
                 Notifications.getInstance().show(Notifications.Type.SUCCESS, "Password updated successfully.");
-                JOptionPane.showMessageDialog(null, "Password updated successfully.");
             } else {
                 Notifications.getInstance().show(Notifications.Type.ERROR, "Failed to update password.");
             }
         } catch (HeadlessException | SQLException e) {
         }
     }//GEN-LAST:event_forgotPasswordBtnMouseClicked
+
+    
+    private void usernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameKeyPressed
+         if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+            password.setFocusable(true);
+            password.requestFocusInWindow();
+            evt.consume();
+        }
+    }//GEN-LAST:event_usernameKeyPressed
+
+    private void passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyPressed
+       if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+            username.setFocusable(true);
+            username.requestFocusInWindow();
+            evt.consume();
+        }
+    }//GEN-LAST:event_passwordKeyPressed
 
     public static void main(String args[]) {
         try {

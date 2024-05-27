@@ -24,6 +24,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.NumberFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -299,8 +300,15 @@ public final class buyerDashboard extends javax.swing.JFrame {
                 int productPrice = rs.getInt("product_price");
                 GetImage.displayImage(imageLabels[productCounter], getImageFromDatabase, height, width);
                 nameLabels[productCounter].setText(productName);
-                priceLabels[productCounter].setText("₱   " + productPrice);
+                NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                priceLabels[productCounter].setText("₱ " + numberFormat.format(productPrice));
                 productCounter++;
+            }
+
+            if (productCounter == 0) {
+                home_is_empty.setText("NO PRODUCTS ARE AVAILABLE!");
+            } else {
+                home_is_empty.setText("");
             }
 
             for (int i = productCounter; i < imageLabels.length; i++) {
@@ -310,6 +318,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
             }
 
         } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -456,6 +465,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         image1 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        home_is_empty = new javax.swing.JLabel();
         p2 = new javax.swing.JPanel();
         name2 = new javax.swing.JLabel();
         price2 = new javax.swing.JLabel();
@@ -779,7 +789,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel5.setPreferredSize(new java.awt.Dimension(1280, 720));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 102, 0));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -837,7 +847,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(null);
 
-        p1.setBackground(new java.awt.Color(204, 204, 204));
+        p1.setBackground(new java.awt.Color(255, 255, 255));
         p1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p1MouseClicked(evt);
@@ -875,7 +885,13 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(jSeparator1);
         jSeparator1.setBounds(0, 40, 1280, 10);
 
-        p2.setBackground(new java.awt.Color(204, 204, 204));
+        home_is_empty.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        home_is_empty.setForeground(new java.awt.Color(51, 51, 51));
+        home_is_empty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(home_is_empty);
+        home_is_empty.setBounds(0, 300, 1280, 30);
+
+        p2.setBackground(new java.awt.Color(255, 255, 255));
         p2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p2MouseClicked(evt);
@@ -895,7 +911,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(p2);
         p2.setBounds(350, 60, 180, 180);
 
-        p3.setBackground(new java.awt.Color(204, 204, 204));
+        p3.setBackground(new java.awt.Color(255, 255, 255));
         p3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p3MouseClicked(evt);
@@ -915,7 +931,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(p3);
         p3.setBounds(550, 60, 180, 180);
 
-        p4.setBackground(new java.awt.Color(204, 204, 204));
+        p4.setBackground(new java.awt.Color(255, 255, 255));
         p4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p4MouseClicked(evt);
@@ -935,7 +951,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(p4);
         p4.setBounds(750, 60, 180, 180);
 
-        p5.setBackground(new java.awt.Color(204, 204, 204));
+        p5.setBackground(new java.awt.Color(255, 255, 255));
         p5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p5MouseClicked(evt);
@@ -955,7 +971,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(p5);
         p5.setBounds(950, 60, 180, 180);
 
-        p6.setBackground(new java.awt.Color(204, 204, 204));
+        p6.setBackground(new java.awt.Color(255, 255, 255));
         p6.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p6MouseClicked(evt);
@@ -975,7 +991,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(p6);
         p6.setBounds(150, 260, 180, 180);
 
-        p7.setBackground(new java.awt.Color(204, 204, 204));
+        p7.setBackground(new java.awt.Color(255, 255, 255));
         p7.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p7MouseClicked(evt);
@@ -995,7 +1011,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(p7);
         p7.setBounds(350, 260, 180, 180);
 
-        p8.setBackground(new java.awt.Color(204, 204, 204));
+        p8.setBackground(new java.awt.Color(255, 255, 255));
         p8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p8MouseClicked(evt);
@@ -1015,7 +1031,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(p8);
         p8.setBounds(550, 260, 180, 180);
 
-        p9.setBackground(new java.awt.Color(204, 204, 204));
+        p9.setBackground(new java.awt.Color(255, 255, 255));
         p9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p9MouseClicked(evt);
@@ -1035,7 +1051,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(p9);
         p9.setBounds(750, 260, 180, 180);
 
-        p10.setBackground(new java.awt.Color(204, 204, 204));
+        p10.setBackground(new java.awt.Color(255, 255, 255));
         p10.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p10MouseClicked(evt);
@@ -1055,7 +1071,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(p10);
         p10.setBounds(950, 260, 180, 180);
 
-        p11.setBackground(new java.awt.Color(204, 204, 204));
+        p11.setBackground(new java.awt.Color(255, 255, 255));
         p11.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p11MouseClicked(evt);
@@ -1065,19 +1081,17 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
         name11.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         name11.setForeground(new java.awt.Color(51, 51, 51));
-        name11.setText("Macbook Airsssssssssss");
         p11.add(name11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
 
         price11.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         price11.setForeground(new java.awt.Color(153, 153, 153));
-        price11.setText("₱  1,350");
         p11.add(price11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
         p11.add(image11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
 
         jPanel1.add(p11);
         p11.setBounds(150, 460, 180, 180);
 
-        p12.setBackground(new java.awt.Color(204, 204, 204));
+        p12.setBackground(new java.awt.Color(255, 255, 255));
         p12.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p12MouseClicked(evt);
@@ -1087,19 +1101,17 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
         name12.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         name12.setForeground(new java.awt.Color(51, 51, 51));
-        name12.setText("Macbook Airsssssssssss");
         p12.add(name12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
 
         price12.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         price12.setForeground(new java.awt.Color(153, 153, 153));
-        price12.setText("₱  1,350");
         p12.add(price12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
         p12.add(image12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
 
         jPanel1.add(p12);
         p12.setBounds(350, 460, 180, 180);
 
-        p13.setBackground(new java.awt.Color(204, 204, 204));
+        p13.setBackground(new java.awt.Color(255, 255, 255));
         p13.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p13MouseClicked(evt);
@@ -1109,19 +1121,17 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
         name13.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         name13.setForeground(new java.awt.Color(51, 51, 51));
-        name13.setText("Macbook Airsssssssssss");
         p13.add(name13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
 
         price13.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         price13.setForeground(new java.awt.Color(153, 153, 153));
-        price13.setText("₱  1,350");
         p13.add(price13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
         p13.add(image13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
 
         jPanel1.add(p13);
         p13.setBounds(550, 460, 180, 180);
 
-        p14.setBackground(new java.awt.Color(204, 204, 204));
+        p14.setBackground(new java.awt.Color(255, 255, 255));
         p14.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p14MouseClicked(evt);
@@ -1131,19 +1141,17 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
         name14.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         name14.setForeground(new java.awt.Color(51, 51, 51));
-        name14.setText("Macbook Airsssssssssss");
         p14.add(name14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
 
         price14.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         price14.setForeground(new java.awt.Color(153, 153, 153));
-        price14.setText("₱  1,350");
         p14.add(price14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
         p14.add(image14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
 
         jPanel1.add(p14);
         p14.setBounds(750, 460, 180, 180);
 
-        p15.setBackground(new java.awt.Color(204, 204, 204));
+        p15.setBackground(new java.awt.Color(255, 255, 255));
         p15.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p15MouseClicked(evt);
@@ -1153,12 +1161,10 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
         name15.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         name15.setForeground(new java.awt.Color(51, 51, 51));
-        name15.setText("Macbook Airsssssssssss");
         p15.add(name15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 180, 25));
 
         price15.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         price15.setForeground(new java.awt.Color(153, 153, 153));
-        price15.setText("₱  1,350");
         p15.add(price15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 130, 30));
         p15.add(image15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 130));
 
@@ -1176,7 +1182,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         product_is_empty.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         product_is_empty.setForeground(new java.awt.Color(51, 51, 51));
         product_is_empty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        productsContainer.add(product_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 1150, 60));
+        productsContainer.add(product_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 1240, 60));
         productsContainer.add(jSeparator19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1240, 10));
 
         jScrollPane7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -1363,13 +1369,13 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product_sold.png"))); // NOI18N
         productInfo.add(jLabel23);
-        jLabel23.setBounds(960, 230, 40, 50);
+        jLabel23.setBounds(900, 230, 40, 50);
 
         product_sold.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         product_sold.setForeground(new java.awt.Color(153, 153, 153));
         product_sold.setText("Sold (12)");
         productInfo.add(product_sold);
-        product_sold.setBounds(1010, 230, 110, 50);
+        product_sold.setBounds(950, 230, 110, 50);
 
         jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product_star.png"))); // NOI18N
@@ -1476,7 +1482,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product_heart.png"))); // NOI18N
         productInfo.add(jLabel26);
-        jLabel26.setBounds(790, 230, 40, 50);
+        jLabel26.setBounds(760, 230, 40, 50);
 
         add_to_wishlist1.setBackground(new java.awt.Color(241, 241, 241));
         add_to_wishlist1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product_heart.png"))); // NOI18N
@@ -1493,7 +1499,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         product_favorites.setForeground(new java.awt.Color(153, 153, 153));
         product_favorites.setText("Favorite (12)");
         productInfo.add(product_favorites);
-        product_favorites.setBounds(840, 230, 110, 50);
+        product_favorites.setBounds(810, 230, 110, 50);
         productInfo.add(jSeparator8);
         jSeparator8.setBounds(660, 550, 550, 20);
 
@@ -2120,7 +2126,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
         s3.add(product_shop_name1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, 130, 40));
 
         category.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        category.setForeground(new java.awt.Color(0, 0, 0));
         category.setText("Electronics");
         s3.add(category, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, -1, 40));
 
@@ -2768,8 +2773,10 @@ public final class buyerDashboard extends javax.swing.JFrame {
         buyQuantStr = displayQuant.getText();
         buyQuant = Integer.parseInt(buyQuantStr);
         totalPrice = buyPrice * buyQuant;
-        total_price.setText("₱ " + totalPrice);
-        product_price2.setText("₱ " + totalPrice);
+
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        total_price.setText(String.valueOf("₱  " + numberFormat.format(totalPrice)));
+        product_price2.setText(String.valueOf("₱  " + numberFormat.format(totalPrice)));
         unit_price.setText(productPrice);
         total_quantity.setText(String.format("%d", num));
         product_name2.setText(productName);
@@ -2811,7 +2818,8 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
     private void updateTotal() {
         total = tblQuant * tblPrice;
-        tamount.setText(String.valueOf("₱  " + total));
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        tamount.setText(String.valueOf("₱  " + numberFormat.format(total)));
     }
     private int cart_id;
     private void cart_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cart_tableMouseClicked
@@ -2847,7 +2855,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
                         tblPrice = rs.getInt("product_price");
                         tblQuant = rs.getInt("product_quantity");
                         txtNumber.setText(String.format("%d", tblQuant));
-
+                        tamount.setText("₱ " + rs.getString("product_price"));
                         product_shop_name2.setText(rs.getString("shop_name"));
                         name.setText(rs.getString("product_name"));
                         int height = 270;
@@ -3405,7 +3413,10 @@ public final class buyerDashboard extends javax.swing.JFrame {
                     order_status.setText(rs.getString("order_status"));
                     status_name.setText(rs.getString("product_name"));
                     status_quantity.setText("Quantity: " + rs.getInt("total_quantity"));
-                    status_total.setText("₱  " + rs.getInt("total_price"));
+                    int totals = rs.getInt("total_price");
+
+                    NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                    status_total.setText(String.valueOf("₱  " + numberFormat.format(totals)));
                     status_address.setText("" + rs.getString("address"));
                     int height = 160;
                     int width = 110;
@@ -3803,6 +3814,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField fname6;
     private javax.swing.JTextField fname7;
     private javax.swing.JLabel home;
+    private javax.swing.JLabel home_is_empty;
     private javax.swing.JLabel image1;
     private javax.swing.JLabel image10;
     private javax.swing.JLabel image11;

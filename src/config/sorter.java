@@ -4,7 +4,6 @@
  */
 package config;
 
-import com.formdev.flatlaf.FlatClientProperties;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -23,7 +22,7 @@ public class sorter {
 
         table.setRowSorter(sorter);
         String selectedCategory = (String) filter.getSelectedItem();
-        if (selectedCategory.equals("All Categories")) {
+        if (selectedCategory.equals("All Categories") || selectedCategory.equals("All Status")) {
             sorter.setRowFilter(null);
         } else {
             sorter.setRowFilter(RowFilter.regexFilter(selectedCategory));

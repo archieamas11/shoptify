@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2024 at 08:11 PM
+-- Generation Time: May 27, 2024 at 02:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -124,7 +124,8 @@ CREATE TABLE `tbl_invoice` (
 
 CREATE TABLE `tbl_message4admin` (
   `message_id` int(11) NOT NULL,
-  `seller_id` int(11) NOT NULL,
+  `buyer_id` int(11) DEFAULT NULL,
+  `seller_id` int(11) DEFAULT NULL,
   `message_category` varchar(100) NOT NULL,
   `message_title` varchar(100) NOT NULL,
   `message_description` varchar(2000) NOT NULL,
@@ -166,16 +167,6 @@ CREATE TABLE `tbl_orders` (
   `order_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `tbl_orders`
---
-
-INSERT INTO `tbl_orders` (`order_id`, `buyer_id`, `seller_id`, `product_id`, `total_quantity`, `total_price`, `payment_method`, `notes`, `date_purchase`, `order_status`) VALUES
-(21, 2, 1, 14, 3, 615, 'COD', '', '2024-05-25', 'Accepted'),
-(22, 2, 1, 12, 7, 1230, 'COD', '', '2024-05-25', 'Pending'),
-(24, 2, 1, 13, 1, 369, 'COD', '', '2024-05-25', 'Pending'),
-(25, 2, 1, 17, 3, 369, 'Cash on delivery', '22222222222222222', '2024-05-26', 'Pending');
-
 -- --------------------------------------------------------
 
 --
@@ -195,15 +186,6 @@ CREATE TABLE `tbl_products` (
   `date_created` date NOT NULL,
   `product_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_products`
---
-
-INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_image`, `date_created`, `product_status`) VALUES
-(17, 1, '123', 123, 3, '12311', 'Electronics', 100, 'src/ProductsImages/p_mouse.png', '2024-05-26', 'Available'),
-(18, 1, '123', 123, 3, '12311', 'Grocery', 100, 'src/ProductsImages/p_mouse.png', '2024-05-26', 'Available'),
-(19, 1, 'xcv', 123, 2, 'xcv', 'Electronics', 0, 'src/ProductsImages/1.png', '2024-05-27', 'Available');
 
 -- --------------------------------------------------------
 
@@ -328,15 +310,6 @@ CREATE TABLE `tbl_wishlist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tbl_wishlist`
---
-
-INSERT INTO `tbl_wishlist` (`wishlist_id`, `buyer_id`, `seller_id`, `product_id`, `total_favorites`, `date_added`) VALUES
-(5, 2, 1, 17, 2, '2024-05-25'),
-(6, 2, 1, 12, 1, '2024-05-25'),
-(7, 2, 1, 15, 1, '2024-05-25');
-
---
 -- Indexes for dumped tables
 --
 
@@ -383,7 +356,8 @@ ALTER TABLE `tbl_invoice`
 --
 ALTER TABLE `tbl_message4admin`
   ADD PRIMARY KEY (`message_id`),
-  ADD KEY `seller_id` (`seller_id`);
+  ADD KEY `seller_id` (`seller_id`),
+  ADD KEY `buyer_id` (`buyer_id`);
 
 --
 -- Indexes for table `tbl_messages4seller`
@@ -560,7 +534,8 @@ ALTER TABLE `tbl_invoice`
 -- Constraints for table `tbl_message4admin`
 --
 ALTER TABLE `tbl_message4admin`
-  ADD CONSTRAINT `tbl_message4admin_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `tbl_accounts` (`account_id`);
+  ADD CONSTRAINT `tbl_message4admin_ibfk_1` FOREIGN KEY (`seller_id`) REFERENCES `tbl_accounts` (`account_id`),
+  ADD CONSTRAINT `tbl_message4admin_ibfk_2` FOREIGN KEY (`buyer_id`) REFERENCES `tbl_accounts` (`account_id`);
 
 --
 -- Constraints for table `tbl_messages4seller`
@@ -588,8 +563,8 @@ ALTER TABLE `tbl_products`
 --
 ALTER TABLE `tbl_rating4products`
   ADD CONSTRAINT `tbl_rating4products_ibfk_1` FOREIGN KEY (`buyer_id`) REFERENCES `tbl_accounts` (`account_id`),
-  ADD CONSTRAINT `tbl_rating4products_ibfk_2` FOREIGN KEY (`seller_id`) REFERENCES `tbl_accounts` (`account_id`),
-  ADD CONSTRAINT `tbl_rating4products_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`);
+  ADD CONSTRAINT `tbl_rating4products_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`),
+  ADD CONSTRAINT `tbl_rating4products_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `tbl_accounts` (`account_id`);
 
 --
 -- Constraints for table `tbl_rating4seller`
@@ -608,9 +583,9 @@ ALTER TABLE `tbl_sellerlogs`
 -- Constraints for table `tbl_wishlist`
 --
 ALTER TABLE `tbl_wishlist`
-  ADD CONSTRAINT `tbl_wishlist_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`),
-  ADD CONSTRAINT `tbl_wishlist_ibfk_3` FOREIGN KEY (`seller_id`) REFERENCES `tbl_accounts` (`account_id`),
-  ADD CONSTRAINT `tbl_wishlist_ibfk_4` FOREIGN KEY (`buyer_id`) REFERENCES `tbl_accounts` (`account_id`);
+  ADD CONSTRAINT `tbl_wishlist_ibfk_1` FOREIGN KEY (`buyer_id`) REFERENCES `tbl_accounts` (`account_id`),
+  ADD CONSTRAINT `tbl_wishlist_ibfk_2` FOREIGN KEY (`seller_id`) REFERENCES `tbl_accounts` (`account_id`),
+  ADD CONSTRAINT `tbl_wishlist_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `tbl_products` (`product_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
