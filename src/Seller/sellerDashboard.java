@@ -7,6 +7,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.actionLogs;
+import config.animation;
 import config.databaseConnector;
 import config.search;
 import config.flatlaftTable;
@@ -945,7 +946,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         archive_search_bar = new javax.swing.JTextField();
         jLabel41 = new javax.swing.JLabel();
         jLabel42 = new javax.swing.JLabel();
-        jLabel45 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         c6 = new javax.swing.JPanel();
         manage18 = new javax.swing.JLabel();
@@ -1078,7 +1078,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         priceError = new javax.swing.JLabel();
         desError = new javax.swing.JLabel();
         jLabel99 = new javax.swing.JLabel();
-        jLabel100 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
@@ -1115,7 +1114,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel44 = new javax.swing.JLabel();
         desError7 = new javax.swing.JLabel();
         jLabel101 = new javax.swing.JLabel();
-        jLabel102 = new javax.swing.JLabel();
         jLabel103 = new javax.swing.JLabel();
         jPanel28 = new javax.swing.JPanel();
         shop_photo = new javax.swing.JLabel();
@@ -1188,11 +1186,9 @@ public final class sellerDashboard extends javax.swing.JFrame {
         c10 = new javax.swing.JTextField();
         jLabel75 = new javax.swing.JLabel();
         jLabel112 = new javax.swing.JLabel();
-        jLabel113 = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         jLabel84 = new javax.swing.JLabel();
         jLabel104 = new javax.swing.JLabel();
-        jLabel105 = new javax.swing.JLabel();
         vieworder_container3 = new javax.swing.JPanel();
         jLabel86 = new javax.swing.JLabel();
         jLabel90 = new javax.swing.JLabel();
@@ -1244,7 +1240,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         filter_product_table1 = new javax.swing.JComboBox<>();
         jLabel108 = new javax.swing.JLabel();
         jLabel110 = new javax.swing.JLabel();
-        jLabel111 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         wishlist_container = new javax.swing.JPanel();
         jSeparator19 = new javax.swing.JSeparator();
@@ -1503,7 +1498,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         CONTAINER2.add(top1_order_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 160, -1));
 
         top2_order_name.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
-        CONTAINER2.add(top2_order_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 160, -1));
+        CONTAINER2.add(top2_order_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 160, 20));
 
         top1_order_price.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         top1_order_price.setForeground(new java.awt.Color(153, 153, 153));
@@ -1819,7 +1814,12 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel41.setBackground(new java.awt.Color(241, 241, 241));
         jLabel41.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel41.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel41.setText("Manage Product  >");
+        jLabel41.setText("Manage Product  >  Product Table  >");
+        jLabel41.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel41MouseClicked(evt);
+            }
+        });
         jPanel2.add(jLabel41, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
 
         jLabel42.setBackground(new java.awt.Color(241, 241, 241));
@@ -1827,12 +1827,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel42.setForeground(new java.awt.Color(51, 51, 51));
         jLabel42.setText("Archive Products Table");
         jPanel2.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, -1, 30));
-
-        jLabel45.setBackground(new java.awt.Color(241, 241, 241));
-        jLabel45.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
-        jLabel45.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel45.setText("Product Table  >");
-        jPanel2.add(jLabel45, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, 30));
 
         jPanel14.setBackground(new java.awt.Color(241, 241, 241));
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -2634,24 +2628,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel99.setBackground(new java.awt.Color(241, 241, 241));
         jLabel99.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel99.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel99.setText("Manage Product  >");
+        jLabel99.setText("Manage Product  >  Product Table  >");
         jLabel99.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel99MouseClicked(evt);
             }
         });
         jPanel9.add(jLabel99, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
-
-        jLabel100.setBackground(new java.awt.Color(241, 241, 241));
-        jLabel100.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
-        jLabel100.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel100.setText("Product Table  >");
-        jLabel100.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel100MouseClicked(evt);
-            }
-        });
-        jPanel9.add(jLabel100, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, 30));
 
         tabs.addTab("tab7", jPanel9);
 
@@ -2862,24 +2845,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel101.setBackground(new java.awt.Color(241, 241, 241));
         jLabel101.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel101.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel101.setText("Manage Product  >");
+        jLabel101.setText("Manage Product  >  Product Table  >");
         jLabel101.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel101MouseClicked(evt);
             }
         });
         jPanel3.add(jLabel101, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
-
-        jLabel102.setBackground(new java.awt.Color(241, 241, 241));
-        jLabel102.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
-        jLabel102.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel102.setText("Product Table  >");
-        jLabel102.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel102MouseClicked(evt);
-            }
-        });
-        jPanel3.add(jLabel102, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, 30));
 
         jLabel103.setBackground(new java.awt.Color(241, 241, 241));
         jLabel103.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
@@ -3239,24 +3211,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel112.setBackground(new java.awt.Color(241, 241, 241));
         jLabel112.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel112.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel112.setText("My Profile  >");
+        jLabel112.setText("My Profile  >  View Profile  >");
         jLabel112.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel112MouseClicked(evt);
             }
         });
         jPanel28.add(jLabel112, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
-
-        jLabel113.setBackground(new java.awt.Color(241, 241, 241));
-        jLabel113.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
-        jLabel113.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel113.setText("View Profile  >");
-        jLabel113.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel113MouseClicked(evt);
-            }
-        });
-        jPanel28.add(jLabel113, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 0, -1, 30));
 
         tabs.addTab("tab9", jPanel28);
 
@@ -3272,24 +3233,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel104.setBackground(new java.awt.Color(241, 241, 241));
         jLabel104.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel104.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel104.setText("Manage Orders  >");
+        jLabel104.setText("Manage Orders  >  Orders Table  >");
         jLabel104.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel104MouseClicked(evt);
             }
         });
         jPanel16.add(jLabel104, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 30));
-
-        jLabel105.setBackground(new java.awt.Color(241, 241, 241));
-        jLabel105.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
-        jLabel105.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel105.setText("Orders Table  >");
-        jLabel105.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel105MouseClicked(evt);
-            }
-        });
-        jPanel16.add(jLabel105, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, 30));
 
         vieworder_container3.setBackground(new java.awt.Color(241, 241, 241));
         vieworder_container3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -3600,7 +3550,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel108.setBackground(new java.awt.Color(241, 241, 241));
         jLabel108.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel108.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel108.setText("Contact Admin  >");
+        jLabel108.setText("Contact Admin  >  Help Center  >");
         jLabel108.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel108MouseClicked(evt);
@@ -3613,17 +3563,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel110.setForeground(new java.awt.Color(51, 51, 51));
         jLabel110.setText("View Report Status Table");
         jPanel20.add(jLabel110, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, -1, 30));
-
-        jLabel111.setBackground(new java.awt.Color(241, 241, 241));
-        jLabel111.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
-        jLabel111.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel111.setText("Help Center  >");
-        jLabel111.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel111MouseClicked(evt);
-            }
-        });
-        jPanel20.add(jLabel111, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, -1, 30));
 
         tabs.addTab("tab11", jPanel20);
 
@@ -3697,7 +3636,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         tabs.addTab("tab12", jPanel17);
 
-        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 700));
+        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1180, 700));
 
         jPanel5.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 1180, 700));
 
@@ -5006,11 +4945,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addStockFocusGained
 
-    private void jLabel100MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel100MouseClicked
-        tabs.setSelectedIndex(1);
-        defaultValues();
-    }//GEN-LAST:event_jLabel100MouseClicked
-
     private void jLabel99MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel99MouseClicked
         defaultValues();
         tabs.setSelectedIndex(1);
@@ -5020,11 +4954,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         emptyValues();
         tabs.setSelectedIndex(1);
     }//GEN-LAST:event_jLabel101MouseClicked
-
-    private void jLabel102MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel102MouseClicked
-        emptyValues();
-        tabs.setSelectedIndex(1);
-    }//GEN-LAST:event_jLabel102MouseClicked
 
     private void orders_search_barKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_orders_search_barKeyReleased
         search.searchResult(purchase_table, orders_search_bar);
@@ -5123,17 +5052,9 @@ public final class sellerDashboard extends javax.swing.JFrame {
         search.searchResult(message4admin_table, message_search_bar);
     }//GEN-LAST:event_message_search_barKeyReleased
 
-    private void jLabel111MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel111MouseClicked
-        tabs.setSelectedIndex(4);
-    }//GEN-LAST:event_jLabel111MouseClicked
-
     private void jLabel108MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel108MouseClicked
         tabs.setSelectedIndex(4);
     }//GEN-LAST:event_jLabel108MouseClicked
-
-    private void jLabel105MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel105MouseClicked
-        tabs.setSelectedIndex(3);
-    }//GEN-LAST:event_jLabel105MouseClicked
 
     private void jLabel104MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel104MouseClicked
         tabs.setSelectedIndex(3);
@@ -5177,10 +5098,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private void jLabel112MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel112MouseClicked
         tabs.setSelectedIndex(5);
     }//GEN-LAST:event_jLabel112MouseClicked
-
-    private void jLabel113MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel113MouseClicked
-        tabs.setSelectedIndex(5);
-    }//GEN-LAST:event_jLabel113MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         tabs.setSelectedIndex(3);
@@ -5309,6 +5226,10 @@ public final class sellerDashboard extends javax.swing.JFrame {
         sorter.searchResult(message4admin_table, filter_product_table1);
     }//GEN-LAST:event_filter_product_table1ActionPerformed
 
+    private void jLabel41MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel41MouseClicked
+       tabs.setSelectedIndex(1);
+    }//GEN-LAST:event_jLabel41MouseClicked
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
@@ -5427,21 +5348,16 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel100;
     private javax.swing.JLabel jLabel101;
-    private javax.swing.JLabel jLabel102;
     private javax.swing.JLabel jLabel103;
     private javax.swing.JLabel jLabel104;
-    private javax.swing.JLabel jLabel105;
     private javax.swing.JLabel jLabel106;
     private javax.swing.JLabel jLabel107;
     private javax.swing.JLabel jLabel108;
     private javax.swing.JLabel jLabel109;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel110;
-    private javax.swing.JLabel jLabel111;
     private javax.swing.JLabel jLabel112;
-    private javax.swing.JLabel jLabel113;
     private javax.swing.JLabel jLabel114;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel120;
@@ -5483,7 +5399,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
     private javax.swing.JLabel jLabel44;
-    private javax.swing.JLabel jLabel45;
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;

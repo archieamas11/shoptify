@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import raven.toast.Notifications;
 
 /**
  *
@@ -77,6 +78,7 @@ public class frontPage extends javax.swing.JFrame {
         loginbtn.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         loginbtn.setForeground(new java.awt.Color(255, 255, 255));
         loginbtn.setText("Login");
+        loginbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         loginbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 loginbtnActionPerformed(evt);
@@ -87,6 +89,7 @@ public class frontPage extends javax.swing.JFrame {
         signupbtn.setFont(new java.awt.Font("Tahoma", 0, 13)); // NOI18N
         signupbtn.setForeground(new java.awt.Color(51, 51, 51));
         signupbtn.setText("Sign Up");
+        signupbtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         signupbtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 signupbtnActionPerformed(evt);

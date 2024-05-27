@@ -4,7 +4,6 @@ import Admin.adminDashboard;
 import Seller.sellerDashboard;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.databaseConnector;
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.sql.*;
 import java.util.logging.Level;
@@ -17,6 +16,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import Buyer.buyerDashboard;
 import com.formdev.flatlaf.FlatClientProperties;
 import config.actionLogs;
+import config.animation;
 import config.isAccountExist;
 import java.awt.HeadlessException;
 import java.awt.geom.RoundRectangle2D;
@@ -150,6 +150,7 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(create_account, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 540, 1280, 20));
+        animation.customizeLabel(create_account);
 
         usernameContainer.setBackground(new java.awt.Color(245, 245, 245));
         usernameContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -158,6 +159,7 @@ public class Login extends javax.swing.JFrame {
         username.setForeground(new java.awt.Color(51, 51, 51));
         username.setToolTipText("");
         username.setBorder(null);
+        username.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         username.setDisabledTextColor(new java.awt.Color(153, 153, 153));
         username.setName(""); // NOI18N
         username.setSelectedTextColor(new java.awt.Color(0, 0, 255));
@@ -207,6 +209,7 @@ public class Login extends javax.swing.JFrame {
 
         eye.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         eye.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/eye.png"))); // NOI18N
+        eye.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         eye.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         eye.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -226,11 +229,13 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jPanel1.add(forgotPasswordBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 420, 100, 40));
+        animation.customizeLabel(forgotPasswordBtn);
 
         remember.setForeground(new java.awt.Color(153, 153, 153));
         remember.setText(" Remember me");
         remember.setBorder(null);
         remember.setContentAreaFilled(false);
+        remember.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         remember.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 rememberMouseClicked(evt);

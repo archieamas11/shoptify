@@ -6,13 +6,19 @@ import accounts.frontPage;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
+import config.animation;
 import config.databaseConnector;
 import config.flatlaftTable;
 import config.isAccountExist;
 import config.search;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.HeadlessException;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -28,6 +34,7 @@ import java.text.NumberFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -93,6 +100,48 @@ public final class buyerDashboard extends javax.swing.JFrame {
     //private void getSelectedGender(String gender) {
     //selectedGender = gender;
     //}
+    private static class BounceEffect {
+
+        private final javax.swing.Timer timer;
+        private final Component component;
+        private final int originalY;
+
+        public BounceEffect(Component component) {
+            this.component = component;
+            this.originalY = component.getLocation().y;
+            timer = new javax.swing.Timer(10, (ActionEvent e) -> {
+                bounce();
+            });
+        }
+
+        public void startBounce() {
+            if (!timer.isRunning()) {
+                timer.start();
+            }
+        }
+
+        public void stopBounce() {
+            if (timer.isRunning()) {
+                timer.stop();
+                resetPosition();
+            }
+        }
+
+        private void bounce() {
+            int newY = component.getLocation().y + 2;
+            component.setLocation(component.getLocation().x, newY);
+
+            if (newY >= originalY + 10) {
+                timer.stop();
+                resetPosition();
+            }
+        }
+
+        private void resetPosition() {
+            component.setLocation(component.getLocation().x, originalY);
+        }
+    }
+
     private void searchBar(JTextField search) {
         search.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
         search.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new javax.swing.ImageIcon(getClass().getResource("/image/search_icon.png")));
@@ -337,6 +386,28 @@ public final class buyerDashboard extends javax.swing.JFrame {
     String shop;
     String product_image;
 
+    private void yawa(JPanel panel, JLabel nameLabel, JLabel priceLabel, JLabel imageLabel) {
+        if (panel != null && imageLabel.getIcon() != null && nameLabel.getText() != null && !nameLabel.getText().isEmpty() && priceLabel.getText() != null && !priceLabel.getText().isEmpty()) {
+
+        } else {
+            panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            buyerDashboard.BounceEffect bounceEffect = new buyerDashboard.BounceEffect(panel);
+            panel.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    bounceEffect.startBounce();
+                    panel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+                }
+
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    bounceEffect.stopBounce();
+                    panel.setBorder(BorderFactory.createEmptyBorder());
+                }
+            });
+        }
+    }
+
     private void panelMouseClicked(JPanel panel, JLabel nameLabel, JLabel priceLabel, JLabel imageLabel) {
         if (panel != null && imageLabel.getIcon() != null && nameLabel.getText() != null && !nameLabel.getText().isEmpty() && priceLabel.getText() != null && !priceLabel.getText().isEmpty()) {
 
@@ -390,7 +461,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
                             product_image = rs.getString("product_image");
                             shop = rs.getString("product_category");
                             String productname = nameLabel.getText();
-                            String coloredText = "<html><span style='color: rgb(153, 153, 153);'>" + shop + "</span>  > <span style='color: rgb(38, 38, 38);'>  " + productname + "</span></html>";
+                            String coloredText = "<html><span style='color: rgb(153, 153, 153);'>" + shop + "</span>  > <span style='color: rgb(51, 51, 51);'>  " + productname + "</span></html>";
                             product_category.setText(coloredText);
                             product_shop_name.setText(rs.getString("shop_name"));
                             seller_joined.setText(rs.getString("date_joined"));
@@ -830,6 +901,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
             }
         });
         jPanel2.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 50));
+        animation.customizeLabel(home);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-home-16.png"))); // NOI18N
         jLabel2.setText(" HOME");
@@ -839,8 +911,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
             }
         });
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, -1, 40));
+        animation.customizeLabel(jLabel2);
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 10));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 70));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -849,8 +922,8 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
         p1.setBackground(new java.awt.Color(255, 255, 255));
         p1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                p1MouseClicked(evt);
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                p1MouseEntered(evt);
             }
         });
         p1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -896,6 +969,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p2MouseClicked(evt);
             }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                p2MouseEntered(evt);
+            }
         });
         p2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -915,6 +991,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
         p3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 p3MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                p3MouseEntered(evt);
             }
         });
         p3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -2661,10 +2740,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void p1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p1MouseClicked
-        panelMouseClicked(p1, name1, price1, image1);
-    }//GEN-LAST:event_p1MouseClicked
-
     private void add_to_cartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_to_cartActionPerformed
         String productName = product_name.getText();
         String cartPriceStr = product_price.getText().replaceAll("[^0-9]", "");
@@ -3752,6 +3827,24 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private void jLabel74MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel74MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel74MouseClicked
+
+    private void p1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p1MouseEntered
+        yawa(p1, name1, price1, image1);
+        p1.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panelMouseClicked(p1, name1, price1, image1);
+            }
+        });
+    }//GEN-LAST:event_p1MouseEntered
+
+    private void p2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p2MouseEntered
+        yawa(p2, name2, price2, image2);
+    }//GEN-LAST:event_p2MouseEntered
+
+    private void p3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_p3MouseEntered
+        yawa(p3, name3, price3, image3);
+    }//GEN-LAST:event_p3MouseEntered
 
     public static void main(String args[]) {
         try {
