@@ -4,6 +4,7 @@
  */
 package accounts;
 
+import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.FlatLightLaf;
 import config.databaseConnector;
 import config.isAccountExist;
@@ -29,6 +30,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.mindrot.jbcrypt.BCrypt;
+import raven.toast.Notifications;
 
 /**
  *
@@ -114,7 +116,7 @@ public class chooseAccount extends javax.swing.JFrame {
         c7 = new javax.swing.JPanel();
         eye = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
-        jLabel1 = new javax.swing.JLabel();
+        e8 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -130,6 +132,15 @@ public class chooseAccount extends javax.swing.JFrame {
         shopname = new javax.swing.JLabel();
         login1 = new javax.swing.JButton();
         displayPhoto = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        e2 = new javax.swing.JLabel();
+        e1 = new javax.swing.JLabel();
+        e3 = new javax.swing.JLabel();
+        e4 = new javax.swing.JLabel();
+        e5 = new javax.swing.JLabel();
+        e6 = new javax.swing.JLabel();
+        e7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -157,7 +168,7 @@ public class chooseAccount extends javax.swing.JFrame {
         });
         jPanel4.add(login, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 20, -1, 40));
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 20));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 70));
 
         tabs.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -239,20 +250,15 @@ public class chooseAccount extends javax.swing.JFrame {
 
         fname.setBackground(new java.awt.Color(245, 245, 245));
         fname.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        fname.setForeground(new java.awt.Color(153, 153, 153));
-        fname.setText("Juan");
+        fname.setForeground(new java.awt.Color(51, 51, 51));
         fname.setBorder(null);
-        fname.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                fnameFocusGained(evt);
-            }
-        });
         fname.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 fnameMouseClicked(evt);
             }
         });
         c1.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 140, 40));
+        fname.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Juan");
 
         jPanel3.add(c1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 160, 40));
 
@@ -266,20 +272,15 @@ public class chooseAccount extends javax.swing.JFrame {
 
         lname.setBackground(new java.awt.Color(245, 245, 245));
         lname.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        lname.setForeground(new java.awt.Color(153, 153, 153));
-        lname.setText("Delacruz");
+        lname.setForeground(new java.awt.Color(51, 51, 51));
         lname.setBorder(null);
-        lname.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                lnameFocusGained(evt);
-            }
-        });
         lname.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lnameMouseClicked(evt);
             }
         });
         c2.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 150, 40));
+        lname.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Delacruz");
 
         jPanel3.add(c2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 240, 180, 40));
 
@@ -294,20 +295,15 @@ public class chooseAccount extends javax.swing.JFrame {
 
         email.setBackground(new java.awt.Color(245, 245, 245));
         email.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        email.setForeground(new java.awt.Color(153, 153, 153));
-        email.setText("juandelacruz@gmail.com");
+        email.setForeground(new java.awt.Color(51, 51, 51));
         email.setBorder(null);
-        email.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                emailFocusGained(evt);
-            }
-        });
         email.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 emailMouseClicked(evt);
             }
         });
         c3.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 330, 40));
+        email.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "e.g., juandelacruz@gmail.com");
 
         jPanel3.add(c3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 350, 40));
 
@@ -316,20 +312,15 @@ public class chooseAccount extends javax.swing.JFrame {
 
         number.setBackground(new java.awt.Color(245, 245, 245));
         number.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        number.setForeground(new java.awt.Color(153, 153, 153));
-        number.setText("09123456789");
+        number.setForeground(new java.awt.Color(51, 51, 51));
         number.setBorder(null);
-        number.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                numberFocusGained(evt);
-            }
-        });
         number.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 numberMouseClicked(evt);
             }
         });
         c4.add(number, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 330, 40));
+        number.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "e.g., 0923456789");
 
         jPanel3.add(c4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 400, 350, 40));
 
@@ -338,20 +329,15 @@ public class chooseAccount extends javax.swing.JFrame {
 
         address.setBackground(new java.awt.Color(245, 245, 245));
         address.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        address.setForeground(new java.awt.Color(153, 153, 153));
-        address.setText("Purok 123, Home town, City");
+        address.setForeground(new java.awt.Color(51, 51, 51));
         address.setBorder(null);
-        address.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                addressFocusGained(evt);
-            }
-        });
         address.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 addressMouseClicked(evt);
             }
         });
         c5.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 330, 40));
+        address.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "e.g., Purok 123, Home town, city");
 
         jPanel3.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 480, 350, 40));
 
@@ -360,20 +346,15 @@ public class chooseAccount extends javax.swing.JFrame {
 
         username.setBackground(new java.awt.Color(245, 245, 245));
         username.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        username.setForeground(new java.awt.Color(153, 153, 153));
-        username.setText("@username");
+        username.setForeground(new java.awt.Color(51, 51, 51));
         username.setBorder(null);
-        username.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                usernameFocusGained(evt);
-            }
-        });
         username.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 usernameMouseClicked(evt);
             }
         });
         c6.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 330, 40));
+        username.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "e.g., juandelacruz123");
 
         jPanel3.add(c6, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 240, 350, 40));
 
@@ -392,26 +373,22 @@ public class chooseAccount extends javax.swing.JFrame {
 
         password.setBackground(new java.awt.Color(245, 245, 245));
         password.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        password.setForeground(new java.awt.Color(153, 153, 153));
-        password.setText("Password");
+        password.setForeground(new java.awt.Color(51, 51, 51));
         password.setBorder(null);
-        password.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                passwordFocusGained(evt);
-            }
-        });
         password.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 passwordMouseClicked(evt);
             }
         });
         c7.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 300, 40));
+        password.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Password");
 
         jPanel3.add(c7, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 320, 350, 40));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jLabel1.setText("Last name");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 220, 80, -1));
+        e8.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        e8.setForeground(new java.awt.Color(255, 0, 0));
+        e8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(e8, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 380, 20, -1));
 
         jLabel2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel2.setText("Password");
@@ -440,7 +417,7 @@ public class chooseAccount extends javax.swing.JFrame {
         importImage.setBackground(new java.awt.Color(204, 204, 204));
         importImage.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         importImage.setForeground(new java.awt.Color(51, 51, 51));
-        importImage.setText("*Import Profile Picture");
+        importImage.setText("* Import Profile Picture");
         importImage.setBorder(null);
         importImage.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         importImage.addActionListener(new java.awt.event.ActionListener() {
@@ -470,8 +447,8 @@ public class chooseAccount extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(153, 153, 153));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("File extension: .JPEG, .PNG ");
-        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 490, 380, -1));
+        jLabel8.setText("* Optional");
+        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 480, 380, -1));
 
         c8.setBackground(new java.awt.Color(255, 255, 255));
         c8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -511,6 +488,51 @@ public class chooseAccount extends javax.swing.JFrame {
         displayPhoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default profile 170x170.png"))); // NOI18N
         jPanel3.add(displayPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 230, 170, 170));
 
+        jLabel9.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("File extension: .JPEG, .PNG ");
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(900, 490, 380, 30));
+
+        jLabel10.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel10.setText("Last name");
+        jPanel3.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 220, 80, -1));
+
+        e2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        e2.setForeground(new java.awt.Color(255, 0, 0));
+        e2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(e2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 20, -1));
+
+        e1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        e1.setForeground(new java.awt.Color(255, 0, 0));
+        e1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(e1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 20, -1));
+
+        e3.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        e3.setForeground(new java.awt.Color(255, 0, 0));
+        e3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(e3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 20, -1));
+
+        e4.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        e4.setForeground(new java.awt.Color(255, 0, 0));
+        e4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(e4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 20, -1));
+
+        e5.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        e5.setForeground(new java.awt.Color(255, 0, 0));
+        e5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(e5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 460, 20, -1));
+
+        e6.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        e6.setForeground(new java.awt.Color(255, 0, 0));
+        e6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(e6, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 220, 20, -1));
+
+        e7.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        e7.setForeground(new java.awt.Color(255, 0, 0));
+        e7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(e7, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 300, 20, -1));
+
         tabs.addTab("tab2", jPanel3);
 
         jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
@@ -538,14 +560,6 @@ public class chooseAccount extends javax.swing.JFrame {
 
     private void login1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_login1ActionPerformed
         tabs.setSelectedIndex(0);
-        fname.setText("Juan");
-        lname.setText("Delacruz");
-        email.setText("juandelacruz@gmail.com");
-        number.setText("09123456789");
-        address.setText("Purok 123, Home town, City");
-        username.setText("@username");
-        password.setText("Password");
-
         shopname.setText("");
         shop_name.setText("");
         shop_name.setBackground(new Color(255, 255, 255));
@@ -554,9 +568,19 @@ public class chooseAccount extends javax.swing.JFrame {
         role = null;
         ImageIcon activeIcon = new ImageIcon(getClass().getResource("/sampleProfiles/default profile 170x170.png"));
         displayPhoto.setIcon(activeIcon);
+        reset();
     }//GEN-LAST:event_login1ActionPerformed
 
-
+    private void reset() {
+        e1.setText("");
+        e2.setText("");
+        e3.setText("");
+        e4.setText("");
+        e5.setText("");
+        e6.setText("");
+        e7.setText("");
+        e8.setText("");
+    }
     private void submitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitActionPerformed
         String first_name = fname.getText();
         String last_name = lname.getText();
@@ -568,33 +592,67 @@ public class chooseAccount extends javax.swing.JFrame {
         String selectedRole = role;
         String shopName = "None";
 
+        if (em.isEmpty() || first_name.isEmpty() || last_name.isEmpty() || selectedRole.isEmpty() || user.isEmpty() || pass.isEmpty() || phone.isEmpty() || add.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in all fields!");
+            return;
+        }
+
         if (!shop_name.getText().isEmpty()) {
             shopName = shop_name.getText();
         }
 
-        if (em.isEmpty() || first_name.isEmpty() || last_name.isEmpty() || selectedRole.isEmpty() || user.isEmpty() || pass.isEmpty() || phone.isEmpty() || add.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (shopName.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the Shop Name field.");
+            e8.setText("*");
             return;
         }
 
-        if (pass.length() < 8) {
-            JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long.", "Error", JOptionPane.ERROR_MESSAGE);
+        if (em.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the Email field.");
+            e3.setText("*");
             return;
         }
-        if (phone.length() < 11 || phone.length() > 12 || !phone.matches("\\d+")) {
-            JOptionPane.showMessageDialog(null, "Invalid number", "Error", JOptionPane.ERROR_MESSAGE);
+
+        if (first_name.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the First Name field.");
+            e1.setText("*");
+            return;
+        }
+
+        if (last_name.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the Last Name field.");
+            e2.setText("*");
+            return;
+        }
+        if (user.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the Username field.");
+            e6.setText("*");
+            return;
+        }
+
+        if (pass.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the Password field.");
+            e7.setText("*");
+            password.setText("");
+            return;
+        }
+
+        if (phone.isEmpty()) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the Phone Number field.");
+            e4.setText("*");
+            number.setText("");
             return;
         }
 
         databaseConnector dbc = new databaseConnector();
         try {
             if (isAccountExist.checkEmail(em)) {
-                JOptionPane.showMessageDialog(null, "Email already registered.", "Error", JOptionPane.ERROR_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Email address already registered.");
                 return;
             }
 
             if (isAccountExist.checkUsername(user)) {
-                JOptionPane.showMessageDialog(null, "Username already taken.", "Error", JOptionPane.ERROR_MESSAGE);
+                Notifications.getInstance().show(Notifications.Type.ERROR, "Username already taken..");
                 return;
             }
 
@@ -625,16 +683,8 @@ public class chooseAccount extends javax.swing.JFrame {
 
             pst.executeUpdate();
             pst.close();
-
-            JOptionPane.showMessageDialog(null, "Account created successfully");
-
-            fname.setText("Juan");
-            lname.setText("Delacruz");
-            email.setText("juandelacruz@gmail.com");
-            number.setText("09123456789");
-            address.setText("Purok 123, Home town, City");
-            username.setText("@username");
-            password.setText("Password");
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Account created successfully.");
+            reset();
             shopname.setText("");
             shop_name.setText("");
             shop_name.setBackground(new Color(255, 255, 255));
@@ -666,12 +716,13 @@ public class chooseAccount extends javax.swing.JFrame {
                 displayPhoto.setIcon(icon);
 
                 String imageName = selectedFile.getName();
-                String imagePath = "src/sampleProfiles/" + imageName;
+                imagePath = "src/buyer_profile_pictures/" + imageName;
                 File destination = new File(imagePath);
                 Files.copy(selectedFile.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
                 // Update the selectedFile to point to the new location
                 selectedFile = destination;
+                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Image successfully imported.");
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -716,17 +767,9 @@ public class chooseAccount extends javax.swing.JFrame {
         fname.requestFocusInWindow();
     }//GEN-LAST:event_fnameMouseClicked
 
-    private void fnameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_fnameFocusGained
-        if (fname.getText().equals("Juan")) {
-            fname.setText("");
-            fname.setForeground(Color.BLACK);
-        }
-    }//GEN-LAST:event_fnameFocusGained
-
     private void adminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adminActionPerformed
         tabs.setSelectedIndex(1);
         role = "Admin";
-
     }//GEN-LAST:event_adminActionPerformed
 
     private void sellerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sellerActionPerformed
@@ -744,48 +787,6 @@ public class chooseAccount extends javax.swing.JFrame {
         tabs.setSelectedIndex(1);
         role = "Buyer";
     }//GEN-LAST:event_buyerActionPerformed
-
-    private void lnameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lnameFocusGained
-        if (lname.getText().equals("Delacruz")) {
-            lname.setText("");
-            lname.setForeground(Color.BLACK);
-        }
-    }//GEN-LAST:event_lnameFocusGained
-
-    private void emailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFocusGained
-        if (email.getText().equals("juandelacruz@gmail.com")) {
-            email.setText("");
-            email.setForeground(Color.BLACK);
-        }
-    }//GEN-LAST:event_emailFocusGained
-
-    private void numberFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_numberFocusGained
-        if (number.getText().equals("09123456789")) {
-            number.setText("");
-            number.setForeground(Color.BLACK);
-        }
-    }//GEN-LAST:event_numberFocusGained
-
-    private void addressFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_addressFocusGained
-        if (address.getText().equals("Purok 123, Home town, City")) {
-            address.setText("");
-            address.setForeground(Color.BLACK);
-        }
-    }//GEN-LAST:event_addressFocusGained
-
-    private void usernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_usernameFocusGained
-        if (username.getText().equals("@username")) {
-            username.setText("");
-            username.setForeground(Color.BLACK);
-        }
-    }//GEN-LAST:event_usernameFocusGained
-
-    private void passwordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordFocusGained
-        if (password.getText().equals("Password")) {
-            password.setText("");
-            password.setForeground(Color.BLACK);
-        }
-    }//GEN-LAST:event_passwordFocusGained
 
     private static void backToDefault(JPasswordField password) {
         if (password.getText().isEmpty()) {
@@ -872,12 +873,20 @@ public class chooseAccount extends javax.swing.JFrame {
     private javax.swing.JPanel c7;
     private javax.swing.JPanel c8;
     private javax.swing.JLabel displayPhoto;
+    private javax.swing.JLabel e1;
+    private javax.swing.JLabel e2;
+    private javax.swing.JLabel e3;
+    private javax.swing.JLabel e4;
+    private javax.swing.JLabel e5;
+    private javax.swing.JLabel e6;
+    private javax.swing.JLabel e7;
+    private javax.swing.JLabel e8;
     private javax.swing.JTextField email;
     private javax.swing.JLabel eye;
     private javax.swing.JTextField fname;
     private javax.swing.JLabel home;
     private javax.swing.JButton importImage;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
@@ -888,6 +897,7 @@ public class chooseAccount extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

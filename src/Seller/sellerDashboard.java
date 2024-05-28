@@ -10,6 +10,7 @@ import config.actionLogs;
 import config.databaseConnector;
 import config.search;
 import config.flatlaftTable;
+import config.invoice;
 import config.isAccountExist;
 import config.print_logs;
 import config.sorter;
@@ -28,6 +29,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -223,7 +225,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(product_table_add_button, 10);
         UXmethods.RoundBorders.setArcStyle(product_table_delete_button, 10);
 
-        UXmethods.RoundBorders.setArcStyle(removetbn, 10);
         UXmethods.RoundBorders.setArcStyle(replacebtn, 10);
         UXmethods.RoundBorders.setArcStyle(edit_product_save_button, 10);
 
@@ -386,7 +387,9 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 try (ResultSet rs = pst.executeQuery()) {
                     if (rs.next()) {
                         int sales = rs.getInt("TotalSales");
-                        totalSales.setText(String.format("₱ %d", sales));
+                        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                        String formattedSales = numberFormat.format(sales);
+                        totalSales.setText(String.format("₱ %s", formattedSales));
                     } else {
                         totalSales.setText("₱ 0");
                     }
@@ -447,6 +450,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         orders_is_empty.setText("");
                         purchase_table.setModel(DbUtils.resultSetToTableModel(rs));
                         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                        purchase_table.getColumnModel().getColumn(8).setCellRenderer(new StatusCellRenderer());
                         centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
                         purchase_table.setDefaultRenderer(Object.class, centerRenderer);
                     }
@@ -527,11 +531,19 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     cellComponent.setForeground(new Color(0, 102, 0));
                     cellComponent.setFont(cellComponent.getFont().deriveFont(Font.BOLD));
                     break;
+                case "Accepted":
+                    cellComponent.setForeground(new Color(0, 102, 0));
+                    cellComponent.setFont(cellComponent.getFont().deriveFont(Font.BOLD));
+                    break;
                 case "Not Available":
                     cellComponent.setForeground(new Color(204, 204, 204));
                     cellComponent.setFont(cellComponent.getFont().deriveFont(Font.BOLD));
                     break;
                 case "Sold out":
+                    cellComponent.setForeground(Color.RED);
+                    cellComponent.setFont(cellComponent.getFont().deriveFont(Font.BOLD));
+                    break;
+                case "Declined":
                     cellComponent.setForeground(Color.RED);
                     cellComponent.setFont(cellComponent.getFont().deriveFont(Font.BOLD));
                     break;
@@ -692,29 +704,38 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     + "LIMIT 2")) {
                 pstmt.setInt(1, sellerID);
                 try (ResultSet rs = pstmt.executeQuery()) {
+                    boolean wishlistData = false;
                     if (rs.next()) {
+                        wishlistData = true;
+                        favorite.setText("");
                         top1_name.setText(rs.getString("Product Name"));
                         String total_favorites = rs.getString("Favorite(s)");
                         top1_favorites.setText(total_favorites + " Favorite(s)");
                         int height = 80;
                         int width = 80;
                         String getImageFromDatabase = rs.getString("image");
-                        GetImage.displayImage(top1_photo, getImageFromDatabase, height, width);
-                    } else {
+                        GetImage.displayCircularImage(top1_photo, getImageFromDatabase, height, width);
+                    } else if (!wishlistData) {
                         top1_name.setText("");
                         top1_favorites.setText("");
+                        top1_photo.setIcon(null);
+                        favorite.setText("No data found");
                     }
                     if (rs.next()) {
+                        wishlistData = true;
+                        favorite.setText("");
                         top2_name.setText(rs.getString("Product Name"));
                         String total_favorites = rs.getString("Favorite(s)");
                         top2_favorites.setText(total_favorites + " Favorite(s)");
                         int height = 80;
                         int width = 80;
                         String getImageFromDatabase = rs.getString("image");
-                        GetImage.displayImage(top2_photo, getImageFromDatabase, height, width);
-                    } else {
+                        GetImage.displayCircularImage(top2_photo, getImageFromDatabase, height, width);
+                    } else if (!wishlistData) {
                         top2_name.setText("");
                         top2_favorites.setText("");
+                        top2_photo.setIcon(null);
+                        favorite.setText("No data found");
                     }
                 }
             }
@@ -738,35 +759,50 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     + "LIMIT 2")) {
                 pstmt.setInt(1, sellerID);
                 try (ResultSet rs = pstmt.executeQuery()) {
+                    boolean bestSellingFound = false;
+
                     if (rs.next()) {
+                        bestSellingFound = true;
+                        best_selling.setText("");
                         top1_product_name.setText(rs.getString("product_name"));
-                        top1_product_price.setText("₱  " + rs.getString("product_price"));
+
+                        int sales = rs.getInt("product_price");
+                        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                        String formattedSales = numberFormat.format(sales);
+                        top1_product_price.setText(String.format("₱ %s", formattedSales));
                         String total_sold = rs.getString("total_sold");
                         top1_product_sold.setText(total_sold + " sold");
                         int height = 80;
                         int width = 80;
                         String getImageFromDatabase = rs.getString("product_image");
-                        GetImage.displayImage(top1_product_photo, getImageFromDatabase, height, width);
-                    } else {
+                        GetImage.displayCircularImage(top1_product_photo, getImageFromDatabase, height, width);
+                    } else if (!bestSellingFound) {
                         top1_product_name.setText("");
                         top1_product_price.setText("");
                         top1_product_sold.setText("");
                         top1_product_photo.setIcon(null);
+                        best_selling.setText("No data found");
                     }
                     if (rs.next()) {
+                        bestSellingFound = true;
+                        best_selling.setText("");
                         top2_product_name.setText(rs.getString("product_name"));
-                        top2_product_price.setText("₱  " + rs.getString("product_price"));
+                        int sales = rs.getInt("product_price");
+                        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                        String formattedSales = numberFormat.format(sales);
+                        top2_product_price.setText(String.format("₱ %s", formattedSales));
                         String total_sold = rs.getString("total_sold");
                         top2_product_sold.setText(total_sold + " sold");
                         int height = 80;
                         int width = 80;
                         String getImageFromDatabase = rs.getString("product_image");
-                        GetImage.displayImage(top2_product_photo, getImageFromDatabase, height, width);
-                    } else {
+                        GetImage.displayCircularImage(top2_product_photo, getImageFromDatabase, height, width);
+                    } else if (!bestSellingFound) {
                         top2_product_name.setText("");
                         top2_product_price.setText("");
                         top2_product_sold.setText("");
                         top2_product_photo.setIcon(null);
+                        best_selling.setText("No data found");
                     }
                 }
             }
@@ -796,7 +832,10 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
                     // Display top 1 order
                     if (rs.next()) {
+                        foundPendingOrder = true;
                         total_amount.setText("Total amount");
+                        jLabel71.setText("");
+
                         top1_order_name.setText(rs.getString("product_name"));
                         String price = rs.getString("price");
                         String quantity = rs.getString("quantity");
@@ -805,17 +844,19 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         int height = 80;
                         int width = 80;
                         String getImageFromDatabase = rs.getString("product_image");
-                        GetImage.displayImage(top1_order_photo, getImageFromDatabase, height, width);
-                        foundPendingOrder = true;
+                        GetImage.displayCircularImage(top1_order_photo, getImageFromDatabase, height, width);
                     } else {
                         total_amount.setText("");
                         top1_order_name.setText("");
                         top1_order_price.setText("");
                         top1_order_total.setText("");
                         top1_order_photo.setIcon(null);
+                        jLabel71.setText("There are no recent orders available currently.");
                     }
+
                     // Display top 2 order
                     if (rs.next()) {
+                        foundPendingOrder = true;
                         total_amount.setText("Total amount");
                         top2_order_name.setText(rs.getString("product_name"));
                         String price = rs.getString("price");
@@ -825,19 +866,14 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         int height = 80;
                         int width = 80;
                         String getImageFromDatabase = rs.getString("product_image");
-                        GetImage.displayImage(top2_order_photo, getImageFromDatabase, height, width);
-                        foundPendingOrder = true;
-                    } else {
+                        GetImage.displayCircularImage(top2_order_photo, getImageFromDatabase, height, width);
+                    } else if (!foundPendingOrder) {
                         total_amount.setText("");
                         top2_order_name.setText("");
                         top2_order_price.setText("");
                         top2_order_total.setText("");
                         top2_order_photo.setIcon(null);
-                    }
-
-                    // If no pending order found, reset total amount text
-                    if (!foundPendingOrder) {
-                        total_amount.setText("");
+                        jLabel71.setText("There are no recent orders available currently.");
                     }
                 }
             }
@@ -885,6 +921,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         top2_favorites = new javax.swing.JLabel();
         top2_name = new javax.swing.JLabel();
         top2_photo = new javax.swing.JLabel();
+        favorite = new javax.swing.JLabel();
         CONTAINER2 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -898,6 +935,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         top1_order_photo = new javax.swing.JLabel();
         top2_order_photo = new javax.swing.JLabel();
         top1_order_total = new javax.swing.JLabel();
+        jLabel71 = new javax.swing.JLabel();
         CONTAINER3 = new javax.swing.JPanel();
         CONTAINER5 = new javax.swing.JPanel();
         jLabel57 = new javax.swing.JLabel();
@@ -910,6 +948,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         top1_product_price = new javax.swing.JLabel();
         top2_product_sold = new javax.swing.JLabel();
         top1_product_sold = new javax.swing.JLabel();
+        best_selling = new javax.swing.JLabel();
         pendingOrders = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         totalOrders = new javax.swing.JLabel();
@@ -982,7 +1021,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         view_order = new javax.swing.JButton();
         jLabel81 = new javax.swing.JLabel();
         jLabel82 = new javax.swing.JLabel();
-        jButton6 = new javax.swing.JButton();
+        view_invoice = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel96 = new javax.swing.JLabel();
         jLabel98 = new javax.swing.JLabel();
@@ -1111,7 +1150,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jPanel23 = new javax.swing.JPanel();
         getPhoto = new javax.swing.JLabel();
         replacebtn = new javax.swing.JButton();
-        removetbn = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
         jLabel43 = new javax.swing.JLabel();
         jLabel44 = new javax.swing.JLabel();
@@ -1231,7 +1269,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel88 = new javax.swing.JLabel();
         decline = new javax.swing.JButton();
         accept_order = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jPanel20 = new javax.swing.JPanel();
         messageContainer = new javax.swing.JPanel();
         message_is_empty = new javax.swing.JLabel();
@@ -1375,8 +1412,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel7MouseClicked(evt);
+            }
+        });
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 0, 540, 20));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, 550, 20));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -1477,6 +1519,10 @@ public final class sellerDashboard extends javax.swing.JFrame {
         CONTAINER.add(top2_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 140, 160, -1));
         CONTAINER.add(top2_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 80, 80));
 
+        favorite.setForeground(new java.awt.Color(153, 153, 153));
+        favorite.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        CONTAINER.add(favorite, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 370, 40));
+
         jPanel6.add(CONTAINER, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 420, 370, 240));
 
         CONTAINER2.setBackground(new java.awt.Color(241, 241, 241));
@@ -1534,6 +1580,10 @@ public final class sellerDashboard extends javax.swing.JFrame {
         top1_order_total.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         CONTAINER2.add(top1_order_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 70, 90, 20));
 
+        jLabel71.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel71.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        CONTAINER2.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 360, 40));
+
         jPanel6.add(CONTAINER2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 420, 360, 240));
 
         CONTAINER3.setBackground(new java.awt.Color(241, 241, 241));
@@ -1579,6 +1629,10 @@ public final class sellerDashboard extends javax.swing.JFrame {
         top1_product_sold.setForeground(new java.awt.Color(0, 158, 226));
         top1_product_sold.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         CONTAINER3.add(top1_product_sold, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 70, 90, 20));
+
+        best_selling.setForeground(new java.awt.Color(153, 153, 153));
+        best_selling.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        CONTAINER3.add(best_selling, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 360, 40));
 
         jPanel6.add(CONTAINER3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 420, 360, 240));
 
@@ -2047,14 +2101,14 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jLabel82.setText("Orders Table");
         productsContainer2.add(jLabel82, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, -1, 30));
 
-        jButton6.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        jButton6.setText("Print");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        view_invoice.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        view_invoice.setText("View invoice");
+        view_invoice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                view_invoiceActionPerformed(evt);
             }
         });
-        productsContainer2.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 50, 130, 40));
+        productsContainer2.add(view_invoice, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 50, 130, 40));
 
         s.add(productsContainer2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 1130, 670));
 
@@ -2820,17 +2874,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 replacebtnActionPerformed(evt);
             }
         });
-        jPanel15.add(replacebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 400, 190, 40));
-
-        removetbn.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        removetbn.setForeground(new java.awt.Color(51, 51, 51));
-        removetbn.setText("Remove");
-        removetbn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removetbnActionPerformed(evt);
-            }
-        });
-        jPanel15.add(removetbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 190, 40));
+        jPanel15.add(replacebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, 390, 50));
 
         jLabel21.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(51, 51, 51));
@@ -3338,9 +3382,9 @@ public final class sellerDashboard extends javax.swing.JFrame {
         vieworder_background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         vieworder_photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        vieworder_background.add(vieworder_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 100, 100));
+        vieworder_background.add(vieworder_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 190, 105));
 
-        vieworder_container.add(vieworder_background, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 140, 140));
+        vieworder_container.add(vieworder_background, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 230, 145));
 
         vieworder_date.setBackground(new java.awt.Color(241, 241, 241));
         vieworder_date.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -3365,13 +3409,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
         vieworder_category.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         vieworder_category.setForeground(new java.awt.Color(153, 153, 153));
         vieworder_category.setText("Category");
-        vieworder_container.add(vieworder_category, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, -1, 20));
+        vieworder_container.add(vieworder_category, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 110, -1, 20));
 
         vieworder_product_name.setBackground(new java.awt.Color(241, 241, 241));
         vieworder_product_name.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         vieworder_product_name.setForeground(new java.awt.Color(51, 51, 51));
         vieworder_product_name.setText("Macbook Air");
-        vieworder_container.add(vieworder_product_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 130, -1, 30));
+        vieworder_container.add(vieworder_product_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 130, -1, 30));
 
         vieworder_status.setFont(new java.awt.Font("Arial", 1, 10)); // NOI18N
         vieworder_status.setForeground(new java.awt.Color(204, 0, 0));
@@ -3478,10 +3522,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
             }
         });
         productsContainer3.add(accept_order, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 10, 130, 40));
-
-        jButton5.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jButton5.setText("Print");
-        productsContainer3.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 130, 40));
 
         jPanel16.add(productsContainer3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 780, 380));
 
@@ -3933,6 +3973,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
                     if (!"Pending".equals(orderStatus)) {
                         JOptionPane.showMessageDialog(null, "You cannot make changes in this order anymore.");
+                        tabs.setSelectedIndex(3);
                         return;
                     }
                     String fetchProductQuery = "SELECT product_stock FROM tbl_products WHERE product_id = ?";
@@ -3969,6 +4010,24 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     }
                     updateProductSold(total_quantity, product_id); // Add quantity sold
                     JOptionPane.showMessageDialog(null, "Order has been accepted successfully!");
+
+                    String insertInvoiceQuery = "INSERT INTO tbl_invoice (buyer_id, seller_id, order_id, product_id, invoice_date) VALUES (?, ?, ?, ?, NOW())";
+                    try (PreparedStatement invoiceStmt = dbc.getConnection().prepareStatement(insertInvoiceQuery)) {
+                        // Set parameters for the invoice
+                        invoiceStmt.setInt(1, buyer_id);
+                        invoiceStmt.setInt(2, sellerID);
+                        invoiceStmt.setInt(3, transaction_id);
+                        invoiceStmt.setInt(4, product_id);
+
+                        // Execute the insert query
+                        int rowsInserted = invoiceStmt.executeUpdate();
+                        if (rowsInserted > 0) {
+                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Invoice created susscessfully.");
+                        } else {
+                            Notifications.getInstance().show(Notifications.Type.ERROR, "Failed to create invoice!");
+                        }
+                    }
+
                     String action = "Accept Order";
                     String details = "Seller " + sellerID + " successfully accepted order " + transaction_id + "!";
                     actionLogs.recordSellerLogs(sellerID, action, details);
@@ -4097,6 +4156,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
                     if (!"Pending".equals(orderStatus)) {
                         JOptionPane.showMessageDialog(null, "You cannot make changes in this order anymore.");
+                        tabs.setSelectedIndex(3);
                         return;
                     }
                 }
@@ -4198,7 +4258,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         actionLogs.displaySellerLogs(actionlogs_table, sellerID); // display seller logs table
         tabs.setSelectedIndex(5);
     }//GEN-LAST:event_profileMouseClicked
-
+    String EditgetImageFromDatabase;
     private void product_table_edit_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_product_table_edit_buttonActionPerformed
         try {
             int rowIndex = product_table.getSelectedRow();
@@ -4211,8 +4271,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 if (rs.next()) {
                     int height = 270;
                     int width = 175;
-                    String getImageFromDatabase = rs.getString("product_image");
-                    GetImage.displayImage(getPhoto, getImageFromDatabase, height, width);
+                    EditgetImageFromDatabase = rs.getString("product_image");
+                    GetImage.displayImage(getPhoto, EditgetImageFromDatabase, height, width);
                     getName.setText(rs.getString("product_name"));
                     getPrice.setText(rs.getString("product_price"));
                     getStock.setText(rs.getString("product_stock"));
@@ -4349,7 +4409,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 return;
             }
 
-            if (selectedFile == null || !selectedFile.exists()) {
+            if (EditgetImageFromDatabase == null) {
                 Notifications.getInstance().show(Notifications.Type.ERROR, "Please select an image!");
                 desError7.setText("* Product image cannot be empty.");
                 return;
@@ -4408,14 +4468,18 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         + "WHERE product_id=?";
             }
 
-            String checkQuery = "SELECT COUNT(*) FROM tbl_products WHERE product_name = ?";
+            // Prepare the SQL query to count the number of products with the same name but different IDs
+            String checkQuery = "SELECT COUNT(*) FROM tbl_products WHERE product_name = ? AND product_id <> ?";
             PreparedStatement checkStmt = dbc.getConnection().prepareStatement(checkQuery);
             checkStmt.setString(1, productName);
+            checkStmt.setInt(2, p_id); // Assuming currentProductId holds the ID of the current product
             ResultSet rs = checkStmt.executeQuery();
             rs.next();
             int count = rs.getInt(1);
+
+            // Check if there are any products with the same name but different IDs
             if (count > 0) {
-                JOptionPane.showMessageDialog(null, "Product already exist!");
+                JOptionPane.showMessageDialog(null, "Product already exists!");
                 getName.setText("");
                 return;
             }
@@ -4468,13 +4532,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private void replacebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replacebtnActionPerformed
         getPhoto(getPhoto);
     }//GEN-LAST:event_replacebtnActionPerformed
-
-    private void removetbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removetbnActionPerformed
-        Notifications.getInstance().show(Notifications.Type.INFO, "Image successfully removed!");
-        getPhoto.setIcon(null);
-        selectedFile = null;
-        imagePath = null;
-    }//GEN-LAST:event_removetbnActionPerformed
 
     private void addReplaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addReplaceActionPerformed
         getPhoto(addPhoto);
@@ -4922,7 +4979,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
             databaseConnector dbc = new databaseConnector();
             String orderQuery = "SELECT * FROM tbl_orders WHERE order_id = " + transaction_id;
             String accountQuery = "SELECT first_name, last_name, address, email, phone_number FROM tbl_accounts WHERE account_id = " + buyer_id;
-            String productQuery = "SELECT product_name, product_price, product_category FROM tbl_products WHERE product_id = " + product_id;
+            String productQuery = "SELECT product_name, product_price, product_category, product_image FROM tbl_products WHERE product_id = " + product_id;
 
             try (ResultSet rsOrder = dbc.getData(orderQuery); ResultSet rsAccount = dbc.getData(accountQuery); ResultSet rsProduct = dbc.getData(productQuery)) {
                 if (rsOrder.next() && rsAccount.next() && rsProduct.next()) {
@@ -4949,6 +5006,10 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     int quantity = rsOrder.getInt("total_quantity");
                     vieworder_total.setText(quantity + " x " + price);
                     vieworder_category.setText(rsProduct.getString("product_category"));
+                    int height = 190;
+                    int width = 105;
+                    String profilePicture = rsProduct.getString("product_image");
+                    GetImage.displayImage(vieworder_photo, profilePicture, height, width);
 
                     // Order information
                     total_quantity = rsOrder.getInt("total_quantity");
@@ -5330,9 +5391,78 @@ public final class sellerDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_message_search_barActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void view_invoiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_view_invoiceActionPerformed
+        int rowIndex = purchase_table.getSelectedRow();
+        if (rowIndex < 0) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Error: Please select an order to view the invoice.");
+        } else {
+            TableModel model = purchase_table.getModel();
+            try {
+                databaseConnector dbc = new databaseConnector();
+
+                ResultSet getInvoice = dbc.getData("SELECT * FROM tbl_invoice WHERE order_id = " + model.getValueAt(rowIndex, 0));
+                if (getInvoice.next()) {
+                    int invoice_id = getInvoice.getInt("invoice_id");
+
+                    PreparedStatement pst = dbc.getConnection().prepareStatement("SELECT "
+                            + "i.invoice_id AS `invoice_id`, "
+                            + "CONCAT(a.first_name, ' ', a.last_name) AS `buyer_name`, "
+                            + "i.invoice_date AS `invoice_date`, "
+                            + "a.phone_number AS `phone_number`, "
+                            + "a.email AS `email`, "
+                            + "a.address AS `address`, "
+                            + "p.product_name AS `product_name`, "
+                            + "p.product_price AS `product_price`, "
+                            + "o.total_quantity AS `total_quantity`, "
+                            + "o.total_price AS `total_price`, "
+                            + "o.order_id AS `order_id` "
+                            + "FROM tbl_invoice i "
+                            + "JOIN tbl_accounts a ON a.account_id = i.buyer_id "
+                            + "JOIN tbl_products p ON p.product_id = i.product_id "
+                            + "JOIN tbl_orders o ON o.order_id = i.order_id "
+                            + "WHERE i.invoice_id = ?");
+                    pst.setInt(1, invoice_id);
+
+                    ResultSet rs = pst.executeQuery();
+
+                    if (rs.next()) {
+                        invoice yawa = new invoice();
+                        yawa.invoice_number.setText(rs.getString("invoice_id"));
+                        yawa.invoice_customer.setText(rs.getString("buyer_name"));
+                        yawa.invoice_phone_number.setText(rs.getString("phone_number"));
+                        yawa.invoice_email.setText(rs.getString("email"));
+                        yawa.invoice_address.setText(rs.getString("address"));
+                        yawa.invoice_date.setText(rs.getString("invoice_date"));
+                        yawa.invoice_descript.setText(rs.getString("product_name"));
+                        yawa.invoice_qty.setText(rs.getString("total_quantity"));
+                        String price = rs.getString("product_price");
+                        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+                        String formattedPrice = numberFormat.format(Double.parseDouble(price));
+                        yawa.invoice_price.setText(String.format("₱ %s", formattedPrice));
+
+                        String total_price = rs.getString("total_price");
+                        String formattedTotalPrice = numberFormat.format(Double.parseDouble(total_price));
+                        yawa.invoice_subtotal.setText(String.format("₱ %s", formattedTotalPrice));
+                        yawa.invoice_total.setText(String.format("₱ %s", formattedTotalPrice));
+
+                        yawa.signature_name.setText(rs.getString("buyer_name"));
+                        yawa.invoice_order.setText(rs.getString("order_id"));
+                        yawa.setVisible(true);
+                    }
+                } else {
+                    Notifications.getInstance().show(Notifications.Type.INFO, "No invoice found. Please accept the order first to generate an invoice.");
+                }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
+                System.out.println(e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_view_invoiceActionPerformed
+
+    private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_jPanel7MouseClicked
 
     public static void main(String args[]) {
         try {
@@ -5392,6 +5522,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JTable archive_table;
     private javax.swing.JLabel bacgkround;
     private javax.swing.JLabel bacgkround1;
+    private javax.swing.JLabel best_selling;
     private javax.swing.JTextField c1;
     private javax.swing.JTextField c10;
     private javax.swing.JTextField c11;
@@ -5428,6 +5559,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton edit_seller_upload_button;
     private javax.swing.JLabel errorImage;
     private javax.swing.JTextArea explain;
+    private javax.swing.JLabel favorite;
     private javax.swing.JPanel filterContainer;
     private javax.swing.JPanel filterContainer1;
     private javax.swing.JPanel filterContainer2;
@@ -5450,8 +5582,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
     private javax.swing.JLabel jLabel1;
@@ -5536,6 +5666,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel69;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel73;
     private javax.swing.JLabel jLabel74;
@@ -5664,7 +5795,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel productsContainer3;
     private javax.swing.JLabel profile;
     private javax.swing.JTable purchase_table;
-    private javax.swing.JButton removetbn;
     private javax.swing.JButton replacebtn;
     private javax.swing.JButton restore;
     private javax.swing.JPanel s;
@@ -5733,6 +5863,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel username1;
     private javax.swing.JLabel username2;
     private javax.swing.JLabel username3;
+    private javax.swing.JButton view_invoice;
     private javax.swing.JButton view_order;
     private javax.swing.JPanel vieworder_background;
     private javax.swing.JLabel vieworder_category;

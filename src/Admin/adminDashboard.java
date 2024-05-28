@@ -12,6 +12,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 import config.GetImage;
 import config.actionLogs;
 import config.databaseConnector;
+import config.flatlaftTable;
 import config.isAccountExist;
 import config.search;
 import config.sorter;
@@ -35,6 +36,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -88,9 +90,14 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
         displayAccounts();
+        displayMessages();
+        displayProducts();
         displayAccountName();
         displayArchiveAccounts();
         actionLogs.displayAdminLogs(actionlogs_table, admin_id);
+
+        flatlaftTable.design(productsContainer, product_table, jScrollPane5); // display wishlist table
+        searchBar(product_search_bar);
 
         //Informations Panel
         UXmethods.RoundBorders.setArcStyle(c1, 15);
@@ -108,8 +115,9 @@ public final class adminDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(z4, 15);
         UXmethods.RoundBorders.setArcStyle(z5, 15);
         UXmethods.RoundBorders.setArcStyle(z6, 15);
+        UXmethods.RoundBorders.setArcStyle(archiveBtn1, 50);
+        UXmethods.RoundBorders.setArcStyle(jToggleButton1, 50);
 
-        //Buttons
         UXmethods.RoundBorders.setArcStyle(edit, 15);
         UXmethods.RoundBorders.setArcStyle(add2archive, 15);
         UXmethods.RoundBorders.setArcStyle(add, 15);
@@ -144,11 +152,65 @@ public final class adminDashboard extends javax.swing.JFrame {
         searchBar.setFocusable(false);
     }
 
+    private void searchBar(JTextField search) {
+        search.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
+        search.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new javax.swing.ImageIcon(getClass().getResource("/image/search_icon.png")));
+        search.putClientProperty(FlatClientProperties.STYLE, ""
+                + "arc:15;"
+                + "borderWidth:0;"
+                + "focusWidth:0;"
+                + "innerFocusWidth:0;"
+                //+ "background:#FFFFFF;"
+                + "margin:5,20,5,20");
+    }
+
+    dprivate void displayMessages() {
+        try {
+            databaseConnector dbc = new databaseConnector();
+            try (PreparedStatement pstmt = dbc.getConnection().prepareStatement(
+                    "SELECT "
+                    + "p.product_id AS `Product ID`, "
+                    + "p.seller_id AS `Seller ID`, "
+                    + "CONCAT(a.first_name, ' ', a.last_name) AS `Seller Name`, "
+                    + "p.product_name AS `Product Name`, "
+                    + "p.product_price AS `Price`, "
+                    + "p.product_stock AS `Stock(s)`, "
+                    + "p.product_category AS `Category`, "
+                    + "p.total_sold AS `Sold`, "
+                    + "p.date_created AS `Date Created`, "
+                    + "p.product_status AS `Status` "
+                    + "FROM tbl_message4admin m "
+                    + "JOIN tbl_accounts a ON a.account_id = p.seller_id")) {
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (!rs.isBeforeFirst()) {
+                        message_is_empty.setText("MESSAGE TABLE IS EMPTY!");
+                        message4admin_table.setModel(new DefaultTableModel());
+                    } else {
+                        message_is_empty.setText("");
+                        message4admin_table.setModel(DbUtils.resultSetToTableModel(rs));
+
+                        // Center align the text in the table cells
+                        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+                        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+                        for (int i = 0; i < message4admin_table.getColumnCount(); i++) {
+                            message4admin_table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+                        }
+
+                        // Optionally set preferred column widths
+                        // product_table.getColumnModel().getColumn(0).setPreferredWidth(20); // example for the first column
+                    }
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Errors: " + ex.getMessage());
+        }
+    }
+
     public void displayProducts() {
         try {
             databaseConnector dbc = new databaseConnector();
-            try (PreparedStatement pstmt = dbc.getConnection().prepareStatement(""
-                    + "SELECT "
+            try (PreparedStatement pstmt = dbc.getConnection().prepareStatement(
+                    "SELECT "
                     + "p.product_id AS `Product ID`, "
                     + "p.seller_id AS `Seller ID`, "
                     + "CONCAT(a.first_name, ' ', a.last_name) AS `Seller Name`, "
@@ -168,13 +230,16 @@ public final class adminDashboard extends javax.swing.JFrame {
                     } else {
                         product_is_empty.setText("");
                         product_table.setModel(DbUtils.resultSetToTableModel(rs));
-                        //product_table.getColumnModel().getColumn(7).setCellRenderer(new sellerDashboard.StatusCellRenderer());
-                        //TableColumn column;
-                        //column = product_table.getColumnModel().getColumn(0);
-                        //column.setPreferredWidth(20);
+
+                        // Center align the text in the table cells
                         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
                         centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-                        product_table.setDefaultRenderer(Object.class, centerRenderer);
+                        for (int i = 0; i < product_table.getColumnCount(); i++) {
+                            product_table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+                        }
+
+                        // Optionally set preferred column widths
+                        // product_table.getColumnModel().getColumn(0).setPreferredWidth(20); // example for the first column
                     }
                 }
             }
@@ -335,6 +400,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel20 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         tabs = new javax.swing.JTabbedPane();
@@ -555,7 +621,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         jPanel23 = new javax.swing.JPanel();
         getPhoto = new javax.swing.JLabel();
         replacebtn = new javax.swing.JButton();
-        removetbn = new javax.swing.JButton();
         jLabel28 = new javax.swing.JLabel();
         jLabel48 = new javax.swing.JLabel();
         jLabel49 = new javax.swing.JLabel();
@@ -563,6 +628,17 @@ public final class adminDashboard extends javax.swing.JFrame {
         jLabel101 = new javax.swing.JLabel();
         jLabel103 = new javax.swing.JLabel();
         jPanel19 = new javax.swing.JPanel();
+        messageContainer = new javax.swing.JPanel();
+        message_is_empty = new javax.swing.JLabel();
+        jSeparator17 = new javax.swing.JSeparator();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        message4admin_table = new javax.swing.JTable();
+        message_search_bar = new javax.swing.JTextField();
+        jLabel36 = new javax.swing.JLabel();
+        filterContainer3 = new javax.swing.JPanel();
+        jLabel74 = new javax.swing.JLabel();
+        filter_product_table1 = new javax.swing.JComboBox<>();
+        jLabel108 = new javax.swing.JLabel();
         dashboardContainer = new javax.swing.JPanel();
         dashboardBtn = new javax.swing.JButton();
         profile = new javax.swing.JLabel();
@@ -575,9 +651,11 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1280, 720));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel20.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel20.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -585,7 +663,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(204, 255, 204));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 0, 780, 20));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 0, 650, 20));
 
         tabs.setBackground(new java.awt.Color(255, 255, 255));
         tabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -724,7 +802,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         accountTableContainer.add(c5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 270, 30));
 
-        jPanel7.add(accountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 20, 310, 670));
+        jPanel7.add(accountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 20, 310, 670));
 
         jPanel10.setBackground(new java.awt.Color(241, 241, 241));
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -749,7 +827,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         });
         scrollBar.setViewportView(accounts_table);
 
-        jPanel10.add(scrollBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 860, 550));
+        jPanel10.add(scrollBar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 810, 550));
 
         searchBar.setForeground(new java.awt.Color(140, 140, 140));
         searchBar.setText("  Search");
@@ -780,7 +858,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 addActionPerformed(evt);
             }
         });
-        jPanel10.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 50, 160, 40));
+        jPanel10.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 50, 160, 40));
 
         filterContainer4.setBackground(new java.awt.Color(255, 255, 255));
         filterContainer4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -821,7 +899,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         jLabel47.setText("Archive AccountsTable");
         jPanel10.add(jLabel47, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, -1, 30));
 
-        jPanel7.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 860, 670));
+        jPanel7.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 810, 670));
 
         jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1210, 700));
 
@@ -882,7 +960,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         editProfileContainer.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 206, -1, 20));
         editProfileContainer.add(displayPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 150, 100, 100));
 
-        jPanel4.add(editProfileContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
+        jPanel4.add(editProfileContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1120, 570));
 
         tabs.addTab("tab2", jPanel4);
 
@@ -931,16 +1009,16 @@ public final class adminDashboard extends javax.swing.JFrame {
                 selectActionPerformed(evt);
             }
         });
-        addAccountContainer.add(select, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 340, 130, 40));
+        addAccountContainer.add(select, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 340, 130, 40));
 
         displayImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         displayImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/120x120.png"))); // NOI18N
-        addAccountContainer.add(displayImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 206, 490, 120));
+        addAccountContainer.add(displayImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 206, 460, 120));
 
         optional.setForeground(new java.awt.Color(153, 153, 153));
         optional.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         optional.setText("* Optional");
-        addAccountContainer.add(optional, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 390, 490, -1));
+        addAccountContainer.add(optional, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 390, 460, -1));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(102, 102, 102));
@@ -1001,7 +1079,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         jLabel12.setForeground(new java.awt.Color(153, 153, 153));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("File extension: .JPEG, .PNG ");
-        addAccountContainer.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 410, 490, -1));
+        addAccountContainer.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 410, 460, -1));
 
         myprofile5.setFont(new java.awt.Font("Segoe UI Semibold", 1, 18)); // NOI18N
         myprofile5.setText("Add Account");
@@ -1011,7 +1089,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         manage11.setText("Create new account profile");
         addAccountContainer.add(manage11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, 30));
 
-        jPanel6.add(addAccountContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
+        jPanel6.add(addAccountContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1120, 570));
 
         tabs.addTab("tab3", jPanel6);
 
@@ -1175,7 +1253,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         });
         editProfileContainer1.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 300, -1, 30));
 
-        jPanel2.add(editProfileContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1150, 570));
+        jPanel2.add(editProfileContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1090, 570));
 
         tabs.addTab("tab4", jPanel2);
 
@@ -1304,11 +1382,11 @@ public final class adminDashboard extends javax.swing.JFrame {
         statusIcon1.setText(".");
         archiveAccountTableContainer.add(statusIcon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 30, 20));
 
-        jPanel8.add(archiveAccountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 10, 310, 670));
+        jPanel8.add(archiveAccountTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 10, 310, 670));
 
         jPanel12.setBackground(new java.awt.Color(241, 241, 241));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel12.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 860, 40));
+        jPanel12.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 820, 40));
 
         archiveAccountTableContainerScroll.setBackground(new java.awt.Color(0, 0, 0));
         archiveAccountTableContainerScroll.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -1329,7 +1407,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         });
         archiveAccountTableContainerScroll.setViewportView(archive_table);
 
-        jPanel12.add(archiveAccountTableContainerScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 860, 550));
+        jPanel12.add(archiveAccountTableContainerScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 820, 550));
 
         searchBar1.setForeground(new java.awt.Color(140, 140, 140));
         searchBar1.setText("  Search");
@@ -1367,7 +1445,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         });
         jPanel12.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
 
-        jPanel8.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 860, 670));
+        jPanel8.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 820, 670));
 
         tabs.addTab("tab5", jPanel8);
 
@@ -1410,12 +1488,12 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         productsContainer.setBackground(new java.awt.Color(241, 241, 241));
         productsContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        productsContainer.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1300, 20));
+        productsContainer.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1140, 20));
 
         product_is_empty.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         product_is_empty.setForeground(new java.awt.Color(51, 51, 51));
         product_is_empty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        productsContainer.add(product_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 350, 1300, 60));
+        productsContainer.add(product_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 1140, 60));
 
         jScrollPane5.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
@@ -1438,7 +1516,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(product_table);
 
-        productsContainer.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1300, 560));
+        productsContainer.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1140, 560));
 
         product_search_bar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         product_search_bar.setForeground(new java.awt.Color(140, 140, 140));
@@ -1491,7 +1569,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 product_table_edit_buttonActionPerformed(evt);
             }
         });
-        productsContainer.add(product_table_edit_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1020, 50, 130, 40));
+        productsContainer.add(product_table_edit_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 50, 130, 40));
 
         product_table_archive_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         product_table_archive_button.setForeground(new java.awt.Color(51, 51, 51));
@@ -1501,7 +1579,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 product_table_archive_buttonActionPerformed(evt);
             }
         });
-        productsContainer.add(product_table_archive_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1160, 50, 130, 40));
+        productsContainer.add(product_table_archive_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 50, 130, 40));
 
         product_table_delete_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         product_table_delete_button.setText("Delete");
@@ -1510,7 +1588,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 product_table_delete_buttonActionPerformed(evt);
             }
         });
-        productsContainer.add(product_table_delete_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 50, 130, 40));
+        productsContainer.add(product_table_delete_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 50, 130, 40));
 
         jLabel31.setBackground(new java.awt.Color(241, 241, 241));
         jLabel31.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
@@ -1524,7 +1602,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         jLabel26.setText("Product Table");
         productsContainer.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, -1, 30));
 
-        jPanel11.add(productsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1300, 680));
+        jPanel11.add(productsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1140, 680));
 
         tabs.addTab("tab7", jPanel11);
 
@@ -1560,7 +1638,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         });
         archiveAccountTableContainerScroll1.setViewportView(archive_table1);
 
-        archiveAccountTableContainer1.add(archiveAccountTableContainerScroll1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 950, 560));
+        archiveAccountTableContainer1.add(archiveAccountTableContainerScroll1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 820, 560));
 
         archive_search_bar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         archive_search_bar.setForeground(new java.awt.Color(140, 140, 140));
@@ -1579,7 +1657,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         jLabel41.setBackground(new java.awt.Color(241, 241, 241));
         jLabel41.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel41.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel41.setText("Product Table  >");
+        jLabel41.setText("Managee Product >Product Table  >");
         jLabel41.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel41MouseClicked(evt);
@@ -1591,9 +1669,9 @@ public final class adminDashboard extends javax.swing.JFrame {
         jLabel42.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel42.setForeground(new java.awt.Color(51, 51, 51));
         jLabel42.setText("Archive Products Table");
-        archiveAccountTableContainer1.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, 30));
+        archiveAccountTableContainer1.add(jLabel42, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, -1, 30));
 
-        jPanel13.add(archiveAccountTableContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 950, 680));
+        jPanel13.add(archiveAccountTableContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 820, 680));
 
         jPanel14.setBackground(new java.awt.Color(241, 241, 241));
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1682,7 +1760,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 restore1ActionPerformed(evt);
             }
         });
-        jPanel14.add(restore1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 620, 130, 40));
+        jPanel14.add(restore1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, 130, 40));
 
         delete1.setBackground(new java.awt.Color(255, 102, 102));
         delete1.setForeground(new java.awt.Color(255, 255, 255));
@@ -1694,16 +1772,17 @@ public final class adminDashboard extends javax.swing.JFrame {
                 delete1ActionPerformed(evt);
             }
         });
-        jPanel14.add(delete1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 620, 130, 40));
+        jPanel14.add(delete1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 630, 130, 40));
 
         jLabel19.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel19.setText("Description");
         jPanel14.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
 
-        jPanel13.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 10, 310, 670));
+        jPanel13.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 10, 310, 680));
 
         tabs.addTab("tab8", jPanel13);
 
+        jPanel15.setBackground(new java.awt.Color(255, 255, 255));
         jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel16.setBackground(new java.awt.Color(255, 255, 255));
@@ -1851,7 +1930,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         desError6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jPanel17.add(desError6, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 180, 260, -1));
 
-        jPanel16.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 40, 720, 620));
+        jPanel16.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 40, 720, 620));
 
         jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel18.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 400, 30));
@@ -1874,17 +1953,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 replacebtnActionPerformed(evt);
             }
         });
-        jPanel18.add(replacebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 400, 190, 40));
-
-        removetbn.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        removetbn.setForeground(new java.awt.Color(51, 51, 51));
-        removetbn.setText("Remove");
-        removetbn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removetbnActionPerformed(evt);
-            }
-        });
-        jPanel18.add(removetbn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 190, 40));
+        jPanel18.add(replacebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 390, 390, 50));
 
         jLabel28.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel28.setForeground(new java.awt.Color(51, 51, 51));
@@ -1908,7 +1977,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         desError7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jPanel18.add(desError7, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 110, 260, -1));
 
-        jPanel16.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 410, 450));
+        jPanel16.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 410, 450));
 
         jLabel101.setBackground(new java.awt.Color(241, 241, 241));
         jLabel101.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
@@ -1927,17 +1996,110 @@ public final class adminDashboard extends javax.swing.JFrame {
         jLabel103.setText("Edit Product");
         jPanel16.add(jLabel103, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 0, -1, 30));
 
-        jPanel15.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jPanel15.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 700));
 
         tabs.addTab("tab9", jPanel15);
 
         jPanel19.setBackground(new java.awt.Color(255, 255, 255));
         jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        messageContainer.setBackground(new java.awt.Color(241, 241, 241));
+        messageContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        message_is_empty.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        message_is_empty.setForeground(new java.awt.Color(51, 51, 51));
+        message_is_empty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        messageContainer.add(message_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(-2, 290, 1100, 60));
+        messageContainer.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1130, 20));
+
+        jScrollPane12.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        message4admin_table.setAutoCreateRowSorter(true);
+        message4admin_table.setBackground(new java.awt.Color(241, 241, 241));
+        message4admin_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        message4admin_table.setSelectionBackground(new java.awt.Color(204, 229, 255));
+        message4admin_table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                message4admin_tableMouseClicked(evt);
+            }
+        });
+        jScrollPane12.setViewportView(message4admin_table);
+
+        messageContainer.add(jScrollPane12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1100, 550));
+
+        message_search_bar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        message_search_bar.setForeground(new java.awt.Color(140, 140, 140));
+        message_search_bar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                message_search_barMouseClicked(evt);
+            }
+        });
+        message_search_bar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                message_search_barActionPerformed(evt);
+            }
+        });
+        message_search_bar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                message_search_barKeyReleased(evt);
+            }
+        });
+        messageContainer.add(message_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 180, 40));
+
+        jLabel36.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel36.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel36.setText("Product Table");
+        messageContainer.add(jLabel36, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 0));
+
+        filterContainer3.setBackground(new java.awt.Color(255, 255, 255));
+        filterContainer3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel74.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel74.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        jLabel74.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel74.setText("Filter by:");
+        filterContainer3.add(jLabel74, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 40));
+
+        filter_product_table1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        filter_product_table1.setForeground(new java.awt.Color(153, 153, 153));
+        filter_product_table1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Status", "Deactivate account", "Delete product", "Report bug", "Request feature" }));
+        filter_product_table1.setSelectedIndex(0);
+        filter_product_table1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        filter_product_table1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filter_product_table1ActionPerformed(evt);
+            }
+        });
+        filterContainer3.add(filter_product_table1, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 160, 30));
+
+        messageContainer.add(filterContainer3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 240, 40));
+
+        jLabel108.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel108.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel108.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel108.setText("Messages");
+        jLabel108.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel108MouseClicked(evt);
+            }
+        });
+        messageContainer.add(jLabel108, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
+
+        jPanel19.add(messageContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 1100, 670));
+
         tabs.addTab("tab10", jPanel19);
 
-        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, -20, 1300, 730));
+        jPanel1.add(tabs, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, -20, 1170, 740));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 0, 1320, -1));
+        jPanel20.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 0, 1320, -1));
 
         dashboardContainer.setBackground(new java.awt.Color(241, 241, 241));
         dashboardContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -2006,7 +2168,9 @@ public final class adminDashboard extends javax.swing.JFrame {
         jToggleButton1.setBorderPainted(false);
         dashboardContainer.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, 50, 50));
 
-        getContentPane().add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 720));
+        jPanel20.add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 720));
+
+        getContentPane().add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 720));
 
         pack();
         setLocationRelativeTo(null);
@@ -2107,14 +2271,8 @@ public final class adminDashboard extends javax.swing.JFrame {
 
     private void jLabel101MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel101MouseClicked
         emptyValues();
-        tabs.setSelectedIndex(1);
+        tabs.setSelectedIndex(6);
     }//GEN-LAST:event_jLabel101MouseClicked
-
-    private void removetbnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removetbnActionPerformed
-        getPhoto.setIcon(null);
-        selectedFile = null;
-        imagePath = null;
-    }//GEN-LAST:event_removetbnActionPerformed
 
     private void replacebtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replacebtnActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -2195,7 +2353,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 return;
             }
 
-            if (selectedFile == null || !selectedFile.exists()) {
+            if (EditgetImageFromDatabase == null) {
                 Notifications.getInstance().show(Notifications.Type.ERROR, "Please select an image!");
                 desError7.setText("* Product image cannot be empty.");
                 return;
@@ -2254,14 +2412,18 @@ public final class adminDashboard extends javax.swing.JFrame {
                         + "WHERE product_id=?";
             }
 
-            String checkQuery = "SELECT COUNT(*) FROM tbl_products WHERE product_name = ?";
+            // Prepare the SQL query to count the number of products with the same name but different IDs
+            String checkQuery = "SELECT COUNT(*) FROM tbl_products WHERE product_name = ? AND product_id <> ?";
             PreparedStatement checkStmt = dbc.getConnection().prepareStatement(checkQuery);
             checkStmt.setString(1, productName);
+            checkStmt.setInt(2, p_id); // Assuming currentProductId holds the ID of the current product
             ResultSet rs = checkStmt.executeQuery();
             rs.next();
             int count = rs.getInt(1);
+
+            // Check if there are any products with the same name but different IDs
             if (count > 0) {
-                JOptionPane.showMessageDialog(null, "Product already exist!");
+                JOptionPane.showMessageDialog(null, "Product already exists!");
                 getName.setText("");
                 return;
             }
@@ -2374,7 +2536,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_restore1ActionPerformed
 
     private void jLabel41MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel41MouseClicked
-        tabs.setSelectedIndex(1);
+        tabs.setSelectedIndex(6);
     }//GEN-LAST:event_jLabel41MouseClicked
 
     private void archive_search_barKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_archive_search_barKeyReleased
@@ -2430,7 +2592,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                     dbc.deleteProduct(pid);
                     displayProducts();
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product has been successfully deleted!");
-
+                    displayProducts();
                     // logs
                     String details = "Admin " + admin_id + " successfully deleted the product " + pid + "!";
                     String action = "Delete product";
@@ -2489,7 +2651,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                     getDescription.setText(rs.getString("product_description"));
                     getStatus.setSelectedItem(rs.getString("product_status"));
 
-                    tabs.setSelectedIndex(9);
+                    tabs.setSelectedIndex(8);
                 }
             }
         } catch (Exception e) {
@@ -2510,7 +2672,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         product_search_bar.setFocusable(true);
         product_search_bar.requestFocusInWindow();
     }//GEN-LAST:event_product_search_barMouseClicked
-
+    String EditgetImageFromDatabase;
     private void product_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_product_tableMouseClicked
         int rowIndex = product_table.getSelectedRow();
         if (rowIndex < 0) {
@@ -2532,10 +2694,10 @@ public final class adminDashboard extends javax.swing.JFrame {
                 getCategory.setSelectedItem(rs.getString("product_category"));
                 getStatus.setSelectedItem(rs.getString("product_status"));
                 getDescription.setText("" + rs.getString("product_description"));
-                String getImageFromDatabase = rs.getString("product_image");
+                EditgetImageFromDatabase = rs.getString("product_image");
                 int height = 160;
                 int width = 160;
-                GetImage.displayImage(getPhoto, getImageFromDatabase, height, width);
+                GetImage.displayImage(getPhoto, EditgetImageFromDatabase, height, width);
                 sold = rs.getInt("total_sold");
             } else {
                 JOptionPane.showMessageDialog(null, "Product details not found!");
@@ -3126,6 +3288,30 @@ public final class adminDashboard extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_add2archiveActionPerformed
+
+    private void message4admin_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_message4admin_tableMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_message4admin_tableMouseClicked
+
+    private void message_search_barMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_message_search_barMouseClicked
+        message_search_bar.setFocusable(true);
+        message_search_bar.requestFocusInWindow();
+    }//GEN-LAST:event_message_search_barMouseClicked
+
+    private void message_search_barActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_message_search_barActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_message_search_barActionPerformed
+
+    private void message_search_barKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_message_search_barKeyReleased
+        search.searchResult(message4admin_table, message_search_bar);
+    }//GEN-LAST:event_message_search_barKeyReleased
+
+    private void filter_product_table1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filter_product_table1ActionPerformed
+        sorter.searchResult(message4admin_table, filter_product_table1);
+    }//GEN-LAST:event_filter_product_table1ActionPerformed
+
+    private void jLabel108MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel108MouseClicked
+    }//GEN-LAST:event_jLabel108MouseClicked
     private static int p_id;
     private static int sold = 0;
 
@@ -3232,8 +3418,10 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel email;
     private javax.swing.JLabel email1;
     private javax.swing.JPanel filterContainer;
+    private javax.swing.JPanel filterContainer3;
     private javax.swing.JPanel filterContainer4;
     private javax.swing.JComboBox<String> filter_product_table;
+    private javax.swing.JComboBox<String> filter_product_table1;
     private javax.swing.JComboBox<String> filter_product_table2;
     private javax.swing.JTextField first;
     private javax.swing.JLabel fname;
@@ -3251,6 +3439,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel101;
     private javax.swing.JLabel jLabel103;
+    private javax.swing.JLabel jLabel108;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -3273,6 +3462,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
@@ -3286,6 +3476,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel74;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -3300,6 +3491,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -3309,6 +3501,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
@@ -3317,6 +3510,7 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator12;
     private javax.swing.JSeparator jSeparator13;
     private javax.swing.JSeparator jSeparator14;
+    private javax.swing.JSeparator jSeparator17;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
@@ -3359,6 +3553,10 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> manageRole;
     private javax.swing.JButton manageSave;
     private javax.swing.JLabel manageStatus;
+    private javax.swing.JTable message4admin_table;
+    private javax.swing.JPanel messageContainer;
+    private javax.swing.JLabel message_is_empty;
+    private javax.swing.JTextField message_search_bar;
     private javax.swing.JLabel myprofile4;
     private javax.swing.JLabel myprofile5;
     private javax.swing.JLabel myprofile6;
@@ -3383,7 +3581,6 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JButton product_table_edit_button;
     private javax.swing.JPanel productsContainer;
     private javax.swing.JLabel profile;
-    private javax.swing.JButton removetbn;
     private javax.swing.JButton replacebtn;
     private javax.swing.JButton restore;
     private javax.swing.JButton restore1;
