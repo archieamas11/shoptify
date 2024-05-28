@@ -52,10 +52,8 @@ public class actionLogs {
         try {
             databaseConnector dbc = new databaseConnector();
 
-            String query = "SELECT `adminlogs_id` as `Logs ID`, `admin_id` as `Admin ID`, `adminlogs_action` as `Action`, `adminlogs_details` as `Details`, `adminlogs_timestamp` as `Timestamp` FROM tbl_adminlogs WHERE admin_id = ?";
+            String query = "SELECT `adminlogs_id` as `Logs ID`, `admin_id` as `Admin ID`, `adminlogs_action` as `Action`, `adminlogs_details` as `Details`, `adminlogs_timestamp` as `Timestamp` FROM tbl_adminlogs";
             PreparedStatement statement = dbc.getConnection().prepareStatement(query);
-            statement.setInt(1, adminID);
-
             ResultSet rs = statement.executeQuery();
             table.setModel(DbUtils.resultSetToTableModel(rs));
 
