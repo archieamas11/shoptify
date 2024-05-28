@@ -4,6 +4,13 @@
  */
 package config;
 
+import Admin.adminDashboard;
+import com.formdev.flatlaf.FlatLightLaf;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  *
  * @author MARITIME 02
@@ -76,7 +83,6 @@ public class invoice extends javax.swing.JFrame {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel4.setBackground(new java.awt.Color(51, 51, 51));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -105,38 +111,30 @@ public class invoice extends javax.swing.JFrame {
         jLabel15.setText("invoice no.");
         jPanel4.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 100, -1, 30));
 
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 150));
-
         invoice_date.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         invoice_date.setForeground(new java.awt.Color(51, 51, 51));
         invoice_date.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         invoice_date.setText("10-24-2024");
-        jPanel2.add(invoice_date, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 270, -1, 30));
 
         jLabel1.setFont(new java.awt.Font("Gabriola", 1, 50)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 51, 51));
         jLabel1.setText("Thank you!");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 660, -1, 120));
 
         invoice_phone_number.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         invoice_phone_number.setForeground(new java.awt.Color(51, 51, 51));
         invoice_phone_number.setText("09231226478");
-        jPanel2.add(invoice_phone_number, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, -1, 30));
 
         invoice_email.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         invoice_email.setForeground(new java.awt.Color(51, 51, 51));
         invoice_email.setText("archiealbarico@gmail.com");
-        jPanel2.add(invoice_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, -1, 20));
 
         invoice_address.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         invoice_address.setForeground(new java.awt.Color(51, 51, 51));
         invoice_address.setText("Tunghaan, Minglanillla, Cebu");
-        jPanel2.add(invoice_address, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, -1, 30));
 
         jLabel10.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(51, 51, 51));
         jLabel10.setText("invoice to:");
-        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, 30));
 
         jPanel5.setBackground(new java.awt.Color(51, 51, 51));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -151,24 +149,18 @@ public class invoice extends javax.swing.JFrame {
         invoice_total.setText("$1,945");
         jPanel5.add(invoice_total, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, -1, 50));
 
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 540, 320, 50));
-
         jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 690, 220, 10));
 
         invoice_customer.setFont(new java.awt.Font("Arial", 1, 25)); // NOI18N
         invoice_customer.setForeground(new java.awt.Color(51, 51, 51));
         invoice_customer.setText("Archie Albarico");
-        jPanel2.add(invoice_customer, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, -1, 30));
 
         jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 610, 30));
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel4.setText("Cash on delivery");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 570, 220, -1));
 
         jPanel6.setBackground(new java.awt.Color(51, 51, 51));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -193,64 +185,161 @@ public class invoice extends javax.swing.JFrame {
         jLabel18.setText("Price");
         jPanel6.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 0, -1, 50));
 
-        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, 610, 50));
-
         signature_name.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         signature_name.setForeground(new java.awt.Color(51, 51, 51));
         signature_name.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         signature_name.setText("Archie Albarico");
-        jPanel2.add(signature_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 690, 220, 40));
 
         jLabel20.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel20.setForeground(new java.awt.Color(51, 51, 51));
         jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel20.setText("Payment method");
-        jPanel2.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 540, 220, -1));
 
         invoice_descript.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         invoice_descript.setForeground(new java.awt.Color(51, 51, 51));
         invoice_descript.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         invoice_descript.setText("$1,945");
-        jPanel2.add(invoice_descript, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 280, 50));
 
         invoice_subtotal.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         invoice_subtotal.setForeground(new java.awt.Color(51, 51, 51));
         invoice_subtotal.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         invoice_subtotal.setText("$1,945");
-        jPanel2.add(invoice_subtotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(554, 410, 60, 50));
 
         invoice_price.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         invoice_price.setForeground(new java.awt.Color(51, 51, 51));
         invoice_price.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         invoice_price.setText("$1,945");
-        jPanel2.add(invoice_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 410, 70, 50));
 
         invoice_qty.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         invoice_qty.setForeground(new java.awt.Color(51, 51, 51));
         invoice_qty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         invoice_qty.setText("$1,945");
-        jPanel2.add(invoice_qty, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 410, 60, 50));
 
         jLabel25.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(51, 51, 51));
         jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel25.setText("Customer");
-        jPanel2.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 730, 220, -1));
 
         invoice_order.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         invoice_order.setForeground(new java.awt.Color(51, 51, 51));
         invoice_order.setText("1234");
-        jPanel2.add(invoice_order, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 320, -1, 30));
 
         jLabel22.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(51, 51, 51));
         jLabel22.setText("Date:");
-        jPanel2.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 270, -1, 30));
 
         jLabel23.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(51, 51, 51));
         jLabel23.setText("order id #");
-        jPanel2.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 320, -1, 30));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 670, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(jLabel10))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(invoice_customer))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(invoice_phone_number)
+                    .addComponent(invoice_address)
+                    .addComponent(invoice_email))
+                .addGap(320, 320, 320)
+                .addComponent(jLabel22)
+                .addGap(11, 11, 11)
+                .addComponent(invoice_date))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel23)
+                .addGap(16, 16, 16)
+                .addComponent(invoice_order))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(invoice_descript, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(invoice_qty, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(invoice_price, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54)
+                .addComponent(invoice_subtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 610, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(70, 70, 70)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jLabel1)
+                .addGap(180, 180, 180)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(signature_name, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(invoice_customer)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(invoice_phone_number, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(invoice_address, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(invoice_email, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(invoice_date, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel23, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(invoice_order, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(invoice_descript, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(invoice_qty, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(invoice_price, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(invoice_subtotal, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(50, 50, 50)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel20)
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel4))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(70, 70, 70)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(signature_name, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel25))))
+        );
 
         jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 670, 760));
 
@@ -311,35 +400,20 @@ public class invoice extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(invoice.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(invoice.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(invoice.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(invoice.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+            UIManager.setLookAndFeel(new FlatLightLaf());
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new invoice().setVisible(true);
-            }
-        });
+            /* Create and display the form */
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new invoice().setVisible(true);
+                }
+            });
+
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(invoice.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

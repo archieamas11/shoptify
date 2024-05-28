@@ -601,49 +601,49 @@ public class chooseAccount extends javax.swing.JFrame {
             shopName = shop_name.getText();
         }
 
-        if (shopName.isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the Shop Name field.");
+        if (shopName.length() > 35) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Shop Name is too long. The limit is 35 characters.");
             e8.setText("*");
             return;
         }
 
-        if (em.isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the Email field.");
+        if (em.length() > 35) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "The Email Address is too long. The limit is 35 characters.");
             e3.setText("*");
             return;
         }
 
-        if (first_name.isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the First Name field.");
+        if (first_name.length() > 20) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "First Name is too long. The limit is 20 characters.");
             e1.setText("*");
             return;
         }
 
-        if (last_name.isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the Last Name field.");
+        if (last_name.length() > 20) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Last Name is too long. The limit is 20 characters.");
             e2.setText("*");
             return;
         }
-        if (user.isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the Username field.");
+
+        if (user.length() > 35) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Username is too long. The limit is 35 characters.");
             e6.setText("*");
             return;
         }
 
-        if (pass.isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the Password field.");
+        if (pass.length() < 8) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Password must be at least 8 characters long.");
             e7.setText("*");
             password.setText("");
             return;
         }
 
-        if (phone.isEmpty()) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in the Phone Number field.");
+        if (phone.length() < 11 || phone.length() > 12 || !phone.matches("\\d+")) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Invalid Phone Number! It must be 11-12 digits long.");
             e4.setText("*");
             number.setText("");
             return;
         }
-
         databaseConnector dbc = new databaseConnector();
         try {
             if (isAccountExist.checkEmail(em)) {

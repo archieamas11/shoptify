@@ -128,8 +128,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(delete, 15);
 
         //Components
-        UXmethods.RoundBorders.setArcStyle(scrollBar, 15);
-        UXmethods.RoundBorders.setArcStyle(archiveAccountTableContainerScroll, 15);
+        UXmethods.RoundBorders.setArcStyle(archiveAccountTableContainerScroll1, 15);
         UXmethods.RoundBorders.setArcStyle(searchBar, 15);
         UXmethods.RoundBorders.setArcStyle(accountTableContainer, 30);
         UXmethods.RoundBorders.setArcStyle(archiveAccountTableContainer, 30);
@@ -164,23 +163,22 @@ public final class adminDashboard extends javax.swing.JFrame {
                 + "margin:5,20,5,20");
     }
 
-    dprivate void displayMessages() {
+    private void displayMessages() {
         try {
             databaseConnector dbc = new databaseConnector();
             try (PreparedStatement pstmt = dbc.getConnection().prepareStatement(
                     "SELECT "
-                    + "p.product_id AS `Product ID`, "
-                    + "p.seller_id AS `Seller ID`, "
-                    + "CONCAT(a.first_name, ' ', a.last_name) AS `Seller Name`, "
-                    + "p.product_name AS `Product Name`, "
-                    + "p.product_price AS `Price`, "
-                    + "p.product_stock AS `Stock(s)`, "
-                    + "p.product_category AS `Category`, "
-                    + "p.total_sold AS `Sold`, "
-                    + "p.date_created AS `Date Created`, "
-                    + "p.product_status AS `Status` "
+                    + "m.message_id AS `Message ID`, "
+                    + "a.account_id AS `Account ID`, "
+                    + "CONCAT(a.first_name, ' ', a.last_name) AS `Full Name`, "
+                    + "a.role AS `Role`, "
+                    + "m.message_category AS `Category`, "
+                    + "m.message_title AS `Title`, "
+                    + "m.message_description AS `Description`, "
+                    + "m.date_sent AS `Sent`, "
+                    + "m.message_status AS `Status` "
                     + "FROM tbl_message4admin m "
-                    + "JOIN tbl_accounts a ON a.account_id = p.seller_id")) {
+                    + "JOIN tbl_accounts a ON a.account_id = m.account_id")) {
                 try (ResultSet rs = pstmt.executeQuery()) {
                     if (!rs.isBeforeFirst()) {
                         message_is_empty.setText("MESSAGE TABLE IS EMPTY!");
@@ -195,9 +193,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                         for (int i = 0; i < message4admin_table.getColumnCount(); i++) {
                             message4admin_table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
                         }
-
-                        // Optionally set preferred column widths
-                        // product_table.getColumnModel().getColumn(0).setPreferredWidth(20); // example for the first column
+                        message4admin_table.getColumnModel().getColumn(6).setPreferredWidth(400); // example for the first column
                     }
                 }
             }
@@ -303,6 +299,11 @@ public final class adminDashboard extends javax.swing.JFrame {
                 int width = 100;
                 String profilePicture = rs.getString("profile_picture");
                 GetImage.displayImage(managePhoto, profilePicture, height, width);
+
+                int sheight = 50;
+                int swidth = 50;
+                String rofilePicture = rs.getString("profile_picture");
+                GetImage.displayImage(profile, rofilePicture, sheight, swidth);
             }
             rs.close();
             pst.close();
@@ -2009,7 +2010,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         message_is_empty.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         message_is_empty.setForeground(new java.awt.Color(51, 51, 51));
         message_is_empty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        messageContainer.add(message_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(-2, 290, 1100, 60));
+        messageContainer.add(message_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 1100, 60));
         messageContainer.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1130, 20));
 
         jScrollPane12.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -2166,6 +2167,11 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         jToggleButton1.setBackground(new java.awt.Color(204, 204, 204));
         jToggleButton1.setBorderPainted(false);
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
         dashboardContainer.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, 50, 50));
 
         jPanel20.add(dashboardContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 720));
@@ -3312,6 +3318,10 @@ public final class adminDashboard extends javax.swing.JFrame {
 
     private void jLabel108MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel108MouseClicked
     }//GEN-LAST:event_jLabel108MouseClicked
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        tabs.setSelectedIndex(9);
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
     private static int p_id;
     private static int sold = 0;
 

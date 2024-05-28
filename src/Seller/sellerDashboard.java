@@ -465,7 +465,15 @@ public final class sellerDashboard extends javax.swing.JFrame {
     public void messages() {
         try {
             databaseConnector dbc = new databaseConnector();
-            try (PreparedStatement pstmt = dbc.getConnection().prepareStatement("SELECT * FROM tbl_messages4seller WHERE seller_id = ?")) {
+            try (PreparedStatement pstmt = dbc.getConnection().prepareStatement("SELECT "
+                    + "m.message_id AS `Message ID`, "
+                    + "a.first_name AS `First Name`, "
+                    + "m.message AS `Message`, "
+                    + "m.date_sent AS `Sent`, "
+                    + "m.message_status AS `Status` "
+                    + "FROM tbl_messages4seller m "
+                    + "JOIN tbl_accounts a ON a.account_id = m.account_id "
+                    + "WHERE m.account_id = ?")) {
                 pstmt.setInt(1, sellerID);
                 try (ResultSet rs = pstmt.executeQuery()) {
                     messages_table.setModel(DbUtils.resultSetToTableModel(rs));
@@ -606,7 +614,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     + "`message_description` AS `Description`, "
                     + "`date_sent` AS `Date Sent`, "
                     + "`message_status` AS `Status` "
-                    + "FROM tbl_message4admin WHERE seller_id = ?"
+                    + "FROM tbl_message4admin WHERE account_id = ?"
             );
             pstmt.setInt(1, sellerID);
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -1319,8 +1327,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 logoutActionPerformed(evt);
             }
         });
-        dashboardContainer.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 600, 50, 50));
-        dashboardContainer.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 580, 50, 20));
+        dashboardContainer.add(logout, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 640, 50, 50));
+        dashboardContainer.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 620, 50, 20));
 
         profile.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         profile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/2.png"))); // NOI18N
@@ -1418,7 +1426,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
             }
         });
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, 550, 20));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 0, 530, 20));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -1857,7 +1865,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         });
         archiveAccountTableContainerScroll.setViewportView(archive_table);
 
-        archiveAccountTableContainer.add(archiveAccountTableContainerScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 820, 550));
+        archiveAccountTableContainer.add(archiveAccountTableContainerScroll, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 810, 550));
 
         archive_search_bar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         archive_search_bar.setForeground(new java.awt.Color(140, 140, 140));
@@ -2266,7 +2274,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         display_photo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         display_photo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sampleProfiles/default_seller_profile.png"))); // NOI18N
-        jPanel11.add(display_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 130, 150));
+        jPanel11.add(display_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 130, 150));
 
         seller_full_name.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         seller_full_name.setForeground(new java.awt.Color(51, 51, 51));
@@ -3762,7 +3770,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
     File selectedFile;
     String getImage;
-
     private void edit_profileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_profileActionPerformed
         try {
             databaseConnector dbc = new databaseConnector();
@@ -3842,6 +3849,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     displayProducts();
                     displayArchive();
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product has been successfully restored!");
+                    displayArchive();
+                    reset();
                     String action = "Restore";
                     String details = "Seller " + sellerID + " Successfully restore product " + pid + "!";
                     actionLogs.recordSellerLogs(sellerID, action, details);
@@ -3872,9 +3881,10 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     databaseConnector dbc = new databaseConnector();
                     dbc.deleteProduct(pid);
                     displayProducts();
+                    reset();
                     displayArchive();
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product has been successfully deleted!");
-
+                    displayArchive();
                     // logs
                     String details = "User " + sellerID + " successfully deleted the product " + pid + "!";
                     String action = "Delete product";
@@ -4472,7 +4482,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
             String checkQuery = "SELECT COUNT(*) FROM tbl_products WHERE product_name = ? AND product_id <> ?";
             PreparedStatement checkStmt = dbc.getConnection().prepareStatement(checkQuery);
             checkStmt.setString(1, productName);
-            checkStmt.setInt(2, p_id); // Assuming currentProductId holds the ID of the current product
+            checkStmt.setInt(2, p_id);
             ResultSet rs = checkStmt.executeQuery();
             rs.next();
             int count = rs.getInt(1);
@@ -4884,16 +4894,52 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         // Check if any field is empty and if selectedFile is not empty
         if ((val_location.isEmpty() || val_fame.isEmpty() || val_lame.isEmpty() || val_number.isEmpty() || val_shop.isEmpty())) {
-            JOptionPane.showMessageDialog(null, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in all fields!");
+            return;
+        }
+
+        if (val_shop.length() > 35) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Shop Name is too long. The limit is 35 characters.");
+            return;
+        }
+
+        if (val_email.length() > 35) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "The Email Address is too long. The limit is 35 characters.");
+            return;
+        }
+
+        if (val_fame.length() > 20) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "First Name is too long. The limit is 20 characters.");
+            return;
+        }
+
+        if (val_lame.length() > 20) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Last Name is too long. The limit is 20 characters.");
             return;
         }
 
         if (val_number.length() < 11 || val_number.length() > 12 || !val_number.matches("\\d+")) {
-            JOptionPane.showMessageDialog(null, "Invalid number", "Error", JOptionPane.ERROR_MESSAGE);
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Invalid Phone Number! It must be 11-12 digits long.");
+            shop_number.setText("");
             return;
         }
-        if (isAccountExist.checkEmail(val_email)) {
-            JOptionPane.showMessageDialog(null, "Email already registered.", "Error", JOptionPane.ERROR_MESSAGE);
+        databaseConnector dbc = new databaseConnector();
+
+        String checkQuery = "SELECT COUNT(*) FROM tbl_accounts WHERE email = ? AND account_id <> ?";
+        try (PreparedStatement checkStmt = dbc.getConnection().prepareStatement(checkQuery)) {
+            checkStmt.setString(1, val_email);
+            checkStmt.setInt(2, sellerID);
+            try (ResultSet rs = checkStmt.executeQuery()) {
+                rs.next();
+                int count = rs.getInt(1);
+                if (count > 0) {
+                    Notifications.getInstance().show(Notifications.Type.ERROR, "Email already exists.");
+                    shop_email.setText("");
+                    return;
+                }
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error checking email existence: " + ex.getMessage());
             return;
         }
 
@@ -4908,7 +4954,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         }
 
         try {
-            databaseConnector dbc = new databaseConnector();
 
             sql = "UPDATE tbl_accounts SET first_name=?, last_name=?, address=?, phone_number=?, email=?, shop_name=?, profile_picture=? WHERE account_id=?";
             pst = dbc.getConnection().prepareStatement(sql);
@@ -5183,8 +5228,18 @@ public final class sellerDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_admin_supportMouseClicked
 
+    private void reset() {
+        productID.setText("");
+        productPrice.setText("");
+        productName.setText("");
+        productQuantity.setText("");
+        productStatus.setText("");
+        descript.setText("");
+        productPhoto.setIcon(null);
+    }
     private void admin_supportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admin_supportActionPerformed
         displayMessage4Admin();
+        reset();
         tabs.setSelectedIndex(4);
         dashboard.setSelected(false);
         manage.setSelected(false);
@@ -5343,12 +5398,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
         databaseConnector dbc = new databaseConnector();
         try {
             PreparedStatement pst;
-            String sql = "INSERT INTO `tbl_message4admin` (`seller_id`, `message_category`, `message_title`, `message_description`, `date_sent`) VALUES (?, ?, ?, ?, NOW())";
+            String sql = "INSERT INTO `tbl_message4admin` (`account_id`, `message_category`, `message_title`, `message_description`, `date_sent`) VALUES (?, ?, ?, ?, NOW())";
             pst = dbc.getConnection().prepareStatement(sql);
             pst.setInt(1, sellerID);
             pst.setString(2, var_category);
             pst.setString(3, var_title);
             pst.setString(4, var_message);
+
             pst.executeUpdate();
             pst.close();
             Notifications.getInstance().show(Notifications.Type.SUCCESS, "Message sent successfully");
