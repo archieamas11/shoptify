@@ -10,3 +10,7 @@
 //int sales = rs.getInt("TotalSales");
 //NumberFormat numberFormat = NumberFormat.getNumberInstance();
 //totalSales.setText(String.format("₱  %d" + numberFormat.format(sales)));
+
+//sorter.searchResult(accounts_table, filter_product_table2);
+//UXmethods.RoundBorders.setArcStyle(c1, 15);
+//search.searchResult(archive_table, searchBar1);

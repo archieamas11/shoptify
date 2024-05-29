@@ -258,7 +258,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
                         cart_table.setModel(DbUtils.resultSetToTableModel(rs));
                         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
                         centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-                        cart_table.setDefaultRenderer(Object.class, centerRenderer);
+                        for (int i = 0; i < cart_table.getColumnCount(); i++) {
+                            cart_table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+                        }
                     }
                 }
             }
@@ -765,6 +767,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jToggleButton5 = new javax.swing.JToggleButton();
         jToggleButton6 = new javax.swing.JToggleButton();
         jLabel6 = new javax.swing.JLabel();
+        jToggleButton7 = new javax.swing.JToggleButton();
         jPanel7 = new javax.swing.JPanel();
         cartTableContainer1 = new javax.swing.JPanel();
         jSeparator17 = new javax.swing.JSeparator();
@@ -2043,6 +2046,18 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         myprofile.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 70, 70));
 
+        jToggleButton7.setBackground(new java.awt.Color(241, 241, 241));
+        jToggleButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product_heart.png"))); // NOI18N
+        jToggleButton7.setText("My favorites");
+        jToggleButton7.setBorder(null);
+        jToggleButton7.setBorderPainted(false);
+        jToggleButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton7ActionPerformed(evt);
+            }
+        });
+        myprofile.add(jToggleButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 200, 40));
+
         tabs.addTab("tab5", myprofile);
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
@@ -2478,10 +2493,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
         unit_price.setText("₱ 85,999");
         s3.add(unit_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 110, 50, 40));
 
-        product_name2.setFont(new java.awt.Font("Roboto", 0, 50)); // NOI18N
-        product_name2.setForeground(new java.awt.Color(51, 51, 51));
-        product_name2.setText("Macbook Air");
-        s3.add(product_name2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, -1, 70));
+        product_name2.setFont(new java.awt.Font("Roboto", 0, 30)); // NOI18N
+        product_name2.setText("Macbook Airsssssssssss");
+        s3.add(product_name2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 370, 60));
 
         jScrollPane3.setViewportView(notes);
 
@@ -2571,8 +2585,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
         product_category1.setFont(new java.awt.Font("Roboto", 0, 20)); // NOI18N
         product_category1.setForeground(new java.awt.Color(153, 153, 153));
-        product_category1.setText("asdsssssssssssssssssssss");
-        jPanel6.add(product_category1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, 240, 20));
+        jPanel6.add(product_category1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, 870, 20));
 
         jSeparator12.setBackground(new java.awt.Color(0, 0, 0));
         jSeparator12.setForeground(new java.awt.Color(231, 231, 231));
@@ -3630,7 +3643,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jToggleButton3ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
-        tabs.setSelectedIndex(7);
+        tabs.setSelectedIndex(5);
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
@@ -4085,11 +4098,14 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private void buy_nowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buy_nowActionPerformed
         String productName = product_name.getText();
         String productPrice = product_price.getText();
+        String yawa = product_category.getText();
         buyPriceStr = product_price.getText().replaceAll("[^0-9]", "");
         buyPrice = Integer.parseInt(buyPriceStr);
         buyQuantStr = displayQuant.getText();
         buyQuant = Integer.parseInt(buyQuantStr);
         totalPrice = buyPrice * buyQuant;
+
+        product_category1.setText(yawa);
 
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         total_price.setText(String.valueOf("₱  " + numberFormat.format(totalPrice)));
@@ -4147,6 +4163,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
                     insertStmt.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Item added to the cart successfully!");
+                    displayCart();
                 }
 
                 checkRs.close();
@@ -4459,6 +4476,10 @@ public final class buyerDashboard extends javax.swing.JFrame {
         tabs.setSelectedIndex(4);
     }//GEN-LAST:event_jLabel108MouseClicked
 
+    private void jToggleButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton7ActionPerformed
+        tabs.setSelectedIndex(11);
+    }//GEN-LAST:event_jToggleButton7ActionPerformed
+
     int totalPrice;
     File selectedFile;
     String imagePath;
@@ -4686,6 +4707,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JToggleButton jToggleButton5;
     private javax.swing.JToggleButton jToggleButton6;
+    private javax.swing.JToggleButton jToggleButton7;
     private javax.swing.JToggleButton jToggleButton8;
     private javax.swing.JPanel l1;
     private javax.swing.JScrollPane l3;
