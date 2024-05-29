@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2024 at 09:04 PM
+-- Generation Time: May 29, 2024 at 03:16 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -87,20 +87,6 @@ INSERT INTO `tbl_adminlogs` (`adminlogs_id`, `admin_id`, `adminlogs_action`, `ad
 (24, 4, 'Logged in', 'Admin 4 successfully logged in!', '2024-05-28 17:26:55'),
 (25, 1, 'Edit profile', 'User 1 Successfully change profile info!', '2024-05-28 18:55:12'),
 (26, 1, 'Edit profile', 'User 1 Successfully change profile info!', '2024-05-28 18:55:33');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_buyerlogs`
---
-
-CREATE TABLE `tbl_buyerlogs` (
-  `buyerlogs_id` int(11) NOT NULL,
-  `buyer_id` int(11) NOT NULL,
-  `buyerlogs_action` varchar(100) NOT NULL,
-  `buyerlogs_details` varchar(600) NOT NULL,
-  `buyerlogs_timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -386,13 +372,6 @@ ALTER TABLE `tbl_adminlogs`
   ADD KEY `admin_id` (`admin_id`);
 
 --
--- Indexes for table `tbl_buyerlogs`
---
-ALTER TABLE `tbl_buyerlogs`
-  ADD PRIMARY KEY (`buyerlogs_id`),
-  ADD KEY `buyer_id` (`buyer_id`);
-
---
 -- Indexes for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
@@ -488,12 +467,6 @@ ALTER TABLE `tbl_adminlogs`
   MODIFY `adminlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
--- AUTO_INCREMENT for table `tbl_buyerlogs`
---
-ALTER TABLE `tbl_buyerlogs`
-  MODIFY `buyerlogs_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
@@ -562,12 +535,6 @@ ALTER TABLE `tbl_wishlist`
 --
 ALTER TABLE `tbl_adminlogs`
   ADD CONSTRAINT `tbl_adminlogs_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `tbl_accounts` (`account_id`);
-
---
--- Constraints for table `tbl_buyerlogs`
---
-ALTER TABLE `tbl_buyerlogs`
-  ADD CONSTRAINT `tbl_buyerlogs_ibfk_1` FOREIGN KEY (`buyer_id`) REFERENCES `tbl_accounts` (`account_id`);
 
 --
 -- Constraints for table `tbl_cart`

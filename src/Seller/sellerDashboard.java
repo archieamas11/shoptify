@@ -1426,7 +1426,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
             }
         });
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 0, 530, 20));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, 1190, 20));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -4406,7 +4406,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 Notifications.getInstance().show(Notifications.Type.ERROR, "Please fill in all fields!");
                 return;
             }
-            if (productName.length() > 21) {
+            if (productName.length() > 20) {
                 Notifications.getInstance().show(Notifications.Type.ERROR, "Product name must not exceed 21 characters!");
                 editNameError.setText("* Product name must not exceed 21 characters.");
                 getName.setText("");
@@ -4604,7 +4604,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
             return;
         }
 
-        if (valname.length() > 21) {
+        if (valname.length() > 20) {
             Notifications.getInstance().show(Notifications.Type.ERROR, "Product name must not exceed 21 characters!");
             nameError.setText("* Product name must not exceed 21 characters.");
             addName.setText("");
@@ -4898,7 +4898,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
             return;
         }
 
-        if (val_shop.length() > 35) {
+        if (val_shop.length() > 20) {
             Notifications.getInstance().show(Notifications.Type.ERROR, "Shop Name is too long. The limit is 35 characters.");
             return;
         }

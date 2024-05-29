@@ -601,7 +601,13 @@ public class chooseAccount extends javax.swing.JFrame {
             shopName = shop_name.getText();
         }
 
-        if (shopName.length() > 35) {
+        if (add.length() > 35) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Address is too long. The limit is 35 characters.");
+            e8.setText("*");
+            return;
+        }
+
+        if (shopName.length() > 20) {
             Notifications.getInstance().show(Notifications.Type.ERROR, "Shop Name is too long. The limit is 35 characters.");
             e8.setText("*");
             return;
@@ -625,7 +631,7 @@ public class chooseAccount extends javax.swing.JFrame {
             return;
         }
 
-        if (user.length() > 35) {
+        if (user.length() > 20) {
             Notifications.getInstance().show(Notifications.Type.ERROR, "Username is too long. The limit is 35 characters.");
             e6.setText("*");
             return;
@@ -633,6 +639,13 @@ public class chooseAccount extends javax.swing.JFrame {
 
         if (pass.length() < 8) {
             Notifications.getInstance().show(Notifications.Type.ERROR, "Password must be at least 8 characters long.");
+            e7.setText("*");
+            password.setText("");
+            return;
+        }
+
+        if (pass.length() > 20) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Password is too long. The limit is 35 characters..");
             e7.setText("*");
             password.setText("");
             return;
