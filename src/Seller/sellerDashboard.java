@@ -512,9 +512,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         product_is_empty.setText("");
                         product_table.setModel(DbUtils.resultSetToTableModel(rs));
                         product_table.getColumnModel().getColumn(7).setCellRenderer(new StatusCellRenderer());
-                        //TableColumn column;
-                        //column = product_table.getColumnModel().getColumn(0);
-                        //column.setPreferredWidth(20);
+                       
                         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
                         centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
                         product_table.setDefaultRenderer(Object.class, centerRenderer);
@@ -526,7 +524,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         }
     }
 
-    class StatusCellRenderer extends DefaultTableCellRenderer {
+    public class StatusCellRenderer extends DefaultTableCellRenderer {
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {

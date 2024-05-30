@@ -4,6 +4,7 @@
  */
 package Admin;
 
+import Seller.sellerDashboard;
 import accounts.Login;
 import accounts.UserManager;
 import com.formdev.flatlaf.FlatClientProperties;
@@ -16,6 +17,8 @@ import config.isAccountExist;
 import config.search;
 import config.sorter;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.geom.RoundRectangle2D;
@@ -36,6 +39,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -185,6 +189,51 @@ public final class adminDashboard extends javax.swing.JFrame {
         }
     }
 
+    public class StatusCellRenderer extends DefaultTableCellRenderer {
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            String status = (String) value;
+
+            switch (status) {
+                case "Available":
+                    cellComponent.setForeground(new Color(0, 102, 0));
+                    cellComponent.setFont(cellComponent.getFont().deriveFont(Font.BOLD));
+                    break;
+                case "Accepted":
+                    cellComponent.setForeground(new Color(0, 102, 0));
+                    cellComponent.setFont(cellComponent.getFont().deriveFont(Font.BOLD));
+                    break;
+                case "Not Available":
+                    cellComponent.setForeground(new Color(204, 204, 204));
+                    cellComponent.setFont(cellComponent.getFont().deriveFont(Font.BOLD));
+                    break;
+                case "Sold out":
+                    cellComponent.setForeground(Color.RED);
+                    cellComponent.setFont(cellComponent.getFont().deriveFont(Font.BOLD));
+                    break;
+                case "Declined":
+                    cellComponent.setForeground(Color.RED);
+                    cellComponent.setFont(cellComponent.getFont().deriveFont(Font.BOLD));
+                    break;
+                case "Pending":
+                    cellComponent.setForeground(new Color(255, 153, 0));
+                    cellComponent.setFont(cellComponent.getFont().deriveFont(Font.BOLD));
+                    break;
+                case "Archived":
+                    cellComponent.setForeground(new Color(102, 102, 102));
+                    break;
+                default:
+                    cellComponent.setForeground(table.getForeground());
+            }
+            ((JLabel) cellComponent).setHorizontalAlignment(SwingConstants.CENTER);
+
+            return cellComponent;
+        }
+    }
+
     public void displayProducts() {
         try {
             databaseConnector dbc = new databaseConnector();
@@ -201,7 +250,8 @@ public final class adminDashboard extends javax.swing.JFrame {
                     + "p.date_created AS `Date Created`, "
                     + "p.product_status AS `Status` "
                     + "FROM tbl_products p "
-                    + "JOIN tbl_accounts a ON a.account_id = p.seller_id")) {
+                    + "JOIN tbl_accounts a ON a.account_id = p.seller_id "
+                    + "WHERE p.product_status IN ('Sold out', 'Available', 'Not Available')")) {
                 try (ResultSet rs = pstmt.executeQuery()) {
                     if (!rs.isBeforeFirst()) {
                         product_is_empty.setText("PRODUCT TABLE IS EMPTY!");
@@ -209,6 +259,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                     } else {
                         product_is_empty.setText("");
                         product_table.setModel(DbUtils.resultSetToTableModel(rs));
+                        product_table.getColumnModel().getColumn(8).setCellRenderer(new StatusCellRenderer());
 
                         // Center align the text in the table cells
                         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -498,7 +549,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         manage27 = new javax.swing.JLabel();
         role1 = new javax.swing.JLabel();
         restore = new javax.swing.JButton();
-        delete = new javax.swing.JButton();
         statusIcon1 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
         jSeparator4 = new javax.swing.JSeparator();
@@ -522,7 +572,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         filter_product_table = new javax.swing.JComboBox<>();
         product_table_edit_button = new javax.swing.JButton();
         product_table_archive_button = new javax.swing.JButton();
-        product_table_delete_button = new javax.swing.JButton();
         jLabel31 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
@@ -553,7 +602,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         jSeparator14 = new javax.swing.JSeparator();
         productPrice = new javax.swing.JLabel();
         restore1 = new javax.swing.JButton();
-        delete1 = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jPanel16 = new javax.swing.JPanel();
@@ -626,7 +674,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 1170, 20));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 1180, 20));
 
         tabs.setBackground(new java.awt.Color(255, 255, 255));
         tabs.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -835,7 +883,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         filter_product_table2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         filter_product_table2.setForeground(new java.awt.Color(153, 153, 153));
-        filter_product_table2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Categories", "Electronics", "Grocery", "Pet Supplies", "Fashion" }));
+        filter_product_table2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Status", "Active", "Inactive", "Deactivated" }));
         filter_product_table2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         filter_product_table2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -845,6 +893,7 @@ public final class adminDashboard extends javax.swing.JFrame {
         filterContainer4.add(filter_product_table2, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 110, 30));
 
         jPanel10.add(filterContainer4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 180, 40));
+        UXmethods.RoundBorders.setArcStyle(filterContainer4, 10);
 
         jLabel47.setBackground(new java.awt.Color(241, 241, 241));
         jLabel47.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
@@ -859,6 +908,7 @@ public final class adminDashboard extends javax.swing.JFrame {
             }
         });
         jPanel10.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 50, 130, 40));
+        UXmethods.RoundBorders.setArcStyle(jButton2, 10);
 
         jPanel7.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 810, 670));
 
@@ -1259,7 +1309,7 @@ public final class adminDashboard extends javax.swing.JFrame {
 
         filter_product_table3.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         filter_product_table3.setForeground(new java.awt.Color(153, 153, 153));
-        filter_product_table3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Categories", "Electronics", "Grocery", "Pet Supplies", "Fashion" }));
+        filter_product_table3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All", "Logged in", "Edit profile", "Change status", "Edit product" }));
         filter_product_table3.setSelectedIndex(0);
         filter_product_table3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         filter_product_table3.addActionListener(new java.awt.event.ActionListener() {
@@ -1380,19 +1430,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 restoreActionPerformed(evt);
             }
         });
-        archiveAccountTableContainer.add(restore, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 600, 130, 50));
-
-        delete.setBackground(new java.awt.Color(255, 102, 102));
-        delete.setForeground(new java.awt.Color(255, 255, 255));
-        delete.setText("Delete");
-        delete.setBorder(null);
-        delete.setBorderPainted(false);
-        delete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteActionPerformed(evt);
-            }
-        });
-        archiveAccountTableContainer.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 600, 130, 50));
+        archiveAccountTableContainer.add(restore, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 600, 280, 50));
 
         statusIcon1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         statusIcon1.setForeground(new java.awt.Color(153, 255, 153));
@@ -1579,16 +1617,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         productsContainer.add(product_table_archive_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 50, 130, 40));
         UXmethods.RoundBorders.setArcStyle(product_table_archive_button, 10);
 
-        product_table_delete_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        product_table_delete_button.setText("Delete");
-        product_table_delete_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                product_table_delete_buttonActionPerformed(evt);
-            }
-        });
-        productsContainer.add(product_table_delete_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 50, 130, 40));
-        UXmethods.RoundBorders.setArcStyle(product_table_delete_button, 10);
-
         jLabel31.setBackground(new java.awt.Color(241, 241, 241));
         jLabel31.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel31.setForeground(new java.awt.Color(204, 204, 204));
@@ -1607,7 +1635,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        productsContainer.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(585, 50, 120, 40));
+        productsContainer.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 50, 120, 40));
         UXmethods.RoundBorders.setArcStyle(jButton1, 10);
 
         jPanel11.add(productsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1140, 680));
@@ -1768,19 +1796,7 @@ public final class adminDashboard extends javax.swing.JFrame {
                 restore1ActionPerformed(evt);
             }
         });
-        jPanel14.add(restore1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, 130, 40));
-
-        delete1.setBackground(new java.awt.Color(255, 102, 102));
-        delete1.setForeground(new java.awt.Color(255, 255, 255));
-        delete1.setText("Delete");
-        delete1.setBorder(null);
-        delete1.setBorderPainted(false);
-        delete1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                delete1ActionPerformed(evt);
-            }
-        });
-        jPanel14.add(delete1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 630, 130, 40));
+        jPanel14.add(restore1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, 270, 40));
 
         jLabel19.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
         jLabel19.setText("Description");
@@ -2454,6 +2470,10 @@ public final class adminDashboard extends javax.swing.JFrame {
                         String details = "Admin " + admin_id + " successfully edited product " + p_id + "!";
                         actionLogs.recordAdminLogs(admin_id, action, details);
                     }
+                    //logs
+                    String details = "Admin " + admin_id + " add product " + p_id + "!";
+                    String action = "Edit product";
+                    actionLogs.recordAdminLogs(admin_id, action, details);
                     displayProducts();
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed to update data!");
@@ -2481,31 +2501,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         getStatus.setFocusable(true);
         getStatus.requestFocusInWindow();
     }//GEN-LAST:event_getStatusMouseClicked
-
-    private void delete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete1ActionPerformed
-        int rowIndex = archive_accounts_table.getSelectedRow(); // Get the selected row index
-        if (rowIndex < 0) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, "Please select a product first!");
-        } else {
-            int a = JOptionPane.showConfirmDialog(null, "Are you sure?");
-            if (a == JOptionPane.YES_OPTION) {
-                int pid = (int) archive_accounts_table.getValueAt(rowIndex, 0);
-                try {
-                    databaseConnector dbc = new databaseConnector();
-                    dbc.deleteProduct(pid);
-                    displayProducts();
-                    display_archive_products();
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product deleted successfully!");
-                    // logs
-                    String details = "Admin " + admin_id + " successfully deleted the product " + pid + "!";
-                    String action = "Delete product";
-                    actionLogs.recordAdminLogs(admin_id, action, details);
-                } catch (HeadlessException ex) {
-                    JOptionPane.showMessageDialog(null, "Error deleting product: " + ex.getMessage());
-                }
-            }
-        }
-    }//GEN-LAST:event_delete1ActionPerformed
 
     private void restore1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restore1ActionPerformed
         try {
@@ -2578,56 +2573,36 @@ public final class adminDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_archive_products_tableMouseClicked
 
-    private void product_table_delete_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_product_table_delete_buttonActionPerformed
-        int rowIndex = product_table.getSelectedRow(); // Get the selected row index
-        if (rowIndex < 0) {
-            Notifications.getInstance().show(Notifications.Type.ERROR, "Error: Please select a product to delete!");
-        } else {
-            int a = JOptionPane.showConfirmDialog(null, "Are you sure?");
-            if (a == JOptionPane.YES_OPTION) {
-                int pid = (int) product_table.getValueAt(rowIndex, 0);
-
-                try {
-                    databaseConnector dbc = new databaseConnector();
-                    dbc.deleteProduct(pid);
-                    displayProducts();
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product has been successfully deleted!");
-                    displayProducts();
-                    // logs
-                    String details = "Admin " + admin_id + " successfully deleted the product " + pid + "!";
-                    String action = "Delete product";
-                    actionLogs.recordAdminLogs(admin_id, action, details);
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Error deleting product: " + ex.getMessage());
-                }
-            }
-        }
-    }//GEN-LAST:event_product_table_delete_buttonActionPerformed
-
     private void product_table_archive_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_product_table_archive_buttonActionPerformed
-        try {
-            databaseConnector dbc = new databaseConnector();
+        int rowIndex = product_table.getSelectedRow();
+        if (rowIndex < 0) {
+            Notifications.getInstance().show(Notifications.Type.ERROR, "Please Select an Item!");
+        } else {
+            try {
+                databaseConnector dbc = new databaseConnector();
 
-            String sql = "UPDATE tbl_products SET product_status = 'Archive' WHERE product_id = ?";
+                String sql = "UPDATE tbl_products SET product_status = 'Archive' WHERE product_id = ?";
 
-            try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
-                pst.setInt(1, p_id);
+                try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
+                    pst.setInt(1, p_id);
 
-                int rowsUpdated = pst.executeUpdate();
+                    int rowsUpdated = pst.executeUpdate();
 
-                if (rowsUpdated > 0) {
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product added to archive successfully!");
-                    displayProducts();
-                    display_archive_products();
-                    String action = "Archive";
-                    String details = "Admin " + admin_id + " Successfully put product " + p_id + " to archive!";
-                    actionLogs.recordAdminLogs(admin_id, action, details);
-                } else {
-                    Notifications.getInstance().show(Notifications.Type.ERROR, "failed to add product to archive!");
+                    if (rowsUpdated > 0) {
+                        displayProducts();
+                        display_archive_products();
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product added to archive successfully!");
+                        String action = "Archive";
+                        String details = "Admin " + admin_id + " Successfully put product " + p_id + " to archive!";
+                        actionLogs.recordAdminLogs(admin_id, action, details);
+                    } else {
+                        Notifications.getInstance().show(Notifications.Type.ERROR, "failed to add product to archive!");
+                    }
                 }
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
         }
     }//GEN-LAST:event_product_table_archive_buttonActionPerformed
 
@@ -2732,29 +2707,6 @@ public final class adminDashboard extends javax.swing.JFrame {
     private void archive_accounts_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_archive_accounts_tableMouseClicked
         displaySelectedAccountInfo(archive_accounts_table, id1, fname1, email1, number1, address1, role1, status1, statusIcon1, photo1);
     }//GEN-LAST:event_archive_accounts_tableMouseClicked
-
-    private void deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteActionPerformed
-        int rowIndex = archive_accounts_table.getSelectedRow();
-        if (rowIndex < 0) {
-            JOptionPane.showMessageDialog(null, "Please select a account first");
-        } else {
-            TableModel model = archive_accounts_table.getModel();
-            Object value = model.getValueAt(rowIndex, 0);
-            String id = value.toString();
-            int a = JOptionPane.showConfirmDialog(null, "Are you sure?");
-            if (a == JOptionPane.YES_OPTION) {
-                databaseConnector dbc = new databaseConnector();
-                dbc.deleteAccount(Integer.parseInt(id));
-                JOptionPane.showMessageDialog(null, "Account deleted successfully!");
-                displayAccounts();
-                displayArchiveAccounts();
-                //logs
-                String details = "User " + admin_id + " Successfully deleted the account " + id1 + "!";
-                String action = "Delete Account";
-                actionLogs.recordAdminLogs(admin_id, action, details);
-            }
-        }
-    }//GEN-LAST:event_deleteActionPerformed
 
     private void restoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restoreActionPerformed
         try {
@@ -3429,8 +3381,6 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel c9;
     private javax.swing.JLabel changePassword;
     private javax.swing.JPanel dashboardContainer;
-    private javax.swing.JButton delete;
-    private javax.swing.JButton delete1;
     private javax.swing.JLabel desError2;
     private javax.swing.JLabel desError3;
     private javax.swing.JLabel desError5;
@@ -3619,7 +3569,6 @@ public final class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField product_search_bar1;
     private javax.swing.JTable product_table;
     private javax.swing.JButton product_table_archive_button;
-    private javax.swing.JButton product_table_delete_button;
     private javax.swing.JButton product_table_edit_button;
     private javax.swing.JPanel productsContainer;
     private javax.swing.JButton replacebtn;

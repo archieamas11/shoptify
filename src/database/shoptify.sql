@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2024 at 11:35 PM
+-- Generation Time: May 30, 2024 at 06:25 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -91,7 +91,33 @@ INSERT INTO `tbl_adminlogs` (`adminlogs_id`, `admin_id`, `adminlogs_action`, `ad
 (26, 1, 'Edit profile', 'User 1 Successfully change profile info!', '2024-05-28 18:55:33'),
 (27, 4, 'Logged in', 'Admin 4 successfully logged in!', '2024-05-29 15:16:59'),
 (28, 4, 'Change Status', 'User 4 Successfully changed the status of 8 to Active', '2024-05-29 15:17:05'),
-(29, 4, 'Logged out', 'User 4 Successfully logged out!', '2024-05-29 15:17:38');
+(29, 4, 'Logged out', 'User 4 Successfully logged out!', '2024-05-29 15:17:38'),
+(30, 4, 'Logged in', 'Admin 4 successfully logged in!', '2024-05-30 02:20:28'),
+(31, 4, 'Logged in', 'Admin 4 successfully logged in!', '2024-05-30 03:33:45'),
+(32, 4, 'Change Status', 'User 4 Successfully changed the role of 8 to Admin', '2024-05-30 03:33:55'),
+(33, 4, 'Change Status', 'User 4 Successfully changed the role of 8 to Seller', '2024-05-30 03:33:59'),
+(34, 4, 'Edit Product', 'Admin 4 successfully edited product 20!', '2024-05-30 03:34:15'),
+(35, 4, 'Edit product', 'Admin 4 add product 20!', '2024-05-30 03:34:15'),
+(36, 4, 'Archive', 'Admin 4 Successfully put product 27 to archive!', '2024-05-30 03:34:28'),
+(37, 4, 'Restore', 'Admin 4 Successfully restore product 27!', '2024-05-30 03:34:32'),
+(38, 4, 'Archive', 'Admin 4 Successfully put product 21 to archive!', '2024-05-30 03:34:37'),
+(39, 4, 'Archive', 'Admin 4 Successfully put product 22 to archive!', '2024-05-30 03:34:39'),
+(40, 4, 'Archive', 'Admin 4 Successfully put product 27 to archive!', '2024-05-30 03:34:41'),
+(41, 4, 'Archive', 'Admin 4 Successfully put product 23 to archive!', '2024-05-30 03:34:43'),
+(42, 4, 'Restore', 'Admin 4 Successfully restore product 21!', '2024-05-30 03:34:53'),
+(43, 4, 'Restore', 'Admin 4 Successfully restore product 23!', '2024-05-30 03:34:54'),
+(44, 4, 'Restore', 'Admin 4 Successfully restore product 22!', '2024-05-30 03:34:56'),
+(45, 4, 'Restore', 'Admin 4 Successfully restore product 22!', '2024-05-30 03:34:57'),
+(46, 4, 'Restore', 'Admin 4 Successfully restore product 27!', '2024-05-30 03:34:59'),
+(47, 4, 'Logged in', 'Admin 4 successfully logged in!', '2024-05-30 03:40:38'),
+(48, 4, 'Archive', 'Admin 4 Successfully put product 20 to archive!', '2024-05-30 03:40:42'),
+(49, 4, 'Restore', 'Admin 4 Successfully restore product 20!', '2024-05-30 03:40:45'),
+(50, 4, 'Archive', 'Admin 4 Successfully put product 20 to archive!', '2024-05-30 03:43:44'),
+(51, 4, 'Restore', 'Admin 4 Successfully restore product 20!', '2024-05-30 03:43:48'),
+(52, 4, 'Archive', 'Admin 4 Successfully put product 20 to archive!', '2024-05-30 03:44:34'),
+(53, 4, 'Restore', 'Admin 4 Successfully restore product 20!', '2024-05-30 03:44:43'),
+(54, 4, 'Logged in', 'Admin 4 successfully logged in!', '2024-05-30 03:51:29'),
+(55, 4, 'Logged in', 'Admin 4 successfully logged in!', '2024-05-30 04:20:48');
 
 -- --------------------------------------------------------
 
@@ -138,14 +164,6 @@ CREATE TABLE `tbl_message4admin` (
   `date_sent` date NOT NULL,
   `message_status` varchar(100) NOT NULL DEFAULT 'Under Review'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `tbl_message4admin`
---
-
-INSERT INTO `tbl_message4admin` (`message_id`, `account_id`, `message_category`, `message_title`, `message_description`, `date_sent`, `message_status`) VALUES
-(2, 1, 'Report a issue', 'asd', 'asd', '2024-05-29', 'Under Review'),
-(3, 2, 'Delete a product', 'erdged', 'gdfg', '2024-05-29', 'Under Review');
 
 -- --------------------------------------------------------
 
@@ -205,7 +223,7 @@ CREATE TABLE `tbl_products` (
 --
 
 INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_image`, `date_created`, `product_status`) VALUES
-(20, 1, 'GTX 1650 Super OC', 15000, 8, 'Unleash your gaming potential with the UltraBoost GTX 1650 Super OC Graphics Card. Equipped with 6GB of VRAM, this overclocked powerhouse ensures smooth and immersive gameplay. The GTX 1650 Super offers exceptional performance and efficiency, making it perfect for both casual and competitive gamers. Experience high frame rates and stunning visuals with advanced Turing architecture, delivering real-time ray tracing and AI enhanced graphics. With robust cooling technology, your system stays cool even during intense gaming sessions. Elevate your gaming setup with the UltraBoost GTX 1650 Super and enjoy superior performance at an unbeatable value.', 'Electronics', 0, 'src/ProductsImages/6.png', '2024-05-27', 'Available'),
+(20, 1, 'GTX 1650 Super OC', 15000, 4, 'Unleash your gaming potential with the UltraBoost GTX 1650 Super OC Graphics Card. Equipped with 6GB of VRAM, this overclocked powerhouse ensures smooth and immersive gameplay. The GTX 1650 Super offers exceptional performance and efficiency, making it perfect for both casual and competitive gamers. Experience high frame rates and stunning visuals with advanced Turing architecture, delivering real-time ray tracing and AI enhanced graphics. With robust cooling technology, your system stays cool even during intense gaming sessions. Elevate your gaming setup with the UltraBoost GTX 1650 Super and enjoy superior performance at an unbeatable value.', 'Electronics', 0, 'src/ProductsImages/6.png', '2024-05-27', 'Available'),
 (21, 3, 'SwiftGlide Pro Mouse', 2500, 3, 'Experience precision and speed with the SwiftGlide Pro Mouse. Designed for gamers who demand the best, this ultra-lightweight mouse weighs only 49 grams and features a high-performance PAW 3395 sensor for pinpoint accuracy. With a 1000Hz polling rate, enjoy seamless and responsive gameplay that keeps you ahead of the competition. Ergonomically designed for comfort during extended gaming sessions, the SwiftGlide Pro Mouse ensures you can play longer without fatigue. Upgrade your gaming setup with a mouse that combines cutting-edge technology and superior design. Dominate every game with SwiftGlide Pro!', 'Electronics', 0, 'src/ProductsImages/p_mouse.png', '2024-05-27', 'Available'),
 (22, 3, 'MacBook Pro 2021', 88000, 2, 'Discover the ultimate in performance and style with this Sleek MacBook Pro 2021. This powerful laptop features Apple\'s M1 chip, offering unprecedented speed and efficiency for all your computing needs. With its stunning 13.3-inch Retina display, you\'ll experience vivid colors and incredible detail, making it perfect for both work and entertainment. The 8GB of RAM ensures smooth multitasking, while the 256GB SSD provides ample storage space for your files and applications.\r\n\r\nThis MacBook Pro also boasts a remarkable battery life of up to 20 hours, ensuring you stay productive throughout the day. The sleek aluminum design is not only durable but also aesthetically pleasing, making it a standout device wherever you go. Additionally, the advanced macOS Monterey enhances your user experience with intuitive features and robust security.', 'Electronics', 0, 'src/ProductsImages/4.png', '2024-05-30', 'Available'),
 (23, 3, 'RGB Gaming Keyboard', 2500, 8, 'Elevate your gaming experience with the RGB Gaming Keyboard Pro. This high-performance keyboard is designed for gamers who demand precision, speed, and style. Featuring customizable RGB backlighting, you can choose from a spectrum of colors and lighting effects to match your setup and create an immersive gaming atmosphere.\r\n\r\nThe keyboard is equipped with mechanical switches, delivering a satisfying tactile feedback and rapid response times for every keystroke. Anti-ghosting technology ensures that every keypress is registered accurately, even during intense gaming sessions. The durable construction and ergonomic design provide comfort and reliability, allowing you to game for hours without fatigue.\r\n\r\nWith programmable macro keys, you can assign complex commands and execute them with a single press, giving you a competitive edge in your favorite games. The dedicated media controls allow you to easily manage your audio settings without interrupting your gameplay.', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-30', 'Available'),
@@ -461,7 +479,7 @@ ALTER TABLE `tbl_accounts`
 -- AUTO_INCREMENT for table `tbl_adminlogs`
 --
 ALTER TABLE `tbl_adminlogs`
-  MODIFY `adminlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `adminlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `tbl_cart`
