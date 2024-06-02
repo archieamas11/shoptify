@@ -512,7 +512,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         product_is_empty.setText("");
                         product_table.setModel(DbUtils.resultSetToTableModel(rs));
                         product_table.getColumnModel().getColumn(7).setCellRenderer(new StatusCellRenderer());
-                       
+
                         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
                         centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
                         product_table.setDefaultRenderer(Object.class, centerRenderer);
@@ -1417,7 +1417,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
             }
         });
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1180, 20));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 0, 550, 20));
 
         tabs.setBackground(new java.awt.Color(153, 153, 153));
 
@@ -4025,6 +4025,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     displayPurchase();
                     displayProducts();
                     display_not_performing_well_products();
+                    display_best_selling_dashboard();
                     newStock = 0;
                     // Clear
                     transaction_id = 0;
@@ -4165,6 +4166,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         displayPurchase();
                         displayProducts();
                         display_not_performing_well_products();
+                        display_best_selling_dashboard();
                         newStock = 0;
                         // Clear
                         transaction_id = 0;

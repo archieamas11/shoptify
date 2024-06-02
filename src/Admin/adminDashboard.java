@@ -119,7 +119,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(addAccountsaveBtn, 15);
         UXmethods.RoundBorders.setArcStyle(add2archive, 15);
         UXmethods.RoundBorders.setArcStyle(restore, 15);
-        UXmethods.RoundBorders.setArcStyle(delete, 15);
 
         //Components
         UXmethods.RoundBorders.setArcStyle(searchBar, 15);
