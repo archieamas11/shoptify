@@ -3928,10 +3928,10 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 getCategory.setSelectedItem(rs.getString("product_category"));
                 getStatus.setSelectedItem(rs.getString("product_status"));
                 getDescription.setText("" + rs.getString("product_description"));
-                String getImageFromDatabase = rs.getString("product_image");
+                String file_path = rs.getString("product_image");
                 int height = 160;
                 int width = 160;
-                GetImage.displayImage(getPhoto, getImageFromDatabase, height, width);
+                GetImage.displayImage(getPhoto, file_path, height, width);
                 sold = rs.getInt("total_sold");
             } else {
                 JOptionPane.showMessageDialog(null, "Product details not found!");

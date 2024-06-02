@@ -23,12 +23,12 @@ import javax.swing.JOptionPane;
  */
 public class GetImage {
 
-    public static void displayImage(JLabel displayPhoto, String getImageFromDatabase, int height, int width) {
+    public static void displayImage(JLabel displayPhoto, String file_path, int height, int width) {
         try {
-            BufferedImage bufferedImage = ImageIO.read(new File(getImageFromDatabase));
+            BufferedImage bufferedImage = ImageIO.read(new File(file_path));
             Image scaledImage = bufferedImage.getScaledInstance(height, width, Image.SCALE_SMOOTH);
             ImageIcon imageIcon = new ImageIcon(scaledImage);
-            if (getImageFromDatabase != null && !getImageFromDatabase.isEmpty()) {
+            if (file_path != null && !file_path.isEmpty()) {
                 displayPhoto.setIcon(imageIcon);
             } else {
                 JOptionPane.showMessageDialog(null, "No Image found!");
