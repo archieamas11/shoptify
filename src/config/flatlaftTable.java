@@ -5,6 +5,7 @@
 package config;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import java.awt.Cursor;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -44,5 +45,7 @@ public class flatlaftTable {
                 + "trackInsets:3,3,3,3;"
                 + "thumbInsets:3,3,3,3;"
                 + "background:$Table.background;");
+        scroll.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
     }
 }

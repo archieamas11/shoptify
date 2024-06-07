@@ -57,6 +57,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
     public buyerDashboard() {
         initComponents();
+        my_heart0.setSelected(true);
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
         displayUserProducts();
 
@@ -65,16 +66,21 @@ public final class buyerDashboard extends javax.swing.JFrame {
         JLabel[] prices = {price1, price2, price3, price4, price5, price6, price7, price8, price9, price10, price11, price12, price13, price14, price15};
         JLabel[] images = {image1, image2, image3, image4, image5, image6, image7, image8, image9, image10, image11, image12, image13, image14, image15};
 
+        //panel animation
         for (int i = 0; i < panels.length; i++) {
             yawa(panels[i], names[i], prices[i], images[i]);
         }
+        //
 
+        //display tables and shits
         displayCart();
         displayMessage4Admin();
         displayPurchase();
         display_wishlist();
         displayProducts();
+        //
 
+        //table design
         flatlaftTable.design(cartTableContainer, cart_table, jScrollPane1); // display cart table
         searchBar(orders_search_bar);
 
@@ -86,6 +92,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
         flatlaftTable.design(productsContainer1, wishlist_table, jScrollPane8); // display wishlist table
         searchBar(wishlist_search_bar);
+        //
 
         //Panels
         UXmethods.RoundBorders.setArcStyle(s1, 20);
@@ -115,6 +122,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
     //private void getSelectedGender(String gender) {
     //selectedGender = gender;
     //}
+    //product animations
     private static class BounceEffect {
 
         private final javax.swing.Timer timer;
@@ -156,13 +164,14 @@ public final class buyerDashboard extends javax.swing.JFrame {
             component.setLocation(component.getLocation().x, originalY);
         }
     }
+    //
 
     private void searchBar(JTextField search) {
         search.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
         search.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new javax.swing.ImageIcon(getClass().getResource("/image/search_icon.png")));
         search.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:15;"
-                + "borderWidth:0;"
+                //+ "borderWidth:0;"
                 + "focusWidth:0;"
                 + "innerFocusWidth:0;"
                 //+ "background:#FFFFFF;"
@@ -290,7 +299,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
                 try (ResultSet rs = pst.executeQuery()) {
                     if (!rs.isBeforeFirst()) {
-                        purchase_is_empty.setText("CART TABLE IS EMPTY!");
+                        purchase_is_empty.setText("PURCHASE TABLE IS EMPTY!");
                         purchase_table.setModel(new DefaultTableModel());
                     } else {
                         purchase_is_empty.setText("");
@@ -311,8 +320,8 @@ public final class buyerDashboard extends javax.swing.JFrame {
             databaseConnector dbc = new databaseConnector();
             try (Connection conn = dbc.getConnection(); PreparedStatement pstmt = conn.prepareStatement(
                     "SELECT "
+                    + "p.product_id AS `Product #`, "
                     + "a.shop_name AS `Seller`, "
-                    + "p.product_id AS `Product ID`, "
                     + "p.product_name AS `Product Name`, "
                     + "p.product_price AS `Price`, "
                     + "p.product_stock AS `Stock(s)`, "
@@ -578,11 +587,12 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jSeparator24 = new javax.swing.JSeparator();
         jPanel5 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        myCart = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         home = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        my_heart1 = new javax.swing.JToggleButton();
+        my_heart0 = new javax.swing.JToggleButton();
+        my_heart2 = new javax.swing.JToggleButton();
+        my_heart3 = new javax.swing.JToggleButton();
+        my_heart4 = new javax.swing.JToggleButton();
         tabs = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         p1 = new javax.swing.JPanel();
@@ -590,7 +600,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
         price1 = new javax.swing.JLabel();
         image1 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         home_is_empty = new javax.swing.JLabel();
         p2 = new javax.swing.JPanel();
         name2 = new javax.swing.JLabel();
@@ -659,7 +668,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
         filterContainer1 = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
         filter_product_table1 = new javax.swing.JComboBox<>();
-        product_table_add_button1 = new javax.swing.JButton();
+        product_table_view_product = new javax.swing.JButton();
+        jLabel49 = new javax.swing.JLabel();
+        jLabel50 = new javax.swing.JLabel();
         productInfo = new javax.swing.JPanel();
         product_name = new javax.swing.JLabel();
         product_price = new javax.swing.JLabel();
@@ -673,7 +684,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
         displayQuant = new javax.swing.JTextField();
         s1 = new javax.swing.JPanel();
         product_photo = new javax.swing.JLabel();
-        jSeparator4 = new javax.swing.JSeparator();
         jLabel23 = new javax.swing.JLabel();
         product_sold = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
@@ -718,7 +728,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
         orders_search_bar = new javax.swing.JTextField();
         deleteCart = new javax.swing.JButton();
         add = new javax.swing.JButton();
-        jSeparator13 = new javax.swing.JSeparator();
         yawa = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         notess = new javax.swing.JEditorPane();
@@ -759,7 +768,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
         username = new javax.swing.JLabel();
         jSeparator3 = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
-        jSeparator14 = new javax.swing.JSeparator();
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
         jToggleButton3 = new javax.swing.JToggleButton();
@@ -779,7 +787,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jLabel42 = new javax.swing.JLabel();
         filter_product_table = new javax.swing.JComboBox<>();
         product_table_add_button = new javax.swing.JButton();
-        product_table_archive_button = new javax.swing.JButton();
+        product_table_delete_button = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jLabel43 = new javax.swing.JLabel();
         jLabel44 = new javax.swing.JLabel();
@@ -848,7 +856,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         product_category1 = new javax.swing.JLabel();
-        jSeparator12 = new javax.swing.JSeparator();
         jLabel16 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
@@ -906,8 +913,8 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jLabel36 = new javax.swing.JLabel();
         filter_product_table2 = new javax.swing.JComboBox<>();
         product_table_add_button2 = new javax.swing.JButton();
-        jLabel37 = new javax.swing.JLabel();
-        jSeparator25 = new javax.swing.JSeparator();
+        jLabel51 = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
         f3 = new javax.swing.JToggleButton();
         f2 = new javax.swing.JToggleButton();
@@ -931,59 +938,91 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(206, 206, 206)));
+        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel2MouseClicked(evt);
+            }
+        });
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/purchase.png"))); // NOI18N
-        jLabel1.setText("My Purchases");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
-            }
-        });
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 20, -1, 40));
-
-        myCart.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        myCart.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/cart.png"))); // NOI18N
-        myCart.setText("My Cart");
-        myCart.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                myCartMouseClicked(evt);
-            }
-        });
-        jPanel2.add(myCart, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 20, -1, 40));
-
-        jLabel3.setFont(getFont());
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/myProfile.png"))); // NOI18N
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1230, 20, 40, 40));
 
         home.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         home.setForeground(new java.awt.Color(0, 158, 226));
         home.setText("SHOPTIFY");
+        home.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         home.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 homeMouseClicked(evt);
             }
         });
-        jPanel2.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, 50));
+        jPanel2.add(home, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 30));
         animation.customizeLabel(home);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-home-16.png"))); // NOI18N
-        jLabel2.setText(" HOME");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+        my_heart1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/heart.png"))); // NOI18N
+        my_heart1.setText("  My Favorites");
+        my_heart1.setBorderPainted(false);
+        my_heart1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        my_heart1.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/image/heart_clicked.png"))); // NOI18N
+        my_heart1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                my_heart1ActionPerformed(evt);
             }
         });
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, -1, 40));
-        animation.customizeLabel(jLabel2);
+        jPanel2.add(my_heart1, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 30, 130, 30));
+        UXmethods.RoundBorders.setArcStyle(my_heart1, 30);
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1280, 70));
+        my_heart0.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/icons8-home-16.png"))); // NOI18N
+        my_heart0.setText("  HOME");
+        my_heart0.setBorderPainted(false);
+        my_heart0.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        my_heart0.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/image/home_clicked.png"))); // NOI18N
+        my_heart0.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                my_heart0ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(my_heart0, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 30, 100, 30));
+        UXmethods.RoundBorders.setArcStyle(my_heart0, 30);
+
+        my_heart2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/purchase.png"))); // NOI18N
+        my_heart2.setText("  My Purchase");
+        my_heart2.setBorderPainted(false);
+        my_heart2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        my_heart2.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/image/purchased_clicked.png"))); // NOI18N
+        my_heart2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                my_heart2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(my_heart2, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 30, -1, 30));
+        UXmethods.RoundBorders.setArcStyle(my_heart2, 30);
+
+        my_heart3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/cart.png"))); // NOI18N
+        my_heart3.setText("  My Cart");
+        my_heart3.setBorderPainted(false);
+        my_heart3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        my_heart3.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/image/cart_clicked.png"))); // NOI18N
+        my_heart3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                my_heart3ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(my_heart3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 30, -1, 30));
+        UXmethods.RoundBorders.setArcStyle(my_heart3, 30);
+
+        my_heart4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/profile.png"))); // NOI18N
+        my_heart4.setBorderPainted(false);
+        my_heart4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        my_heart4.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/image/profile_clicked.png"))); // NOI18N
+        my_heart4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                my_heart4ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(my_heart4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 30, 40, 30));
+        UXmethods.RoundBorders.setArcStyle(my_heart4, 50);
+
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1290, 80));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -1019,14 +1058,8 @@ public final class buyerDashboard extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jLabel11);
-        jLabel11.setBounds(1100, 640, 170, 40);
-
-        jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
-        jSeparator1.setForeground(new java.awt.Color(231, 231, 231));
-        jSeparator1.setAlignmentX(0.2F);
-        jSeparator1.setAlignmentY(0.2F);
-        jPanel1.add(jSeparator1);
-        jSeparator1.setBounds(0, 40, 1280, 10);
+        jLabel11.setBounds(1070, 640, 170, 40);
+        animation.customizeLabel(jLabel11);
 
         home_is_empty.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         home_is_empty.setForeground(new java.awt.Color(51, 51, 51));
@@ -1325,8 +1358,8 @@ public final class buyerDashboard extends javax.swing.JFrame {
         product_is_empty.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         product_is_empty.setForeground(new java.awt.Color(51, 51, 51));
         product_is_empty.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        productsContainer.add(product_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 1240, 60));
-        productsContainer.add(jSeparator19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1240, 10));
+        productsContainer.add(product_is_empty, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 1250, 60));
+        productsContainer.add(jSeparator19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1250, 20));
 
         jScrollPane7.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
@@ -1348,7 +1381,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         });
         jScrollPane7.setViewportView(product_table);
 
-        productsContainer.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1240, 540));
+        productsContainer.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1250, 490));
 
         product_search_bar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         product_search_bar.setForeground(new java.awt.Color(140, 140, 140));
@@ -1362,7 +1395,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
                 product_search_barKeyReleased(evt);
             }
         });
-        productsContainer.add(product_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, 40));
+        productsContainer.add(product_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 180, 40));
 
         jLabel30.setBackground(new java.awt.Color(241, 241, 241));
         jLabel30.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
@@ -1390,21 +1423,40 @@ public final class buyerDashboard extends javax.swing.JFrame {
         });
         filterContainer1.add(filter_product_table1, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 110, 30));
 
-        productsContainer.add(filterContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 180, 40));
+        productsContainer.add(filterContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 180, 40));
+        UXmethods.RoundBorders.setArcStyle(filterContainer1, 10);
 
-        product_table_add_button1.setBackground(new java.awt.Color(0, 158, 226));
-        product_table_add_button1.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        product_table_add_button1.setForeground(new java.awt.Color(255, 255, 255));
-        product_table_add_button1.setText("View product");
-        product_table_add_button1.setBorderPainted(false);
-        product_table_add_button1.addActionListener(new java.awt.event.ActionListener() {
+        product_table_view_product.setBackground(new java.awt.Color(0, 158, 226));
+        product_table_view_product.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        product_table_view_product.setForeground(new java.awt.Color(255, 255, 255));
+        product_table_view_product.setText("View product");
+        product_table_view_product.setBorderPainted(false);
+        product_table_view_product.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                product_table_add_button1ActionPerformed(evt);
+                product_table_view_productActionPerformed(evt);
             }
         });
-        productsContainer.add(product_table_add_button1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 10, 130, 40));
+        productsContainer.add(product_table_view_product, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 50, 130, 40));
+        UXmethods.RoundBorders.setArcStyle(product_table_view_product, 10);
 
-        jPanel3.add(productsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 1240, 620));
+        jLabel49.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel49.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel49.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel49.setText("Home  >");
+        jLabel49.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel49MouseClicked(evt);
+            }
+        });
+        productsContainer.add(jLabel49, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
+
+        jLabel50.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel50.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel50.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel50.setText("View more product");
+        productsContainer.add(jLabel50, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, -1, 30));
+
+        jPanel3.add(productsContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 1250, 610));
 
         tabs.addTab("tab2", jPanel3);
 
@@ -1505,13 +1557,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
         productInfo.add(s1);
         s1.setBounds(140, 120, 470, 360);
-
-        jSeparator4.setBackground(new java.awt.Color(0, 0, 0));
-        jSeparator4.setForeground(new java.awt.Color(231, 231, 231));
-        jSeparator4.setAlignmentX(0.2F);
-        jSeparator4.setAlignmentY(0.2F);
-        productInfo.add(jSeparator4);
-        jSeparator4.setBounds(0, 40, 1280, 20);
 
         jLabel23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/product_sold.png"))); // NOI18N
@@ -1784,7 +1829,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
         cartTableContainer.add(add, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 10, 120, 40));
 
         jPanel4.add(cartTableContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 880, 560));
-        jPanel4.add(jSeparator13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1280, 20));
 
         yawa.setBackground(new java.awt.Color(241, 241, 241));
         yawa.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1974,12 +2018,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
         myprofile.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 600, 200, 20));
         myprofile.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 170, 50, 160));
 
-        jSeparator14.setBackground(new java.awt.Color(0, 0, 0));
-        jSeparator14.setForeground(new java.awt.Color(231, 231, 231));
-        jSeparator14.setAlignmentX(0.2F);
-        jSeparator14.setAlignmentY(0.2F);
-        myprofile.add(jSeparator14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1280, 20));
-
         jToggleButton1.setBackground(new java.awt.Color(241, 241, 241));
         jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/buyer_logout.png"))); // NOI18N
         jToggleButton1.setText("   Logout");
@@ -2065,7 +2103,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
         cartTableContainer1.setBackground(new java.awt.Color(241, 241, 241));
         cartTableContainer1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        cartTableContainer1.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1240, 20));
+        cartTableContainer1.add(jSeparator17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1240, 20));
 
         purchase_is_empty.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         purchase_is_empty.setForeground(new java.awt.Color(51, 51, 51));
@@ -2091,7 +2129,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(purchase_table);
 
-        cartTableContainer1.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1240, 510));
+        cartTableContainer1.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1240, 510));
 
         purchase_search_bar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         purchase_search_bar.setForeground(new java.awt.Color(140, 140, 140));
@@ -2105,7 +2143,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
                 purchase_search_barKeyReleased(evt);
             }
         });
-        cartTableContainer1.add(purchase_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 180, 40));
+        cartTableContainer1.add(purchase_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 180, 40));
 
         filterContainer.setBackground(new java.awt.Color(255, 255, 255));
         filterContainer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -2127,7 +2165,8 @@ public final class buyerDashboard extends javax.swing.JFrame {
         });
         filterContainer.add(filter_product_table, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 110, 30));
 
-        cartTableContainer1.add(filterContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 180, 40));
+        cartTableContainer1.add(filterContainer, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 180, 40));
+        UXmethods.RoundBorders.setArcStyle(filterContainer, 10);
 
         product_table_add_button.setBackground(new java.awt.Color(0, 158, 226));
         product_table_add_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -2139,17 +2178,19 @@ public final class buyerDashboard extends javax.swing.JFrame {
                 product_table_add_buttonActionPerformed(evt);
             }
         });
-        cartTableContainer1.add(product_table_add_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 10, 130, 40));
+        cartTableContainer1.add(product_table_add_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 50, 130, 40));
+        UXmethods.RoundBorders.setArcStyle(product_table_add_button, 10);
 
-        product_table_archive_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        product_table_archive_button.setForeground(new java.awt.Color(51, 51, 51));
-        product_table_archive_button.setText("Delete");
-        product_table_archive_button.addActionListener(new java.awt.event.ActionListener() {
+        product_table_delete_button.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        product_table_delete_button.setForeground(new java.awt.Color(51, 51, 51));
+        product_table_delete_button.setText("Delete");
+        product_table_delete_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                product_table_archive_buttonActionPerformed(evt);
+                product_table_delete_buttonActionPerformed(evt);
             }
         });
-        cartTableContainer1.add(product_table_archive_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 10, 130, 40));
+        cartTableContainer1.add(product_table_delete_button, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 50, 130, 40));
+        UXmethods.RoundBorders.setArcStyle(product_table_delete_button, 10);
 
         jButton4.setBackground(new java.awt.Color(241, 241, 241));
         jButton4.setBorderPainted(false);
@@ -2161,19 +2202,19 @@ public final class buyerDashboard extends javax.swing.JFrame {
         cartTableContainer1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 10, 130, 40));
         UXmethods.RoundBorders.setArcStyle(jButton4, 10);
 
-        jPanel7.add(cartTableContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 1240, 590));
-
         jLabel43.setBackground(new java.awt.Color(241, 241, 241));
         jLabel43.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel43.setForeground(new java.awt.Color(204, 204, 204));
         jLabel43.setText("Home  >");
-        jPanel7.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, 30));
+        cartTableContainer1.add(jLabel43, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
 
         jLabel44.setBackground(new java.awt.Color(241, 241, 241));
         jLabel44.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
         jLabel44.setForeground(new java.awt.Color(51, 51, 51));
         jLabel44.setText("My Orders");
-        jPanel7.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 30, -1, 30));
+        cartTableContainer1.add(jLabel44, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, -1, 30));
+
+        jPanel7.add(cartTableContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 1240, 620));
 
         tabs.addTab("tab6", jPanel7);
 
@@ -2587,12 +2628,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
         product_category1.setForeground(new java.awt.Color(153, 153, 153));
         jPanel6.add(product_category1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 90, 870, 20));
 
-        jSeparator12.setBackground(new java.awt.Color(0, 0, 0));
-        jSeparator12.setForeground(new java.awt.Color(231, 231, 231));
-        jSeparator12.setAlignmentX(0.2F);
-        jSeparator12.setAlignmentY(0.2F);
-        jPanel6.add(jSeparator12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1280, 20));
-
         jLabel16.setFont(new java.awt.Font("Roboto", 0, 20)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(153, 153, 153));
         jLabel16.setText("Home  >");
@@ -2849,7 +2884,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
                 wishlist_search_barKeyReleased(evt);
             }
         });
-        productsContainer1.add(wishlist_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 180, 40));
+        productsContainer1.add(wishlist_search_bar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 180, 40));
 
         jLabel35.setBackground(new java.awt.Color(241, 241, 241));
         jLabel35.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
@@ -2877,7 +2912,8 @@ public final class buyerDashboard extends javax.swing.JFrame {
         });
         filterContainer2.add(filter_product_table2, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 6, 110, 30));
 
-        productsContainer1.add(filterContainer2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 50, 180, 40));
+        productsContainer1.add(filterContainer2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 50, 180, 40));
+        UXmethods.RoundBorders.setArcStyle(filterContainer2, 10);
 
         product_table_add_button2.setBackground(new java.awt.Color(0, 158, 226));
         product_table_add_button2.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
@@ -2890,13 +2926,26 @@ public final class buyerDashboard extends javax.swing.JFrame {
             }
         });
         productsContainer1.add(product_table_add_button2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 50, 130, 40));
+        UXmethods.RoundBorders.setArcStyle(product_table_add_button2, 10);
 
-        jLabel37.setFont(new java.awt.Font("Segoe UI Black", 0, 20)); // NOI18N
-        jLabel37.setText("My Favorties");
-        productsContainer1.add(jLabel37, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, -1, 50));
+        jLabel51.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel51.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel51.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel51.setText("My Favorties");
+        productsContainer1.add(jLabel51, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, -1, 30));
 
-        jPanel19.add(productsContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 1240, 590));
-        jPanel19.add(jSeparator25, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 1270, 30));
+        jLabel52.setBackground(new java.awt.Color(241, 241, 241));
+        jLabel52.setFont(new java.awt.Font("Arial", 0, 20)); // NOI18N
+        jLabel52.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel52.setText("Home  >");
+        jLabel52.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel52MouseClicked(evt);
+            }
+        });
+        productsContainer1.add(jLabel52, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
+
+        jPanel19.add(productsContainer1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 1240, 610));
 
         tabs.addTab("tab12", jPanel19);
 
@@ -3018,29 +3067,18 @@ public final class buyerDashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void myCartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myCartMouseClicked
-        displayCart();
-        tabs.setSelectedIndex(3);
-    }//GEN-LAST:event_myCartMouseClicked
-
-
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        tabs.setSelectedIndex(4);
-        displayAccountName();
-    }//GEN-LAST:event_jLabel3MouseClicked
-
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        tabs.setSelectedIndex(5);
-    }//GEN-LAST:event_jLabel1MouseClicked
-
     String buyPriceStr;
     int buyPrice;
     String buyQuantStr;
     int buyQuant;
-
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
-        tabs.setSelectedIndex(0);
         displayUserProducts();
+        tabs.setSelectedIndex(0);
+        my_heart0.setSelected(true);
+        my_heart1.setSelected(false);
+        my_heart2.setSelected(false);
+        my_heart3.setSelected(false);
+        my_heart4.setSelected(false);
     }//GEN-LAST:event_homeMouseClicked
 
     private int tblQuant = 0;
@@ -3057,10 +3095,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private int num = 1;
     int new_count;
     int new_total_price;
-
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        tabs.setSelectedIndex(0);
-    }//GEN-LAST:event_jLabel2MouseClicked
 
     private void submit_ratingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submit_ratingActionPerformed
         try {
@@ -3463,10 +3497,17 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private void checkout_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkout_buttonActionPerformed
         String NOTES = notes.getText();
         String cod = payment_method;
+
+        if (NOTES.length() > 40) {
+            JOptionPane.showMessageDialog(null, "Notes exceed maximum character limit!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         if (cod.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please select a payment method!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
         try {
             databaseConnector dbc = new databaseConnector();
 
@@ -3496,7 +3537,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Purchase updated successfully!");
                 // Update stock and status if necessary
             } else {
-                String insertQuery = "INSERT INTO tbl_orders (buyer_id, seller_id, product_id, total_quantity, total_price, notes, order_status, date_purchase) VALUES (?, ?, ?, ?, ?, ?, 'Pending', NOW())";
+                String insertQuery = "INSERT INTO tbl_orders (buyer_id, seller_id, product_id, total_quantity, total_price, notes, order_status, date_purchase, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending', NOW())";
                 PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery);
                 insertStmt.setInt(1, buyer_id);
                 insertStmt.setInt(2, seller_id);
@@ -3504,6 +3545,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
                 insertStmt.setInt(4, buyQuant);
                 insertStmt.setInt(5, totalPrice);
                 insertStmt.setString(6, NOTES);
+                insertStmt.setString(7, cod);
 
                 insertStmt.executeUpdate();
 
@@ -3521,14 +3563,20 @@ public final class buyerDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_checkout_buttonActionPerformed
 
-    private void product_table_archive_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_product_table_archive_buttonActionPerformed
+    private void product_table_delete_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_product_table_delete_buttonActionPerformed
+        int rowIndex = purchase_table.getSelectedRow();
+        if (rowIndex < 0) {
+            JOptionPane.showMessageDialog(null, "Please select an item!");
+            return;
+        }
+        TableModel model = purchase_table.getModel();
+
         try {
             databaseConnector dbc = new databaseConnector();
 
-            String sql = "UPDATE tbl_orders SET order_status = 'Deleted' WHERE order_id = ?";
+            String sql = "UPDATE tbl_orders SET order_status = 'Deleted' WHERE order_id = " + model.getValueAt(rowIndex, 0);
 
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
-                pst.setInt(1, orderId);
 
                 int rowsUpdated = pst.executeUpdate();
 
@@ -3541,7 +3589,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "SQL Error updating data: " + e.getMessage());
         }
-    }//GEN-LAST:event_product_table_archive_buttonActionPerformed
+
+
+    }//GEN-LAST:event_product_table_delete_buttonActionPerformed
 
     private void product_table_add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_product_table_add_buttonActionPerformed
         int rowIndex = purchase_table.getSelectedRow();
@@ -3630,7 +3680,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
         }
-
     }//GEN-LAST:event_purchase_tableMouseClicked
 
     private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
@@ -3884,7 +3933,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
                     insertStmt.setInt(4, tblQuant);
                     insertStmt.setInt(5, tblQuant * tblPrice);
                     insertStmt.setString(6, NOTESS);
-                    insertStmt.setString(7, payment_method);
+                    insertStmt.setString(7, cod);
                     insertStmt.executeUpdate();
                     JOptionPane.showMessageDialog(null, "New purchase added successfully!");
                 }
@@ -3898,7 +3947,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
                 insertStmt.setInt(4, tblQuant);
                 insertStmt.setInt(5, tblQuant * tblPrice);
                 insertStmt.setString(6, NOTESS);
-                insertStmt.setString(7, payment_method);
+                insertStmt.setString(7, cod);
                 insertStmt.executeUpdate();
                 JOptionPane.showMessageDialog(null, "New purchase added successfully!");
             }
@@ -4183,7 +4232,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         tabs.setSelectedIndex(12);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void product_table_add_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_product_table_add_button1ActionPerformed
+    private void product_table_view_productActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_product_table_view_productActionPerformed
         int rowIndex = product_table.getSelectedRow();
         if (rowIndex < 0) {
             JOptionPane.showMessageDialog(null, "Please Select an Item!");
@@ -4274,7 +4323,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
         }
-    }//GEN-LAST:event_product_table_add_button1ActionPerformed
+    }//GEN-LAST:event_product_table_view_productActionPerformed
 
     private void filter_product_table1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filter_product_table1ActionPerformed
         sorter.searchResult(product_table, filter_product_table1);
@@ -4480,6 +4529,67 @@ public final class buyerDashboard extends javax.swing.JFrame {
         tabs.setSelectedIndex(11);
     }//GEN-LAST:event_jToggleButton7ActionPerformed
 
+    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel2MouseClicked
+
+    private void jLabel49MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel49MouseClicked
+        tabs.setSelectedIndex(0);
+    }//GEN-LAST:event_jLabel49MouseClicked
+
+    private void my_heart0ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_my_heart0ActionPerformed
+        displayProducts();
+        tabs.setSelectedIndex(0);
+        my_heart0.setSelected(true);
+        my_heart1.setSelected(false);
+        my_heart2.setSelected(false);
+        my_heart3.setSelected(false);
+        my_heart4.setSelected(false);
+    }//GEN-LAST:event_my_heart0ActionPerformed
+
+    private void my_heart2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_my_heart2ActionPerformed
+        displayPurchase();
+        tabs.setSelectedIndex(5);
+        my_heart0.setSelected(false);
+        my_heart1.setSelected(false);
+        my_heart2.setSelected(true);
+        my_heart3.setSelected(false);
+        my_heart4.setSelected(false);
+    }//GEN-LAST:event_my_heart2ActionPerformed
+
+    private void my_heart3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_my_heart3ActionPerformed
+        displayCart();
+        tabs.setSelectedIndex(3);
+        my_heart0.setSelected(false);
+        my_heart1.setSelected(false);
+        my_heart2.setSelected(false);
+        my_heart3.setSelected(true);
+        my_heart4.setSelected(false);
+    }//GEN-LAST:event_my_heart3ActionPerformed
+
+    private void my_heart4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_my_heart4ActionPerformed
+        displayAccountName();
+        tabs.setSelectedIndex(4);
+        my_heart0.setSelected(false);
+        my_heart1.setSelected(false);
+        my_heart2.setSelected(false);
+        my_heart3.setSelected(false);
+        my_heart4.setSelected(true);
+    }//GEN-LAST:event_my_heart4ActionPerformed
+
+    private void my_heart1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_my_heart1ActionPerformed
+        tabs.setSelectedIndex(11);
+        my_heart0.setSelected(false);
+        my_heart1.setSelected(true);
+        my_heart2.setSelected(false);
+        my_heart3.setSelected(false);
+        my_heart4.setSelected(false);
+    }//GEN-LAST:event_my_heart1ActionPerformed
+
+    private void jLabel52MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel52MouseClicked
+        tabs.setSelectedIndex(0);
+    }//GEN-LAST:event_jLabel52MouseClicked
+
     int totalPrice;
     File selectedFile;
     String imagePath;
@@ -4587,7 +4697,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel107;
     private javax.swing.JLabel jLabel108;
@@ -4601,7 +4710,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -4612,7 +4720,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
@@ -4620,7 +4727,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel37;
     private javax.swing.JLabel jLabel38;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel4;
@@ -4633,7 +4739,11 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel46;
     private javax.swing.JLabel jLabel47;
     private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel71;
@@ -4674,12 +4784,8 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
-    private javax.swing.JSeparator jSeparator12;
-    private javax.swing.JSeparator jSeparator13;
-    private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator15;
     private javax.swing.JSeparator jSeparator16;
     private javax.swing.JSeparator jSeparator17;
@@ -4691,14 +4797,12 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator22;
     private javax.swing.JSeparator jSeparator23;
     private javax.swing.JSeparator jSeparator24;
-    private javax.swing.JSeparator jSeparator25;
     private javax.swing.JSeparator jSeparator26;
     private javax.swing.JSeparator jSeparator27;
     private javax.swing.JSeparator jSeparator28;
     private javax.swing.JSeparator jSeparator29;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator30;
-    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator8;
@@ -4734,7 +4838,11 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel messageContainer;
     private javax.swing.JLabel message_is_empty;
     private javax.swing.JTextField message_search_bar;
-    private javax.swing.JLabel myCart;
+    private javax.swing.JToggleButton my_heart0;
+    private javax.swing.JToggleButton my_heart1;
+    private javax.swing.JToggleButton my_heart2;
+    private javax.swing.JToggleButton my_heart3;
+    private javax.swing.JToggleButton my_heart4;
     private javax.swing.JPanel myprofile;
     private javax.swing.JLabel myprofile1;
     private javax.swing.JLabel myprofile2;
@@ -4813,9 +4921,9 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel product_sold;
     private javax.swing.JTable product_table;
     private javax.swing.JButton product_table_add_button;
-    private javax.swing.JButton product_table_add_button1;
     private javax.swing.JButton product_table_add_button2;
-    private javax.swing.JButton product_table_archive_button;
+    private javax.swing.JButton product_table_delete_button;
+    private javax.swing.JButton product_table_view_product;
     private javax.swing.JPanel productsContainer;
     private javax.swing.JPanel productsContainer1;
     private javax.swing.JPanel profile2;
