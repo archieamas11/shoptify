@@ -430,16 +430,19 @@ public final class sellerDashboard extends javax.swing.JFrame {
         try {
             databaseConnector dbc = new databaseConnector();
             String query = "SELECT "
-                    + "`order_id` as `Order ID`, "
-                    + "`buyer_id` as `Buyer ID`, "
-                    + "`seller_id` as `Seller ID`, "
-                    + "`product_id` as `Product ID`, "
-                    + "`total_quantity` as `Quantity`, "
-                    + "`total_price` as `Total Amount`, "
-                    + "`payment_method` as `Payment Method`, "
-                    + "`date_purchase` as `Date Purchase`, "
-                    + "`order_status` as `Status` "
-                    + "FROM tbl_orders WHERE seller_id = ?";
+                    + "o.order_id AS `Order #`, "
+                    + "CONCAT(a.first_name, ' ', a.last_name) AS `Buyer Name`, "
+                    + "p.product_name AS `Product Name`, "
+                    + "p.product_price AS `Unit Price`, "
+                    + "o.total_quantity AS `Quantity`, "
+                    + "o.total_price AS `Total Amount`, "
+                    + "o.payment_method AS `Payment Method`, "
+                    + "o.date_purchase AS `Date Purchase`, "
+                    + "o.order_status AS `Status` "
+                    + "FROM tbl_orders o "
+                    + "JOIN tbl_products p ON p.product_id = o.product_id "
+                    + "JOIN tbl_accounts a ON a.account_id = o.buyer_id "
+                    + "WHERE o.seller_id = ?";
             try (PreparedStatement pst = dbc.getConnection().prepareStatement(query)) {
                 pst.setInt(1, sellerID);
                 try (ResultSet rs = pst.executeQuery()) {
@@ -2015,11 +2018,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
             }
         ));
         purchase_table.setSelectionBackground(new java.awt.Color(204, 229, 255));
-        purchase_table.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                purchase_tableMouseClicked(evt);
-            }
-        });
         jScrollPane7.setViewportView(purchase_table);
 
         productsContainer2.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1130, 550));
@@ -2707,7 +2705,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         getStatus.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         getStatus.setForeground(new java.awt.Color(51, 51, 51));
-        getStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Not Available" }));
+        getStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Available", "Not Available", "Sold out" }));
         getStatus.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 getStatusMouseClicked(evt);
@@ -4004,7 +4002,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
                     String insertInvoiceQuery = "INSERT INTO tbl_invoice (buyer_id, seller_id, order_id, product_id, invoice_date) VALUES (?, ?, ?, ?, NOW())";
                     try (PreparedStatement invoiceStmt = dbc.getConnection().prepareStatement(insertInvoiceQuery)) {
-                        // Set parameters for the invoice
                         invoiceStmt.setInt(1, buyer_id);
                         invoiceStmt.setInt(2, sellerID);
                         invoiceStmt.setInt(3, transaction_id);
@@ -4314,6 +4311,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }
 
     private void dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardActionPerformed
+        display_not_performing_well_products();
+        display_best_selling_dashboard();
         tabs.setSelectedIndex(0);
         manage.setSelected(false);
         orders.setSelected(false);
@@ -4974,10 +4973,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         return Character.toUpperCase(str.charAt(0)) + str.substring(1);
     }
 
-    private void purchase_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_purchase_tableMouseClicked
-
-    }//GEN-LAST:event_purchase_tableMouseClicked
-
     private void orders_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orders_tableMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_orders_tableMouseClicked
@@ -4985,6 +4980,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
+
 
     private void view_orderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_view_orderActionPerformed
         int rowIndex = purchase_table.getSelectedRow();
@@ -4995,11 +4991,21 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
         TableModel model = purchase_table.getModel();
         transaction_id = (int) model.getValueAt(rowIndex, 0);
-        buyer_id = (int) model.getValueAt(rowIndex, 1);
-        product_id = (int) model.getValueAt(rowIndex, 3);
 
         try {
             databaseConnector dbc = new databaseConnector();
+
+            String query = "SELECT buyer_id, product_id FROM tbl_orders WHERE order_id = ?";
+            try (PreparedStatement pst = dbc.getConnection().prepareStatement(query)) {
+                pst.setInt(1, transaction_id);
+                try (ResultSet rs = pst.executeQuery()) {
+                    if (rs.next()) {
+                        buyer_id = rs.getInt("buyer_id");
+                        product_id = rs.getInt("product_id");
+                    }
+                }
+            }
+
             String orderQuery = "SELECT * FROM tbl_orders WHERE order_id = " + transaction_id;
             String accountQuery = "SELECT first_name, last_name, address, email, phone_number FROM tbl_accounts WHERE account_id = " + buyer_id;
             String productQuery = "SELECT product_name, product_price, product_category, product_image FROM tbl_products WHERE product_id = " + product_id;

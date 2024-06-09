@@ -4,7 +4,6 @@
  */
 package Admin;
 
-import Seller.sellerDashboard;
 import accounts.Login;
 import accounts.UserManager;
 import com.formdev.flatlaf.FlatClientProperties;

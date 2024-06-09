@@ -31,8 +31,8 @@ public class PanelPrinter implements Printable {
         pageFormat.setOrientation(PageFormat.PORTRAIT);
         pageFormat.setPaper(new Paper());
         Paper paper = pageFormat.getPaper();
-        double width = 8.5 * 72; // 8.5 inches converted to points (1 inch = 72 points)
-        double height = 11 * 72; // 11 inches converted to points
+        double width = 6 * 72; // 6 inches converted to points (1 inch = 72 points)
+        double height = 6 * 72; // 6 inches converted to points
         paper.setSize(width, height);
         paper.setImageableArea(0, 0, width, height);
         pageFormat.setPaper(paper);

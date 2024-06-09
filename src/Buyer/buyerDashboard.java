@@ -1022,7 +1022,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel2.add(my_heart4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 30, 40, 30));
         UXmethods.RoundBorders.setArcStyle(my_heart4, 50);
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1290, 80));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, -10, 630, 80));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -3537,7 +3537,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Purchase updated successfully!");
                 // Update stock and status if necessary
             } else {
-                String insertQuery = "INSERT INTO tbl_orders (buyer_id, seller_id, product_id, total_quantity, total_price, notes, order_status, date_purchase, payment_method) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending', NOW())";
+                String insertQuery = "INSERT INTO tbl_orders (buyer_id, seller_id, product_id, total_quantity, total_price, notes, payment_method, order_status, date_purchase) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending', NOW())";
                 PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery);
                 insertStmt.setInt(1, buyer_id);
                 insertStmt.setInt(2, seller_id);
