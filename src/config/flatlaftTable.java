@@ -6,12 +6,15 @@ package config;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Cursor;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -49,6 +52,24 @@ public class flatlaftTable {
                 + "thumbInsets:3,3,3,3;"
                 + "background:$Table.background;");
         scroll.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+
+    public static void searchBar(JTextField search) {
+        search.putClientProperty("JTextField.placeholderText", "Search...");
+
+        // Get the resource URL for the icon
+        URL iconURL = flatlaftTable.class.getResource("/image/search_icon.png");
+        if (iconURL != null) {
+            search.putClientProperty("JTextField.leadingIcon", new ImageIcon(iconURL));
+        }
+
+        search.putClientProperty("JTextField.style", ""
+                + "arc:15;"
+                + "borderWidth:0;"
+                + "focusWidth:0;"
+                + "innerFocusWidth:0;"
+                //+ "background:#FFFFFF;"
+                + "margin:5,20,5,20");
     }
 
     public static DefaultTableModel resultSetToNonEditableTableModel(ResultSet rs) throws SQLException {

@@ -14,3 +14,7 @@
 //sorter.searchResult(accounts_table, filter_product_table2);
 //UXmethods.RoundBorders.setArcStyle(c1, 15);
 //search.searchResult(archive_table, searchBar1);
+
+//DefaultTableModel tableModel = resultSetToNonEditableTableModel(rs);
+//product_table.setModel(tableModel);
+//product_table.getColumnModel().getColumn(7).setCellRenderer(new colored.status());

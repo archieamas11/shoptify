@@ -86,19 +86,19 @@ public final class sellerDashboard extends javax.swing.JFrame {
         dashboard.setSelected(true);
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30)); //jframe rounded border
         flatlaftTable.design(archiveAccountTableContainer, archive_table, archiveAccountTableContainerScroll); // displayProducts archive table
-        searchBar(archive_search_bar);
+        flatlaftTable.searchBar(archive_search_bar);
         flatlaftTable.design(productsContainer, product_table, jScrollPane5); //seller logs
-        searchBar(activity_search_bar);
+        flatlaftTable.searchBar(activity_search_bar);
         flatlaftTable.design(productsContainer1, actionlogs_table, jScrollPane9); //profile
         flatlaftTable.design(productsContainer, product_table, jScrollPane5); // product table\
-        searchBar(product_search_bar);
+        flatlaftTable.searchBar(product_search_bar);
         flatlaftTable.design(messages_container, messages_table, jScrollPane10); // messages table
         flatlaftTable.design(productsContainer2, purchase_table, jScrollPane7); // order table
-        searchBar(orders_search_bar);
+        flatlaftTable.searchBar(orders_search_bar);
         flatlaftTable.design(productsContainer3, orders_table, jScrollPane11); // displayProducts archive table
         actionLogs.displaySellerLogs(actionlogs_table, sellerID); // displayProducts seller logs table
         flatlaftTable.design(productsContainer1, wishlist_table, jScrollPane8); // displayProducts wishlist table
-        searchBar(wishlist_search_bar);
+        flatlaftTable.searchBar(wishlist_search_bar);
 
         displayCurrentDate(); // displayProducts current date in dashboard
         displayProducts.products(sellerID, product_is_empty, product_table); //display Products
@@ -125,13 +125,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
         //
 
         //wishlist table
-        searchBar(wishlist_search_bar);
+        flatlaftTable.searchBar(wishlist_search_bar);
         flatlaftTable.design(wishlist_container, wishlist_table, jScrollPane13); //wishlist table
         //
 
         //message for admin table
         UXmethods.RoundBorders.setArcStyle(filterContainer3, 10);
-        searchBar(message_search_bar);
+        flatlaftTable.searchBar(message_search_bar);
         flatlaftTable.design(messageContainer, message4admin_table, jScrollPane12); //message table
         UXmethods.RoundBorders.setArcStyle(l1, 20);
         UXmethods.RoundBorders.setArcStyle(l3, 5);
@@ -266,18 +266,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         String formattedDate = currentDate.format(formatter);
 
         todaysDate.setText(formattedDate);
-    }
-
-    private void searchBar(JTextField search) {
-        search.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
-        search.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new javax.swing.ImageIcon(getClass().getResource("/image/search_icon.png")));
-        search.putClientProperty(FlatClientProperties.STYLE, ""
-                + "arc:15;"
-                + "borderWidth:0;"
-                + "focusWidth:0;"
-                + "innerFocusWidth:0;"
-                //+ "background:#FFFFFF;"
-                + "margin:5,20,5,20");
     }
 
     private void displayTotalOrders(int sellerID) {
@@ -5444,7 +5432,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        tabs.setSelectedIndex(11);
+        tabs.setSelectedIndex(1);
         manage.setSelected(true);
         dashboard.setSelected(false);
         orders.setSelected(false);

@@ -22,7 +22,7 @@ public class splash_screen extends javax.swing.JFrame {
      */
     public splash_screen() {
         initComponents();
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/loading_1.gif")));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/loading_final.gif")));
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30));
     }
 
@@ -53,37 +53,37 @@ public class splash_screen extends javax.swing.JFrame {
 
         jProgressBar2.setBackground(new java.awt.Color(241, 241, 241));
         jProgressBar2.setBorderPainted(false);
-        jPanel1.add(jProgressBar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 600, 1120, 30));
+        jPanel1.add(jProgressBar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 570, 990, 10));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI Emoji", 1, 15)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(153, 153, 153));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("0%");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 490, 1120, 50));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 1130, 50));
 
         jLabel1.setBackground(new java.awt.Color(0, 158, 226));
         jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 80)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 158, 226));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("SHOPTIFY");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 1120, 120));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 150, 1130, 120));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 30)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(51, 51, 51));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("WELCOME TO");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 1120, 40));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 1130, 40));
 
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jLabel4.setFocusable(false);
         jLabel4.setRequestFocusEnabled(false);
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 1120, 160));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 1130, 160));
 
         jLabel5.setForeground(new java.awt.Color(153, 153, 153));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setText("Please wait....");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 570, 1130, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 530, 1130, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

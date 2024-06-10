@@ -78,20 +78,20 @@ public final class adminDashboard extends javax.swing.JFrame {
         actionLogs.displayAdminLogs(actionlogs_table, admin_id);
 
         flatlaftTable.design(productsContainer, product_table, jScrollPane5); // display wishlist table
-        searchBar(product_search_bar);
-        searchBar(product_search_bar1);
+        flatlaftTable.searchBar(product_search_bar);
+        flatlaftTable.searchBar(product_search_bar1);
 
         flatlaftTable.design(jPanel10, accounts_table, scrollBar); // display wishlist table
-        searchBar(searchBar);
+        flatlaftTable.searchBar(searchBar);
 
         flatlaftTable.design(jPanel21, message4admin_table, jScrollPane12); // display wishlist table
-        searchBar(message_search_bar);
+        flatlaftTable.searchBar(message_search_bar);
 
         flatlaftTable.design(archiveAccountTableContainer1, archive_products_table, archiveAccountTableContainerScroll1); // display wishlist table
-        searchBar(archive_search_bar);
+        flatlaftTable.searchBar(archive_search_bar);
 
         flatlaftTable.design(jPanel12, archive_accounts_table, archiveAccountTableContainerScroll); // display wishlist table
-        searchBar(searchBar1);
+        flatlaftTable.searchBar(searchBar1);
 
         //Informations Panel
         UXmethods.RoundBorders.setArcStyle(c1, 15);
@@ -134,18 +134,6 @@ public final class adminDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(editRole, 15);
 
         searchBar.setFocusable(false);
-    }
-
-    private void searchBar(JTextField search) {
-        search.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
-        search.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new javax.swing.ImageIcon(getClass().getResource("/image/search_icon.png")));
-        search.putClientProperty(FlatClientProperties.STYLE, ""
-                + "arc:15;"
-                + "borderWidth:0;"
-                + "focusWidth:0;"
-                + "innerFocusWidth:0;"
-                //+ "background:#FFFFFF;"
-                + "margin:5,20,5,20");
     }
 
     private void displayMessages() {
