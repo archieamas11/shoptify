@@ -33,7 +33,7 @@ public class displayProducts {
                     + "`date_created` as `Date Created`,"
                     + "`product_status` as `Status`"
                     + " FROM tbl_products "
-                    + "WHERE product_status IN ('Available', 'Not Available', 'Sold out')"
+                    + "WHERE NOT product_status = 'Archive'"
                     + "AND seller_id = ?")) {
                 pstmt.setInt(1, seller_id);
                 try (ResultSet rs = pstmt.executeQuery()) {
