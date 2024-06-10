@@ -85,7 +85,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         display_profile_picture();
         dashboard.setSelected(true);
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 30, 30)); //jframe rounded border
-        flatlaftTable.design(archiveAccountTableContainer, archive_table, archiveAccountTableContainerScroll); // display archive table
+        flatlaftTable.design(archiveAccountTableContainer, archive_table, archiveAccountTableContainerScroll); // displayProducts archive table
         searchBar(archive_search_bar);
         flatlaftTable.design(productsContainer, product_table, jScrollPane5); //seller logs
         searchBar(activity_search_bar);
@@ -95,17 +95,22 @@ public final class sellerDashboard extends javax.swing.JFrame {
         flatlaftTable.design(messages_container, messages_table, jScrollPane10); // messages table
         flatlaftTable.design(productsContainer2, purchase_table, jScrollPane7); // order table
         searchBar(orders_search_bar);
-        flatlaftTable.design(productsContainer3, orders_table, jScrollPane11); // display archive table
-        actionLogs.displaySellerLogs(actionlogs_table, sellerID); // display seller logs table
-        flatlaftTable.design(productsContainer1, wishlist_table, jScrollPane8); // display wishlist table
+        flatlaftTable.design(productsContainer3, orders_table, jScrollPane11); // displayProducts archive table
+        actionLogs.displaySellerLogs(actionlogs_table, sellerID); // displayProducts seller logs table
+        flatlaftTable.design(productsContainer1, wishlist_table, jScrollPane8); // displayProducts wishlist table
         searchBar(wishlist_search_bar);
 
-        displayCurrentDate(); // display current date in dashboard
-        displayProducts(); //display Products
-        displayRatingSumAndCount(); //display seller rating
-        displayArchive(); // display archive table
-        displayPurchase(); // display orders table
-        messages(); // display messages for seller
+        displayCurrentDate(); // displayProducts current date in dashboard
+        displayProducts.products(sellerID, product_is_empty, product_table); //display Products
+
+        //display seller profile and rating
+        displaySellerProfile.Info(seller_full_name, username, seller_address,
+                seller_phone, seller_email, seller_store, sellerID, display_photo, seller_rating);
+        //
+
+        displayArchive(); // displayProducts archive table
+        displayPurchase(); // displayProducts orders table
+        messages(); // displayProducts messages for seller
         displayWishlistTable(); //display wishist table
         display_wishlist_dashboard(); //display top wishlist in dashboard
         display_best_selling_dashboard(); //display best seeling
@@ -273,33 +278,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 + "innerFocusWidth:0;"
                 //+ "background:#FFFFFF;"
                 + "margin:5,20,5,20");
-    }
-
-    private void displayRatingSumAndCount() {
-        int sum_star;
-        int seller_count;
-
-        try {
-            databaseConnector dbc = new databaseConnector();
-            String query = "SELECT SUM(total_star) as total_star, COUNT(*) as total_rating FROM tbl_rating4seller WHERE seller_id = ?";
-            try (PreparedStatement pst = dbc.getConnection().prepareStatement(query)) {
-                pst.setInt(1, sellerID);
-                try (ResultSet rs = pst.executeQuery()) {
-                    if (rs.next()) {
-                        sum_star = rs.getInt("total_star");
-                        seller_count = rs.getInt("total_rating");
-                        float rating = (float) sum_star / seller_count;
-                        if (sum_star < 1) {
-                            seller_rating.setText("0 (0)");
-                        } else {
-                            seller_rating.setText(String.format("%.1f (%d)", rating, seller_count));
-                        }
-                    }
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error: " + ex.getMessage());
-        }
     }
 
     private void displayTotalOrders(int sellerID) {
@@ -491,42 +469,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         }
     }
 
-    public void displayProducts() {
-        try {
-            databaseConnector dbc = new databaseConnector();
-            try (PreparedStatement pstmt = dbc.getConnection().prepareStatement(""
-                    + "SELECT `product_id` as `Product ID`,"
-                    + "`product_name` as `Product Name`,"
-                    + "`product_price` as `Price`,"
-                    + "`product_stock` as `Stock(s)`,"
-                    + "`product_category` as `Category`,"
-                    + "`total_sold` as `Sold`,"
-                    + "`date_created` as `Date Created`,"
-                    + "`product_status` as `Status`"
-                    + " FROM tbl_products "
-                    + "WHERE product_status IN ('Available', 'Not Available', 'Sold out')"
-                    + "AND seller_id = ?")) {
-                pstmt.setInt(1, sellerID);
-                try (ResultSet rs = pstmt.executeQuery()) {
-                    if (!rs.isBeforeFirst()) {
-                        product_is_empty.setText("PRODUCT TABLE IS EMPTY!");
-                        product_table.setModel(new DefaultTableModel());
-                    } else {
-                        product_is_empty.setText("");
-                        product_table.setModel(DbUtils.resultSetToTableModel(rs));
-                        product_table.getColumnModel().getColumn(7).setCellRenderer(new StatusCellRenderer());
-
-                        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-                        centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-                        product_table.setDefaultRenderer(Object.class, centerRenderer);
-                    }
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Errors: " + ex.getMessage());
-        }
-    }
-
     public class StatusCellRenderer extends DefaultTableCellRenderer {
 
         @Override
@@ -637,34 +579,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
             }
         } catch (SQLException ex) {
             System.out.println("Errors: " + ex.getMessage());
-        }
-    }
-
-    private void displayProfileInfo() {
-        try {
-            databaseConnector dbc = new databaseConnector();
-            ResultSet rs = dbc.getData("SELECT * FROM tbl_accounts WHERE account_id =" + sellerID);
-            if (rs.next()) {
-                String fname;
-                String lname;
-                fname = rs.getString("first_name");
-                lname = rs.getString("last_name");
-                fname = Character.toUpperCase(fname.charAt(0)) + fname.substring(1);
-                lname = Character.toUpperCase(lname.charAt(0)) + lname.substring(1);
-                seller_full_name.setText(fname + " " + lname);
-                username.setText("@" + rs.getString("username"));
-                seller_address.setText("" + rs.getString("address"));
-                seller_phone.setText("" + rs.getString("phone_number"));
-                seller_email.setText("" + rs.getString("email"));
-                seller_store.setText(rs.getString("shop_name"));
-                int height = 120;
-                int width = 120;
-                String getImageFromDatabase = rs.getString("profile_picture");
-                GetImage.displayImage(display_photo, getImageFromDatabase, height, width);
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error retrieving data: " + e.getMessage());
-            System.out.println(e.getMessage());
         }
     }
 
@@ -834,7 +748,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     + "LIMIT 2")) {
                 pstmt.setInt(1, sellerID);
                 try (ResultSet rs = pstmt.executeQuery()) {
-                    // Display top 1 not performing product
+                    // displayProducts top 1 not performing product
                     if (rs.next()) {
                         not_performing.setText("");
                         top1_not_performing_name.setText(rs.getString("product_name"));
@@ -857,7 +771,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         not_performing.setText("No data found");
                     }
 
-                    // Display top 2 not performing product
+                    // displayProducts top 2 not performing product
                     if (rs.next()) {
                         not_performing.setText("");
                         top2_not_performing_name.setText(rs.getString("product_name"));
@@ -1594,6 +1508,11 @@ public final class sellerDashboard extends javax.swing.JFrame {
         jButton2.setForeground(new java.awt.Color(255, 255, 255));
         jButton2.setText("View all");
         jButton2.setBorderPainted(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         CONTAINER3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, 130, 30));
         CONTAINER3.add(top1_product_photo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, 80));
 
@@ -1700,22 +1619,37 @@ public final class sellerDashboard extends javax.swing.JFrame {
         product_table.setBackground(new java.awt.Color(241, 241, 241));
         product_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null}
             },
             new String [] {
-
+                "asdasdasd", "asdasdasd"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         product_table.setSelectionBackground(new java.awt.Color(204, 229, 255));
         product_table.setShowHorizontalLines(true);
+        product_table.getTableHeader().setResizingAllowed(false);
+        product_table.getTableHeader().setReorderingAllowed(false);
         product_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 product_tableMouseClicked(evt);
             }
         });
         jScrollPane5.setViewportView(product_table);
+        if (product_table.getColumnModel().getColumnCount() > 0) {
+            product_table.getColumnModel().getColumn(0).setResizable(false);
+            product_table.getColumnModel().getColumn(1).setResizable(false);
+        }
+        Seller.displayProducts.products (sellerID, product_is_empty, product_table);
 
-        productsContainer.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1140, 550));
+        productsContainer.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 1130, 550));
 
         product_search_bar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         product_search_bar.setForeground(new java.awt.Color(140, 140, 140));
@@ -3825,7 +3759,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 int rowsUpdated = pst.executeUpdate();
 
                 if (rowsUpdated > 0) {
-                    displayProducts();
+                    displayProducts.products(sellerID, product_is_empty, product_table);
                     displayArchive();
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product has been successfully restored!");
                     displayArchive();
@@ -3859,7 +3793,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 try {
                     databaseConnector dbc = new databaseConnector();
                     dbc.deleteProduct(pid);
-                    displayProducts();
+                    displayProducts.products(sellerID, product_is_empty, product_table);
                     reset();
                     displayArchive();
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product has been successfully deleted!");
@@ -3888,7 +3822,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
                 if (rowsUpdated > 0) {
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product has been successfully added to the archive!");
-                    displayProducts();
+                    displayProducts.products(sellerID, product_is_empty, product_table);
                     displayArchive();
                     String action = "Archive";
                     String details = "Seller " + sellerID + " Successfully put product " + p_id + " to archive!";
@@ -4020,7 +3954,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     String details = "Seller " + sellerID + " successfully accepted order " + transaction_id + "!";
                     actionLogs.recordSellerLogs(sellerID, action, details);
                     displayPurchase();
-                    displayProducts();
+                    displayProducts.products(sellerID, product_is_empty, product_table);
                     display_not_performing_well_products();
                     display_best_selling_dashboard();
                     newStock = 0;
@@ -4161,7 +4095,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         String details = "Seller " + sellerID + " declined order " + transaction_id + "!";
                         actionLogs.recordSellerLogs(sellerID, action, details);
                         displayPurchase();
-                        displayProducts();
+                        displayProducts.products(sellerID, product_is_empty, product_table);
                         display_not_performing_well_products();
                         display_best_selling_dashboard();
                         newStock = 0;
@@ -4239,13 +4173,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }
 
     private void profileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profileMouseClicked
-        displayProfileInfo();
+        displaySellerProfile.Info(seller_full_name, username, seller_address, seller_phone, seller_email, seller_store, sellerID, display_photo, seller_rating);
         manage.setSelected(false);
         orders.setSelected(false);
         archiveBtn.setSelected(false);
         dashboard.setSelected(false);
         admin_support.setSelected(false);
-        actionLogs.displaySellerLogs(actionlogs_table, sellerID); // display seller logs table
+        actionLogs.displaySellerLogs(actionlogs_table, sellerID); // displayProducts seller logs table
         tabs.setSelectedIndex(5);
     }//GEN-LAST:event_profileMouseClicked
     String EditgetImageFromDatabase;
@@ -4321,7 +4255,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_dashboardActionPerformed
 
     private void manageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageActionPerformed
-        displayProducts();
+        displayProducts.products(sellerID, product_is_empty, product_table);
         tabs.setSelectedIndex(1);
         dashboard.setSelected(false);
         orders.setSelected(false);
@@ -4502,7 +4436,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                         String details = "Seller " + sellerID + " successfully edited product " + p_id + "!";
                         actionLogs.recordSellerLogs(sellerID, action, details);
                     }
-                    displayProducts();
+                    displayProducts.products(sellerID, product_is_empty, product_table);
                 } else {
                     JOptionPane.showMessageDialog(null, "Failed to update data!");
                 }
@@ -4511,7 +4445,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
             emptyValues();
             p_id = 0;
             displayTotalProducts(sellerID);
-            displayProducts();
+            displayProducts.products(sellerID, product_is_empty, product_table);
             removeErrorsMessage();
             tabs.setSelectedIndex(1);
         } catch (SQLException e) {
@@ -4669,7 +4603,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
             defaultValues();
             removeErrorsMessage();
             displayTotalProducts(sellerID);
-            displayProducts();
+            displayProducts.products(sellerID, product_is_empty, product_table);
             tabs.setSelectedIndex(1);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "error adding product!" + e.getMessage());
@@ -4954,7 +4888,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
                 actionLogs.recordAdminLogs(sellerID, action, details);
                 actionLogs.displaySellerLogs(actionlogs_table, sellerID);
-                displayProfileInfo();
+                displaySellerProfile.Info(seller_full_name, username, seller_address, seller_phone, seller_email, seller_store, sellerID, display_photo, seller_rating);
                 tabs.setSelectedIndex(5);
             } else {
                 JOptionPane.showMessageDialog(null, "Failed to update Account!");
@@ -5094,7 +5028,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 try {
                     databaseConnector dbc = new databaseConnector();
                     dbc.deleteProduct(pid);
-                    displayProducts();
+                    displayProducts.products(sellerID, product_is_empty, product_table);
                     displayArchive();
                     display_best_selling_dashboard(); //display best selling
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product has been successfully deleted!");
@@ -5293,6 +5227,11 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         tabs.setSelectedIndex(1);
+        manage.setSelected(true);
+        dashboard.setSelected(false);
+        orders.setSelected(false);
+        archiveBtn.setSelected(false);
+        admin_support.setSelected(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -5504,10 +5443,19 @@ public final class sellerDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel7MouseClicked
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        tabs.setSelectedIndex(11);
+        manage.setSelected(true);
+        dashboard.setSelected(false);
+        orders.setSelected(false);
+        archiveBtn.setSelected(false);
+        admin_support.setSelected(false);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
-            /* Create and display the form */
+            /* Create and displayProducts the form */
             java.awt.EventQueue.invokeLater(() -> {
                 new sellerDashboard().setVisible(true);
             });

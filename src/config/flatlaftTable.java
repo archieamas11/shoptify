@@ -6,9 +6,13 @@ package config;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import java.awt.Cursor;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,7 +20,6 @@ import javax.swing.JTable;
  */
 public class flatlaftTable {
 
-    //  SUCCESS, INFO, WARNING, ERROR;
     public static void design(JPanel panel, JTable table, JScrollPane scroll) {
         panel.putClientProperty(FlatClientProperties.STYLE, ""
                 + "arc:20;"
@@ -24,8 +27,8 @@ public class flatlaftTable {
 
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE, ""
                 + "height:40;"
-                + "hoverBackground:null;"
-                + "pressedBackground:null;"
+                //+ "hoverBackground:null;"
+                //+ "pressedBackground:null;"
                 + "separatorColor:#F1F1F1;"
                 + "font:bold;"
                 + "background:#F1F1F1;");
@@ -46,6 +49,33 @@ public class flatlaftTable {
                 + "thumbInsets:3,3,3,3;"
                 + "background:$Table.background;");
         scroll.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
 
+    public static DefaultTableModel resultSetToNonEditableTableModel(ResultSet rs) throws SQLException {
+        DefaultTableModel tableModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // All cells non-editable
+            }
+        };
+
+        ResultSetMetaData metaData = rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+        // Add columns to table model
+        for (int i = 1; i <= columnCount; i++) {
+            tableModel.addColumn(metaData.getColumnLabel(i));
+        }
+
+        // Add rows to table model
+        while (rs.next()) {
+            Object[] row = new Object[columnCount];
+            for (int i = 1; i <= columnCount; i++) {
+                row[i - 1] = rs.getObject(i);
+            }
+            tableModel.addRow(row);
+        }
+
+        return tableModel;
     }
 }
