@@ -485,7 +485,16 @@ public final class buyerDashboard extends javax.swing.JFrame {
                         rs.close();
                     }
 
-                    String query = "SELECT "
+                    String query = "WITH ProductRatings AS ("
+                            + "    SELECT pr.product_id, SUM(DISTINCT pr.total_star) AS total_star, COUNT(DISTINCT pr.total_star) AS total_rating "
+                            + "    FROM tbl_rating4products pr "
+                            + "    GROUP BY pr.product_id"
+                            + "), SellerRatings AS ("
+                            + "    SELECT sr.seller_id, SUM(DISTINCT sr.total_star) AS seller_star, COUNT(DISTINCT sr.total_star) AS seller_rating "
+                            + "    FROM tbl_rating4seller sr "
+                            + "    GROUP BY sr.seller_id"
+                            + ") "
+                            + "SELECT "
                             + "p.product_description AS product_description, "
                             + "p.product_stock AS product_stock, "
                             + "p.product_image AS product_image, "
@@ -493,20 +502,19 @@ public final class buyerDashboard extends javax.swing.JFrame {
                             + "p.product_category AS product_category, "
                             + "COUNT(p.product_id) AS total_products, "
                             + "w.total_favorites AS total_favorites, "
-                            + "SUM(pr.total_star) AS total_star, "
-                            + "COUNT(pr.product_id) AS total_rating, "
-                            + "SUM(sr.total_star) AS seller_star, "
-                            + "COUNT(sr.seller_id) AS seller_rating, "
+                            + "pr.total_star AS total_star, "
+                            + "pr.total_rating AS total_rating, "
+                            + "sr.seller_star AS seller_star, "
+                            + "sr.seller_rating AS seller_rating, "
                             + "a.profile_picture AS seller_profile, "
                             + "a.shop_name AS shop_name, "
                             + "a.date_joined AS date_joined "
                             + "FROM tbl_products p "
                             + "LEFT JOIN tbl_wishlist w ON w.product_id = p.product_id "
-                            + "LEFT JOIN tbl_rating4products pr ON pr.product_id = p.product_id "
-                            + "LEFT JOIN tbl_rating4seller sr ON sr.seller_id = p.seller_id "
+                            + "LEFT JOIN ProductRatings pr ON pr.product_id = p.product_id "
+                            + "LEFT JOIN SellerRatings sr ON sr.seller_id = p.seller_id "
                             + "LEFT JOIN tbl_accounts a ON a.account_id = p.seller_id "
-                            + "WHERE p.product_status = 'Available' AND p.product_id = ? "
-                            + "GROUP BY p.product_id, w.total_favorites, a.profile_picture";
+                            + "WHERE p.product_status = 'Available' AND p.product_id = ? ";
 
                     try (PreparedStatement statement = connection.prepareStatement(query)) {
                         statement.setInt(1, product_id);
@@ -539,23 +547,23 @@ public final class buyerDashboard extends javax.swing.JFrame {
                             String sgetImageFromDatabase = rs.getString("product_image");
                             GetImage.displayImage(product_photo, sgetImageFromDatabase, sheight, swidth);
 
-                            int sum_star = rs.getInt("total_star");
-                            int seller_sum_star = rs.getInt("seller_star");
-                            int seller_count = rs.getInt("total_rating");
-                            float rating = seller_count > 0 ? (float) sum_star / seller_count : 0;
-                            if (sum_star < 1) {
+                            float sum_star = rs.getInt("total_star");
+                            float product_count = rs.getInt("total_rating");
+                            float rating = sum_star / product_count;
+                            if (product_count < 1) {
                                 product_rating.setText("0 (0)");
                             } else {
-                                product_rating.setText(String.format("%.1f (%d)", rating, seller_count));
+                                product_rating.setText(String.format("%.1f (%.0f)", rating, product_count));
                             }
 
-                            int seller_seller_count = rs.getInt("seller_rating");
-                            float sellerRating = seller_seller_count > 0 ? (float) seller_sum_star / seller_seller_count : 0;
+                            float seller_seller_count = rs.getInt("seller_rating");
+                            float seller_sum_star = rs.getInt("seller_star");
+                            float sellerRating = seller_sum_star / seller_seller_count;
 
-                            if (seller_sum_star < 1) {
+                            if (seller_seller_count < 1) {
                                 seller__profile_rating.setText("0 (0)");
                             } else {
-                                seller__profile_rating.setText(String.format("%.1f (%d)", sellerRating, seller_seller_count));
+                                seller__profile_rating.setText(String.format("%.1f (%.0f)", sellerRating, seller_seller_count));
                             }
 
                             product_description.setText(rs.getString("product_description"));
@@ -1040,7 +1048,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel2.add(my_heart4, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 30, 40, 30));
         UXmethods.RoundBorders.setArcStyle(my_heart4, 50);
 
-        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, -10, 570, 80));
+        jPanel5.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1290, 80));
 
         tabs.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -1365,7 +1373,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel1.add(p15);
         p15.setBounds(950, 460, 180, 190);
 
-        tabs.addTab("tab1", jPanel1);
+        tabs.addTab("home", jPanel1);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1496,7 +1504,6 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jScrollPane2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         product_description.setEditable(false);
-        product_description.setBackground(new java.awt.Color(255, 255, 255));
         product_description.setBorder(null);
         product_description.setEditorKit(null);
         product_description.setForeground(new java.awt.Color(102, 102, 102));
@@ -3138,7 +3145,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
         jPanel18.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 380, 340, 190));
         jScrollPane10.putClientProperty(FlatClientProperties.STYLE, "arc:10;");
 
-        tabs.addTab("tab13", jPanel18);
+        tabs.addTab("rate", jPanel18);
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -3208,11 +3215,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
         displayUserProducts();
         tabs.setSelectedIndex(0);
-        my_heart0.setSelected(true);
-        my_heart1.setSelected(false);
-        my_heart2.setSelected(false);
-        my_heart3.setSelected(false);
-        my_heart4.setSelected(false);
+        home();
     }//GEN-LAST:event_homeMouseClicked
 
     private int tblQuant = 0;
@@ -3239,67 +3242,21 @@ public final class buyerDashboard extends javax.swing.JFrame {
                 return;
             }
 
-            // Update or insert product rating
-            String checkRatingQuery = "SELECT * FROM tbl_rating4products WHERE product_id = ?";
-            PreparedStatement checkRatingStmt = dbc.getConnection().prepareStatement(checkRatingQuery);
-            checkRatingStmt.setInt(1, PID);
-
-            ResultSet checkRs = checkRatingStmt.executeQuery();
-
-            if (checkRs.next()) {
-                // If product id exists, update total_star
-                int current_star = checkRs.getInt("total_star");
-                int new_star = current_star + productRating;
-
-                String updateQuery = "UPDATE tbl_rating4products SET total_star = ? WHERE product_id = ?";
-                PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
-                updateStmt.setInt(1, new_star);
-                updateStmt.setInt(2, PID);
-
-                updateStmt.executeUpdate();
-
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product rating submitted successfully!");
-            } else {
-                String insertQuery = "INSERT INTO tbl_rating4products (product_id, total_star) VALUES (?, ?)";
-                PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery);
-                insertStmt.setInt(1, PID);
-                insertStmt.setInt(2, productRating);
-
-                insertStmt.executeUpdate();
-
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product rating submitted successfully!");
+            String insertProductQuery = "INSERT INTO tbl_rating4products (product_id, total_star) VALUES (?, ?)";
+            try (PreparedStatement insertProductStmt = dbc.getConnection().prepareStatement(insertProductQuery)) {
+                insertProductStmt.setInt(1, PID);
+                insertProductStmt.setInt(2, productRating);
+                insertProductStmt.executeUpdate();
             }
 
-            // Update or insert seller rating
-            String checkSellerRatingQuery = "SELECT * FROM tbl_rating4seller WHERE seller_id = ?";
-            PreparedStatement checkSellerRatingStmt = dbc.getConnection().prepareStatement(checkSellerRatingQuery);
-            checkSellerRatingStmt.setInt(1, SID);
-
-            ResultSet checkSellerRs = checkSellerRatingStmt.executeQuery();
-
-            if (checkSellerRs.next()) {
-                // If seller id exists, update total_star
-                int current_star = checkSellerRs.getInt("total_star");
-                int new_star = current_star + seller_rating;
-
-                String updateQuery = "UPDATE tbl_rating4seller SET total_star = ? WHERE seller_id = ?";
-                PreparedStatement updateStmt = dbc.getConnection().prepareStatement(updateQuery);
-                updateStmt.setInt(1, new_star);
-                updateStmt.setInt(2, SID);
-
-                updateStmt.executeUpdate();
-
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Seller rating submitted successfully!");
-            } else {
-                String insertQuery = "INSERT INTO tbl_rating4seller (seller_id, total_star) VALUES (?, ?)";
-                PreparedStatement insertStmt = dbc.getConnection().prepareStatement(insertQuery);
-                insertStmt.setInt(1, SID);
-                insertStmt.setInt(2, seller_rating);
-
-                insertStmt.executeUpdate();
-
-                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Seller rating submitted successfully!");
+            String insertSellerQuery = "INSERT INTO tbl_rating4seller (seller_id, total_star) VALUES (?, ?)";
+            try (PreparedStatement insertSellerStmt = dbc.getConnection().prepareStatement(insertSellerQuery)) {
+                insertSellerStmt.setInt(1, SID);
+                insertSellerStmt.setInt(2, seller_rating);
+                insertSellerStmt.executeUpdate();
             }
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product rating submitted successfully!");
+            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Seller rating submitted successfully!");
 
             tabs.setSelectedIndex(13);
 
@@ -3694,6 +3651,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
             displayQuant.setText(String.valueOf(num));
             displayPurchase();
             displayUserProducts();
+            home();
             tabs.setSelectedIndex(0);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error executing SQL query: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -4113,6 +4071,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
             tabs.setSelectedIndex(0);
             name.setText("");
             photo.setIcon(null);
+            home();
         } catch (SQLException | NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Error processing purchase: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
@@ -4233,14 +4192,16 @@ public final class buyerDashboard extends javax.swing.JFrame {
     private void add_to_wishlist1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_to_wishlist1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_add_to_wishlist1ActionPerformed
-
-    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
-        tabs.setSelectedIndex(0);
+    private void home() {
         my_heart0.setSelected(true);
         my_heart1.setSelected(false);
         my_heart2.setSelected(false);
         my_heart3.setSelected(false);
         my_heart4.setSelected(false);
+    }
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        tabs.setSelectedIndex(0);
+        home();
     }//GEN-LAST:event_jLabel13MouseClicked
 
     private void add_to_wishlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_to_wishlistActionPerformed
@@ -4750,6 +4711,7 @@ public final class buyerDashboard extends javax.swing.JFrame {
 
     private void submit_rating1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submit_rating1ActionPerformed
         tabs.setSelectedIndex(0);
+        home();
     }//GEN-LAST:event_submit_rating1ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
