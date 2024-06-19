@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 30, 2024 at 06:25 AM
+-- Generation Time: Jun 19, 2024 at 04:57 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -53,7 +53,8 @@ INSERT INTO `tbl_accounts` (`account_id`, `first_name`, `last_name`, `address`, 
 (3, 'Kyrie', 'Irving', 'Tunghaan, Minglanilla, Cebu', '12345678900', 'kyrie666@gmail.com', 'kyrie', '$2a$10$zPZ6fC4O1b9/WrfjtChF.eXm8dLCvMKTPrsFgJ4MwGliJVJ5ublei', 'Seller', 'Xtronics', 'src/sampleProfiles/default_user_profile.png', '2015-05-01', 'Active'),
 (4, 'archie', 'albarico', 'tunghaan, minglanilla, cebu', '09231226478', 'archiealbarico69@gmail.com', 'admin', '$2a$10$b3Z5LyUH/HqNxCo.CcnZYuS4yQ1FjD9PNg21N.Ycsy9TzfqAe1lX.', 'Admin', 'None', 'src/sampleProfiles/profile.png', '2024-05-28', 'Active'),
 (7, 'Luka', 'Doncic', '3', '33333333333', 'lukadoncic123@gmail.com', 'luka', '$2a$10$ByOEEcnYH7mj7gw0aCVk1.WlxMlHTJIGGfA64RIXonpOZrvdcRQ46', 'Seller', 'Petty', 'src/sampleProfiles/default_user_profile.png', '2024-05-29', 'Active'),
-(8, 'Lebron', 'James', 'Purok tambis, national high schoool', '11111111111', 'lebronjames@gmail.com', 'lebron', '$2a$10$awp6gtYURKNs7NFgVE45UeOZ1vD4mgC7bgsuROkZF8ZxUUxDb6uGy', 'Seller', 'Trendy Thrift', 'src/sampleProfiles/default_user_profile.png', '2024-05-29', 'Active');
+(8, 'Lebron', 'James', 'Purok tambis, national high schoool', '11111111111', 'lebronjames@gmail.com', 'lebron', '$2a$10$awp6gtYURKNs7NFgVE45UeOZ1vD4mgC7bgsuROkZF8ZxUUxDb6uGy', 'Seller', 'Trendy Thrift', 'src/sampleProfiles/default_user_profile.png', '2024-05-29', 'Active'),
+(9, 'Archie', 'Albarico', 'buyer, tuyan, cebu2', '12345678900', 'archiemas@gmail.com', '24', '$2a$10$SC4i5tqUFzVXjRn41weoi.7rVRmkbwwIrCQQhRbRYD979cQoi7xQe', 'Buyer', '', 'src/sampleProfiles/default_user_profile.png', '2024-05-17', 'Active');
 
 -- --------------------------------------------------------
 
@@ -149,6 +150,21 @@ CREATE TABLE `tbl_invoice` (
   `invoice_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_invoice`
+--
+
+INSERT INTO `tbl_invoice` (`invoice_id`, `buyer_id`, `seller_id`, `order_id`, `product_id`, `invoice_date`) VALUES
+(3, 2, 1, 27, 20, '2024-06-09'),
+(4, 2, 1, 28, 20, '2024-06-09'),
+(5, 2, 1, 29, 20, '2024-06-09'),
+(6, 2, 3, 30, 21, '2024-06-10'),
+(7, 9, 3, 31, 21, '2024-06-10'),
+(8, 2, 3, 32, 23, '2024-06-10'),
+(9, 2, 1, 33, 20, '2024-06-16'),
+(10, 2, 1, 34, 20, '2024-06-16'),
+(11, 2, 3, 35, 22, '2024-06-16');
+
 -- --------------------------------------------------------
 
 --
@@ -198,6 +214,21 @@ CREATE TABLE `tbl_orders` (
   `order_status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_orders`
+--
+
+INSERT INTO `tbl_orders` (`order_id`, `buyer_id`, `seller_id`, `product_id`, `total_quantity`, `total_price`, `payment_method`, `notes`, `date_purchase`, `order_status`) VALUES
+(27, 2, 1, 20, 2, 30000, 'Cash on delivery', '', '2024-06-09', 'Accepted'),
+(28, 2, 1, 20, 2, 30000, 'Cash on delivery', '', '2024-06-09', 'Accepted'),
+(29, 2, 1, 20, 1, 15000, 'Cash on delivery', '', '2024-06-09', 'Accepted'),
+(30, 2, 3, 21, 3, 7500, 'Cash on delivery', '', '2024-06-10', 'Accepted'),
+(31, 9, 3, 21, 1, 2500, 'Cash on delivery', '', '2024-06-10', 'Accepted'),
+(32, 2, 3, 23, 1, 2500, 'Cash on delivery', '', '2024-06-10', 'Accepted'),
+(33, 2, 1, 20, 1, 15000, 'Cash on delivery', '', '2024-06-16', 'Accepted'),
+(34, 2, 1, 20, 5, 75000, 'Cash on delivery', '', '2024-06-16', 'Accepted'),
+(35, 2, 3, 22, 1, 88000, 'Cash on delivery', '', '2024-06-16', 'Accepted');
+
 -- --------------------------------------------------------
 
 --
@@ -223,10 +254,10 @@ CREATE TABLE `tbl_products` (
 --
 
 INSERT INTO `tbl_products` (`product_id`, `seller_id`, `product_name`, `product_price`, `product_stock`, `product_description`, `product_category`, `total_sold`, `product_image`, `date_created`, `product_status`) VALUES
-(20, 1, 'GTX 1650 Super OC', 15000, 4, 'Unleash your gaming potential with the UltraBoost GTX 1650 Super OC Graphics Card. Equipped with 6GB of VRAM, this overclocked powerhouse ensures smooth and immersive gameplay. The GTX 1650 Super offers exceptional performance and efficiency, making it perfect for both casual and competitive gamers. Experience high frame rates and stunning visuals with advanced Turing architecture, delivering real-time ray tracing and AI enhanced graphics. With robust cooling technology, your system stays cool even during intense gaming sessions. Elevate your gaming setup with the UltraBoost GTX 1650 Super and enjoy superior performance at an unbeatable value.', 'Electronics', 0, 'src/ProductsImages/6.png', '2024-05-27', 'Available'),
-(21, 3, 'SwiftGlide Pro Mouse', 2500, 3, 'Experience precision and speed with the SwiftGlide Pro Mouse. Designed for gamers who demand the best, this ultra-lightweight mouse weighs only 49 grams and features a high-performance PAW 3395 sensor for pinpoint accuracy. With a 1000Hz polling rate, enjoy seamless and responsive gameplay that keeps you ahead of the competition. Ergonomically designed for comfort during extended gaming sessions, the SwiftGlide Pro Mouse ensures you can play longer without fatigue. Upgrade your gaming setup with a mouse that combines cutting-edge technology and superior design. Dominate every game with SwiftGlide Pro!', 'Electronics', 0, 'src/ProductsImages/p_mouse.png', '2024-05-27', 'Available'),
-(22, 3, 'MacBook Pro 2021', 88000, 2, 'Discover the ultimate in performance and style with this Sleek MacBook Pro 2021. This powerful laptop features Apple\'s M1 chip, offering unprecedented speed and efficiency for all your computing needs. With its stunning 13.3-inch Retina display, you\'ll experience vivid colors and incredible detail, making it perfect for both work and entertainment. The 8GB of RAM ensures smooth multitasking, while the 256GB SSD provides ample storage space for your files and applications.\r\n\r\nThis MacBook Pro also boasts a remarkable battery life of up to 20 hours, ensuring you stay productive throughout the day. The sleek aluminum design is not only durable but also aesthetically pleasing, making it a standout device wherever you go. Additionally, the advanced macOS Monterey enhances your user experience with intuitive features and robust security.', 'Electronics', 0, 'src/ProductsImages/4.png', '2024-05-30', 'Available'),
-(23, 3, 'RGB Gaming Keyboard', 2500, 8, 'Elevate your gaming experience with the RGB Gaming Keyboard Pro. This high-performance keyboard is designed for gamers who demand precision, speed, and style. Featuring customizable RGB backlighting, you can choose from a spectrum of colors and lighting effects to match your setup and create an immersive gaming atmosphere.\r\n\r\nThe keyboard is equipped with mechanical switches, delivering a satisfying tactile feedback and rapid response times for every keystroke. Anti-ghosting technology ensures that every keypress is registered accurately, even during intense gaming sessions. The durable construction and ergonomic design provide comfort and reliability, allowing you to game for hours without fatigue.\r\n\r\nWith programmable macro keys, you can assign complex commands and execute them with a single press, giving you a competitive edge in your favorite games. The dedicated media controls allow you to easily manage your audio settings without interrupting your gameplay.', 'Electronics', 0, 'src/ProductsImages/5.png', '2024-05-30', 'Available'),
+(20, 1, 'GTX 1650 Super OC', 15000, 1, 'Unleash your gaming potential with the UltraBoost GTX 1650 Super OC Graphics Card. Equipped with 6GB of VRAM, this overclocked powerhouse ensures smooth and immersive gameplay. The GTX 1650 Super offers exceptional performance and efficiency, making it perfect for both casual and competitive gamers. Experience high frame rates and stunning visuals with advanced Turing architecture, delivering real-time ray tracing and AI enhanced graphics. With robust cooling technology, your system stays cool even during intense gaming sessions. Elevate your gaming setup with the UltraBoost GTX 1650 Super and enjoy superior performance at an unbeatable value.', 'Electronics', 10, 'src/ProductsImages/6.png', '2024-05-27', 'Available'),
+(21, 3, 'SwiftGlide Pro Mouse', 2500, 2, 'Experience precision and speed with the SwiftGlide Pro Mouse. Designed for gamers who demand the best, this ultra-lightweight mouse weighs only 49 grams and features a high-performance PAW 3395 sensor for pinpoint accuracy. With a 1000Hz polling rate, enjoy seamless and responsive gameplay that keeps you ahead of the competition. Ergonomically designed for comfort during extended gaming sessions, the SwiftGlide Pro Mouse ensures you can play longer without fatigue. Upgrade your gaming setup with a mouse that combines cutting-edge technology and superior design. Dominate every game with SwiftGlide Pro!', 'Electronics', 4, 'src/ProductsImages/p_mouse.png', '2024-05-27', 'Available'),
+(22, 3, 'MacBook Pro 2021', 88000, 1, 'Discover the ultimate in performance and style with this Sleek MacBook Pro 2021. This powerful laptop features Apple\'s M1 chip, offering unprecedented speed and efficiency for all your computing needs. With its stunning 13.3-inch Retina display, you\'ll experience vivid colors and incredible detail, making it perfect for both work and entertainment. The 8GB of RAM ensures smooth multitasking, while the 256GB SSD provides ample storage space for your files and applications.\r\n\r\nThis MacBook Pro also boasts a remarkable battery life of up to 20 hours, ensuring you stay productive throughout the day. The sleek aluminum design is not only durable but also aesthetically pleasing, making it a standout device wherever you go. Additionally, the advanced macOS Monterey enhances your user experience with intuitive features and robust security.', 'Electronics', 1, 'src/ProductsImages/4.png', '2024-05-30', 'Available'),
+(23, 3, 'RGB Gaming Keyboard', 2500, 7, 'Elevate your gaming experience with the RGB Gaming Keyboard Pro. This high-performance keyboard is designed for gamers who demand precision, speed, and style. Featuring customizable RGB backlighting, you can choose from a spectrum of colors and lighting effects to match your setup and create an immersive gaming atmosphere.\r\n\r\nThe keyboard is equipped with mechanical switches, delivering a satisfying tactile feedback and rapid response times for every keystroke. Anti-ghosting technology ensures that every keypress is registered accurately, even during intense gaming sessions. The durable construction and ergonomic design provide comfort and reliability, allowing you to game for hours without fatigue.\r\n\r\nWith programmable macro keys, you can assign complex commands and execute them with a single press, giving you a competitive edge in your favorite games. The dedicated media controls allow you to easily manage your audio settings without interrupting your gameplay.', 'Electronics', 1, 'src/ProductsImages/5.png', '2024-05-30', 'Available'),
 (24, 3, 'iPhone 14 Pro MAX', 69000, 2, 'Experience innovation at its finest with the iPhone 14 Pro MAX. This flagship smartphone from Apple redefines excellence with its advanced features and stunning design. Boasting a 6.7-inch Super Retina XDR display, the iPhone 14 Pro MAX offers an unparalleled visual experience with vibrant colors, deep blacks, and impressive brightness, perfect for everything from browsing to streaming.\r\n\r\nPowered by the A16 Bionic chip, the iPhone 14 Pro MAX delivers lightning-fast performance, enabling seamless multitasking, gaming, and AR experiences. The iOS 16 operating system provides a smooth, intuitive user interface with enhanced privacy and security features.\r\n\r\nCapture your world in extraordinary detail with the Pro camera system, featuring a 48MP main sensor, ultra-wide lens, and telephoto lens. Whether it\'s low-light photography or 4K video recording, the iPhone 14 Pro MAX ensures stunning clarity and color accuracy.', 'Electronics', 0, 'src/ProductsImages/7.png', '2024-05-30', 'Available'),
 (25, 7, 'Premium Cat Food', 199, 10, 'Nourish your feline friend with our Premium Cat Food Mix, a carefully crafted blend designed to meet all your cat’s nutritional needs. Made with high-quality, natural ingredients, this cat food offers a balanced diet that promotes overall health and vitality. Each serving is packed with essential proteins, vitamins, and minerals to support strong muscles, healthy skin, and a shiny coat.\r\n\r\nOur formula includes real chicken and fish, providing a delicious and protein-rich meal that cats crave. The added omega-3 and omega-6 fatty acids contribute to optimal brain function and a glossy coat, while taurine supports heart health and vision. We also include a blend of vegetables and grains to provide fiber for healthy digestion.', 'Pet Supplies', 0, 'src/ProductsImages/8.png', '2024-05-30', 'Available'),
 (26, 8, 'Luxury Cotton Tshirt', 499, 5, 'Experience unmatched comfort and style with our Luxury Cotton T-Shirt. Crafted from the finest quality, 100% organic cotton, this t-shirt offers a soft, breathable fabric that feels great against your skin. Designed for both men and women, it features a classic fit that suits any body type, ensuring a perfect blend of comfort and elegance.\r\n\r\nThe Luxury Cotton T-Shirt is not only stylish but also incredibly durable, thanks to its high-quality stitching and fabric that withstands regular wear and washing. The versatile design makes it an ideal choice for any occasion, whether you’re dressing up for a casual day out, a night on the town, or lounging at home.', 'Fashion', 0, 'src/ProductsImages/10.png', '2024-05-30', 'Available'),
@@ -244,6 +275,15 @@ CREATE TABLE `tbl_rating4products` (
   `total_star` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_rating4products`
+--
+
+INSERT INTO `tbl_rating4products` (`rate_id`, `product_id`, `total_star`) VALUES
+(6, 20, 2),
+(7, 20, 5),
+(8, 22, 5);
+
 -- --------------------------------------------------------
 
 --
@@ -255,6 +295,15 @@ CREATE TABLE `tbl_rating4seller` (
   `seller_id` int(11) NOT NULL,
   `total_star` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_rating4seller`
+--
+
+INSERT INTO `tbl_rating4seller` (`rate_id`, `seller_id`, `total_star`) VALUES
+(10, 1, 2),
+(11, 1, 5),
+(12, 3, 5);
 
 -- --------------------------------------------------------
 
@@ -352,7 +401,75 @@ INSERT INTO `tbl_sellerlogs` (`sellerlogs_id`, `seller_id`, `sellerlogs_action`,
 (75, 8, 'Logged in', 'Seller 8 successfully logged in!', '2024-05-29 21:30:35'),
 (76, 8, 'Add Product', 'Seller 8 Successfully added a new product!', '2024-05-29 21:31:28'),
 (77, 8, 'Add Product', 'Seller 8 Successfully added a new product!', '2024-05-29 21:33:35'),
-(78, 8, 'Logged out', 'Seller 8 Successfully logged out!', '2024-05-29 21:33:40');
+(78, 8, 'Logged out', 'Seller 8 Successfully logged out!', '2024-05-29 21:33:40'),
+(79, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:37:01'),
+(80, 1, 'Add Product', 'Seller 1 Successfully added a new product!', '2024-06-02 10:37:14'),
+(81, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-06-02 10:37:16'),
+(82, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:40:36'),
+(83, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:41:16'),
+(84, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:42:34'),
+(85, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:43:55'),
+(86, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:44:47'),
+(87, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:45:13'),
+(88, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:46:38'),
+(89, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:48:32'),
+(90, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:50:03'),
+(91, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:53:21'),
+(92, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:55:20'),
+(93, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 10:56:06'),
+(94, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-02 14:54:45'),
+(95, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-09 05:19:41'),
+(96, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-06-09 05:19:50'),
+(97, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-09 05:21:38'),
+(98, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-09 05:31:19'),
+(99, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-09 05:33:27'),
+(100, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-09 05:40:37'),
+(101, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-09 05:42:06'),
+(102, 1, 'Accept Order', 'Seller 1 successfully accepted order 27!', '2024-06-09 05:42:27'),
+(103, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-09 05:45:11'),
+(104, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-09 05:46:49'),
+(105, 1, 'Accept Order', 'Seller 1 successfully accepted order 28!', '2024-06-09 05:46:57'),
+(106, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-06-09 05:47:19'),
+(107, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-09 05:47:53'),
+(108, 1, 'Accept Order', 'Seller 1 successfully accepted order 29!', '2024-06-09 05:48:04'),
+(109, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-09 05:50:18'),
+(110, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-09 05:59:43'),
+(111, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-09 06:03:45'),
+(112, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-10 10:25:15'),
+(113, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-10 10:33:06'),
+(114, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-10 10:34:27'),
+(115, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-10 10:40:06'),
+(116, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-10 12:16:09'),
+(117, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-06-10 12:21:59'),
+(118, 3, 'Logged in', 'Seller 3 successfully logged in!', '2024-06-10 13:01:42'),
+(119, 3, 'Accept Order', 'Seller 3 successfully accepted order 30!', '2024-06-10 13:01:59'),
+(120, 3, 'Logged out', 'Seller 3 Successfully logged out!', '2024-06-10 13:02:18'),
+(121, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-10 13:02:21'),
+(122, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-06-10 13:02:23'),
+(123, 3, 'Logged in', 'Seller 3 successfully logged in!', '2024-06-10 13:02:29'),
+(124, 3, 'Logged out', 'Seller 3 Successfully logged out!', '2024-06-10 13:02:44'),
+(125, 3, 'Logged in', 'Seller 3 successfully logged in!', '2024-06-10 13:06:48'),
+(126, 3, 'Accept Order', 'Seller 3 successfully accepted order 31!', '2024-06-10 13:07:16'),
+(127, 3, 'Logged in', 'Seller 3 successfully logged in!', '2024-06-10 13:19:04'),
+(128, 3, 'Accept Order', 'Seller 3 successfully accepted order 32!', '2024-06-10 13:19:08'),
+(129, 3, 'Logged out', 'Seller 3 Successfully logged out!', '2024-06-10 13:19:09'),
+(130, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-12 01:39:05'),
+(131, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-12 01:40:11'),
+(132, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-12 01:43:25'),
+(133, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-12 01:44:04'),
+(134, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-12 01:44:42'),
+(135, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-16 12:27:51'),
+(136, 1, 'Accept Order', 'Seller 1 successfully accepted order 33!', '2024-06-16 12:28:19'),
+(137, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-06-16 12:28:23'),
+(138, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-16 12:30:05'),
+(139, 1, 'Accept Order', 'Seller 1 successfully accepted order 34!', '2024-06-16 12:30:12'),
+(140, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-06-16 12:30:13'),
+(141, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-16 12:30:49'),
+(142, 1, 'Logged out', 'Seller 1 Successfully logged out!', '2024-06-16 12:31:40'),
+(143, 1, 'Logged in', 'Seller 1 successfully logged in!', '2024-06-16 12:32:19'),
+(144, 3, 'Logged in', 'Seller 3 successfully logged in!', '2024-06-16 13:12:25'),
+(145, 3, 'Accept Order', 'Seller 3 successfully accepted order 35!', '2024-06-16 13:12:33'),
+(146, 3, 'Logged out', 'Seller 3 Successfully logged out!', '2024-06-16 13:12:37');
 
 -- --------------------------------------------------------
 
@@ -368,6 +485,14 @@ CREATE TABLE `tbl_wishlist` (
   `total_favorites` int(11) NOT NULL,
   `date_added` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_wishlist`
+--
+
+INSERT INTO `tbl_wishlist` (`wishlist_id`, `buyer_id`, `seller_id`, `product_id`, `total_favorites`, `date_added`) VALUES
+(10, 2, 1, 20, 1, '2024-06-10'),
+(11, 9, 3, 21, 1, '2024-06-10');
 
 --
 -- Indexes for dumped tables
@@ -473,7 +598,7 @@ ALTER TABLE `tbl_wishlist`
 -- AUTO_INCREMENT for table `tbl_accounts`
 --
 ALTER TABLE `tbl_accounts`
-  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `account_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tbl_adminlogs`
@@ -491,7 +616,7 @@ ALTER TABLE `tbl_cart`
 -- AUTO_INCREMENT for table `tbl_invoice`
 --
 ALTER TABLE `tbl_invoice`
-  MODIFY `invoice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `invoice_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_message4admin`
@@ -509,37 +634,37 @@ ALTER TABLE `tbl_messages4seller`
 -- AUTO_INCREMENT for table `tbl_orders`
 --
 ALTER TABLE `tbl_orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `tbl_products`
 --
 ALTER TABLE `tbl_products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `tbl_rating4products`
 --
 ALTER TABLE `tbl_rating4products`
-  MODIFY `rate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `rate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_rating4seller`
 --
 ALTER TABLE `tbl_rating4seller`
-  MODIFY `rate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `rate_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_sellerlogs`
 --
 ALTER TABLE `tbl_sellerlogs`
-  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `sellerlogs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
 
 --
 -- AUTO_INCREMENT for table `tbl_wishlist`
 --
 ALTER TABLE `tbl_wishlist`
-  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `wishlist_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
