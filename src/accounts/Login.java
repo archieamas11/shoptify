@@ -408,9 +408,9 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_forgotPasswordBtnMouseClicked
 
-    
+
     private void usernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameKeyPressed
-         if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+        if (evt.getKeyCode() == KeyEvent.VK_TAB) {
             password.setFocusable(true);
             password.requestFocusInWindow();
             evt.consume();
@@ -418,7 +418,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_usernameKeyPressed
 
     private void passwordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordKeyPressed
-       if (evt.getKeyCode() == KeyEvent.VK_TAB) {
+        if (evt.getKeyCode() == KeyEvent.VK_TAB) {
             username.setFocusable(true);
             username.requestFocusInWindow();
             evt.consume();

@@ -16,6 +16,7 @@ import config.print_logs;
 import config.sorter;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Image;
@@ -45,8 +46,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JComponent;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -59,13 +60,13 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
     public sellerDashboard() {
         initComponents();
+        setArcForAllComponents(this, 20);
         Notifications.getInstance().setJFrame(this);
         product_search_bar.setFocusable(false);
         activity_search_bar.setFocusable(false);
         message_search_bar.setFocusable(false);
         orders_search_bar.setFocusable(false);
         archive_search_bar.setFocusable(false);
-
         getStatus.setFocusable(false);
         getStock.setFocusable(false);
         getPrice.setFocusable(false);
@@ -108,7 +109,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 seller_phone, seller_email, seller_store, sellerID, display_photo, seller_rating);
         //
 
-        displayArchive(); // displayProducts archive table
+        displayArchiveProducts.displayArchive(sellerID, archive_is_empty, archive_table); //display Products
+
         displayPurchase(); // displayProducts orders table
         messages(); // displayProducts messages for seller
         displayWishlistTable(); //display wishist table
@@ -133,57 +135,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
         UXmethods.RoundBorders.setArcStyle(filterContainer3, 10);
         flatlaftTable.searchBar(message_search_bar);
         flatlaftTable.design(messageContainer, message4admin_table, jScrollPane12); //message table
-        UXmethods.RoundBorders.setArcStyle(l1, 20);
-        UXmethods.RoundBorders.setArcStyle(l3, 5);
-        UXmethods.RoundBorders.setArcStyle(a1, 5);
-        UXmethods.RoundBorders.setArcStyle(a2, 5);
-        UXmethods.RoundBorders.setArcStyle(a3, 5);
-        UXmethods.RoundBorders.setArcStyle(a4, 5);
-        UXmethods.RoundBorders.setArcStyle(title, 5);
-        UXmethods.RoundBorders.setArcStyle(jPanel19, 20);
-        UXmethods.RoundBorders.setArcStyle(help_status, 5);
-        UXmethods.RoundBorders.setArcStyle(admin_submit, 10);
 
-        //
-        //ROUNDED CORNERS
-        // dashboard & buttons
-        UXmethods.RoundBorders.setArcStyle(logout, 50);
-        UXmethods.RoundBorders.setArcStyle(dashboard, 50);
-        UXmethods.RoundBorders.setArcStyle(manage, 50);
-        UXmethods.RoundBorders.setArcStyle(orders, 50);
-        UXmethods.RoundBorders.setArcStyle(archiveBtn, 50);
-        UXmethods.RoundBorders.setArcStyle(admin_support, 50);
-        //Containers
-        UXmethods.RoundBorders.setArcStyle(CONTAINER, 15);
-        UXmethods.RoundBorders.setArcStyle(CONTAINER2, 15);
-        UXmethods.RoundBorders.setArcStyle(CONTAINER3, 15);
-        //
-
-        //archive
-        UXmethods.RoundBorders.setArcStyle(c6, 10);
-        UXmethods.RoundBorders.setArcStyle(c7, 10);
-        UXmethods.RoundBorders.setArcStyle(c8, 10);
-        UXmethods.RoundBorders.setArcStyle(c9, 10);
-        UXmethods.RoundBorders.setArcStyle(restore, 10);
-        UXmethods.RoundBorders.setArcStyle(delete, 10);
-        UXmethods.RoundBorders.setArcStyle(jPanel14, 20);
-        UXmethods.RoundBorders.setArcStyle(archive_search_bar, 10);
-        //
-
-        //profile tab
-        UXmethods.RoundBorders.setArcStyle(addContainer4, 20);
-        UXmethods.RoundBorders.setArcStyle(messages_container, 20);
-        UXmethods.RoundBorders.setArcStyle(addContainer5, 20);
-        UXmethods.RoundBorders.setArcStyle(addContainer6, 20);
-        UXmethods.RoundBorders.setArcStyle(addContainer7, 20);
-        UXmethods.RoundBorders.setArcStyle(deactivate_jpanel, 10);
-        UXmethods.RoundBorders.setArcStyle(c1, 10);
-        UXmethods.RoundBorders.setArcStyle(c2, 10);
-        UXmethods.RoundBorders.setArcStyle(c3, 10);
-        UXmethods.RoundBorders.setArcStyle(c4, 10);
-        UXmethods.RoundBorders.setArcStyle(c5, 10);
-        UXmethods.RoundBorders.setArcStyle(c10, 10);
-        UXmethods.RoundBorders.setArcStyle(z6, 10);
         c1.setFocusable(false);
         c2.setFocusable(false);
         c3.setFocusable(false);
@@ -195,68 +147,18 @@ public final class sellerDashboard extends javax.swing.JFrame {
         descript.setFocusable(false);
         wishlist_search_bar.setFocusable(false);
 
-        UXmethods.RoundBorders.setArcStyle(edit_seller_upload_button, 10);
-        UXmethods.RoundBorders.setArcStyle(edit_seller_close_button, 5);
-        UXmethods.RoundBorders.setArcStyle(edit_seller_save_button, 5);
-        UXmethods.RoundBorders.setArcStyle(activity_search_bar, 10);
-        UXmethods.RoundBorders.setArcStyle(filterContainer1, 10);
-
-        UXmethods.RoundBorders.setArcStyle(add1, 10);
-        UXmethods.RoundBorders.setArcStyle(add2, 10);
-        UXmethods.RoundBorders.setArcStyle(add3, 10);
-        UXmethods.RoundBorders.setArcStyle(add4, 10);
-        UXmethods.RoundBorders.setArcStyle(add5, 10);
-        UXmethods.RoundBorders.setArcStyle(edit_profile, 10);
-
-        //orders table
-        UXmethods.RoundBorders.setArcStyle(vieworder_container, 20);
-        UXmethods.RoundBorders.setArcStyle(vieworder_container2, 20);
-        UXmethods.RoundBorders.setArcStyle(vieworder_container3, 20);
-        UXmethods.RoundBorders.setArcStyle(vieworder_container4, 20);
-        UXmethods.RoundBorders.setArcStyle(jScrollPane2, 10);
-        UXmethods.RoundBorders.setArcStyle(vieworder_background, 10);
-        UXmethods.RoundBorders.setArcStyle(decline, 10);
-        UXmethods.RoundBorders.setArcStyle(accept_order, 10);
-        UXmethods.RoundBorders.setArcStyle(view_order, 10);
-        UXmethods.RoundBorders.setArcStyle(filterContainer2, 10);
-        UXmethods.RoundBorders.setArcStyle(orders_search_bar, 10);
-
-        //product table
-        UXmethods.RoundBorders.setArcStyle(product_search_bar, 10);
-        UXmethods.RoundBorders.setArcStyle(filterContainer, 10);
-
-        UXmethods.RoundBorders.setArcStyle(product_table_archive_button, 10);
-        UXmethods.RoundBorders.setArcStyle(product_table_edit_button, 10);
-        UXmethods.RoundBorders.setArcStyle(product_table_add_button, 10);
-        UXmethods.RoundBorders.setArcStyle(product_table_delete_button, 10);
-
-        UXmethods.RoundBorders.setArcStyle(replacebtn, 10);
-        UXmethods.RoundBorders.setArcStyle(edit_product_save_button, 10);
-
-        UXmethods.RoundBorders.setArcStyle(jPanel15, 20);
-        UXmethods.RoundBorders.setArcStyle(jPanel13, 20);
-        UXmethods.RoundBorders.setArcStyle(addContainer, 20);
-        UXmethods.RoundBorders.setArcStyle(addContainer1, 20);
-
-        UXmethods.RoundBorders.setArcStyle(jPanel23, 10);
-
-        UXmethods.RoundBorders.setArcStyle(getName, 10);
-        UXmethods.RoundBorders.setArcStyle(getCategory, 10);
-        UXmethods.RoundBorders.setArcStyle(getPrice, 10);
-        UXmethods.RoundBorders.setArcStyle(getStock, 10);
-        UXmethods.RoundBorders.setArcStyle(jScrollPane4, 10);
-        UXmethods.RoundBorders.setArcStyle(getStatus, 10);
-
-        UXmethods.RoundBorders.setArcStyle(add_category, 10);
-        UXmethods.RoundBorders.setArcStyle(addPrice, 10);
-        UXmethods.RoundBorders.setArcStyle(addCategory, 10);
-        UXmethods.RoundBorders.setArcStyle(jScrollPane8, 10);
-        UXmethods.RoundBorders.setArcStyle(addStock, 10);
-        UXmethods.RoundBorders.setArcStyle(add_product_save_button, 10);
-        UXmethods.RoundBorders.setArcStyle(addReplace, 10);
-        UXmethods.RoundBorders.setArcStyle(addRemove, 10);
-        UXmethods.RoundBorders.setArcStyle(jPanel24, 10);
         //
+    }
+
+    private void setArcForAllComponents(Container container, int arcSize) {
+        for (Component component : container.getComponents()) {
+            if (component instanceof JComponent) {
+                ((JComponent) component).putClientProperty(FlatClientProperties.STYLE, "arc: " + arcSize);
+            }
+            if (component instanceof Container) {
+                setArcForAllComponents((Container) component, arcSize);
+            }
+        }
     }
 
     private void displayCurrentDate() {
@@ -499,38 +401,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
             ((JLabel) cellComponent).setHorizontalAlignment(SwingConstants.CENTER);
 
             return cellComponent;
-        }
-    }
-
-    public void displayArchive() {
-        try {
-            databaseConnector dbc = new databaseConnector();
-            PreparedStatement pstmt = dbc.getConnection().prepareStatement("SELECT"
-                    + "`product_id` as `Product ID`,"
-                    + "`product_name` as `Product Name`,"
-                    + "`product_price` as `Price`,"
-                    + "`product_stock` as `Stock(s)`,"
-                    + "`product_category` as `Category`,"
-                    + "`total_sold` as `Sold`,"
-                    + "`date_created` as `Date Created`,"
-                    + "`product_status` as `Status`"
-                    + "FROM tbl_products WHERE product_status IN ('Archive') AND seller_id = ?");
-            pstmt.setInt(1, sellerID);
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (!rs.isBeforeFirst()) {
-                    archive_is_empty.setText("ARCHIVE TABLE IS EMPTY!");
-                    archive_table.setModel(new DefaultTableModel());
-                } else {
-                    archive_is_empty.setText("");
-                    archive_table.setModel(DbUtils.resultSetToTableModel(rs));
-                    archive_table.getColumnModel().getColumn(7).setCellRenderer(new StatusCellRenderer());
-                    DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-                    centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-                    archive_table.setDefaultRenderer(Object.class, centerRenderer);
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Errors: " + ex.getMessage());
         }
     }
 
@@ -3748,9 +3618,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
 
                 if (rowsUpdated > 0) {
                     displayProducts.products(sellerID, product_is_empty, product_table);
-                    displayArchive();
+                    displayArchiveProducts.displayArchive(sellerID, archive_is_empty, archive_table); //display Products
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product has been successfully restored!");
-                    displayArchive();
                     reset();
                     String action = "Restore";
                     String details = "Seller " + sellerID + " Successfully restore product " + pid + "!";
@@ -3783,9 +3652,8 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     dbc.deleteProduct(pid);
                     displayProducts.products(sellerID, product_is_empty, product_table);
                     reset();
-                    displayArchive();
+                    displayArchiveProducts.displayArchive(sellerID, archive_is_empty, archive_table); //display Products
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product has been successfully deleted!");
-                    displayArchive();
                     // logs
                     String details = "User " + sellerID + " successfully deleted the product " + pid + "!";
                     String action = "Delete product";
@@ -3811,7 +3679,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                 if (rowsUpdated > 0) {
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product has been successfully added to the archive!");
                     displayProducts.products(sellerID, product_is_empty, product_table);
-                    displayArchive();
+                    displayArchiveProducts.displayArchive(sellerID, archive_is_empty, archive_table); //display Products
                     String action = "Archive";
                     String details = "Seller " + sellerID + " Successfully put product " + p_id + " to archive!";
                     actionLogs.recordSellerLogs(sellerID, action, details);
@@ -4261,7 +4129,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_ordersActionPerformed
 
     private void archiveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_archiveBtnActionPerformed
-        displayArchive();
+        displayArchiveProducts.displayArchive(sellerID, archive_is_empty, archive_table); //display Products
         tabs.setSelectedIndex(2);
         dashboard.setSelected(false);
         manage.setSelected(false);
@@ -5017,7 +4885,7 @@ public final class sellerDashboard extends javax.swing.JFrame {
                     databaseConnector dbc = new databaseConnector();
                     dbc.deleteProduct(pid);
                     displayProducts.products(sellerID, product_is_empty, product_table);
-                    displayArchive();
+                    displayArchiveProducts.displayArchive(sellerID, archive_is_empty, archive_table); //display Products
                     display_best_selling_dashboard(); //display best selling
                     Notifications.getInstance().show(Notifications.Type.SUCCESS, "Product has been successfully deleted!");
 
@@ -5443,14 +5311,11 @@ public final class sellerDashboard extends javax.swing.JFrame {
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
-            /* Create and displayProducts the form */
             java.awt.EventQueue.invokeLater(() -> {
                 new sellerDashboard().setVisible(true);
             });
-
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(sellerDashboard.class
-                    .getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(sellerDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
