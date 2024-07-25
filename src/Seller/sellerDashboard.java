@@ -62,26 +62,18 @@ public final class sellerDashboard extends javax.swing.JFrame {
         initComponents();
         setArcForAllComponents(this, 20);
         Notifications.getInstance().setJFrame(this);
-        product_search_bar.setFocusable(false);
-        activity_search_bar.setFocusable(false);
-        message_search_bar.setFocusable(false);
-        orders_search_bar.setFocusable(false);
-        archive_search_bar.setFocusable(false);
-        getStatus.setFocusable(false);
-        getStock.setFocusable(false);
-        getPrice.setFocusable(false);
-        getCategory.setFocusable(false);
-        getDescription.setFocusable(false);
-        getName.setFocusable(false);
-        shop_username.setFocusable(false);
-        shop_password.setFocusable(false);
-        shop_name.setFocusable(false);
-        shop_location.setFocusable(false);
-        shop_fname.setFocusable(false);
-        shop_lname.setFocusable(false);
-        shop_number.setFocusable(false);
-        shop_email.setFocusable(false);
-        vieworder_notes.setFocusable(false);
+
+        Component[] components = {
+            product_search_bar, activity_search_bar, message_search_bar, orders_search_bar,
+            archive_search_bar, getStatus, getStock, getPrice, getCategory, getDescription,
+            getName, shop_username, shop_password, shop_name, shop_location, shop_fname,
+            shop_lname, shop_number, shop_email, vieworder_notes, c1, c2, c3, c4, c5, c10,
+            c11, z6, descript, wishlist_search_bar
+        };
+
+        for (Component component : components) {
+            component.setFocusable(false);
+        }
 
         display_profile_picture();
         dashboard.setSelected(true);
@@ -105,12 +97,21 @@ public final class sellerDashboard extends javax.swing.JFrame {
         displayProducts.products(sellerID, product_is_empty, product_table); //display Products
 
         //display seller profile and rating
-        displaySellerProfile.Info(seller_full_name, username, seller_address,
-                seller_phone, seller_email, seller_store, sellerID, display_photo, seller_rating);
+        displaySellerProfile.Info(seller_full_name, username, seller_address, seller_phone,
+                seller_email, seller_store, sellerID, display_photo, seller_rating);
         //
 
-        displayArchiveProducts.displayArchive(sellerID, archive_is_empty, archive_table); //display Products
+        //wishlist table
+        flatlaftTable.searchBar(wishlist_search_bar);
+        flatlaftTable.design(wishlist_container, wishlist_table, jScrollPane13); //wishlist table
+        //
 
+        //message for admin table
+        UXmethods.RoundBorders.setArcStyle(filterContainer3, 10);
+        flatlaftTable.searchBar(message_search_bar);
+        flatlaftTable.design(messageContainer, message4admin_table, jScrollPane12); //message table
+        //
+        displayArchiveProducts.displayArchive(sellerID, archive_is_empty, archive_table); //display Products
         displayPurchase(); // displayProducts orders table
         messages(); // displayProducts messages for seller
         displayWishlistTable(); //display wishist table
@@ -126,28 +127,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
         displayTotalPendingOrders(sellerID);
         //
 
-        //wishlist table
-        flatlaftTable.searchBar(wishlist_search_bar);
-        flatlaftTable.design(wishlist_container, wishlist_table, jScrollPane13); //wishlist table
-        //
-
-        //message for admin table
-        UXmethods.RoundBorders.setArcStyle(filterContainer3, 10);
-        flatlaftTable.searchBar(message_search_bar);
-        flatlaftTable.design(messageContainer, message4admin_table, jScrollPane12); //message table
-
-        c1.setFocusable(false);
-        c2.setFocusable(false);
-        c3.setFocusable(false);
-        c4.setFocusable(false);
-        c5.setFocusable(false);
-        c10.setFocusable(false);
-        c11.setFocusable(false);
-        z6.setFocusable(false);
-        descript.setFocusable(false);
-        wishlist_search_bar.setFocusable(false);
-
-        //
     }
 
     private void setArcForAllComponents(Container container, int arcSize) {
@@ -1492,7 +1471,6 @@ public final class sellerDashboard extends javax.swing.JFrame {
             }
         });
         product_table.setSelectionBackground(new java.awt.Color(204, 229, 255));
-        product_table.setShowHorizontalLines(true);
         product_table.getTableHeader().setResizingAllowed(false);
         product_table.getTableHeader().setReorderingAllowed(false);
         product_table.addMouseListener(new java.awt.event.MouseAdapter() {
