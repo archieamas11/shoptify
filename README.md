@@ -9,10 +9,11 @@ Shoptify is a desktop-based shopping application built with **Java**, applying *
 * Checkout system with order summary
 * Basic inventory and stock management
 * Object-oriented structure for scalability
+* Product ratings and customer feedback system
 * Role-based access for customers and admins
   * **Customer**: Browse, add to cart, checkout
   * **Admin**: Manage products, update inventory
-
+    
 ## Tech Stack
 
 * **Java** (Core language)
